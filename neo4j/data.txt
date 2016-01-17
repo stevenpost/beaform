@@ -10,5 +10,5 @@ CREATE (BASE3456:Formula { title:'Base 3456', description:'for caramel'})
 
 CREATE (H2O:Molecule { title:'H2O', description:'Water' })
 
-CREATE (BASE3456)-[:CONTAINS {ingredient:['80%']}]->(H2O)
+CREATE (BASE3456)-[:CONTAINS {ingredient:['80%'], instructions:'Dissolve first au bain marie'}]->(H2O)
 
