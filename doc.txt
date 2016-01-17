@@ -1,0 +1,16 @@
+Requirements:
+- Run on different OS systems
+- Versioning
+- Lookups
+- Drill down
+- CRUD
+
+Backend DB:
+- graph database (Neo4j)
+
+Front-end:
+ - Java GUI
+
+Data versioning:
+- Git (allowing collaboration and specific reverts on the data format)
+
