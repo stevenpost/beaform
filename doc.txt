@@ -13,4 +13,4 @@ Front-end:
 
 Data versioning:
 - Git (allowing collaboration and specific reverts on the data format)
-
+- Import/export from DB
