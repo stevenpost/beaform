@@ -4,5 +4,9 @@ CREATE (BASE6789:Formula {title:'Base 6789', description:'for blueberry'})
 CREATE (TestCompound)-[:CONTAINS {ingredient:['123']}]->(BASE12345)
 CREATE (TestCompound)-[:CONTAINS {ingredient:['6']}]->(BASE6789)
 
-CREATE (BASE3456:Formula { title)
+CREATE (BASE3456:Formula { title:'Base 3456', description:'for caramel'})
+
+CREATE (H2O:Molecule { title:'H2O', description:'Water' })
+
+CREATE (BASE3456)-[:CONTAINS {ingredient:['80%']}]->(H2O)
 
