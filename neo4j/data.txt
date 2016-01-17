@@ -5,4 +5,3 @@ CREATE (TestCompound)-[:CONTAINS {ingridient:['123']}]->(BASE12345)
 
 CREATE (BASE3456:Formula { title)
 
-Later additions: first match to get object, otherwise this will create new objects
