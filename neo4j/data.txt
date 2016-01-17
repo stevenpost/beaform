@@ -1,3 +1,5 @@
+MATCH (a) OPTIONAL MATCH (a)-[r1]-() DELETE a,r1
+
 CREATE (TestCompound:Formula {title:'Formula 1', description:'This does not have anything to do with cars'})
 CREATE (BASE12345:Formula { title:'Base 12345', description:'for strawberry'})
 CREATE (BASE6789:Formula {title:'Base 6789', description:'for blueberry'})
