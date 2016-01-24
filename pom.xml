@@ -5,4 +5,11 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>beaform</name>
   <description>An application to manage formulas for aromas</description>
+  <dependencies>
+  	<dependency>
+  		<groupId>org.neo4j</groupId>
+  		<artifactId>neo4j</artifactId>
+  		<version>2.3.2</version>
+  	</dependency>
+  </dependencies>
 </project>
