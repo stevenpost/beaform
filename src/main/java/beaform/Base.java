@@ -1,0 +1,48 @@
+package beaform;
+
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Label;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Transaction;
+
+public class Base {
+	private final Type type;
+	private final Label label;
+	private final String name;
+	private final String description;
+
+	public Base(String name, String description) {
+		this.type = Type.BASE;
+		this.label = this.type.getLabel();
+
+		this.name = name;
+		this.description = description;
+	}
+
+	public Label getLabel() {
+		return this.label;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public String getDescription() {
+		return this.description;
+	}
+
+	public Node persist(GraphDatabaseService graphDb) {
+		Node thisNode;
+
+		try ( Transaction tx = graphDb.beginTx()) {
+			thisNode = graphDb.createNode(this.label);
+			thisNode.setProperty( "name", this.name );
+			thisNode.setProperty( "description", this.description );
+
+			tx.success();
+		}
+
+		return thisNode;
+	}
+
+}

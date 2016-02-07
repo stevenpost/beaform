@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Result;
@@ -30,29 +29,29 @@ public class Main {
 	}
 
 	private static void fillDB() {
-		Node firstNode;
-		Node secondNode;
-		Node thirdNode;
-		Relationship relationship;
 
+		Base base1 = new Base("Base123", "First test base");
+		Node firstBase = base1.persist(graphDb);
+		Base base2 = new Base("Base456", "Second test base");
+		Node secondBase = base2.persist(graphDb);
+
+		Formula form1 = new Formula("Form1", "First test formula");
+		Node firstFormula = form1.persist(graphDb);
+		Formula form2 = new Formula("Form2", "Second test formula");
+		Node secondFormula = form2.persist(graphDb);
+
+		// Add relationships
 		try ( Transaction tx = graphDb.beginTx()) {
-			firstNode = graphDb.createNode();
-			firstNode.setProperty( "message", "Hello, " );
-			secondNode = graphDb.createNode();
-			secondNode.setProperty( "message", "World!" );
+			Relationship relationship;
 
-			relationship = firstNode.createRelationshipTo( secondNode, RelTypes.CONTAINS );
-			relationship.setProperty( "message", "brave Neo4j " );
+			relationship = firstFormula.createRelationshipTo( secondBase, RelTypes.CONTAINS );
+			relationship.setProperty( "amount", "10%" );
 
-			thirdNode = graphDb.createNode(new Label(){
+			relationship = secondFormula.createRelationshipTo( firstBase, RelTypes.CONTAINS );
+			relationship.setProperty( "amount", "50%" );
 
-				@Override
-				public String name() {
-					return "TestNode";
-				}
-
-			});
-			thirdNode.setProperty("message", "Hello, ");
+			relationship = secondFormula.createRelationshipTo( firstFormula, RelTypes.CONTAINS );
+			relationship.setProperty( "amount", "50%" );
 
 			tx.success();
 		}
@@ -60,7 +59,7 @@ public class Main {
 
 	private static void searchDB(){
 
-		String query = "match (n {message: 'Hello, '}) return n, n.message";
+		String query = "match (n:Formula) return n, n.name, n.description";
 		String rows = "";
 
 		try ( Transaction tx = graphDb.beginTx(); Result result = graphDb.execute(query)) {
@@ -72,21 +71,6 @@ public class Main {
 				rows += "\n";
 			}
 		}
-
-		Node firstNode;
-		Label lbl = new Label() {
-
-			@Override
-			public String name() {
-				return "TestNode";
-			}
-		};
-
-		try ( Transaction tx = graphDb.beginTx()) {
-			firstNode = graphDb.findNode(lbl, "message", "Hello, ");
-			System.out.println(firstNode.getProperty("message"));
-		}
-
 		System.out.println("Rows: ");
 		System.out.println(rows);
 	}
