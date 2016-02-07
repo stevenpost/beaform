@@ -10,15 +10,17 @@ import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 
 public class Main {
+	private static GraphDatabaseService graphDb;
 
 	public static void main(String[] args) {
-		final GraphDatabaseService graphDb;
+
+		initDB();
+
 		Node firstNode;
 		Node secondNode;
 		Relationship relationship;
 
-		graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(new File("neo4j/db"));
-		Runtime.getRuntime().addShutdownHook(new ShutDownHook(graphDb));
+
 
 		try ( Transaction tx = graphDb.beginTx()) {
 			firstNode = graphDb.createNode();
@@ -46,6 +48,11 @@ public class Main {
 			tx.success();
 		}
 
+	}
+
+	private static void initDB() {
+		graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(new File("neo4j/db"));
+		Runtime.getRuntime().addShutdownHook(new ShutDownHook(graphDb));
 	}
 
 
