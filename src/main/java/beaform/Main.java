@@ -23,11 +23,17 @@ public class Main {
 
 	}
 
+	/**
+	 * Initialize the embedded DB
+	 */
 	private static void initDB() {
 		graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(new File("neo4j/db"));
 		Runtime.getRuntime().addShutdownHook(new ShutDownHook(graphDb));
 	}
 
+	/**
+	 * Put data in the DB
+	 */
 	private static void fillDB() {
 
 		Base base1 = new Base("Base123", "First test base");
@@ -57,6 +63,9 @@ public class Main {
 		}
 	}
 
+	/**
+	 * Execute some arbitrary searches.
+	 */
 	private static void searchDB(){
 
 		String query = "match (n:Formula) return n, n.name, n.description";
@@ -75,6 +84,9 @@ public class Main {
 		System.out.println(rows);
 	}
 
+	/**
+	 * Delete everything in the DB
+	 */
 	private static void clearDB(){
 		String query = "MATCH n OPTIONAL MATCH (n)-[r]-() DELETE n,r";
 
@@ -97,6 +109,12 @@ public class Main {
 		System.out.println(rows);
 	}
 
+	/**
+	 * This class is a shutdownhook to make sure the embedded DB is stopped.
+	 *
+	 * @author steven
+	 *
+	 */
 	private static class ShutDownHook extends Thread {
 
 		private final GraphDatabaseService graphDb;

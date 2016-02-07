@@ -31,6 +31,12 @@ public class Base {
 		return this.description;
 	}
 
+	/**
+	 * Store the Formula in the graph database.
+	 *
+	 * @param graphDb a handle to the graph database.
+	 * @return the newly created node
+	 */
 	public Node persist(GraphDatabaseService graphDb) {
 		Node thisNode;
 
