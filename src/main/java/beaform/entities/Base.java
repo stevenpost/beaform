@@ -1,18 +1,20 @@
-package beaform;
+package beaform.entities;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 
-public class Formula {
+import beaform.Type;
+
+public class Base {
 	private final Type type;
 	private final Label label;
 	private final String name;
 	private final String description;
 
-	public Formula(String name, String description) {
-		this.type = Type.FORMULA;
+	public Base(String name, String description) {
+		this.type = Type.BASE;
 		this.label = this.type.getLabel();
 
 		this.name = name;
