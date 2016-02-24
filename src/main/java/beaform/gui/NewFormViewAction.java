@@ -22,7 +22,6 @@ public class NewFormViewAction implements ActionListener {
 		log.info("starting formTree");
 
 		FormulaTree ft = new FormulaTree();
-		log.info("Count: " + this.pane.getComponentCount());
 		this.pane.add(ft);
 		this.pane.validate();
 		log.info("end formTree");
