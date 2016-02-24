@@ -68,7 +68,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		add(splitPane);
 	}
 
-	private void createNodes(DefaultMutableTreeNode top) {
+	private static void createNodes(DefaultMutableTreeNode top) {
 		DefaultMutableTreeNode category = null;
 		DefaultMutableTreeNode book = null;
 
