@@ -14,6 +14,8 @@ import javax.swing.UIManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import beaform.gui.search.NewSearchWindowAction;
+
 
 /**
  * This class represents the main user interface.
@@ -32,12 +34,16 @@ public class MainGUI {
 
 		//Create pane and add components
 
-		JMenu window = new JMenu("Window");
-		menu.add(window);
+		JMenu newMenuItem = new JMenu("New...");
+		menu.add(newMenuItem);
 
-		JMenuItem formview = new JMenuItem("New...");
-		window.add(formview);
+		JMenuItem formview = new JMenuItem("TreeView");
+		newMenuItem.add(formview);
 		formview.addActionListener(new NewFormViewAction(this.panel));
+
+		JMenuItem search = new JMenuItem("Search");
+		newMenuItem.add(search);
+		search.addActionListener(new NewSearchWindowAction(this.panel));
 
 		JMenu helpmenu = new JMenu("Help");
 		menu.add(helpmenu);
@@ -45,6 +51,7 @@ public class MainGUI {
 		JMenuItem about = new JMenuItem("About...");
 		helpmenu.add(about);
 		about.addActionListener(new ActionListener(){
+			@Override
 			public void actionPerformed(ActionEvent e){
 				javax.swing.SwingUtilities.invokeLater(new About());
 			}
