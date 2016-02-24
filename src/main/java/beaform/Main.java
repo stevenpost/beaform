@@ -30,13 +30,13 @@ public class Main {
 		fillDB();
 
 		searchDB();
-		clearDB();
+		//clearDB();
 
 		javax.swing.SwingUtilities.invokeAndWait(new Runnable() {
 
 			@Override
 			public void run() {
-				MainGUI.createAndShowGUI();
+				MainGUI.createAndShowGUI(graphDb);
 			}
 		});
 		log.info("Done");

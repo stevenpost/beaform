@@ -8,6 +8,8 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.neo4j.graphdb.GraphDatabaseService;
+
 public class SearchGui extends JPanel {
 
 	/**
@@ -20,7 +22,7 @@ public class SearchGui extends JPanel {
 	private final JButton btnSearch = new JButton("Search");
 	private final JComboBox<String> cmbType = new JComboBox<String>();
 
-	public SearchGui() {
+	public SearchGui(GraphDatabaseService graphDb) {
 		super();
 
 		GridBagConstraints constraints = new GridBagConstraints();
@@ -44,7 +46,7 @@ public class SearchGui extends JPanel {
 
 		constraints.gridx = 1;
 		constraints.gridy = 0;
-		this.btnSearch.addActionListener(new SearchAction(this.txtSearchTag, this.cmbType));
+		this.btnSearch.addActionListener(new SearchAction(this.txtSearchTag, this.cmbType, graphDb));
 		this.add(this.btnSearch, constraints);
 
 
