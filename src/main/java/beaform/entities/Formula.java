@@ -53,4 +53,9 @@ public class Formula {
 		return thisNode;
 	}
 
+	@Override
+	public String toString() {
+		return this.type + " name: " + this.name + " desc: " + this.description;
+	}
+
 }
