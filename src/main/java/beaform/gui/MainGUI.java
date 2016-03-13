@@ -14,6 +14,7 @@ import javax.swing.UIManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import beaform.GraphDbHandler;
 import beaform.gui.search.NewSearchWindowAction;
 
 
@@ -33,9 +34,26 @@ public class MainGUI {
 	private void init(){
 
 		//Create pane and add components
+		createMenu(menu);
 
+		//Putting components in place
+		frm.setJMenuBar(menu);
+
+		log.info("end init");
+	}
+
+	private JPanel getPanel() {
+		return this.panel;
+	}
+
+	private void createMenu(JMenuBar menu) {
+		menu.add(createNewMenu());
+		menu.add(createHelpMenu());
+		menu.add(createDebugMenu());
+	}
+
+	private JMenu createNewMenu() {
 		JMenu newMenuItem = new JMenu("New...");
-		menu.add(newMenuItem);
 
 		JMenuItem formview = new JMenuItem("TreeView");
 		newMenuItem.add(formview);
@@ -49,8 +67,11 @@ public class MainGUI {
 		newMenuItem.add(add);
 		add.addActionListener(new NewAddWindowAction(this.panel));
 
+		return newMenuItem;
+	}
+
+	private JMenu createHelpMenu() {
 		JMenu helpmenu = new JMenu("Help");
-		menu.add(helpmenu);
 
 		JMenuItem about = new JMenuItem("About...");
 		helpmenu.add(about);
@@ -61,14 +82,33 @@ public class MainGUI {
 			}
 		});
 
-		//Putting components in place
-		frm.setJMenuBar(menu);
-
-		log.info("end init");
+		return helpmenu;
 	}
 
-	private JPanel getPanel() {
-		return this.panel;
+	private JMenu createDebugMenu() {
+		JMenu debugMenuItem = new JMenu("Debug");
+
+		JMenuItem dbgAllFormulas = new JMenuItem("List all formulas");
+		debugMenuItem.add(dbgAllFormulas);
+		dbgAllFormulas.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				GraphDbHandler.getInstance().listAllFormulas();
+			}
+		});
+
+		JMenuItem dbgAllBases = new JMenuItem("List all bases");
+		debugMenuItem.add(dbgAllBases);
+		dbgAllBases.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				GraphDbHandler.getInstance().listAllBases();
+			}
+		});
+
+		return debugMenuItem;
 	}
 
 	public static void createAndShowGUI() {

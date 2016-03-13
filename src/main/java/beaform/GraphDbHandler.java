@@ -35,6 +35,52 @@ public class GraphDbHandler {
 		Runtime.getRuntime().addShutdownHook(this.shutdownHook);
 	}
 
+	/**
+	 * List all formulas in the DB
+	 *
+	 * Useful for debugging.
+	 */
+	public void listAllFormulas() {
+
+		String query = "match (n:Formula) return n, n.name, n.description";
+		String rows = "";
+
+		try ( Transaction tx = this.graphDb.beginTx(); Result result = this.graphDb.execute(query)) {
+			while (result.hasNext()){
+				Map<String,Object> row = result.next();
+				for ( Entry<String,Object> column : row.entrySet()) {
+					rows += column.getKey() + ": " + column.getValue() + "; ";
+				}
+				rows += "\n";
+			}
+		}
+		System.out.println("Rows: ");
+		System.out.println(rows);
+	}
+
+	/**
+	 * List all Base items in the DB
+	 *
+	 * Useful for debugging.
+	 */
+	public void listAllBases() {
+
+		String query = "match (n:Base) return n, n.name, n.description";
+		String rows = "";
+
+		try ( Transaction tx = this.graphDb.beginTx(); Result result = this.graphDb.execute(query)) {
+			while (result.hasNext()){
+				Map<String,Object> row = result.next();
+				for ( Entry<String,Object> column : row.entrySet()) {
+					rows += column.getKey() + ": " + column.getValue() + "; ";
+				}
+				rows += "\n";
+			}
+		}
+		System.out.println("Rows: ");
+		System.out.println(rows);
+	}
+
 	public GraphDatabaseService getDbHandle() {
 		return this.graphDb;
 	}
