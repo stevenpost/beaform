@@ -45,6 +45,10 @@ public class MainGUI {
 		newMenuItem.add(search);
 		search.addActionListener(new NewSearchWindowAction(this.panel));
 
+		JMenuItem add = new JMenuItem("Add");
+		newMenuItem.add(add);
+		add.addActionListener(new NewAddWindowAction(this.panel));
+
 		JMenu helpmenu = new JMenu("Help");
 		menu.add(helpmenu);
 
