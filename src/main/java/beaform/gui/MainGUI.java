@@ -11,7 +11,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
-import org.neo4j.graphdb.GraphDatabaseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,11 +29,6 @@ public class MainGUI {
 	private static JMenuBar menu = new JMenuBar();
 	private final GridLayout layout = new GridLayout();
 	private final JPanel panel = new JPanel(this.layout);
-	private final GraphDatabaseService graphDb;
-
-	public MainGUI(GraphDatabaseService graphDb) {
-		this.graphDb = graphDb;
-	}
 
 	private void init(){
 
@@ -49,7 +43,7 @@ public class MainGUI {
 
 		JMenuItem search = new JMenuItem("Search");
 		newMenuItem.add(search);
-		search.addActionListener(new NewSearchWindowAction(this.panel, this.graphDb));
+		search.addActionListener(new NewSearchWindowAction(this.panel));
 
 		JMenu helpmenu = new JMenu("Help");
 		menu.add(helpmenu);
@@ -73,7 +67,7 @@ public class MainGUI {
 		return this.panel;
 	}
 
-	public static void createAndShowGUI(GraphDatabaseService graphDb) {
+	public static void createAndShowGUI() {
 		//Set the look and feel.
 		try{
 			// Using OpenJDK, there is a bug that causes the application to freeze when using a GTK look and feel.
@@ -89,7 +83,7 @@ public class MainGUI {
 		//Create and set up the window.
 		frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		MainGUI app = new MainGUI(graphDb);
+		MainGUI app = new MainGUI();
 		app.init();
 		frm.add(app.getPanel());
 		frm.setLocation(150, 150);

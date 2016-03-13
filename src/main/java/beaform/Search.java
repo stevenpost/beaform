@@ -22,15 +22,14 @@ public class Search {
 	private static final CompletionService<Iterator<Formula>> retrieveCompService = new ExecutorCompletionService<Iterator<Formula>>(tpe);
 
 	private final String type;
-	private final GraphDatabaseService graphDb;
 
-	public Search(GraphDatabaseService graphDb, String type) {
+	public Search(String type) {
 		this.type = type;
-		this.graphDb = graphDb;
 	}
 
 	public Future<Iterator<Formula>> search() {
-		return retrieveCompService.submit(new SearchTask(this.graphDb, "match (n:" + this.type + ") return n, n.name, n.description"));
+		GraphDatabaseService graphDb = GraphDbHandler.getInstance().getDbHandle();
+		return retrieveCompService.submit(new SearchTask(graphDb, "match (n:" + this.type + ") return n, n.name, n.description"));
 	}
 
 	private static final class SearchTask implements Callable<Iterator<Formula>> {
