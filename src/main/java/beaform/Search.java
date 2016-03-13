@@ -45,12 +45,14 @@ public class Search {
 		public Iterator<Formula> call() throws Exception {
 			ArrayList<Formula> resultlist;
 			try ( Transaction tx = this.graphDb.beginTx(); Result result = this.graphDb.execute(this.query)) {
+
 				resultlist = new ArrayList<Formula>();
 				while (result.hasNext()){
 					Map<String,Object> row = result.next();
-					Formula form = new Formula(row.get("name").toString(), row.get("description").toString());
+					Formula form = new Formula(row.get("n.name").toString(), row.get("n.description").toString());
 					resultlist.add(form);
 				}
+
 			}
 			return resultlist.iterator();
 		}
