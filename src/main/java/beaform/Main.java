@@ -23,10 +23,11 @@ public class Main {
 	public static void main(String[] args) throws InvocationTargetException, InterruptedException {
 		log.info("start");
 
+		GraphDbHandler.getInstance().setClearDbOnExit(true);
+
 		fillDB();
 
 		searchDB();
-		//clearDB();
 
 		javax.swing.SwingUtilities.invokeAndWait(new Runnable() {
 
@@ -95,31 +96,4 @@ public class Main {
 		System.out.println(rows);
 	}
 
-	/**
-	 * Delete everything in the DB
-	 */
-	private static void clearDB(){
-
-		GraphDatabaseService graphDb = GraphDbHandler.getInstance().getDbHandle();
-
-		String query = "MATCH n OPTIONAL MATCH (n)-[r]-() DELETE n,r";
-
-		try ( Transaction tx = graphDb.beginTx(); Result res = graphDb.execute(query) ) {
-			tx.success();
-		}
-
-		query = "MATCH (n) RETURN count(*)";
-		String rows = "";
-		try ( Transaction tx = graphDb.beginTx(); Result result = graphDb.execute(query)) {
-			while (result.hasNext()){
-				Map<String,Object> row = result.next();
-				for ( Entry<String,Object> column : row.entrySet()) {
-					rows += column.getKey() + ": " + column.getValue() + "; ";
-				}
-				rows += "\n";
-			}
-		}
-		System.out.println("Rows after deletion: ");
-		System.out.println(rows);
-	}
 }
