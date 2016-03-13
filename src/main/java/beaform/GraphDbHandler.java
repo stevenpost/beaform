@@ -8,6 +8,8 @@ import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Result;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GraphDbHandler {
 
@@ -49,6 +51,8 @@ public class GraphDbHandler {
 	 */
 	private final static class ShutDownHook extends Thread {
 
+		private static final Logger LOG = LoggerFactory.getLogger(ShutDownHook.class);
+
 		private final GraphDatabaseService graphDb;
 		private boolean clearDb = false;
 
@@ -62,10 +66,12 @@ public class GraphDbHandler {
 
 		@Override
 		public void run() {
+			LOG.info("Start DB shutdown");
 			if (this.clearDb) {
 				clearDB();
 			}
 			this.graphDb.shutdown();
+			LOG.info("DB shutdown complete");
 		}
 
 		/**
