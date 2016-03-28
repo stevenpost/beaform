@@ -1,61 +1,43 @@
 package beaform.entities;
 
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Label;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Transaction;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
-import beaform.Type;
+import org.hibernate.annotations.GenericGenerator;
 
+@Entity
 public class Formula {
-	private final Type type;
-	private final Label label;
-	private final String name;
-	private final String description;
 
-	public Formula(String name, String description) {
-		this.type = Type.FORMULA;
-		this.label = this.type.getLabel();
+	@Id @GeneratedValue(generator = "uuid")
+	@GenericGenerator(name="uuid", strategy="uuid2")
 
-		this.name = name;
-		this.description = description;
+	private String id;
+	private String name;
+	private String description;
+
+	public String getId() {
+		return this.id;
 	}
 
-	public Label getLabel() {
-		return this.label;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getName() {
 		return this.name;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public String getDescription() {
 		return this.description;
 	}
 
-	/**
-	 * Store the Formula in the graph database.
-	 *
-	 * @param graphDb a handle to the graph database.
-	 * @return the newly created node
-	 */
-	public Node persist(GraphDatabaseService graphDb) {
-		Node thisNode;
-
-		try ( Transaction tx = graphDb.beginTx()) {
-			thisNode = graphDb.createNode(this.label);
-			thisNode.setProperty( "name", this.name );
-			thisNode.setProperty( "description", this.description );
-
-			tx.success();
-		}
-
-		return thisNode;
-	}
-
-	@Override
-	public String toString() {
-		return this.type + " name: " + this.name + " desc: " + this.description;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }
