@@ -2,38 +2,54 @@ package beaform.gui.debug;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.List;
 
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Result;
-import org.neo4j.graphdb.Transaction;
+import javax.persistence.EntityManager;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+import javax.transaction.TransactionManager;
 
-import beaform.GraphDbHandler;
+import beaform.GraphDbHandlerForJTA;
+import beaform.entities.Base;
 
 public class ListBasesevent implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		GraphDbHandler.getInstance().addTask(new Runnable() {
+		TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
 
-			@Override
-			public void run() {
-				String query = "match (n:Base) return n, n.name, n.description";
-				String rows = "";
+		try {
+			tm.begin();
+		}
+		catch (NotSupportedException | SystemException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return;
+		}
 
-				GraphDatabaseService graphDb = GraphDbHandler.getInstance().getDbHandle();
-				try ( Transaction tx = graphDb.beginTx(); Result result = graphDb.execute(query)) {
-					while (result.hasNext()){
-						Map<String,Object> row = result.next();
-						for ( Entry<String,Object> column : row.entrySet()) {
-							rows += column.getKey() + ": " + column.getValue() + "; ";
-						}
-						rows += "\n";
-					}
-				}
-				System.out.println("Rows: ");
-				System.out.println(rows);
-			}
-		});
+		final EntityManager em = GraphDbHandlerForJTA.getInstance().getNewEntityManager();
+
+		String query = "match (n:Base) return n";
+		List<Base> bases = em.createNativeQuery(query, Base.class).getResultList();
+
+		for (Base base : bases) {
+			System.out.println(base);
+		}
+
+		em.flush();
+		em.close();
+
+		try {
+			tm.commit();
+		}
+		catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
+						| HeuristicRollbackException | SystemException e1)
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 	}
 }

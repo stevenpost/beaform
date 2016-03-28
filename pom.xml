@@ -19,6 +19,8 @@
 	</dependencyManagement>
 
 	<dependencies>
+		<!-- Override the hibernate search versions to avoid clashing with the 
+			Lucene dependencies Debug using: mvn dependency:tree -Dverbose -Dincludes=org.apache.lucene -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-search-engine</artifactId>
@@ -28,6 +30,17 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-search-orm</artifactId>
 			<version>4.5.3.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.16</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.16</version>
 		</dependency>
 
 		<dependency>

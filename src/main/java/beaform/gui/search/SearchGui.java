@@ -44,7 +44,6 @@ public class SearchGui extends JPanel {
 
 		constraints.gridx = 1;
 		constraints.gridy = 0;
-		this.btnSearch.addActionListener(new SearchAction(this.txtSearchTag, this.cmbType));
 		this.add(this.btnSearch, constraints);
 
 

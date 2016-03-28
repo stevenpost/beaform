@@ -3,43 +3,73 @@ package beaform;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
 import javax.transaction.TransactionManager;
 
-import beaform.entities.Formula;
+import org.hibernate.engine.spi.SessionFactoryImplementor;
+import org.hibernate.engine.transaction.jta.platform.spi.JtaPlatform;
+import org.hibernate.jpa.HibernateEntityManagerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GraphDbHandlerForJTA {
 
-	public static void main(String[] args) throws NotSupportedException, SystemException, SecurityException, IllegalStateException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("ogm-jpa-tutorial");
-		TransactionManager transactionManager =
-						com.arjuna.ats.jta.TransactionManager.transactionManager();
+	private static final GraphDbHandlerForJTA INSTANCE = new GraphDbHandlerForJTA();
 
-		System.out.println("Got further");
+	private final ShutDownHook shutdownHook;
+	private final EntityManagerFactory emf;
+	private final TransactionManager tm;
 
-		//note that you must start the transaction before creating the EntityManager
-		//or else call entityManager.joinTransaction()
-		transactionManager.begin();
+	public static GraphDbHandlerForJTA getInstance() {
+		return INSTANCE;
+	}
 
-		final EntityManager em = emf.createEntityManager();
+	private GraphDbHandlerForJTA() {
+		//build the EntityManagerFactory as you would build in in Hibernate ORM
+		this.emf = Persistence.createEntityManagerFactory("ogm-jpa-tutorial");
 
-		Formula testForm = new Formula();
-		testForm.setName("L'albatros");
-		em.persist(testForm);
+		//accessing JBoss's Transaction can be done differently but this one works nicely
+		this.tm = extractJBossTransactionManager(this.emf);
 
-		transactionManager.commit();
+		this.shutdownHook = new ShutDownHook(this.emf);
+		Runtime.getRuntime().addShutdownHook(this.shutdownHook);
+	}
 
-		em.clear();
+	public TransactionManager getTransactionManager() {
+		return this.tm;
+	}
 
-		em.close();
+	public EntityManager getNewEntityManager() {
+		return this.emf.createEntityManager();
+	}
 
-		emf.close();
+	private static TransactionManager extractJBossTransactionManager(EntityManagerFactory factory) {
+		SessionFactoryImplementor sessionFactory =
+						(SessionFactoryImplementor) ( (HibernateEntityManagerFactory) factory ).getSessionFactory();
+		return sessionFactory.getServiceRegistry().getService( JtaPlatform.class ).retrieveTransactionManager();
+	}
 
-		System.out.println("Got to the end");
 
+	/**
+	 * This class is a shutdownhook to make sure the embedded DB is stopped.
+	 *
+	 * @author steven
+	 *
+	 */
+	private final static class ShutDownHook extends Thread {
+
+		private static final Logger LOG = LoggerFactory.getLogger(ShutDownHook.class);
+
+		private final EntityManagerFactory emf;
+
+		public ShutDownHook(EntityManagerFactory emf) {
+			this.emf = emf;
+		}
+
+		@Override
+		public void run() {
+			LOG.info("Start DB shutdown");
+			this.emf.close();
+			LOG.info("DB shutdown complete");
+		}
 	}
 }

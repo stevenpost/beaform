@@ -14,7 +14,6 @@ import javax.swing.UIManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import beaform.gui.debug.ClearDbEvent;
 import beaform.gui.debug.FillDbEvent;
 import beaform.gui.debug.ListBasesevent;
 import beaform.gui.debug.ListFormulasEvent;
@@ -103,10 +102,6 @@ public class MainGUI {
 		JMenuItem dbgFill = new JMenuItem("Fill DB");
 		debugMenuItem.add(dbgFill);
 		dbgFill.addActionListener(new FillDbEvent());
-
-		JMenuItem dbgClear = new JMenuItem("Clear DB");
-		debugMenuItem.add(dbgClear);
-		dbgClear.addActionListener(new ClearDbEvent());
 
 		return debugMenuItem;
 	}
