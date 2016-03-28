@@ -11,17 +11,24 @@ import org.neo4j.graphdb.Transaction;
 
 import beaform.GraphDbHandler;
 
-public class ListBasesevent implements ActionListener {
+public class ClearDbEvent implements ActionListener {
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		GraphDbHandler.getInstance().addTask(new Runnable() {
 
 			@Override
 			public void run() {
-				String query = "match (n:Base) return n, n.name, n.description";
-				String rows = "";
-
 				GraphDatabaseService graphDb = GraphDbHandler.getInstance().getDbHandle();
+
+				String query = "MATCH n OPTIONAL MATCH (n)-[r]-() DELETE n,r";
+
+				try ( Transaction tx = graphDb.beginTx(); Result res = graphDb.execute(query) ) {
+					tx.success();
+				}
+
+				query = "MATCH (n) RETURN count(*)";
+				String rows = "";
 				try ( Transaction tx = graphDb.beginTx(); Result result = graphDb.execute(query)) {
 					while (result.hasNext()){
 						Map<String,Object> row = result.next();
@@ -31,9 +38,12 @@ public class ListBasesevent implements ActionListener {
 						rows += "\n";
 					}
 				}
-				System.out.println("Rows: ");
+				System.out.println("Rows after deletion: ");
 				System.out.println(rows);
 			}
+
 		});
+
 	}
+
 }

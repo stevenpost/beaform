@@ -14,8 +14,6 @@ public class Main {
 	public static void main(String[] args) throws InvocationTargetException, InterruptedException {
 		log.info("start");
 
-		GraphDbHandler.getInstance().setClearDbOnExit(true);
-
 		javax.swing.SwingUtilities.invokeAndWait(new Runnable() {
 
 			@Override
