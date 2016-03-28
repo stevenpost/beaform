@@ -14,7 +14,9 @@ import javax.swing.UIManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import beaform.GraphDbHandler;
+import beaform.gui.debug.FillDbEvent;
+import beaform.gui.debug.ListBasesevent;
+import beaform.gui.debug.ListFormulasEvent;
 import beaform.gui.search.NewSearchWindowAction;
 
 
@@ -24,6 +26,7 @@ import beaform.gui.search.NewSearchWindowAction;
  *
  */
 public class MainGUI {
+
 	private static Logger log = LoggerFactory.getLogger(MainGUI.class);
 
 	private static JFrame frm = new JFrame("BeaForm");
@@ -90,23 +93,15 @@ public class MainGUI {
 
 		JMenuItem dbgAllFormulas = new JMenuItem("List all formulas");
 		debugMenuItem.add(dbgAllFormulas);
-		dbgAllFormulas.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				GraphDbHandler.getInstance().listAllFormulas();
-			}
-		});
+		dbgAllFormulas.addActionListener(new ListFormulasEvent());
 
 		JMenuItem dbgAllBases = new JMenuItem("List all bases");
 		debugMenuItem.add(dbgAllBases);
-		dbgAllBases.addActionListener(new ActionListener() {
+		dbgAllBases.addActionListener(new ListBasesevent());
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				GraphDbHandler.getInstance().listAllBases();
-			}
-		});
+		JMenuItem dbgFill = new JMenuItem("Fill DB");
+		debugMenuItem.add(dbgFill);
+		dbgFill.addActionListener(new FillDbEvent());
 
 		return debugMenuItem;
 	}
