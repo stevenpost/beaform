@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.persistence.EntityManager;
-import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
@@ -25,17 +24,15 @@ public class AddAction implements ActionListener {
 
 	private final JTextField txtNameField;
 	private final JTextField txtDescriptionField;
-	private final JComboBox<String> cmbType;
 
-	public AddAction(JTextField txtNameField, JTextField txtDescriptionField, JComboBox<String> cmbType) {
+	public AddAction(JTextField txtNameField, JTextField txtDescriptionField) {
 		this.txtNameField = txtNameField;
 		this.txtDescriptionField = txtDescriptionField;
-		this.cmbType = cmbType;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		LOG.info("Add: " + this.txtNameField.getText() + " of type " + this.cmbType.getSelectedItem() + " with description: " + this.txtDescriptionField.getText());
+		LOG.info("Add: " + this.txtNameField.getText() + " with description: " + this.txtDescriptionField.getText());
 
 		TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
 
@@ -50,12 +47,10 @@ public class AddAction implements ActionListener {
 
 		final EntityManager em = GraphDbHandlerForJTA.getInstance().getNewEntityManager();
 
-		if (this.cmbType.getSelectedItem() == "Formula") {
-			Formula newForm = new Formula();
-			newForm.setName(this.txtNameField.getText());
-			newForm.setDescription(this.txtDescriptionField.getText());
-			em.persist(newForm);
-		}
+		Formula newForm = new Formula();
+		newForm.setName(this.txtNameField.getText());
+		newForm.setDescription(this.txtDescriptionField.getText());
+		em.persist(newForm);
 
 		em.flush();
 		em.close();
