@@ -33,12 +33,12 @@ public class listFormulasTask implements Runnable {
 		String query = "match (n:Formula) return n";
 
 		@SuppressWarnings("unchecked")
-		List<Formula> bases = em.createNativeQuery(query, Formula.class).getResultList();
+		List<Formula> formulas = em.createNativeQuery(query, Formula.class).getResultList();
 
-		System.out.println(bases.size());
+		System.out.println(formulas.size());
 
-		for (Formula base : bases) {
-			System.out.println(base);
+		for (Formula formula : formulas) {
+			System.out.println(formula);
 		}
 		em.flush();
 		em.close();
