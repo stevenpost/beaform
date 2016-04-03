@@ -12,7 +12,7 @@ public class Main {
 	private static Logger log = LoggerFactory.getLogger(Main.class);
 
 	public static void main(String[] args) throws InvocationTargetException, InterruptedException {
-		log.info("start");
+		log.info("Starting GUI...");
 
 		javax.swing.SwingUtilities.invokeAndWait(new Runnable() {
 
@@ -21,7 +21,12 @@ public class Main {
 				MainGUI.createAndShowGUI();
 			}
 		});
+
+		log.info("Initializing DB...");
+		GraphDbHandlerForJTA.getInstance();
+
 		log.info("Done");
+
 	}
 
 }
