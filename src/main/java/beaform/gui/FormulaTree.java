@@ -2,6 +2,8 @@ package beaform.gui;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 import javax.swing.JEditorPane;
 import javax.swing.JPanel;
@@ -12,6 +14,8 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
+
+import beaform.entities.Formula;
 
 public class FormulaTree extends JPanel implements TreeSelectionListener {
 
@@ -26,10 +30,10 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	private static boolean playWithLineStyle = false;
 	private static String lineStyle = "Horizontal";
 
-	public FormulaTree() {
+	public FormulaTree(Formula formula) {
 		super(new GridLayout(1,0));
 
-		DefaultMutableTreeNode top = new DefaultMutableTreeNode("The Java Series");
+		DefaultMutableTreeNode top = new DefaultMutableTreeNode(formula);
 		createNodes(top);
 
 		//Create a tree that allows one selection at a time.
@@ -69,48 +73,43 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	}
 
 	private static void createNodes(DefaultMutableTreeNode top) {
-		DefaultMutableTreeNode category = null;
-		DefaultMutableTreeNode book = null;
 
-		category = new DefaultMutableTreeNode("Books for Java Programmers");
-		top.add(category);
-
-		//original Tutorial
-		book = new DefaultMutableTreeNode(new String
-		                                  ("The Java Tutorial: A Short Course on the Basics"));
-		category.add(book);
-
-		//Tutorial Continued
-		book = new DefaultMutableTreeNode(new String
-		                                  ("The Java Tutorial Continued: The Rest of the JDK"));
-		category.add(book);
-
-		//Swing Tutorial
-		book = new DefaultMutableTreeNode(new String
-		                                  ("The Swing Tutorial: A Guide to Constructing GUIs"));
-		category.add(book);
-
-		//...add more books for programmers...
-
-		category = new DefaultMutableTreeNode("Books for Java Implementers");
-		top.add(category);
-
-		//VM
-		book = new DefaultMutableTreeNode(new String
-		                                  ("The Java Virtual Machine Specification"));
-		category.add(book);
-
-		//Language Spec
-		book = new DefaultMutableTreeNode(new String
-		                                  ("The Java Language Specification"));
-		category.add(book);
-
+		Formula form = (Formula) top.getUserObject();
+		Iterator<Entry<String, Formula>> it = form.getIngredients();
+		while (it.hasNext()) {
+			Entry<String, Formula> entry = it.next();
+			top.add(new DefaultMutableTreeNode(new TreeViewFormula(entry.getValue(), entry.getKey())));
+		}
 	}
 
 	@Override
 	public void valueChanged(TreeSelectionEvent e) {
-		// TODO Auto-generated method stub
+		//Returns the last path element of the selection.
+		//This method is useful only when the selection model allows a single selection.
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)
+						this.tree.getLastSelectedPathComponent();
 
+		if (node == null) {
+			//Nothing is selected.
+			return;
+		}
+
+		Object nodeInfo = node.getUserObject();
+		if (node.isLeaf()) {
+			TreeViewFormula form = (TreeViewFormula)nodeInfo;
+			StringBuilder sb = new StringBuilder();
+			sb.append("Amount: ");
+			sb.append(form.getMetadata());
+			sb.append('\n');
+			sb.append('\n');
+			sb.append("Descrtiption:");
+			sb.append('\n');
+			sb.append(form.getFormula().getDescription());
+			this.htmlPane.setText(sb.toString());
+		}
+		else {
+			this.htmlPane.setText("");
+		}
 	}
 
 }

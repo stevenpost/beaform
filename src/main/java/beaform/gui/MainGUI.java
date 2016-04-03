@@ -58,10 +58,6 @@ public class MainGUI {
 	private JMenu createNewMenu() {
 		JMenu newMenuItem = new JMenu("New...");
 
-		JMenuItem formview = new JMenuItem("TreeView");
-		newMenuItem.add(formview);
-		formview.addActionListener(new NewFormViewAction(this.panel));
-
 		JMenuItem search = new JMenuItem("Search");
 		newMenuItem.add(search);
 		search.addActionListener(new NewSearchWindowAction(this.panel));
