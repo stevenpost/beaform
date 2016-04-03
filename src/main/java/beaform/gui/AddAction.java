@@ -17,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import beaform.GraphDbHandlerForJTA;
-import beaform.entities.Base;
 import beaform.entities.Formula;
 
 public class AddAction implements ActionListener {
@@ -51,13 +50,7 @@ public class AddAction implements ActionListener {
 
 		final EntityManager em = GraphDbHandlerForJTA.getInstance().getNewEntityManager();
 
-		if (this.cmbType.getSelectedItem() == "Base") {
-			Base newBase = new Base();
-			newBase.setName(this.txtNameField.getText());
-			newBase.setDescription(this.txtDescriptionField.getText());
-			em.persist(newBase);
-		}
-		else if (this.cmbType.getSelectedItem() == "Formula") {
+		if (this.cmbType.getSelectedItem() == "Formula") {
 			Formula newForm = new Formula();
 			newForm.setName(this.txtNameField.getText());
 			newForm.setDescription(this.txtDescriptionField.getText());

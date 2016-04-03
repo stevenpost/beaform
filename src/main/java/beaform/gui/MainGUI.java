@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 
 import beaform.gui.debug.ClearDbEvent;
 import beaform.gui.debug.FillDbEvent;
-import beaform.gui.debug.ListBasesevent;
 import beaform.gui.debug.ListFormulasEvent;
 import beaform.gui.search.NewSearchWindowAction;
 
@@ -95,10 +94,6 @@ public class MainGUI {
 		JMenuItem dbgAllFormulas = new JMenuItem("List all formulas");
 		debugMenuItem.add(dbgAllFormulas);
 		dbgAllFormulas.addActionListener(new ListFormulasEvent());
-
-		JMenuItem dbgAllBases = new JMenuItem("List all bases");
-		debugMenuItem.add(dbgAllBases);
-		dbgAllBases.addActionListener(new ListBasesevent());
 
 		JMenuItem dbgFill = new JMenuItem("Fill DB");
 		debugMenuItem.add(dbgFill);
