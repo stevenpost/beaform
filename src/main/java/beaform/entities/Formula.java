@@ -40,4 +40,17 @@ public class Formula {
 		this.description = description;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(this.id);
+		builder.append(" | ");
+		builder.append(this.name);
+		builder.append(" | ");
+		builder.append(this.description);
+
+		return builder.toString();
+
+	}
+
 }
