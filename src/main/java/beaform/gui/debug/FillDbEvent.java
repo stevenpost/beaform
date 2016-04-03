@@ -12,7 +12,6 @@ import javax.transaction.SystemException;
 import javax.transaction.TransactionManager;
 
 import beaform.GraphDbHandlerForJTA;
-import beaform.entities.Base;
 import beaform.entities.Formula;
 
 public class FillDbEvent implements ActionListener {
@@ -32,21 +31,6 @@ public class FillDbEvent implements ActionListener {
 
 		final EntityManager em = GraphDbHandlerForJTA.getInstance().getNewEntityManager();
 
-
-		Base base1 = new Base();
-		base1.setName("Base123");
-		base1.setDescription("First test base");
-
-		em.persist(base1);
-
-		System.out.println(base1.getDescription());
-
-		Base base2 = new Base();
-		base2.setName("Base456");
-		base2.setDescription("Second test base");
-
-		em.persist(base2);
-
 		Formula form1 = new Formula();
 		form1.setName("Form1");
 		form1.setDescription("First test formula");
@@ -59,21 +43,25 @@ public class FillDbEvent implements ActionListener {
 
 		em.persist(form2);
 
-		//		// Add relationships
-		//		try ( Transaction tx = graphDb.beginTx()) {
-		//			Relationship relationship;
-		//
-		//			relationship = firstFormula.createRelationshipTo( secondBase, RelTypes.CONTAINS );
-		//			relationship.setProperty( "amount", "10%" );
-		//
-		//			relationship = secondFormula.createRelationshipTo( firstBase, RelTypes.CONTAINS );
-		//			relationship.setProperty( "amount", "50%" );
-		//
-		//			relationship = secondFormula.createRelationshipTo( firstFormula, RelTypes.CONTAINS );
-		//			relationship.setProperty( "amount", "50%" );
-		//
-		//			tx.success();
-		//		}
+		Formula form3 = new Formula();
+		form3.setName("Form3");
+		form3.setDescription("Third test formula");
+
+		em.persist(form3);
+
+		Formula form4 = new Formula();
+		form4.setName("Form4");
+		form4.setDescription("Fourth test formula");
+
+		em.persist(form4);
+
+		// Add relationships
+		form1.addIngredient(form3, "50%");
+		form2.addIngredient(form4, "10%");
+		form2.addIngredient(form1, "50%");
+
+		em.persist(form1);
+		em.persist(form4);
 
 		em.flush();
 		em.close();
