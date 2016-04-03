@@ -11,7 +11,6 @@ public class FillDbEvent implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		GraphDbHandlerForJTA.addTask(new FillDbTask());
-
 	}
 
 }

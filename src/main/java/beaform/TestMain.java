@@ -29,7 +29,7 @@ public class TestMain {
 		Formula collie = new Formula();
 		collie.setName("Collie");
 		em.persist(collie);
-		String id = collie.getId();
+		String id = collie.getName();
 		em.flush();
 		em.close();
 		tm.commit();
