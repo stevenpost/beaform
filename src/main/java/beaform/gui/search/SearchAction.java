@@ -2,6 +2,8 @@ package beaform.gui.search;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 import javax.persistence.EntityManager;
 import javax.swing.JTextField;
@@ -41,6 +43,16 @@ public class SearchAction implements ActionListener {
 		String query = "match (n:Formula { name:'" + this.txtName.getText() + "' }) return n";
 		Formula result = (Formula) em.createNativeQuery(query, Formula.class).getSingleResult();
 		System.out.println("Found: " + result);
+
+		System.out.println("Printing ingredients...");
+		Iterator<Entry<String, Formula>> it = result.getIngredients();
+		while (it.hasNext()) {
+			Entry<String, Formula> entry = it.next();
+
+			String amount = entry.getKey();
+			amount = amount.substring(amount.indexOf('|') + 1);
+			System.out.println(" - " + amount + " " + entry.getValue());
+		}
 
 		em.flush();
 		em.close();
