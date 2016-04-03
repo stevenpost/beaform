@@ -45,6 +45,9 @@ public final class RenderSearchResult implements Runnable {
 		@Override
 		public void run() {
 			FormulaTree ft = new FormulaTree(this.searchResult);
+			if (this.pane.getComponentCount() > 3) {
+				this.pane.remove(3);
+			}
 			this.pane.add(ft);
 			this.pane.validate();
 		}
