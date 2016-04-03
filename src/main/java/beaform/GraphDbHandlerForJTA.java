@@ -1,5 +1,10 @@
 package beaform;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -14,6 +19,7 @@ import org.slf4j.LoggerFactory;
 public class GraphDbHandlerForJTA {
 
 	private static final GraphDbHandlerForJTA INSTANCE = new GraphDbHandlerForJTA();
+	private static final ExecutorService EXEC_SERVICE = Executors.newSingleThreadExecutor();
 
 	private final ShutDownHook shutdownHook;
 	private final EntityManagerFactory emf;
@@ -46,6 +52,14 @@ public class GraphDbHandlerForJTA {
 		SessionFactoryImplementor sessionFactory =
 						(SessionFactoryImplementor) ( (HibernateEntityManagerFactory) factory ).getSessionFactory();
 		return sessionFactory.getServiceRegistry().getService( JtaPlatform.class ).retrieveTransactionManager();
+	}
+
+	public static <T> Future<T> addTask(Callable<T> task) {
+		return EXEC_SERVICE.submit(task);
+	}
+
+	public static Future<?> addTask(Runnable task) {
+		return EXEC_SERVICE.submit(task);
 	}
 
 
