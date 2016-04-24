@@ -2,9 +2,12 @@ package beaform.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import javax.persistence.EntityManager;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
@@ -16,7 +19,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import beaform.GraphDbHandlerForJTA;
+import beaform.SearchTagTask;
 import beaform.entities.Formula;
+import beaform.entities.Tag;
 
 public class AddAction implements ActionListener {
 
@@ -24,10 +29,12 @@ public class AddAction implements ActionListener {
 
 	private final JTextField txtNameField;
 	private final JTextField txtDescriptionField;
+	private final ListModel<Tag> lstTags;
 
-	public AddAction(JTextField txtNameField, JTextField txtDescriptionField) {
+	public AddAction(JTextField txtNameField, JTextField txtDescriptionField, ListModel<Tag> lstTags) {
 		this.txtNameField = txtNameField;
 		this.txtDescriptionField = txtDescriptionField;
+		this.lstTags = lstTags;
 	}
 
 	@Override
@@ -50,6 +57,28 @@ public class AddAction implements ActionListener {
 		Formula newForm = new Formula();
 		newForm.setName(this.txtNameField.getText());
 		newForm.setDescription(this.txtDescriptionField.getText());
+		int nrOfTags = this.lstTags.getSize();
+		for (int i = 0; i < nrOfTags; i++) {
+			// See if the tag exist in the DB, if so, use it.
+			Tag tag = this.lstTags.getElementAt(i);
+			Tag pTag = null;
+			final Future<Tag> searchresult = GraphDbHandlerForJTA.addTask(new SearchTagTask(tag.getName()));
+			try {
+				pTag = searchresult.get();
+			}
+			catch (InterruptedException | ExecutionException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			if (pTag == null) {
+				em.persist(tag);
+				pTag = tag;
+			}
+			else {
+				tag = pTag;
+			}
+			newForm.addTag(tag);
+		}
 		em.persist(newForm);
 
 		em.flush();
