@@ -15,11 +15,11 @@ import javax.transaction.TransactionManager;
 
 import beaform.entities.Formula;
 
-public final class SearchTask implements Callable<Formula> {
+public final class SearchFormulaTask implements Callable<Formula> {
 
 	private final String name;
 
-	public SearchTask(String searchForName) {
+	public SearchFormulaTask(String searchForName) {
 		this.name = searchForName;
 	}
 

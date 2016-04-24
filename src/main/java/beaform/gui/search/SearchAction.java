@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import beaform.GraphDbHandlerForJTA;
-import beaform.SearchTask;
+import beaform.SearchFormulaTask;
 import beaform.entities.Formula;
 
 public class SearchAction implements ActionListener {
@@ -23,7 +23,7 @@ public class SearchAction implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		final Future<Formula> searchresult = GraphDbHandlerForJTA.addTask(new SearchTask(this.txtName.getText()));
+		final Future<Formula> searchresult = GraphDbHandlerForJTA.addTask(new SearchFormulaTask(this.txtName.getText()));
 		GraphDbHandlerForJTA.addTask(new RenderSearchResult(searchresult, this.pane));
 
 	}
