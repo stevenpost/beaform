@@ -30,10 +30,12 @@ public class AddAction implements ActionListener {
 	private final JTextField txtNameField;
 	private final JTextField txtDescriptionField;
 	private final ListModel<Tag> lstTags;
+	private final ListModel<Formula> lstFormulas;
 
-	public AddAction(JTextField txtNameField, JTextField txtDescriptionField, ListModel<Tag> lstTags) {
+	public AddAction(JTextField txtNameField, JTextField txtDescriptionField, ListModel<Formula> lstFormulas, ListModel<Tag> lstTags) {
 		this.txtNameField = txtNameField;
 		this.txtDescriptionField = txtDescriptionField;
+		this.lstFormulas = lstFormulas;
 		this.lstTags = lstTags;
 	}
 
