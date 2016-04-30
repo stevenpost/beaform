@@ -31,12 +31,12 @@ public class AddAction implements ActionListener {
 	private final JTextField txtNameField;
 	private final JTextField txtDescriptionField;
 	private final ListModel<Tag> lstTags;
-	private final ListModel<Ingredient> lstFormulas;
+	private final ListModel<Ingredient> lstIngredients;
 
 	public AddAction(JTextField txtNameField, JTextField txtDescriptionField, ListModel<Ingredient> lstFormulas, ListModel<Tag> lstTags) {
 		this.txtNameField = txtNameField;
 		this.txtDescriptionField = txtDescriptionField;
-		this.lstFormulas = lstFormulas;
+		this.lstIngredients = lstFormulas;
 		this.lstTags = lstTags;
 	}
 
@@ -82,6 +82,14 @@ public class AddAction implements ActionListener {
 			}
 			newForm.addTag(tag);
 		}
+
+		int nrOfIngredients = this.lstIngredients.getSize();
+		for (int i = 0; i < nrOfIngredients; i++) {
+			// We should only be holding existing Formulas at this point
+			Ingredient ingredient = this.lstIngredients.getElementAt(i);
+			newForm.addIngredient(ingredient.getFormula(), ingredient.getAmount());
+		}
+
 		em.persist(newForm);
 
 		em.flush();

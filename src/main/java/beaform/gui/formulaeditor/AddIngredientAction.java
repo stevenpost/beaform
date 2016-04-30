@@ -31,30 +31,36 @@ public final class AddIngredientAction implements ActionListener {
 		String ingredient = this.txtIngredient.getText();
 		String amount = this.txtAmount.getText();
 
-		if (!"".equals(ingredient)) {
-			this.txtIngredient.setText("");
-			this.txtAmount.setText("");
-			Future<Formula> formTask = GraphDbHandlerForJTA.addTask(new SearchFormulaTask(ingredient));
-			Formula form = null;
-			try {
-				form = formTask.get();
-			}
-			catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
+		if ("".equals(ingredient)) {
+			throw new UnsupportedOperationException("No formula name entered");
+		}
+
+		if ("".equals(amount)) {
+			throw new UnsupportedOperationException("No amount entered");
+		}
+
+		Future<Formula> formTask = GraphDbHandlerForJTA.addTask(new SearchFormulaTask(ingredient));
+		Formula form = null;
+		try {
+			form = formTask.get();
+		}
+		catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		catch (ExecutionException e1) {
+			if (!(e1.getCause() instanceof NoResultException)) {
 				e1.printStackTrace();
 			}
-			catch (ExecutionException e1) {
-				if (!(e1.getCause() instanceof NoResultException)) {
-					e1.printStackTrace();
-				}
-			}
-
-			if (form == null) {
-				form = new Formula();
-				form.setName(ingredient);
-			}
-
-			this.lstFormulaModel.addElement(new Ingredient(form, amount));
 		}
+
+		if (form == null) {
+			throw new UnsupportedOperationException("The entered formula doesn't exist");
+		}
+
+		this.lstFormulaModel.addElement(new Ingredient(form, amount));
+
+		this.txtIngredient.setText("");
+		this.txtAmount.setText("");
 	}
 }
