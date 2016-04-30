@@ -3,8 +3,6 @@ package beaform.gui.formulaeditor;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -17,88 +15,6 @@ import beaform.entities.Formula;
 import beaform.entities.Tag;
 
 public class AddGui extends JPanel {
-
-	public static final class DelIngredientAction implements ActionListener {
-
-		private final DefaultListModel<Formula> lstFormulaModel;
-		private final JList<Formula> lstFormulas;
-
-		public DelIngredientAction(JList<Formula> lstFormulas, DefaultListModel<Formula> lstFormulaModel) {
-			this.lstFormulaModel = lstFormulaModel;
-			this.lstFormulas = lstFormulas;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			while (!this.lstFormulas.isSelectionEmpty()) {
-				int selected = this.lstFormulas.getSelectedIndex();
-				this.lstFormulaModel.remove(selected);
-			}
-		}
-	}
-
-	public static final class AddIngredient implements ActionListener {
-
-		private final JTextField txtNewIngredient;
-		private final DefaultListModel<Formula> lstFormulaModel;
-
-		public AddIngredient(JTextField txtNewIngredient, DefaultListModel<Formula> lstFormulaModel) {
-			this.txtNewIngredient = txtNewIngredient;
-			this.lstFormulaModel = lstFormulaModel;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			String strIngredient = this.txtNewIngredient.getText();
-			if (!"".equals(strIngredient)) {
-				this.txtNewIngredient.setText("");
-				Formula form = new Formula();
-				form.setName(strIngredient);
-				this.lstFormulaModel.addElement(form);
-			}
-		}
-	}
-
-	public static final class DelTagAction implements ActionListener {
-
-		private final JList<Tag> lstTags;
-		private final DefaultListModel<Tag> lstModel;
-
-		public DelTagAction(JList<Tag> lstTags, DefaultListModel<Tag> lstModel) {
-			this.lstTags = lstTags;
-			this.lstModel = lstModel;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			while (!this.lstTags.isSelectionEmpty()) {
-				int selected = this.lstTags.getSelectedIndex();
-				this.lstModel.remove(selected);
-			}
-		}
-	}
-
-	public static final class AddTagAction implements ActionListener {
-
-		private final JTextField txtNewTag;
-		private final DefaultListModel<Tag> lstModel;
-
-		public AddTagAction(JTextField txtNewTag, DefaultListModel<Tag> lstModel) {
-			this.txtNewTag = txtNewTag;
-			this.lstModel = lstModel;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			String strTag = this.txtNewTag.getText();
-			if (!"".equals(strTag)) {
-				this.txtNewTag.setText("");
-				Tag tag = new Tag();
-				tag.setName(strTag);
-				this.lstModel.addElement(tag);
-			}
-		}
-	}
 
 	/**
 	 *
@@ -186,7 +102,7 @@ public class AddGui extends JPanel {
 		y++;
 		constraints.gridx = 1;
 		constraints.gridy = y;
-		this.btnAddIngredient.addActionListener(new AddIngredient(this.txtNewIngredient, this.lstFormulaModel));
+		this.btnAddIngredient.addActionListener(new AddIngredientAction(this.txtNewIngredient, this.lstFormulaModel));
 		this.add(this.btnAddIngredient, constraints);
 
 		y++;
