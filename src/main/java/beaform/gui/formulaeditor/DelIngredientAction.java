@@ -6,14 +6,14 @@ import java.awt.event.ActionListener;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
-import beaform.entities.Formula;
+import beaform.Ingredient;
 
 public final class DelIngredientAction implements ActionListener {
 
-	private final DefaultListModel<Formula> lstFormulaModel;
-	private final JList<Formula> lstFormulas;
+	private final DefaultListModel<Ingredient> lstFormulaModel;
+	private final JList<Ingredient> lstFormulas;
 
-	public DelIngredientAction(JList<Formula> lstFormulas, DefaultListModel<Formula> lstFormulaModel) {
+	public DelIngredientAction(JList<Ingredient> lstFormulas, DefaultListModel<Ingredient> lstFormulaModel) {
 		this.lstFormulaModel = lstFormulaModel;
 		this.lstFormulas = lstFormulas;
 	}

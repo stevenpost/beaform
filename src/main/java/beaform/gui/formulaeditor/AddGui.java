@@ -11,7 +11,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import beaform.entities.Formula;
+import beaform.Ingredient;
 import beaform.entities.Tag;
 
 public class AddGui extends JPanel {
@@ -22,6 +22,7 @@ public class AddGui extends JPanel {
 	private static final long serialVersionUID = 2557014310487638917L;
 
 	private static final Dimension txtFieldDimensions = new Dimension(100, 30);
+	private static final Dimension amountDimensions = new Dimension(50, 30);
 	private static final Dimension listDimensions = new Dimension(150, 90);
 	private static final JLabel lblName = new JLabel("Name");
 	private static final JLabel lblDescription = new JLabel("Description");
@@ -37,9 +38,10 @@ public class AddGui extends JPanel {
 	private final JButton btnAddTag = new JButton("Add Tag");
 	private final JButton btnDelTag = new JButton("Remove Tag");
 
-	private final DefaultListModel<Formula> lstFormulaModel = new DefaultListModel<Formula>();
-	private final JList<Formula> lstFormulas = new JList<Formula>(this.lstFormulaModel);
+	private final DefaultListModel<Ingredient> lstFormulaModel = new DefaultListModel<Ingredient>();
+	private final JList<Ingredient> lstFormulas = new JList<Ingredient>(this.lstFormulaModel);
 	private final JTextField txtNewIngredient = new JTextField();
+	private final JTextField txtNewIngredientAmount = new JTextField();
 	private final JButton btnAddIngredient = new JButton("Add ingedrient");
 	private final JButton btnDelIngredient = new JButton("Del ingedrient");
 
@@ -99,10 +101,17 @@ public class AddGui extends JPanel {
 		this.txtNewIngredient.setMaximumSize(txtFieldDimensions);
 		this.add(this.txtNewIngredient, constraints);
 
+		constraints.gridx = 2;
+		constraints.gridy = y;
+		this.txtNewIngredientAmount.setMinimumSize(amountDimensions);
+		this.txtNewIngredientAmount.setPreferredSize(amountDimensions);
+		this.txtNewIngredientAmount.setMaximumSize(amountDimensions);
+		this.add(this.txtNewIngredientAmount, constraints);
+
 		y++;
 		constraints.gridx = 1;
 		constraints.gridy = y;
-		this.btnAddIngredient.addActionListener(new AddIngredientAction(this.txtNewIngredient, this.lstFormulaModel));
+		this.btnAddIngredient.addActionListener(new AddIngredientAction(this.txtNewIngredient, this.txtNewIngredientAmount, this.lstFormulaModel));
 		this.add(this.btnAddIngredient, constraints);
 
 		y++;

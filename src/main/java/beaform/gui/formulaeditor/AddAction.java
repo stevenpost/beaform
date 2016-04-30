@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import beaform.GraphDbHandlerForJTA;
+import beaform.Ingredient;
 import beaform.SearchTagTask;
 import beaform.entities.Formula;
 import beaform.entities.Tag;
@@ -30,9 +31,9 @@ public class AddAction implements ActionListener {
 	private final JTextField txtNameField;
 	private final JTextField txtDescriptionField;
 	private final ListModel<Tag> lstTags;
-	private final ListModel<Formula> lstFormulas;
+	private final ListModel<Ingredient> lstFormulas;
 
-	public AddAction(JTextField txtNameField, JTextField txtDescriptionField, ListModel<Formula> lstFormulas, ListModel<Tag> lstTags) {
+	public AddAction(JTextField txtNameField, JTextField txtDescriptionField, ListModel<Ingredient> lstFormulas, ListModel<Tag> lstTags) {
 		this.txtNameField = txtNameField;
 		this.txtDescriptionField = txtDescriptionField;
 		this.lstFormulas = lstFormulas;
