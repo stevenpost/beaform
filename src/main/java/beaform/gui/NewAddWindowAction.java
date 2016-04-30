@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
+import beaform.gui.formulaeditor.AddGui;
+
 public class NewAddWindowAction implements ActionListener {
 
 	private final JPanel panel;

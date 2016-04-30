@@ -1,4 +1,4 @@
-package beaform.gui;
+package beaform.gui.formulaeditor;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
