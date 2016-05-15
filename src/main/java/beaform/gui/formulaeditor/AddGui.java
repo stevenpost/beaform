@@ -55,13 +55,13 @@ public class AddGui extends JPanel {
 
 	public AddGui() {
 		super(new GridBagLayout());
-		init();
+		init(true);
 		this.btnSubmit.addActionListener(new AddAction(this.txtName, this.txtDescription,this.lstFormulaModel, this.lstTagModel));
 	}
 
 	public AddGui(Formula formula) {
 		super(new GridBagLayout());
-		init();
+		init(false);
 
 		this.txtName.setText(formula.getName());
 		this.txtDescription.setText(formula.getDescription());
@@ -89,7 +89,7 @@ public class AddGui extends JPanel {
 
 	}
 
-	private void init() {
+	private void init(boolean isNew) {
 		int y = 0;
 
 		// Formula requirements
@@ -103,6 +103,7 @@ public class AddGui extends JPanel {
 		this.txtName.setMinimumSize(txtFieldDimensions);
 		this.txtName.setPreferredSize(txtFieldDimensions);
 		this.txtName.setMaximumSize(txtFieldDimensions);
+		this.txtName.setEnabled(isNew);
 		this.add(this.txtName, constraints);
 
 		y++;
