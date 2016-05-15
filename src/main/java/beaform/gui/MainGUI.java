@@ -30,17 +30,17 @@ public class MainGUI {
 	private static Logger log = LoggerFactory.getLogger(MainGUI.class);
 
 	private static JFrame frm = new JFrame("BeaForm");
-	private static JMenuBar menu = new JMenuBar();
+	private final JMenuBar menu = new JMenuBar();
 	private final GridLayout layout = new GridLayout();
 	private final JPanel panel = new JPanel(this.layout);
 
 	private void init(){
 
 		//Create pane and add components
-		createMenu(menu);
+		createMenu(this.menu);
 
 		//Putting components in place
-		frm.setJMenuBar(menu);
+		frm.setJMenuBar(this.menu);
 
 		log.info("end init");
 	}
