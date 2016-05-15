@@ -144,8 +144,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		Object nodeInfo = node.getUserObject();
 		if (node.isLeaf()) {
 			TreeViewFormula form = (TreeViewFormula)nodeInfo;
-			this.getParent().add(new AddGui(form.getFormula()));
-			this.getParent().validate();
+			MainGUI.getInstance().replaceWindow(new AddGui(form.getFormula()));
 		}
 	}
 
