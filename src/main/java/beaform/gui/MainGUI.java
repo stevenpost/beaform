@@ -50,7 +50,7 @@ public class MainGUI {
 	public void replaceWindow(Component comp) {
 		this.panel.remove(0);
 		this.panel.add(comp);
-		this.panel.invalidate();
+		this.panel.revalidate();
 	}
 
 	private JPanel getPanel() {
