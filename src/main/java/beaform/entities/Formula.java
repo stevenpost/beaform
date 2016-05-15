@@ -48,12 +48,20 @@ public class Formula {
 		return this.ingredients.entrySet().iterator();
 	}
 
+	public void clearIngredients() {
+		this.ingredients.clear();
+	}
+
 	public void addTag(Tag tag) {
 		this.tags.add(tag);
 	}
 
 	public Iterator<Tag> getTags() {
 		return this.tags.iterator();
+	}
+
+	public void clearTags() {
+		this.tags.clear();
 	}
 
 	public List<String> getTagsAsStrings() {
