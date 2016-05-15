@@ -25,6 +25,7 @@ public class GraphDbHandlerForJTA {
 	private final EntityManagerFactory emf;
 	private final EntityManager em;
 	private final TransactionManager tm;
+	private final SessionFactoryImplementor sessionFactory;
 
 	public static GraphDbHandlerForJTA getInstance() {
 		return INSTANCE;
@@ -35,7 +36,10 @@ public class GraphDbHandlerForJTA {
 		this.emf = Persistence.createEntityManagerFactory("ogm-jpa-tutorial");
 
 		//accessing JBoss's Transaction can be done differently but this one works nicely
-		this.tm = extractJBossTransactionManager(this.emf);
+		SessionFactoryImplementor sessionFactory =
+						(SessionFactoryImplementor) ( (HibernateEntityManagerFactory) this.emf ).getSessionFactory();
+		this.sessionFactory = sessionFactory;
+		this.tm = sessionFactory.getServiceRegistry().getService( JtaPlatform.class ).retrieveTransactionManager();
 
 		// Initialize the main entity manager
 		this.em = this.emf.createEntityManager();
@@ -56,10 +60,8 @@ public class GraphDbHandlerForJTA {
 		return this.em;
 	}
 
-	private static TransactionManager extractJBossTransactionManager(EntityManagerFactory factory) {
-		SessionFactoryImplementor sessionFactory =
-						(SessionFactoryImplementor) ( (HibernateEntityManagerFactory) factory ).getSessionFactory();
-		return sessionFactory.getServiceRegistry().getService( JtaPlatform.class ).retrieveTransactionManager();
+	public SessionFactoryImplementor getSessionFactory() {
+		return this.sessionFactory;
 	}
 
 	public static <T> Future<T> addTask(Callable<T> task) {
