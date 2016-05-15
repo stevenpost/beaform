@@ -18,7 +18,7 @@ public class NewAddWindowAction implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		this.panel.add(new AddGui());
-		this.panel.validate();
+		this.panel.revalidate();
 	}
 
 }

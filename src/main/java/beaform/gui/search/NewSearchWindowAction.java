@@ -16,7 +16,7 @@ public class NewSearchWindowAction implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		this.panel.add(new SearchGui());
-		this.panel.validate();
+		this.panel.revalidate();
 	}
 
 }

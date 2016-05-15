@@ -49,7 +49,7 @@ public final class RenderSearchResult implements Runnable {
 				this.pane.remove(3);
 			}
 			this.pane.add(ft);
-			this.pane.validate();
+			this.pane.revalidate();
 		}
 	}
 }
