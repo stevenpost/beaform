@@ -41,6 +41,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 
 		//Create a tree that allows one selection at a time.
 		this.tree = new JTree(top);
+		this.tree.setToggleClickCount(0);
 		this.tree.getSelectionModel().setSelectionMode
 		(TreeSelectionModel.SINGLE_TREE_SELECTION);
 
@@ -108,26 +109,23 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		}
 
 		Object nodeInfo = node.getUserObject();
+		TreeViewFormula form = (TreeViewFormula)nodeInfo;
+		StringBuilder sb = new StringBuilder();
 		if (node.isLeaf()) {
-			TreeViewFormula form = (TreeViewFormula)nodeInfo;
-			StringBuilder sb = new StringBuilder();
 			sb.append("Amount: ");
 			sb.append(form.getMetadata());
 			sb.append('\n');
 			sb.append('\n');
-			sb.append("Descrtiption:");
-			sb.append('\n');
-			sb.append(form.getFormula().getDescription());
-			sb.append('\n');
-			sb.append('\n');
-			sb.append("Tags: ");
-			sb.append('\n');
-			sb.append(String.join(",", form.getFormula().getTagsAsStrings()));
-			this.htmlPane.setText(sb.toString());
 		}
-		else {
-			this.htmlPane.setText("");
-		}
+		sb.append("Descrtiption:");
+		sb.append('\n');
+		sb.append(form.getFormula().getDescription());
+		sb.append('\n');
+		sb.append('\n');
+		sb.append("Tags: ");
+		sb.append('\n');
+		sb.append(String.join(",", form.getFormula().getTagsAsStrings()));
+		this.htmlPane.setText(sb.toString());
 	}
 
 	public void doubleClick() {
@@ -142,10 +140,8 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		}
 
 		Object nodeInfo = node.getUserObject();
-		if (node.isLeaf()) {
-			TreeViewFormula form = (TreeViewFormula)nodeInfo;
-			MainGUI.getInstance().replaceWindow(new AddGui(form.getFormula()));
-		}
+		TreeViewFormula form = (TreeViewFormula)nodeInfo;
+		MainGUI.getInstance().replaceWindow(new AddGui(form.getFormula()));
 	}
 
 }
