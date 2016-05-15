@@ -3,6 +3,8 @@ package beaform.gui.formulaeditor;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -12,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import beaform.Ingredient;
+import beaform.entities.Formula;
 import beaform.entities.Tag;
 
 public class AddGui extends JPanel {
@@ -49,6 +52,32 @@ public class AddGui extends JPanel {
 
 	public AddGui() {
 		super(new GridBagLayout());
+		init();
+		this.btnSubmit.addActionListener(new AddAction(this.txtName, this.txtDescription,this.lstFormulaModel, this.lstTagModel));
+	}
+
+	public AddGui(Formula formula) {
+		super(new GridBagLayout());
+		init();
+
+		this.txtName.setText(formula.getName());
+		this.txtDescription.setText(formula.getDescription());
+		Iterator<Entry<String, Formula>> ingredientIterator = formula.getIngredients();
+		while (ingredientIterator.hasNext()) {
+			Entry<String, Formula> entry = ingredientIterator.next();
+			Ingredient element = new Ingredient(entry.getValue(), entry.getKey());
+			this.lstFormulaModel.addElement(element);
+		}
+
+		Iterator<Tag> tagIterator = formula.getTags();
+		while (tagIterator.hasNext()) {
+			this.lstTagModel.addElement(tagIterator.next());
+		}
+		this.btnSubmit.addActionListener(new SaveExistingAction(formula, this.txtName, this.txtDescription,this.lstFormulaModel, this.lstTagModel));
+
+	}
+
+	private void init() {
 		int y = 0;
 
 		// Formula requirements
@@ -162,9 +191,7 @@ public class AddGui extends JPanel {
 		constraints.gridx = 0;
 		constraints.gridy = y;
 		constraints.gridwidth = 2;
-		this.btnSubmit.addActionListener(new AddAction(this.txtName, this.txtDescription,this.lstFormulaModel, this.lstTagModel));
 		this.add(this.btnSubmit, constraints);
-
 	}
 
 }
