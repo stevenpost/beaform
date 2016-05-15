@@ -55,7 +55,7 @@ public class AddAction implements ActionListener {
 			return;
 		}
 
-		final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManager();
+		final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
 
 		Formula newForm = new Formula();
 		newForm.setName(this.txtNameField.getText());
@@ -93,6 +93,7 @@ public class AddAction implements ActionListener {
 		em.persist(newForm);
 
 		em.flush();
+		em.close();
 
 		try {
 			tm.commit();

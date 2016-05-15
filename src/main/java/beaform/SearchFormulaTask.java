@@ -32,7 +32,7 @@ public final class SearchFormulaTask implements Callable<Formula> {
 		Formula result;
 
 		try {
-			final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManager();
+			final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
 
 			String query = "match (n:Formula { name:'" + this.name + "' }) return n";
 			result = (Formula) em.createNativeQuery(query, Formula.class).getSingleResult();
@@ -49,6 +49,7 @@ public final class SearchFormulaTask implements Callable<Formula> {
 			}
 
 			em.flush();
+			em.close();
 
 			try {
 				tm.commit();
