@@ -57,7 +57,7 @@ public class SaveExistingAction implements ActionListener {
 			return;
 		}
 
-		final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
+		final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManager();
 
 		this.formula.setName(this.txtNameField.getText());
 		this.formula.setDescription(this.txtDescriptionField.getText());
@@ -94,7 +94,6 @@ public class SaveExistingAction implements ActionListener {
 		em.persist(this.formula);
 
 		em.flush();
-		em.close();
 
 		try {
 			tm.commit();
