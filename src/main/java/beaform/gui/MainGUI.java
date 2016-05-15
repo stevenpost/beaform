@@ -28,6 +28,7 @@ import beaform.gui.search.NewSearchWindowAction;
  */
 public class MainGUI {
 
+	private static MainGUI instance;
 	private static Logger log = LoggerFactory.getLogger(MainGUI.class);
 
 	private static JFrame frm = new JFrame("BeaForm");
@@ -109,6 +110,13 @@ public class MainGUI {
 		return debugMenuItem;
 	}
 
+	public static MainGUI getInstance() {
+		if (instance == null) {
+			throw new IllegalStateException("The MainGUI should be initialized before trying to get the instance");
+		}
+		return instance;
+	}
+
 	public static void createAndShowGUI() {
 		//Set the look and feel.
 		try{
@@ -134,6 +142,8 @@ public class MainGUI {
 		//frm.pack();
 		frm.setSize(600, 400);
 		frm.setVisible(true);
+
+		instance = app;
 	}
 
 }
