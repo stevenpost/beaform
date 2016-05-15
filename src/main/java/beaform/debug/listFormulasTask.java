@@ -28,7 +28,7 @@ public class listFormulasTask implements Runnable {
 			return;
 		}
 
-		final EntityManager em = GraphDbHandlerForJTA.getInstance().getNewEntityManager();
+		final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
 
 		String query = "match (n:Formula) return n";
 

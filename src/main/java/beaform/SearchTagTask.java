@@ -30,7 +30,7 @@ public final class SearchTagTask implements Callable<Tag> {
 		Tag result;
 
 		try {
-			final EntityManager em = GraphDbHandlerForJTA.getInstance().getNewEntityManager();
+			final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
 
 			String query = "match (n:Tag { name:'" + this.name + "' }) return n";
 			result = (Tag) em.createNativeQuery(query, Tag.class).getSingleResult();

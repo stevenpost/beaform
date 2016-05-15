@@ -25,7 +25,7 @@ public class ClearDbTask implements Runnable {
 			return;
 		}
 
-		final EntityManager em = GraphDbHandlerForJTA.getInstance().getNewEntityManager();
+		final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
 
 		String query = "MATCH n OPTIONAL MATCH (n)-[r]-() DELETE n,r";
 		try {

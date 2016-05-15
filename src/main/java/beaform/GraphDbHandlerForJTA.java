@@ -23,6 +23,7 @@ public class GraphDbHandlerForJTA {
 
 	private final ShutDownHook shutdownHook;
 	private final EntityManagerFactory emf;
+	private final EntityManager em;
 	private final TransactionManager tm;
 
 	public static GraphDbHandlerForJTA getInstance() {
@@ -36,7 +37,10 @@ public class GraphDbHandlerForJTA {
 		//accessing JBoss's Transaction can be done differently but this one works nicely
 		this.tm = extractJBossTransactionManager(this.emf);
 
-		this.shutdownHook = new ShutDownHook(this.emf);
+		// Initialize the main entity manager
+		this.em = this.emf.createEntityManager();
+
+		this.shutdownHook = new ShutDownHook(this.em, this.emf);
 		Runtime.getRuntime().addShutdownHook(this.shutdownHook);
 	}
 
@@ -44,8 +48,12 @@ public class GraphDbHandlerForJTA {
 		return this.tm;
 	}
 
-	public EntityManager getNewEntityManager() {
-		return this.emf.createEntityManager();
+	public EntityManagerFactory getEntityManagerFactory() {
+		return this.emf;
+	}
+
+	public EntityManager getEntityManager() {
+		return this.em;
 	}
 
 	private static TransactionManager extractJBossTransactionManager(EntityManagerFactory factory) {
@@ -74,14 +82,17 @@ public class GraphDbHandlerForJTA {
 		private static final Logger LOG = LoggerFactory.getLogger(ShutDownHook.class);
 
 		private final EntityManagerFactory emf;
+		private final EntityManager em;
 
-		public ShutDownHook(EntityManagerFactory emf) {
+		public ShutDownHook(EntityManager em, EntityManagerFactory emf) {
+			this.em = em;
 			this.emf = emf;
 		}
 
 		@Override
 		public void run() {
 			LOG.info("Start DB shutdown");
+			this.em.close();
 			this.emf.close();
 			LOG.info("DB shutdown complete");
 		}

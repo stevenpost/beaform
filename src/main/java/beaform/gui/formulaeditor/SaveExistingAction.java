@@ -57,7 +57,7 @@ public class SaveExistingAction implements ActionListener {
 			return;
 		}
 
-		final EntityManager em = GraphDbHandlerForJTA.getInstance().getNewEntityManager();
+		final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
 
 		this.formula.setName(this.txtNameField.getText());
 		this.formula.setDescription(this.txtDescriptionField.getText());

@@ -30,7 +30,7 @@ public final class FillDbTask implements Runnable {
 		}
 
 		try {
-			final EntityManager em = GraphDbHandlerForJTA.getInstance().getNewEntityManager();
+			final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
 			Tag firstTag = new Tag();
 			firstTag.setName("First");
 			em.persist(firstTag);
