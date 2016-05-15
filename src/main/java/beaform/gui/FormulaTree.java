@@ -2,6 +2,8 @@ package beaform.gui;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
@@ -16,6 +18,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
 import beaform.entities.Formula;
+import beaform.gui.formulaeditor.AddGui;
 
 public class FormulaTree extends JPanel implements TreeSelectionListener {
 
@@ -43,6 +46,16 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 
 		//Listen for when the selection changes.
 		this.tree.addTreeSelectionListener(this);
+
+		//Listen for double click events.
+		this.tree.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if(e.getClickCount() == 2) {
+					doubleClick();
+				}
+			}
+		});
 
 		if (playWithLineStyle) {
 			System.out.println("line style = " + lineStyle);
@@ -114,6 +127,25 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		}
 		else {
 			this.htmlPane.setText("");
+		}
+	}
+
+	public void doubleClick() {
+		//Returns the last path element of the selection.
+		//This method is useful only when the selection model allows a single selection.
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)
+						this.tree.getLastSelectedPathComponent();
+
+		if (node == null) {
+			//Nothing is selected.
+			return;
+		}
+
+		Object nodeInfo = node.getUserObject();
+		if (node.isLeaf()) {
+			TreeViewFormula form = (TreeViewFormula)nodeInfo;
+			this.getParent().add(new AddGui(form.getFormula()));
+			this.getParent().validate();
 		}
 	}
 
