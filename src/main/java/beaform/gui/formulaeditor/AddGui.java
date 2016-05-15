@@ -12,9 +12,12 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.transaction.NotSupportedException;
+import javax.transaction.SystemException;
 
 import beaform.Ingredient;
 import beaform.entities.Formula;
+import beaform.entities.FormulaDAO;
 import beaform.entities.Tag;
 
 public class AddGui extends JPanel {
@@ -63,16 +66,23 @@ public class AddGui extends JPanel {
 		this.txtName.setText(formula.getName());
 		this.txtDescription.setText(formula.getDescription());
 
-		Iterator<Entry<String, Formula>> ingredientIterator = formula.getIngredients();
-		while (ingredientIterator.hasNext()) {
-			Entry<String, Formula> entry = ingredientIterator.next();
-			Ingredient element = new Ingredient(entry.getValue(), entry.getKey());
-			this.lstFormulaModel.addElement(element);
-		}
+		Iterator<Entry<String, Formula>> ingredientIterator;
+		try {
+			ingredientIterator = new FormulaDAO().getIngredients(formula);
+			while (ingredientIterator.hasNext()) {
+				Entry<String, Formula> entry = ingredientIterator.next();
+				Ingredient element = new Ingredient(entry.getValue(), entry.getKey());
+				this.lstFormulaModel.addElement(element);
+			}
 
-		Iterator<Tag> tagIterator = formula.getTags();
-		while (tagIterator.hasNext()) {
-			this.lstTagModel.addElement(tagIterator.next());
+			Iterator<Tag> tagIterator = formula.getTags();
+			while (tagIterator.hasNext()) {
+				this.lstTagModel.addElement(tagIterator.next());
+			}
+		}
+		catch (NotSupportedException | SystemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		this.btnSubmit.addActionListener(new SaveExistingAction(formula, this.txtName, this.txtDescription,this.lstFormulaModel, this.lstTagModel));
