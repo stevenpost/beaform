@@ -62,6 +62,7 @@ public class AddGui extends JPanel {
 
 		this.txtName.setText(formula.getName());
 		this.txtDescription.setText(formula.getDescription());
+
 		Iterator<Entry<String, Formula>> ingredientIterator = formula.getIngredients();
 		while (ingredientIterator.hasNext()) {
 			Entry<String, Formula> entry = ingredientIterator.next();
@@ -73,6 +74,7 @@ public class AddGui extends JPanel {
 		while (tagIterator.hasNext()) {
 			this.lstTagModel.addElement(tagIterator.next());
 		}
+
 		this.btnSubmit.addActionListener(new SaveExistingAction(formula, this.txtName, this.txtDescription,this.lstFormulaModel, this.lstTagModel));
 
 	}
