@@ -3,16 +3,22 @@ package beaform.gui;
 import beaform.Ingredient;
 import beaform.entities.Formula;
 
+/**
+ * This class represents a formula for use in a treeview
+ *
+ * @author steven
+ *
+ */
 public class TreeViewFormula {
 	private final Formula formula;
 	private final String amount;
 
-	public TreeViewFormula(Formula formula) {
+	public TreeViewFormula(final Formula formula) {
 		this.formula = formula;
 		this.amount = "";
 	}
 
-	public TreeViewFormula(Ingredient ingredient) {
+	public TreeViewFormula(final Ingredient ingredient) {
 		this.formula = ingredient.getFormula();
 		this.amount = ingredient.getAmount();
 	}

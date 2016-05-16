@@ -1,22 +1,3 @@
-/*
- * This file is part of RCIRC
- * Copyright (C) 2009  Steven Post
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- */
 package beaform.gui;
 
 import java.awt.BorderLayout;
@@ -36,8 +17,14 @@ import javax.swing.WindowConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * This class implements an about dialog.
+ *
+ * @author steven
+ *
+ */
 public class About implements Runnable {
-	private static Logger log = LoggerFactory.getLogger(About.class);
+	private static final Logger LOG = LoggerFactory.getLogger(About.class);
 	private static JFrame frm = new JFrame("About...");
 	private static JPanel pane = new JPanel();
 	private static JLabel lblTitle = new JLabel();
@@ -83,7 +70,7 @@ public class About implements Runnable {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		}
 		catch (Exception e){
-			log.error("Look'n feel: " + e.getMessage());
+			LOG.error("Look'n feel: " + e.getMessage());
 		}
 
 		//Make sure we have nice window decorations.
@@ -93,9 +80,9 @@ public class About implements Runnable {
 		//JFrame frame = new JFrame("GUI testing");
 		frm.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-		About app = new About();
+		final About app = new About();
 		app.init();
-		Component contents = pane;
+		final Component contents = pane;
 		frm.getContentPane().add(contents, BorderLayout.CENTER);
 		frm.setLocation(150, 150);
 

@@ -8,7 +8,7 @@ import beaform.gui.formulaeditor.FormulaEditor;
 public class NewAddWindowAction implements ActionListener {
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		MainGUI.getInstance().replaceWindow(new FormulaEditor());
 	}
 
