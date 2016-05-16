@@ -3,8 +3,8 @@ package beaform.gui;
 import beaform.entities.Formula;
 
 public class TreeViewFormula {
-	Formula form;
-	String metadata;
+	private final Formula form;
+	private final String metadata;
 
 	public TreeViewFormula(Formula form, String metadata) {
 		this.form = form;
