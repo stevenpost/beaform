@@ -22,29 +22,21 @@ public class SaveExistingAction implements ActionListener {
 
 	private final JTextField txtNameField;
 	private final JTextField txtDescriptionField;
-	private final ListModel<Tag> lstTags;
+	private final List<Tag> tags;
 	private final ListModel<Ingredient> lstIngredients;
 	private final Formula formula;
 
-	public SaveExistingAction(Formula formula, JTextField txtNameField, JTextField txtDescriptionField, ListModel<Ingredient> lstFormulas, ListModel<Tag> lstTags) {
+	public SaveExistingAction(Formula formula, JTextField txtNameField, JTextField txtDescriptionField, ListModel<Ingredient> lstFormulas, List<Tag> tags) {
 		this.formula = formula;
 		this.txtNameField = txtNameField;
 		this.txtDescriptionField = txtDescriptionField;
 		this.lstIngredients = lstFormulas;
-		this.lstTags = lstTags;
+		this.tags = tags;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		LOG.info("Add: " + this.txtNameField.getText() + " with description: " + this.txtDescriptionField.getText());
-
-		// Get tags in a list
-		List<Tag> tags = new ArrayList<Tag>();
-		int nrOfTags = this.lstTags.getSize();
-		for (int i = 0; i < nrOfTags; i++) {
-			// See if the tag exist in the DB, if so, use it.
-			tags.add(this.lstTags.getElementAt(i));
-		}
 
 		// Get Ingredients in a list
 		List<Ingredient> ingredients = new ArrayList<Ingredient>();
@@ -54,7 +46,7 @@ public class SaveExistingAction implements ActionListener {
 			ingredients.add(this.lstIngredients.getElementAt(i));
 		}
 
-		new FormulaDAO().updateExisting(this.formula.getName(), this.txtNameField.getText(), this.txtDescriptionField.getText(), ingredients, tags);
+		new FormulaDAO().updateExisting(this.formula.getName(), this.txtNameField.getText(), this.txtDescriptionField.getText(), ingredients, this.tags);
 
 	}
 

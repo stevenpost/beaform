@@ -3,7 +3,6 @@ package beaform.gui.formulaeditor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JTextField;
 
 import beaform.entities.Tag;
@@ -11,11 +10,11 @@ import beaform.entities.Tag;
 public final class AddTagAction implements ActionListener {
 
 	private final JTextField txtNewTag;
-	private final DefaultListModel<Tag> lstModel;
+	private final FormulaEditor formulaEditor;
 
-	public AddTagAction(JTextField txtNewTag, DefaultListModel<Tag> lstModel) {
+	public AddTagAction(JTextField txtNewTag, FormulaEditor formulaEditor) {
 		this.txtNewTag = txtNewTag;
-		this.lstModel = lstModel;
+		this.formulaEditor = formulaEditor;
 	}
 
 	@Override
@@ -25,7 +24,7 @@ public final class AddTagAction implements ActionListener {
 			this.txtNewTag.setText("");
 			Tag tag = new Tag();
 			tag.setName(strTag);
-			this.lstModel.addElement(tag);
+			this.formulaEditor.addTag(tag);
 		}
 	}
 }
