@@ -20,7 +20,7 @@ import beaform.entities.Formula;
 import beaform.entities.FormulaDAO;
 import beaform.entities.Tag;
 
-public class AddGui extends JPanel {
+public class FormulaEditor extends JPanel {
 
 	/**
 	 *
@@ -53,13 +53,13 @@ public class AddGui extends JPanel {
 
 	private final JButton btnSubmit = new JButton("Submit");
 
-	public AddGui() {
+	public FormulaEditor() {
 		super(new GridBagLayout());
 		init(true);
 		this.btnSubmit.addActionListener(new AddAction(this.txtName, this.txtDescription,this.lstFormulaModel, this.lstTagModel));
 	}
 
-	public AddGui(Formula formula) {
+	public FormulaEditor(Formula formula) {
 		super(new GridBagLayout());
 		init(false);
 

@@ -18,7 +18,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
 import beaform.entities.Formula;
-import beaform.gui.formulaeditor.AddGui;
+import beaform.gui.formulaeditor.FormulaEditor;
 
 public class FormulaTree extends JPanel implements TreeSelectionListener {
 
@@ -141,7 +141,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 
 		Object nodeInfo = node.getUserObject();
 		TreeViewFormula form = (TreeViewFormula)nodeInfo;
-		MainGUI.getInstance().replaceWindow(new AddGui(form.getFormula()));
+		MainGUI.getInstance().replaceWindow(new FormulaEditor(form.getFormula()));
 	}
 
 }

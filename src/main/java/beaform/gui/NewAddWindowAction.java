@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
-import beaform.gui.formulaeditor.AddGui;
+import beaform.gui.formulaeditor.FormulaEditor;
 
 public class NewAddWindowAction implements ActionListener {
 
@@ -17,7 +17,7 @@ public class NewAddWindowAction implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.panel.add(new AddGui());
+		this.panel.add(new FormulaEditor());
 		this.panel.revalidate();
 	}
 
