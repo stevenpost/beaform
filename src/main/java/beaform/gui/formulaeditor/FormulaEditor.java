@@ -33,6 +33,7 @@ public class FormulaEditor extends JPanel {
 	private static final Dimension txtFieldDimensions = new Dimension(100, 30);
 	private static final Dimension amountDimensions = new Dimension(60, 30);
 	private static final Dimension listDimensions = new Dimension(150, 90);
+	private static final JLabel lblTotalAmount = new JLabel("total amount");
 	private static final JLabel lblName = new JLabel("Name");
 	private static final JLabel lblDescription = new JLabel("Description");
 	private static final JLabel lblTags = new JLabel("Tags");
@@ -42,6 +43,7 @@ public class FormulaEditor extends JPanel {
 
 	private final JTextField txtName = new JTextField();
 	private final JTextField txtDescription = new JTextField();
+	private final JTextField txtTotalAmount = new JTextField();
 
 	private final List<Tag> tags = new ArrayList<Tag>();
 	private final DefaultListModel<Tag> lstTagModel = new DefaultListModel<Tag>();
@@ -62,7 +64,7 @@ public class FormulaEditor extends JPanel {
 	public FormulaEditor() {
 		super(new GridBagLayout());
 		init(true);
-		this.btnSubmit.addActionListener(new AddAction(this.txtName, this.txtDescription,this.lstFormulaModel, this.tags));
+		this.btnSubmit.addActionListener(new AddAction(this.txtName, this.txtDescription, this.txtTotalAmount, this.lstFormulaModel, this.tags));
 	}
 
 	public FormulaEditor(Formula formula) {
@@ -71,6 +73,7 @@ public class FormulaEditor extends JPanel {
 
 		this.txtName.setText(formula.getName());
 		this.txtDescription.setText(formula.getDescription());
+		this.txtTotalAmount.setText(formula.getTotalAmount());
 
 		try {
 			// Add ingredients to the list
@@ -93,7 +96,7 @@ public class FormulaEditor extends JPanel {
 			e.printStackTrace();
 		}
 
-		this.btnSubmit.addActionListener(new SaveExistingAction(formula, this.txtName, this.txtDescription,this.lstFormulaModel, this.tags));
+		this.btnSubmit.addActionListener(new SaveExistingAction(formula, this.txtName, this.txtDescription, this.txtTotalAmount, this.lstFormulaModel, this.tags));
 
 	}
 
@@ -121,6 +124,18 @@ public class FormulaEditor extends JPanel {
 		constraints.gridy = y;
 		setDimensions(this.txtDescription, txtFieldDimensions);
 		this.add(this.txtDescription, constraints);
+
+		y++;
+		constraints.gridx = 0;
+		constraints.gridy = y;
+		setDimensions(lblTotalAmount, txtFieldDimensions);
+		this.add(lblTotalAmount, constraints);
+
+		y++;
+		constraints.gridx = 0;
+		constraints.gridy = y;
+		setDimensions(this.txtTotalAmount, txtFieldDimensions);
+		this.add(this.txtTotalAmount, constraints);
 
 		// Ingredients
 		y++;

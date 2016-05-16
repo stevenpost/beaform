@@ -22,14 +22,16 @@ public class SaveExistingAction implements ActionListener {
 
 	private final JTextField txtNameField;
 	private final JTextField txtDescriptionField;
+	private final JTextField txtTotalAmount;
 	private final List<Tag> tags;
 	private final ListModel<Ingredient> lstIngredients;
 	private final Formula formula;
 
-	public SaveExistingAction(Formula formula, JTextField txtNameField, JTextField txtDescriptionField, ListModel<Ingredient> lstFormulas, List<Tag> tags) {
+	public SaveExistingAction(Formula formula, JTextField txtNameField, JTextField txtDescriptionField, JTextField txtTotalAmount, ListModel<Ingredient> lstFormulas, List<Tag> tags) {
 		this.formula = formula;
 		this.txtNameField = txtNameField;
 		this.txtDescriptionField = txtDescriptionField;
+		this.txtTotalAmount = txtTotalAmount;
 		this.lstIngredients = lstFormulas;
 		this.tags = tags;
 	}
@@ -46,7 +48,7 @@ public class SaveExistingAction implements ActionListener {
 			ingredients.add(this.lstIngredients.getElementAt(i));
 		}
 
-		new FormulaDAO().updateExisting(this.formula.getName(), this.txtNameField.getText(), this.txtDescriptionField.getText(), ingredients, this.tags);
+		new FormulaDAO().updateExisting(this.formula.getName(), this.txtNameField.getText(), this.txtDescriptionField.getText(), this.txtTotalAmount.getText(), ingredients, this.tags);
 
 	}
 

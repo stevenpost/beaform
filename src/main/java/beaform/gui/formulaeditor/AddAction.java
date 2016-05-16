@@ -21,12 +21,14 @@ public class AddAction implements ActionListener {
 
 	private final JTextField txtNameField;
 	private final JTextField txtDescriptionField;
+	private final JTextField txtTotalAmount;
 	private final List<Tag> tags;
 	private final ListModel<Ingredient> lstIngredients;
 
-	public AddAction(JTextField txtNameField, JTextField txtDescriptionField, ListModel<Ingredient> lstFormulas, List<Tag> tags) {
+	public AddAction(JTextField txtNameField, JTextField txtDescriptionField,JTextField txtTotalAmount, ListModel<Ingredient> lstFormulas, List<Tag> tags) {
 		this.txtNameField = txtNameField;
 		this.txtDescriptionField = txtDescriptionField;
+		this.txtTotalAmount = txtTotalAmount;
 		this.lstIngredients = lstFormulas;
 		this.tags = tags;
 	}
@@ -43,7 +45,7 @@ public class AddAction implements ActionListener {
 			ingredients.add(this.lstIngredients.getElementAt(i));
 		}
 
-		new FormulaDAO().addFormula(this.txtNameField.getText(), this.txtDescriptionField.getText(), ingredients, this.tags);
+		new FormulaDAO().addFormula(this.txtNameField.getText(), this.txtDescriptionField.getText(), this.txtTotalAmount.getText(), ingredients, this.tags);
 
 	}
 

@@ -17,6 +17,7 @@ public class Formula {
 	@Id
 	private String name;
 	private String description;
+	private String totalAmount;
 
 	@OneToMany
 	private final Map<String, Formula> ingredients = new HashMap<String, Formula>();
@@ -38,6 +39,14 @@ public class Formula {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getTotalAmount() {
+		return this.totalAmount;
+	}
+
+	public void setTotalAmount(String totalAmount) {
+		this.totalAmount = totalAmount;
 	}
 
 	public void addIngredient(Formula ingredient, String amount) {

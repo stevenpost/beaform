@@ -45,7 +45,7 @@ public class FormulaDAO {
 		return retIt;
 	}
 
-	public void updateExisting(String oldName, String name, String description, List<Ingredient> ingredients, List<Tag> tags) {
+	public void updateExisting(String oldName, String name, String description, String totalAmount, List<Ingredient> ingredients, List<Tag> tags) {
 		TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
 
 		try {
@@ -64,6 +64,7 @@ public class FormulaDAO {
 
 		formula.setName(name);
 		formula.setDescription(description);
+		formula.setTotalAmount(totalAmount);
 		formula.clearTags();
 
 		addTags(tags, em, formula);
@@ -90,7 +91,7 @@ public class FormulaDAO {
 		}
 	}
 
-	public void addFormula(String name, String description, List<Ingredient> ingredients, List<Tag> tags) {
+	public void addFormula(String name, String description, String totalAmount, List<Ingredient> ingredients, List<Tag> tags) {
 		TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
 
 		try {
@@ -107,6 +108,7 @@ public class FormulaDAO {
 		Formula formula = new Formula();
 		formula.setName(name);
 		formula.setDescription(description);
+		formula.setTotalAmount(totalAmount);
 
 		addTags(tags, em, formula);
 
