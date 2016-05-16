@@ -66,15 +66,16 @@ public class FormulaEditor extends JPanel {
 		this.txtName.setText(formula.getName());
 		this.txtDescription.setText(formula.getDescription());
 
-		Iterator<Entry<String, Formula>> ingredientIterator;
 		try {
-			ingredientIterator = new FormulaDAO().getIngredients(formula);
+			// Add ingredients to the list
+			Iterator<Entry<String, Formula>> ingredientIterator = new FormulaDAO().getIngredients(formula);
 			while (ingredientIterator.hasNext()) {
 				Entry<String, Formula> entry = ingredientIterator.next();
 				Ingredient element = new Ingredient(entry.getValue(), entry.getKey());
 				this.lstFormulaModel.addElement(element);
 			}
 
+			// Add tags to the list
 			Iterator<Tag> tagIterator = formula.getTags();
 			while (tagIterator.hasNext()) {
 				this.lstTagModel.addElement(tagIterator.next());
