@@ -362,10 +362,6 @@
             <ruleset>Strict Exceptions</ruleset>
         </rule>
         <rule>
-            <name>DoNotUseThreads</name>
-            <ruleset>J2EE</ruleset>
-        </rule>
-        <rule>
             <name>DontCallThreadRun</name>
             <ruleset>Basic</ruleset>
         </rule>
