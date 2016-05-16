@@ -25,18 +25,18 @@ public class ClearDbTask implements Runnable {
 			return;
 		}
 
-		final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
+		final EntityManager ementityManager = GraphDbHandlerForJTA.getInstance().createNewEntityManager();
 
 		String query = "MATCH n OPTIONAL MATCH (n)-[r]-() DELETE n,r";
 		try {
-			em.createNativeQuery(query).getSingleResult();
+			ementityManager.createNativeQuery(query).getSingleResult();
 		}
 		catch (NoResultException nre) {
 			// We delete everything, there won't be a result.
 		}
 
-		em.flush();
-		em.close();
+		ementityManager.flush();
+		ementityManager.close();
 
 		try {
 			tm.commit();

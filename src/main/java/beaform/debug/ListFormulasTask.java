@@ -13,11 +13,17 @@ import javax.transaction.TransactionManager;
 import beaform.GraphDbHandlerForJTA;
 import beaform.entities.Formula;
 
+/**
+ * This class implements a task to retrive all formulas.
+ *
+ * @author steven
+ *
+ */
 public class ListFormulasTask implements Runnable {
 
 	@Override
 	public void run() {
-		TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
+		final TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
 
 		try {
 			tm.begin();
@@ -28,7 +34,7 @@ public class ListFormulasTask implements Runnable {
 			return;
 		}
 
-		final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
+		final EntityManager em = GraphDbHandlerForJTA.getInstance().createNewEntityManager();
 
 		String query = "match (n:Formula) return n";
 
@@ -37,7 +43,7 @@ public class ListFormulasTask implements Runnable {
 
 		System.out.println(formulas.size());
 
-		for (Formula formula : formulas) {
+		for (final Formula formula : formulas) {
 			System.out.println(formula);
 		}
 		em.flush();

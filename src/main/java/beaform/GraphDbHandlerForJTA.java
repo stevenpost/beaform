@@ -55,6 +55,14 @@ public class GraphDbHandlerForJTA {
 		return this.entityManagerFact;
 	}
 
+	/**
+	 * This method creates a new {@link EntityManager}
+	 * @return the new manager
+	 */
+	public EntityManager createNewEntityManager() {
+		return this.entityManagerFact.createEntityManager();
+	}
+
 	public EntityManager getEntityManager() {
 		return this.entityManager;
 	}
