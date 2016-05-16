@@ -26,7 +26,7 @@ public class Formula {
 	private final Map<String, Formula> ingredients = new ConcurrentHashMap<String, Formula>();
 
 	@OneToMany(fetch=FetchType.EAGER)
-	private final List<Tag> tags = new ArrayList<Tag>();
+	private final List<FormulaTag> tags = new ArrayList<FormulaTag>();
 
 	public String getName() {
 		return this.name;
@@ -73,11 +73,11 @@ public class Formula {
 		this.ingredients.clear();
 	}
 
-	public void addTag(final Tag tag) {
+	public void addTag(final FormulaTag tag) {
 		this.tags.add(tag);
 	}
 
-	public Iterator<Tag> getTags() {
+	public Iterator<FormulaTag> getTags() {
 		return this.tags.iterator();
 	}
 
@@ -87,7 +87,7 @@ public class Formula {
 
 	public List<String> getTagsAsStrings() {
 		final List<String> retval = new ArrayList<String>(this.tags.size());
-		for (final Tag tag : this.tags) {
+		for (final FormulaTag tag : this.tags) {
 			retval.add(tag.getName());
 		}
 		return retval;

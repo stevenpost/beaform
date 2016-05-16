@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import beaform.Ingredient;
 import beaform.entities.Formula;
 import beaform.entities.FormulaDAO;
-import beaform.entities.Tag;
+import beaform.entities.FormulaTag;
 
 /**
  * This class kicks off an update to a existing formula.
@@ -30,11 +30,11 @@ public class SaveExistingAction implements ActionListener {
 
 	private final JTextField txtDescriptionField;
 	private final JTextField txtTotalAmount;
-	private final List<Tag> tags;
+	private final List<FormulaTag> tags;
 	private final ListModel<Ingredient> lstIngredients;
 	private final Formula formula;
 
-	public SaveExistingAction(Formula formula, JTextField txtDescriptionField, JTextField txtTotalAmount, ListModel<Ingredient> lstFormulas, List<Tag> tags) {
+	public SaveExistingAction(Formula formula, JTextField txtDescriptionField, JTextField txtTotalAmount, ListModel<Ingredient> lstFormulas, List<FormulaTag> tags) {
 		this.formula = formula;
 		this.txtDescriptionField = txtDescriptionField;
 		this.txtTotalAmount = txtTotalAmount;

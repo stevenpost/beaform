@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import beaform.Ingredient;
 import beaform.entities.FormulaDAO;
-import beaform.entities.Tag;
+import beaform.entities.FormulaTag;
 
 /**
  * This class kicks off the creation of a new formula from the editor.
@@ -28,10 +28,10 @@ public class AddAction implements ActionListener {
 	private final JTextField txtNameField;
 	private final JTextField txtDescriptionField;
 	private final JTextField txtTotalAmount;
-	private final List<Tag> tags;
+	private final List<FormulaTag> tags;
 	private final ListModel<Ingredient> lstIngredients;
 
-	public AddAction(JTextField txtNameField, JTextField txtDescriptionField,JTextField txtTotalAmount, ListModel<Ingredient> lstFormulas, List<Tag> tags) {
+	public AddAction(JTextField txtNameField, JTextField txtDescriptionField,JTextField txtTotalAmount, ListModel<Ingredient> lstFormulas, List<FormulaTag> tags) {
 		this.txtNameField = txtNameField;
 		this.txtDescriptionField = txtDescriptionField;
 		this.txtTotalAmount = txtTotalAmount;

@@ -11,9 +11,9 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.TransactionManager;
 
-import beaform.entities.Tag;
+import beaform.entities.FormulaTag;
 
-public final class SearchTagTask implements Callable<Tag> {
+public final class SearchTagTask implements Callable<FormulaTag> {
 
 	private final String name;
 
@@ -22,18 +22,18 @@ public final class SearchTagTask implements Callable<Tag> {
 	}
 
 	@Override
-	public Tag call() throws NotSupportedException, SystemException {
+	public FormulaTag call() throws NotSupportedException, SystemException {
 
 		final TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
 
 		tm.begin();
-		Tag result;
+		FormulaTag result;
 
 		try {
 			final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
 
 			final String query = "match (n:Tag { name:'" + this.name + "' }) return n";
-			result = (Tag) em.createNativeQuery(query, Tag.class).getSingleResult();
+			result = (FormulaTag) em.createNativeQuery(query, FormulaTag.class).getSingleResult();
 			System.out.println("Found: " + result);
 
 			em.flush();

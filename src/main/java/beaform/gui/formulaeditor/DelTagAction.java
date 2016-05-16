@@ -5,14 +5,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JList;
 
-import beaform.entities.Tag;
+import beaform.entities.FormulaTag;
 
 public final class DelTagAction implements ActionListener {
 
-	private final JList<Tag> lstTags;
+	private final JList<FormulaTag> lstTags;
 	private final FormulaEditor formulaEditor;
 
-	public DelTagAction(JList<Tag> lstTags, FormulaEditor formulaEditor) {
+	public DelTagAction(JList<FormulaTag> lstTags, FormulaEditor formulaEditor) {
 		this.lstTags = lstTags;
 		this.formulaEditor = formulaEditor;
 	}

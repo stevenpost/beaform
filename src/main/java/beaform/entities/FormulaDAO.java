@@ -73,7 +73,7 @@ public class FormulaDAO {
 	 * @param ingredients a list of ingredients
 	 * @param tags a list of tags
 	 */
-	public void updateExisting(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<Tag> tags) {
+	public void updateExisting(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<FormulaTag> tags) {
 		final TransactionManager tmtransactionMgr = GraphDbHandlerForJTA.getInstance().getTransactionManager();
 
 		try {
@@ -116,7 +116,7 @@ public class FormulaDAO {
 		}
 	}
 
-	public void addFormula(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<Tag> tags) {
+	public void addFormula(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<FormulaTag> tags) {
 		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getInstance().getTransactionManager();
 
 		try {
@@ -163,11 +163,11 @@ public class FormulaDAO {
 	 * @param em an open entity manager
 	 * @param formula the formula to add the tags to
 	 */
-	private void addTags(final List<Tag> tags, final EntityManager em, final Formula formula) {
-		for (Tag tag : tags) {
+	private void addTags(final List<FormulaTag> tags, final EntityManager em, final Formula formula) {
+		for (FormulaTag tag : tags) {
 			// See if the tag exist in the DB, if so, use it.
-			Tag pTag = null;
-			final Future<Tag> searchresult = GraphDbHandlerForJTA.addTask(new SearchTagTask(tag.getName()));
+			FormulaTag pTag = null;
+			final Future<FormulaTag> searchresult = GraphDbHandlerForJTA.addTask(new SearchTagTask(tag.getName()));
 			try {
 				pTag = searchresult.get();
 			}

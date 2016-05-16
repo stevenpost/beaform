@@ -5,8 +5,14 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+/**
+ * This class represents a tag.
+ *
+ * @author steven
+ *
+ */
 @Entity
-public class Tag implements Serializable { // NOPMD by steven on 5/16/16 4:26 PM
+public class FormulaTag implements Serializable {
 
 	/**
 	 *

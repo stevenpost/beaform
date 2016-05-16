@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JTextField;
 
-import beaform.entities.Tag;
+import beaform.entities.FormulaTag;
 
 public final class AddTagAction implements ActionListener {
 
@@ -22,7 +22,7 @@ public final class AddTagAction implements ActionListener {
 		String strTag = this.txtNewTag.getText();
 		if (!"".equals(strTag)) {
 			this.txtNewTag.setText("");
-			Tag tag = new Tag();
+			FormulaTag tag = new FormulaTag();
 			tag.setName(strTag);
 			this.formulaEditor.addTag(tag);
 		}

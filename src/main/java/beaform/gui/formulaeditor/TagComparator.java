@@ -3,7 +3,7 @@ package beaform.gui.formulaeditor;
 import java.io.Serializable;
 import java.util.Comparator;
 
-import beaform.entities.Tag;
+import beaform.entities.FormulaTag;
 
 /**
  * This class can compare Tag objects.
@@ -11,7 +11,7 @@ import beaform.entities.Tag;
  * @author steven
  *
  */
-public class TagComparator implements Comparator<Tag>, Serializable {
+public class TagComparator implements Comparator<FormulaTag>, Serializable {
 
 	/**
 	 *
@@ -19,7 +19,7 @@ public class TagComparator implements Comparator<Tag>, Serializable {
 	private static final long serialVersionUID = 6949518937805857985L;
 
 	@Override
-	public int compare(final Tag firstTag, final Tag secondTag) {
+	public int compare(final FormulaTag firstTag, final FormulaTag secondTag) {
 		return firstTag.getName().compareTo(secondTag.getName());
 	}
 

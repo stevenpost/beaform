@@ -20,7 +20,7 @@ import javax.transaction.SystemException;
 import beaform.Ingredient;
 import beaform.entities.Formula;
 import beaform.entities.FormulaDAO;
-import beaform.entities.Tag;
+import beaform.entities.FormulaTag;
 
 /**
  * This class represents a GUI for editing formulas.
@@ -35,8 +35,17 @@ public class FormulaEditor extends JPanel {
 	 */
 	private static final long serialVersionUID = 2557014310487638917L;
 
+	/**
+	 * Dimensions for most text fields
+	 */
 	private static final Dimension DIM_TEXTFIELDS = new Dimension(100, 30);
+	/**
+	 * Dimensions for the amount field
+	 */
 	private static final Dimension DIM_AMOUNT = new Dimension(60, 30);
+	/**
+	 * Dimensions for lists
+	 */
 	private static final Dimension DIM_LISTS = new Dimension(200, 100);
 	private static final JLabel LBL_TOTAL_AMOUNT = new JLabel("total amount");
 	private static final JLabel LBL_NAME = new JLabel("Name");
@@ -50,8 +59,8 @@ public class FormulaEditor extends JPanel {
 	private final JTextField txtDescription = new JTextField();
 	private final JTextField txtTotalAmount = new JTextField();
 
-	private final List<Tag> tags = new ArrayList<Tag>();
-	private final DefaultListModel<Tag> lstTagModel = new DefaultListModel<Tag>();
+	private final List<FormulaTag> tags = new ArrayList<FormulaTag>();
+	private final DefaultListModel<FormulaTag> lstTagModel = new DefaultListModel<FormulaTag>();
 
 	private final DefaultListModel<Ingredient> lstFormulaModel = new DefaultListModel<Ingredient>();
 
@@ -79,7 +88,7 @@ public class FormulaEditor extends JPanel {
 			}
 
 			// Add tags to the list
-			final Iterator<Tag> tagIterator = formula.getTags();
+			final Iterator<FormulaTag> tagIterator = formula.getTags();
 			while (tagIterator.hasNext()) {
 				this.tags.add(tagIterator.next());
 			}
@@ -153,7 +162,7 @@ public class FormulaEditor extends JPanel {
 	 * @return the y value of the last item
 	 */
 	private int addTagComponents(int y, final GridBagConstraints constraints) {
-		final JList<Tag> lstTags = new JList<Tag>(this.lstTagModel);
+		final JList<FormulaTag> lstTags = new JList<FormulaTag>(this.lstTagModel);
 		final JTextField txtNewTag = new JTextField();
 		final JButton btnAddTag = new JButton("Add Tag");
 		final JButton btnDelTag = new JButton("Remove Tag");
@@ -275,7 +284,7 @@ public class FormulaEditor extends JPanel {
 	 *
 	 * @param tag the tag to add
 	 */
-	public void addTag(final Tag tag) {
+	public void addTag(final FormulaTag tag) {
 		this.tags.add(tag);
 		sortTags();
 	}
@@ -289,7 +298,7 @@ public class FormulaEditor extends JPanel {
 		this.tags.sort(new TagComparator());
 
 		this.lstTagModel.clear();
-		for (final Tag tag : this.tags) {
+		for (final FormulaTag tag : this.tags) {
 			this.lstTagModel.addElement(tag);
 		}
 	}

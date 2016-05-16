@@ -13,7 +13,7 @@ import org.hibernate.ogm.exception.EntityAlreadyExistsException;
 
 import beaform.GraphDbHandlerForJTA;
 import beaform.entities.Formula;
-import beaform.entities.Tag;
+import beaform.entities.FormulaTag;
 
 public final class FillDbTask implements Runnable {
 	@Override
@@ -31,11 +31,11 @@ public final class FillDbTask implements Runnable {
 
 		try {
 			final EntityManager em = GraphDbHandlerForJTA.getInstance().createNewEntityManager();
-			final Tag firstTag = new Tag();
+			final FormulaTag firstTag = new FormulaTag();
 			firstTag.setName("First");
 			em.persist(firstTag);
 
-			final Tag secondTag = new Tag();
+			final FormulaTag secondTag = new FormulaTag();
 			secondTag.setName("Second");
 			em.persist(secondTag);
 
