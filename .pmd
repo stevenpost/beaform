@@ -6,6 +6,42 @@
     <includePatterns/>
     <rules>
         <rule>
+            <name>UnnecessaryBlock</name>
+            <ruleset>Unnecessary</ruleset>
+        </rule>
+        <rule>
+            <name>UnreachableCode</name>
+            <ruleset>Basic Ecmascript</ruleset>
+        </rule>
+        <rule>
+            <name>InnaccurateNumericLiteral</name>
+            <ruleset>Basic Ecmascript</ruleset>
+        </rule>
+        <rule>
+            <name>ConsistentReturn</name>
+            <ruleset>Basic Ecmascript</ruleset>
+        </rule>
+        <rule>
+            <name>ScopeForInVariable</name>
+            <ruleset>Basic Ecmascript</ruleset>
+        </rule>
+        <rule>
+            <name>EqualComparison</name>
+            <ruleset>Basic Ecmascript</ruleset>
+        </rule>
+        <rule>
+            <name>GlobalVariable</name>
+            <ruleset>Basic Ecmascript</ruleset>
+        </rule>
+        <rule>
+            <name>AvoidTrailingComma</name>
+            <ruleset>Basic Ecmascript</ruleset>
+        </rule>
+        <rule>
+            <name>UseBaseWithParseInt</name>
+            <ruleset>Basic Ecmascript</ruleset>
+        </rule>
+        <rule>
             <name>CouplingBetweenObjects</name>
             <ruleset>Coupling</ruleset>
         </rule>
@@ -118,14 +154,6 @@
             <ruleset>Optimization</ruleset>
         </rule>
         <rule>
-            <name>UseConcatOnce</name>
-            <ruleset>XPath in XSL</ruleset>
-        </rule>
-        <rule>
-            <name>AvoidAxisNavigation</name>
-            <ruleset>XPath in XSL</ruleset>
-        </rule>
-        <rule>
             <name>IfStmtsMustUseBraces</name>
             <ruleset>Braces</ruleset>
         </rule>
@@ -232,54 +260,6 @@
         <rule>
             <name>UseConcurrentHashMap</name>
             <ruleset>Controversial</ruleset>
-        </rule>
-        <rule>
-            <name>NoLongScripts</name>
-            <ruleset>Basic JSP</ruleset>
-        </rule>
-        <rule>
-            <name>NoScriptlets</name>
-            <ruleset>Basic JSP</ruleset>
-        </rule>
-        <rule>
-            <name>NoInlineStyleInformation</name>
-            <ruleset>Basic JSP</ruleset>
-        </rule>
-        <rule>
-            <name>NoClassAttribute</name>
-            <ruleset>Basic JSP</ruleset>
-        </rule>
-        <rule>
-            <name>NoJspForward</name>
-            <ruleset>Basic JSP</ruleset>
-        </rule>
-        <rule>
-            <name>IframeMissingSrcAttribute</name>
-            <ruleset>Basic JSP</ruleset>
-        </rule>
-        <rule>
-            <name>NoHtmlComments</name>
-            <ruleset>Basic JSP</ruleset>
-        </rule>
-        <rule>
-            <name>DuplicateJspImports</name>
-            <ruleset>Basic JSP</ruleset>
-        </rule>
-        <rule>
-            <name>JspEncoding</name>
-            <ruleset>Basic JSP</ruleset>
-        </rule>
-        <rule>
-            <name>NoInlineScript</name>
-            <ruleset>Basic JSP</ruleset>
-        </rule>
-        <rule>
-            <name>NoUnsanitizedJSPExpression</name>
-            <ruleset>Basic JSP</ruleset>
-        </rule>
-        <rule>
-            <name>DontNestJsfInJstlIteration</name>
-            <ruleset>Basic JSF</ruleset>
         </rule>
         <rule>
             <name>EmptyFinalizer</name>
@@ -794,58 +774,6 @@
             <ruleset>Design</ruleset>
         </rule>
         <rule>
-            <name>MistypedCDATASection</name>
-            <ruleset>Basic XML</ruleset>
-        </rule>
-        <rule>
-            <name>NPathComplexity</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
-            <name>ExcessiveMethodLength</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
-            <name>ExcessiveParameterList</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
-            <name>ExcessiveObjectLength</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
-            <name>ExcessiveTypeLength</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
-            <name>ExcessivePackageBodyLength</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
-            <name>ExcessivePackageSpecificationLength</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
-            <name>CyclomaticComplexity</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
-            <name>TooManyFields</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
-            <name>NcssMethodCount</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
-            <name>NcssObjectCount</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
-            <name>TooManyMethods</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
             <name>NPathComplexity</name>
             <ruleset>Code Size</ruleset>
         </rule>
@@ -898,70 +826,6 @@
             <ruleset>Code Size</ruleset>
         </rule>
         <rule>
-            <name>IfStmtsMustUseBraces</name>
-            <ruleset>Braces</ruleset>
-        </rule>
-        <rule>
-            <name>IfElseStmtsMustUseBraces</name>
-            <ruleset>Braces</ruleset>
-        </rule>
-        <rule>
-            <name>WhileLoopsMustUseBraces</name>
-            <ruleset>Braces</ruleset>
-        </rule>
-        <rule>
-            <name>ForLoopsMustUseBraces</name>
-            <ruleset>Braces</ruleset>
-        </rule>
-        <rule>
-            <name>UnnecessaryParentheses</name>
-            <ruleset>Unnecessary</ruleset>
-        </rule>
-        <rule>
-            <name>UnnecessaryBlock</name>
-            <ruleset>Unnecessary</ruleset>
-        </rule>
-        <rule>
-            <name>AvoidDeeplyNestedIfStmts</name>
-            <ruleset>Basic Velocity</ruleset>
-        </rule>
-        <rule>
-            <name>CollapsibleIfStatements</name>
-            <ruleset>Basic Velocity</ruleset>
-        </rule>
-        <rule>
-            <name>ExcessiveTemplateLength</name>
-            <ruleset>Basic Velocity</ruleset>
-        </rule>
-        <rule>
-            <name>AvoidReassigningParameters</name>
-            <ruleset>Basic Velocity</ruleset>
-        </rule>
-        <rule>
-            <name>EmptyIfStmt</name>
-            <ruleset>Basic Velocity</ruleset>
-        </rule>
-        <rule>
-            <name>EmptyForeachStmt</name>
-            <ruleset>Basic Velocity</ruleset>
-        </rule>
-        <rule>
-            <name>UnusedMacroParameter</name>
-            <ruleset>Basic Velocity</ruleset>
-        </rule>
-        <rule>
-            <name>NoInlineJavaScript</name>
-            <ruleset>Basic Velocity</ruleset>
-        </rule>
-        <rule>
-            <name>NoInlineStyles</name>
-            <ruleset>Basic Velocity</ruleset>
-        </rule>
-        <rule>
-            <name>TomKytesDespair</name>
-            <ruleset>Tom Kyte's Despair</ruleset>
-        </rule>
-        <rule>
             <name>AvoidCatchingThrowable</name>
             <ruleset>Strict Exceptions</ruleset>
         </rule>
@@ -1008,42 +872,6 @@
         <rule>
             <name>AvoidLosingExceptionInformation</name>
             <ruleset>Strict Exceptions</ruleset>
-        </rule>
-        <rule>
-            <name>AssignmentInOperand</name>
-            <ruleset>Basic Ecmascript</ruleset>
-        </rule>
-        <rule>
-            <name>UnreachableCode</name>
-            <ruleset>Basic Ecmascript</ruleset>
-        </rule>
-        <rule>
-            <name>InnaccurateNumericLiteral</name>
-            <ruleset>Basic Ecmascript</ruleset>
-        </rule>
-        <rule>
-            <name>ConsistentReturn</name>
-            <ruleset>Basic Ecmascript</ruleset>
-        </rule>
-        <rule>
-            <name>ScopeForInVariable</name>
-            <ruleset>Basic Ecmascript</ruleset>
-        </rule>
-        <rule>
-            <name>EqualComparison</name>
-            <ruleset>Basic Ecmascript</ruleset>
-        </rule>
-        <rule>
-            <name>GlobalVariable</name>
-            <ruleset>Basic Ecmascript</ruleset>
-        </rule>
-        <rule>
-            <name>AvoidTrailingComma</name>
-            <ruleset>Basic Ecmascript</ruleset>
-        </rule>
-        <rule>
-            <name>UseBaseWithParseInt</name>
-            <ruleset>Basic Ecmascript</ruleset>
         </rule>
         <rule>
             <name>DuplicateImports</name>
@@ -1184,18 +1012,6 @@
         <rule>
             <name>GenericsNaming</name>
             <ruleset>Naming</ruleset>
-        </rule>
-        <rule>
-            <name>TO_DATEWithoutDateFormat</name>
-            <ruleset>PLSQL DATETIME</ruleset>
-        </rule>
-        <rule>
-            <name>TO_DATE_TO_CHAR</name>
-            <ruleset>PLSQL DATETIME</ruleset>
-        </rule>
-        <rule>
-            <name>TO_TIMESTAMPWithoutDateFormat</name>
-            <ruleset>PLSQL DATETIME</ruleset>
         </rule>
         <rule>
             <name>ReplaceVectorWithList</name>
@@ -1392,6 +1208,150 @@
         <rule>
             <name>UseAssertTrueInsteadOfAssertEquals</name>
             <ruleset>JUnit</ruleset>
+        </rule>
+        <rule>
+            <name>NoLongScripts</name>
+            <ruleset>Basic JSP</ruleset>
+        </rule>
+        <rule>
+            <name>NoScriptlets</name>
+            <ruleset>Basic JSP</ruleset>
+        </rule>
+        <rule>
+            <name>NoInlineStyleInformation</name>
+            <ruleset>Basic JSP</ruleset>
+        </rule>
+        <rule>
+            <name>NoClassAttribute</name>
+            <ruleset>Basic JSP</ruleset>
+        </rule>
+        <rule>
+            <name>NoJspForward</name>
+            <ruleset>Basic JSP</ruleset>
+        </rule>
+        <rule>
+            <name>IframeMissingSrcAttribute</name>
+            <ruleset>Basic JSP</ruleset>
+        </rule>
+        <rule>
+            <name>NoHtmlComments</name>
+            <ruleset>Basic JSP</ruleset>
+        </rule>
+        <rule>
+            <name>DuplicateJspImports</name>
+            <ruleset>Basic JSP</ruleset>
+        </rule>
+        <rule>
+            <name>JspEncoding</name>
+            <ruleset>Basic JSP</ruleset>
+        </rule>
+        <rule>
+            <name>NoInlineScript</name>
+            <ruleset>Basic JSP</ruleset>
+        </rule>
+        <rule>
+            <name>NoUnsanitizedJSPExpression</name>
+            <ruleset>Basic JSP</ruleset>
+        </rule>
+        <rule>
+            <name>DontNestJsfInJstlIteration</name>
+            <ruleset>Basic JSF</ruleset>
+        </rule>
+        <rule>
+            <name>NPathComplexity</name>
+            <ruleset>Code Size</ruleset>
+        </rule>
+        <rule>
+            <name>ExcessiveMethodLength</name>
+            <ruleset>Code Size</ruleset>
+        </rule>
+        <rule>
+            <name>ExcessiveParameterList</name>
+            <ruleset>Code Size</ruleset>
+        </rule>
+        <rule>
+            <name>ExcessiveObjectLength</name>
+            <ruleset>Code Size</ruleset>
+        </rule>
+        <rule>
+            <name>ExcessiveTypeLength</name>
+            <ruleset>Code Size</ruleset>
+        </rule>
+        <rule>
+            <name>ExcessivePackageBodyLength</name>
+            <ruleset>Code Size</ruleset>
+        </rule>
+        <rule>
+            <name>ExcessivePackageSpecificationLength</name>
+            <ruleset>Code Size</ruleset>
+        </rule>
+        <rule>
+            <name>CyclomaticComplexity</name>
+            <ruleset>Code Size</ruleset>
+        </rule>
+        <rule>
+            <name>TooManyFields</name>
+            <ruleset>Code Size</ruleset>
+        </rule>
+        <rule>
+            <name>NcssMethodCount</name>
+            <ruleset>Code Size</ruleset>
+        </rule>
+        <rule>
+            <name>NcssObjectCount</name>
+            <ruleset>Code Size</ruleset>
+        </rule>
+        <rule>
+            <name>TooManyMethods</name>
+            <ruleset>Code Size</ruleset>
+        </rule>
+        <rule>
+            <name>TomKytesDespair</name>
+            <ruleset>Tom Kyte's Despair</ruleset>
+        </rule>
+        <rule>
+            <name>TO_DATEWithoutDateFormat</name>
+            <ruleset>PLSQL DATETIME</ruleset>
+        </rule>
+        <rule>
+            <name>TO_DATE_TO_CHAR</name>
+            <ruleset>PLSQL DATETIME</ruleset>
+        </rule>
+        <rule>
+            <name>TO_TIMESTAMPWithoutDateFormat</name>
+            <ruleset>PLSQL DATETIME</ruleset>
+        </rule>
+        <rule>
+            <name>ExcessiveTemplateLength</name>
+            <ruleset>Basic Velocity</ruleset>
+        </rule>
+        <rule>
+            <name>EmptyForeachStmt</name>
+            <ruleset>Basic Velocity</ruleset>
+        </rule>
+        <rule>
+            <name>UnusedMacroParameter</name>
+            <ruleset>Basic Velocity</ruleset>
+        </rule>
+        <rule>
+            <name>NoInlineJavaScript</name>
+            <ruleset>Basic Velocity</ruleset>
+        </rule>
+        <rule>
+            <name>NoInlineStyles</name>
+            <ruleset>Basic Velocity</ruleset>
+        </rule>
+        <rule>
+            <name>MistypedCDATASection</name>
+            <ruleset>Basic XML</ruleset>
+        </rule>
+        <rule>
+            <name>UseConcatOnce</name>
+            <ruleset>XPath in XSL</ruleset>
+        </rule>
+        <rule>
+            <name>AvoidAxisNavigation</name>
+            <ruleset>XPath in XSL</ruleset>
         </rule>
     </rules>
     <includeDerivedFiles>false</includeDerivedFiles>
