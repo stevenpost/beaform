@@ -12,17 +12,17 @@ public final class AddTagAction implements ActionListener {
 	private final JTextField txtNewTag;
 	private final FormulaEditor formulaEditor;
 
-	public AddTagAction(JTextField txtNewTag, FormulaEditor formulaEditor) {
+	public AddTagAction(final JTextField txtNewTag, final FormulaEditor formulaEditor) {
 		this.txtNewTag = txtNewTag;
 		this.formulaEditor = formulaEditor;
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		String strTag = this.txtNewTag.getText();
+	public void actionPerformed(final ActionEvent e) {
+		final String strTag = this.txtNewTag.getText();
 		if (!"".equals(strTag)) {
 			this.txtNewTag.setText("");
-			FormulaTag tag = new FormulaTag();
+			final FormulaTag tag = new FormulaTag();
 			tag.setName(strTag);
 			this.formulaEditor.addTag(tag);
 		}

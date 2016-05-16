@@ -12,12 +12,18 @@ import javax.transaction.TransactionManager;
 import beaform.GraphDbHandlerForJTA;
 
 public class ClearDbTask implements Runnable {
+
+	/**
+	 * Query to clear everything
+	 */
+	private static final String DELETE_QUERY = "MATCH n OPTIONAL MATCH (n)-[r]-() DELETE n,r";
+
 	@Override
 	public void run() {
-		final TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
+		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getInstance().getTransactionManager();
 
 		try {
-			tm.begin();
+			transactionMgr.begin();
 		}
 		catch (NotSupportedException | SystemException e1) {
 			// TODO Auto-generated catch block
@@ -27,9 +33,8 @@ public class ClearDbTask implements Runnable {
 
 		final EntityManager ementityManager = GraphDbHandlerForJTA.getInstance().createNewEntityManager();
 
-		final String query = "MATCH n OPTIONAL MATCH (n)-[r]-() DELETE n,r";
 		try {
-			ementityManager.createNativeQuery(query).getSingleResult();
+			ementityManager.createNativeQuery(DELETE_QUERY).getSingleResult();
 		}
 		catch (NoResultException nre) {
 			// We delete everything, there won't be a result.
@@ -39,7 +44,7 @@ public class ClearDbTask implements Runnable {
 		ementityManager.close();
 
 		try {
-			tm.commit();
+			transactionMgr.commit();
 			System.out.println("Cleared DB");
 		}
 		catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException

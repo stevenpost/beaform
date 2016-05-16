@@ -28,23 +28,25 @@ public class SaveExistingAction implements ActionListener {
 	 */
 	private static final Logger LOG = LoggerFactory.getLogger(SaveExistingAction.class);
 
-	private final JTextField txtDescriptionField;
+	private final JTextField txtDescription;
 	private final JTextField txtTotalAmount;
 	private final List<FormulaTag> tags;
 	private final ListModel<Ingredient> lstIngredients;
 	private final Formula formula;
 
-	public SaveExistingAction(Formula formula, JTextField txtDescriptionField, JTextField txtTotalAmount, ListModel<Ingredient> lstFormulas, List<FormulaTag> tags) {
+	public SaveExistingAction(final Formula formula, final JTextField txtDescription, final JTextField txtTotalAmount, final ListModel<Ingredient> lstFormulas, final List<FormulaTag> tags) {
 		this.formula = formula;
-		this.txtDescriptionField = txtDescriptionField;
+		this.txtDescription = txtDescription;
 		this.txtTotalAmount = txtTotalAmount;
 		this.lstIngredients = lstFormulas;
 		this.tags = tags;
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		LOG.info("Add: " + this.formula.getName() + " with description: " + this.txtDescriptionField.getText());
+	public void actionPerformed(final ActionEvent e) {
+		if (LOG.isInfoEnabled()) {
+			LOG.info("Add: " + this.formula.getName() + " with description: " + this.txtDescription.getText());
+		}
 
 		// Get Ingredients in a list
 		final List<Ingredient> ingredients = new ArrayList<Ingredient>();
@@ -54,7 +56,7 @@ public class SaveExistingAction implements ActionListener {
 			ingredients.add(this.lstIngredients.getElementAt(i));
 		}
 
-		new FormulaDAO().updateExisting(this.formula.getName(), this.txtDescriptionField.getText(), this.txtTotalAmount.getText(), ingredients, this.tags);
+		new FormulaDAO().updateExisting(this.formula.getName(), this.txtDescription.getText(), this.txtTotalAmount.getText(), ingredients, this.tags);
 
 	}
 
