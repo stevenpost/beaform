@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class Tag implements Serializable {
+public class Tag implements Serializable { // NOPMD by steven on 5/16/16 4:26 PM
 
 	/**
 	 *
@@ -20,7 +20,7 @@ public class Tag implements Serializable {
 		return this.name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 

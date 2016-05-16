@@ -40,25 +40,25 @@ public class About implements Runnable {
 
 		//Create pane and add components
 		pane.setLayout(new GridBagLayout()); //create pane
-		GridBagConstraints c = new GridBagConstraints();
+		final GridBagConstraints cconstraints = new GridBagConstraints();
 		//c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0.5;
+		cconstraints.weightx = 0.5;
 
-		c.gridx = 0;
-		c.gridy = 0;
+		cconstraints.gridx = 0;
+		cconstraints.gridy = 0;
 		lblTitle.setText("BeaForm");
-		pane.add(lblTitle, c);
+		pane.add(lblTitle, cconstraints);
 
-		c.gridx = 0;
-		c.gridy = 1;
+		cconstraints.gridx = 0;
+		cconstraints.gridy = 1;
 		lblAuthor.setText("By Steven Post");
-		pane.add(lblAuthor, c);
+		pane.add(lblAuthor, cconstraints);
 
-		c.gridx = 0;
-		c.gridy = 2;
+		cconstraints.gridx = 0;
+		cconstraints.gridy = 2;
 		txtLicense.setText("This program is distributed under the MIT License.\n You can re-distribute, and/or modify the program under the conditions of the MIT License.");
 		txtLicense.setEditable(false);
-		pane.add(txtLicense, c);
+		pane.add(txtLicense, cconstraints);
 
 		pane.setBorder(BorderFactory.createEmptyBorder(20, /*top*/20, /*left*/20, /*bottom*/20)/*right*/);
 

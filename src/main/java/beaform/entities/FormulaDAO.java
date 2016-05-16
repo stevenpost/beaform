@@ -19,13 +19,13 @@ import beaform.SearchTagTask;
 public class FormulaDAO {
 
 	public List<Ingredient> getIngredients(Formula formula) throws NotSupportedException, SystemException {
-		TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
+		final TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
 
 		tm.begin();
 
 		final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
 		formula = (Formula) em.createNativeQuery("match (n:Formula { name:'" + formula.getName() + "' }) return n", Formula.class).getSingleResult();
-		List<Ingredient> retList = formula.getIngredients();
+		final List<Ingredient> retList = formula.getIngredients();
 
 		em.flush();
 		em.close();
@@ -43,8 +43,8 @@ public class FormulaDAO {
 		return retList;
 	}
 
-	public void updateExisting(String oldName, String name, String description, String totalAmount, List<Ingredient> ingredients, List<Tag> tags) {
-		TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
+	public void updateExisting(final String oldName, final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<Tag> tags) {
+		final TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
 
 		try {
 			tm.begin();
@@ -68,7 +68,7 @@ public class FormulaDAO {
 		addTags(tags, em, formula);
 
 		formula.clearIngredients();
-		for (Ingredient ingredient : ingredients) {
+		for (final Ingredient ingredient : ingredients) {
 			// We should only be holding existing Formulas at this point
 			formula.addIngredient(ingredient.getFormula(), ingredient.getAmount());
 		}
@@ -89,8 +89,8 @@ public class FormulaDAO {
 		}
 	}
 
-	public void addFormula(String name, String description, String totalAmount, List<Ingredient> ingredients, List<Tag> tags) {
-		TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
+	public void addFormula(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<Tag> tags) {
+		final TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
 
 		try {
 			tm.begin();
@@ -103,14 +103,14 @@ public class FormulaDAO {
 
 		final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
 
-		Formula formula = new Formula();
+		final Formula formula = new Formula();
 		formula.setName(name);
 		formula.setDescription(description);
 		formula.setTotalAmount(totalAmount);
 
 		addTags(tags, em, formula);
 
-		for (Ingredient ingredient : ingredients) {
+		for (final Ingredient ingredient : ingredients) {
 			// We should only be holding existing Formulas at this point
 			formula.addIngredient(ingredient.getFormula(), ingredient.getAmount());
 		}
@@ -138,7 +138,7 @@ public class FormulaDAO {
 	 * @param em an open entity manager
 	 * @param formula the formula to add the tags to
 	 */
-	private void addTags(List<Tag> tags, final EntityManager em, Formula formula) {
+	private void addTags(final List<Tag> tags, final EntityManager em, final Formula formula) {
 		for (Tag tag : tags) {
 			// See if the tag exist in the DB, if so, use it.
 			Tag pTag = null;

@@ -40,7 +40,7 @@ public class Formula {
 		return this.description;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 
@@ -48,16 +48,16 @@ public class Formula {
 		return this.totalAmount;
 	}
 
-	public void setTotalAmount(String totalAmount) {
+	public void setTotalAmount(final String totalAmount) {
 		this.totalAmount = totalAmount;
 	}
 
-	public void addIngredient(Formula ingredient, String amount) {
+	public void addIngredient(final Formula ingredient, final String amount) {
 		this.ingredients.put(ingredient.getName() + "|" + amount, ingredient);
 	}
 
 	public List<Ingredient> getIngredients() {
-		ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
+		final ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
 
 		for (Entry<String, Formula> entry : this.ingredients.entrySet()) {
 			Formula formula = entry.getValue();
@@ -73,7 +73,7 @@ public class Formula {
 		this.ingredients.clear();
 	}
 
-	public void addTag(Tag tag) {
+	public void addTag(final Tag tag) {
 		this.tags.add(tag);
 	}
 
@@ -86,8 +86,8 @@ public class Formula {
 	}
 
 	public List<String> getTagsAsStrings() {
-		List<String> retval = new ArrayList<String>(this.tags.size());
-		for (Tag tag : this.tags) {
+		final List<String> retval = new ArrayList<String>(this.tags.size());
+		for (final Tag tag : this.tags) {
 			retval.add(tag.getName());
 		}
 		return retval;
@@ -96,13 +96,7 @@ public class Formula {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append(this.name);
-		builder.append(" | ");
-		builder.append(this.description);
-		builder.append(" | ");
-		builder.append("[");
-		builder.append(String.join(",", this.getTagsAsStrings()));
-		builder.append("]");
+		builder.append(this.name).append(" | ").append(this.description).append(" | [").append(String.join(",", this.getTagsAsStrings())).append(']');
 
 		return builder.toString();
 

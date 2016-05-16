@@ -18,14 +18,14 @@ public final class SearchFormulaTask implements Callable<Formula> {
 
 	private final String name;
 
-	public SearchFormulaTask(String searchForName) {
+	public SearchFormulaTask(final String searchForName) {
 		this.name = searchForName;
 	}
 
 	@Override
 	public Formula call() throws NotSupportedException, SystemException {
 
-		TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
+		final TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
 
 		tm.begin();
 		Formula result;
@@ -38,8 +38,8 @@ public final class SearchFormulaTask implements Callable<Formula> {
 			System.out.println("Found: " + result);
 
 			System.out.println("Printing ingredients...");
-			List<Ingredient> ingredients = result.getIngredients();
-			for (Ingredient ingredient : ingredients) {
+			final List<Ingredient> ingredients = result.getIngredients();
+			for (final Ingredient ingredient : ingredients) {
 				String amount = ingredient.getAmount();
 				System.out.println(" - " + amount + " " + ingredient.getFormula().getName());
 			}

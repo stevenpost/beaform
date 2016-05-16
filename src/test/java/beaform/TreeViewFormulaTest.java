@@ -11,7 +11,7 @@ public class TreeViewFormulaTest {
 
 	@Test
 	public void testSimpleFormula() {
-		Formula form = new Formula();
+		final Formula form = new Formula();
 		form.setName("TestFormula");
 		form.setDescription("Test formula");
 		TreeViewFormula testObj = new TreeViewFormula(form);
@@ -23,7 +23,7 @@ public class TreeViewFormulaTest {
 
 	@Test
 	public void testIngredient() {
-		Formula form = new Formula();
+		final Formula form = new Formula();
 		form.setName("TestFormula");
 		form.setDescription("Test formula");
 		Ingredient ingredient = new Ingredient(form, "50%");

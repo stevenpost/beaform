@@ -2,11 +2,17 @@ package beaform;
 
 import beaform.entities.Formula;
 
+/**
+ * This class represents an ingredient
+ *
+ * @author steven
+ *
+ */
 public class Ingredient {
 	private final Formula formula;
 	private final String amount;
 
-	public Ingredient(Formula formula, String amount) {
+	public Ingredient(final Formula formula, final String amount) {
 		this.formula = formula;
 		this.amount = amount;
 	}

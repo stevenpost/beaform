@@ -9,19 +9,20 @@ import javax.swing.SwingUtilities;
 import beaform.entities.Formula;
 import beaform.gui.FormulaTree;
 
-public final class RenderSearchResult implements Runnable {
+public final class RenderSearchResult implements Runnable { // NOPMD by steven on 5/16/16 4:31 PM
 
-	private final Future<Formula> searchresult;
-	private final JPanel pane;
+	private static final int FORMULA_TREE_LOC = 3;
+	private final transient Future<Formula> searchresult;
+	private final transient JPanel pane;
 
-	public RenderSearchResult(Future<Formula> searchresult, JPanel pane) {
+	public RenderSearchResult(final Future<Formula> searchresult, final JPanel pane) {
 		this.searchresult = searchresult;
 		this.pane = pane;
 	}
 
 	@Override
 	public void run() {
-		final Formula searchResult;
+		Formula searchResult;
 		try {
 			searchResult = this.searchresult.get();
 		}
@@ -33,20 +34,20 @@ public final class RenderSearchResult implements Runnable {
 		SwingUtilities.invokeLater(new AddFormTreeToGui(searchResult, this.pane));
 	}
 
-	public static final class AddFormTreeToGui implements Runnable {
+	public static final class AddFormTreeToGui implements Runnable { // NOPMD by steven on 5/16/16 4:30 PM
 		private final Formula searchResult;
 		private final JPanel pane;
 
-		public AddFormTreeToGui(Formula searchResult, JPanel pane) {
+		public AddFormTreeToGui(final Formula searchResult, final JPanel pane) {
 			this.searchResult = searchResult;
 			this.pane = pane;
 		}
 
 		@Override
 		public void run() {
-			FormulaTree ft = new FormulaTree(this.searchResult);
-			if (this.pane.getComponentCount() > 3) {
-				this.pane.remove(3);
+			final FormulaTree ft = new FormulaTree(this.searchResult);
+			if (this.pane.getComponentCount() > FORMULA_TREE_LOC) {
+				this.pane.remove(FORMULA_TREE_LOC);
 			}
 			this.pane.add(ft);
 			this.pane.revalidate();

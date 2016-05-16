@@ -17,14 +17,14 @@ public final class SearchTagTask implements Callable<Tag> {
 
 	private final String name;
 
-	public SearchTagTask(String searchForName) {
+	public SearchTagTask(final String searchForName) {
 		this.name = searchForName;
 	}
 
 	@Override
 	public Tag call() throws NotSupportedException, SystemException {
 
-		TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
+		final TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
 
 		tm.begin();
 		Tag result;
@@ -32,7 +32,7 @@ public final class SearchTagTask implements Callable<Tag> {
 		try {
 			final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
 
-			String query = "match (n:Tag { name:'" + this.name + "' }) return n";
+			final String query = "match (n:Tag { name:'" + this.name + "' }) return n";
 			result = (Tag) em.createNativeQuery(query, Tag.class).getSingleResult();
 			System.out.println("Found: " + result);
 

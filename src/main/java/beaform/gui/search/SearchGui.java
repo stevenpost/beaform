@@ -15,7 +15,7 @@ public class SearchGui extends JPanel {
 	 */
 	private static final long serialVersionUID = 2557014310487638917L;
 
-	private static final Dimension txtFieldDimensions = new Dimension(100, 30);
+	private static final Dimension DIM_TXTFIELDS = new Dimension(100, 30);
 	private final JTextField txtSearchTag = new JTextField();
 	private final JButton btnSearch = new JButton("Search");
 	private final JComboBox<String> cmbType = new JComboBox<String>();
@@ -23,19 +23,19 @@ public class SearchGui extends JPanel {
 	public SearchGui() {
 		super();
 
-		GridBagConstraints constraints = new GridBagConstraints();
+		final GridBagConstraints constraints = new GridBagConstraints();
 		constraints.gridx = 0;
 		constraints.gridy = 0;
-		this.txtSearchTag.setMinimumSize(txtFieldDimensions);
-		this.txtSearchTag.setPreferredSize(txtFieldDimensions);
-		this.txtSearchTag.setMaximumSize(txtFieldDimensions);
+		this.txtSearchTag.setMinimumSize(DIM_TXTFIELDS);
+		this.txtSearchTag.setPreferredSize(DIM_TXTFIELDS);
+		this.txtSearchTag.setMaximumSize(DIM_TXTFIELDS);
 		this.add(this.txtSearchTag, constraints);
 
 		constraints.gridx = 0;
 		constraints.gridy = 1;
-		this.cmbType.setMinimumSize(txtFieldDimensions);
-		this.cmbType.setMaximumSize(txtFieldDimensions);
-		this.cmbType.setPreferredSize(txtFieldDimensions);
+		this.cmbType.setMinimumSize(DIM_TXTFIELDS);
+		this.cmbType.setMaximumSize(DIM_TXTFIELDS);
+		this.cmbType.setPreferredSize(DIM_TXTFIELDS);
 		this.cmbType.setEditable(false);
 		this.cmbType.addItem("Formula");
 		this.cmbType.setSelectedIndex(0);

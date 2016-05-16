@@ -7,12 +7,18 @@ import org.slf4j.LoggerFactory;
 
 import beaform.gui.MainGUI;
 
+/**
+ * The main class to run this application.
+ *
+ * @author steven
+ *
+ */
 public class Main {
 
-	private static Logger log = LoggerFactory.getLogger(Main.class);
+	private static final Logger LOG = LoggerFactory.getLogger(Main.class);
 
 	public static void main(String[] args) throws InvocationTargetException, InterruptedException {
-		log.info("Starting GUI...");
+		LOG.info("Starting GUI...");
 
 		javax.swing.SwingUtilities.invokeAndWait(new Runnable() {
 
@@ -22,10 +28,10 @@ public class Main {
 			}
 		});
 
-		log.info("Initializing DB...");
+		LOG.info("Initializing DB...");
 		GraphDbHandlerForJTA.getInstance();
 
-		log.info("Done");
+		LOG.info("Done");
 
 	}
 

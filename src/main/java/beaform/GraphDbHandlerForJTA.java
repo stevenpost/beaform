@@ -21,7 +21,6 @@ public class GraphDbHandlerForJTA {
 	private static final GraphDbHandlerForJTA INSTANCE = new GraphDbHandlerForJTA();
 	private static final ExecutorService EXEC_SERVICE = Executors.newSingleThreadExecutor();
 
-	private final ShutDownHook shutdownHook;
 	private final EntityManagerFactory emf;
 	private final EntityManager em;
 	private final TransactionManager tm;
@@ -36,7 +35,7 @@ public class GraphDbHandlerForJTA {
 		this.emf = Persistence.createEntityManagerFactory("ogm-jpa-tutorial");
 
 		//accessing JBoss's Transaction can be done differently but this one works nicely
-		SessionFactoryImplementor sessionFactory =
+		final SessionFactoryImplementor sessionFactory =
 						(SessionFactoryImplementor) ( (HibernateEntityManagerFactory) this.emf ).getSessionFactory();
 		this.sessionFactory = sessionFactory;
 		this.tm = sessionFactory.getServiceRegistry().getService( JtaPlatform.class ).retrieveTransactionManager();
@@ -44,8 +43,8 @@ public class GraphDbHandlerForJTA {
 		// Initialize the main entity manager
 		this.em = this.emf.createEntityManager();
 
-		this.shutdownHook = new ShutDownHook(this.em, this.emf);
-		Runtime.getRuntime().addShutdownHook(this.shutdownHook);
+		final ShutDownHook shutdownHook = new ShutDownHook(this.em, this.emf);
+		Runtime.getRuntime().addShutdownHook(shutdownHook);
 	}
 
 	public TransactionManager getTransactionManager() {
@@ -64,11 +63,11 @@ public class GraphDbHandlerForJTA {
 		return this.sessionFactory;
 	}
 
-	public static <T> Future<T> addTask(Callable<T> task) {
+	public static <T> Future<T> addTask(final Callable<T> task) {
 		return EXEC_SERVICE.submit(task);
 	}
 
-	public static Future<?> addTask(Runnable task) {
+	public static Future<?> addTask(final Runnable task) {
 		return EXEC_SERVICE.submit(task);
 	}
 
@@ -86,7 +85,8 @@ public class GraphDbHandlerForJTA {
 		private final EntityManagerFactory emf;
 		private final EntityManager em;
 
-		public ShutDownHook(EntityManager em, EntityManagerFactory emf) {
+		public ShutDownHook(final EntityManager em, final EntityManagerFactory emf) {
+			super();
 			this.em = em;
 			this.emf = emf;
 		}
