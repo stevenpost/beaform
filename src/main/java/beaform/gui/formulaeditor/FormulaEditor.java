@@ -32,7 +32,7 @@ public class FormulaEditor extends JPanel {
 
 	private static final Dimension txtFieldDimensions = new Dimension(100, 30);
 	private static final Dimension amountDimensions = new Dimension(60, 30);
-	private static final Dimension listDimensions = new Dimension(150, 90);
+	private static final Dimension listDimensions = new Dimension(200, 100);
 	private static final JLabel lblTotalAmount = new JLabel("total amount");
 	private static final JLabel lblName = new JLabel("Name");
 	private static final JLabel lblDescription = new JLabel("Description");
