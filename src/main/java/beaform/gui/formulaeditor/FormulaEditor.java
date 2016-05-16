@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -30,12 +31,14 @@ public class FormulaEditor extends JPanel {
 	private static final long serialVersionUID = 2557014310487638917L;
 
 	private static final Dimension txtFieldDimensions = new Dimension(100, 30);
-	private static final Dimension amountDimensions = new Dimension(50, 30);
+	private static final Dimension amountDimensions = new Dimension(60, 30);
 	private static final Dimension listDimensions = new Dimension(150, 90);
 	private static final JLabel lblName = new JLabel("Name");
 	private static final JLabel lblDescription = new JLabel("Description");
 	private static final JLabel lblTags = new JLabel("Tags");
 	private static final JLabel lblIngredients = new JLabel("Ingredients");
+	private static final JLabel lblIngredientName = new JLabel("Name");
+	private static final JLabel lblAmount = new JLabel("Amount");
 
 	private final JTextField txtName = new JTextField();
 	private final JTextField txtDescription = new JTextField();
@@ -105,9 +108,7 @@ public class FormulaEditor extends JPanel {
 
 		constraints.gridx = 1;
 		constraints.gridy = y;
-		this.txtName.setMinimumSize(txtFieldDimensions);
-		this.txtName.setPreferredSize(txtFieldDimensions);
-		this.txtName.setMaximumSize(txtFieldDimensions);
+		setDimensions(this.txtName, txtFieldDimensions);
 		this.txtName.setEnabled(isNew);
 		this.add(this.txtName, constraints);
 
@@ -118,57 +119,33 @@ public class FormulaEditor extends JPanel {
 
 		constraints.gridx = 1;
 		constraints.gridy = y;
-		this.txtDescription.setMinimumSize(txtFieldDimensions);
-		this.txtDescription.setPreferredSize(txtFieldDimensions);
-		this.txtDescription.setMaximumSize(txtFieldDimensions);
+		setDimensions(this.txtDescription, txtFieldDimensions);
 		this.add(this.txtDescription, constraints);
 
 		// Ingredients
 		y++;
-		constraints.gridx = 0;
-		constraints.gridy = y;
-		constraints.gridwidth = 2;
-		this.add(lblIngredients, constraints);
-		constraints.gridwidth = 1;
-
-		y++;
-		constraints.gridx = 0;
-		constraints.gridy = y;
-		constraints.gridheight = 3;
-		this.lstFormulas.setMinimumSize(listDimensions);
-		this.lstFormulas.setPreferredSize(listDimensions);
-		this.lstFormulas.setMaximumSize(listDimensions);
-		this.add(this.lstFormulas, constraints);
-		constraints.gridheight = 1;
-
-		constraints.gridx = 1;
-		constraints.gridy = y;
-		this.txtNewIngredient.setMinimumSize(txtFieldDimensions);
-		this.txtNewIngredient.setPreferredSize(txtFieldDimensions);
-		this.txtNewIngredient.setMaximumSize(txtFieldDimensions);
-		this.add(this.txtNewIngredient, constraints);
-
-		constraints.gridx = 2;
-		constraints.gridy = y;
-		this.txtNewIngredientAmount.setMinimumSize(amountDimensions);
-		this.txtNewIngredientAmount.setPreferredSize(amountDimensions);
-		this.txtNewIngredientAmount.setMaximumSize(amountDimensions);
-		this.add(this.txtNewIngredientAmount, constraints);
-
-		y++;
-		constraints.gridx = 1;
-		constraints.gridy = y;
-		this.btnAddIngredient.addActionListener(new AddIngredientAction(this.txtNewIngredient, this.txtNewIngredientAmount, this.lstFormulaModel));
-		this.add(this.btnAddIngredient, constraints);
-
-		y++;
-		constraints.gridx = 1;
-		constraints.gridy = y;
-		this.btnDelIngredient.addActionListener(new DelIngredientAction(this.lstFormulas, this.lstFormulaModel));
-		this.add(this.btnDelIngredient, constraints);
+		y = addIngredientComponents(y, constraints);
 
 		// Tags
 		y++;
+		y = addTagComponents(y, constraints);
+
+		// Submit
+		y++;
+		constraints.gridx = 0;
+		constraints.gridy = y;
+		constraints.gridwidth = 2;
+		this.add(this.btnSubmit, constraints);
+	}
+
+	/**
+	 * This method adds the GUI components for tags to the GUI
+	 * @param y the y value for the grid
+	 * @param constraints the constraints to work with
+	 * @return the y value of the last item
+	 */
+	private int addTagComponents(int y, GridBagConstraints constraints) {
+
 		constraints.gridx = 0;
 		constraints.gridy = y;
 		constraints.gridwidth = 2;
@@ -179,17 +156,13 @@ public class FormulaEditor extends JPanel {
 		constraints.gridx = 0;
 		constraints.gridy = y;
 		constraints.gridheight = 3;
-		this.lstTags.setMinimumSize(listDimensions);
-		this.lstTags.setPreferredSize(listDimensions);
-		this.lstTags.setMaximumSize(listDimensions);
+		setDimensions(this.lstTags, listDimensions);
 		this.add(this.lstTags, constraints);
 
 		constraints.gridx = 1;
 		constraints.gridy = y;
 		constraints.gridheight = 1;
-		this.txtNewTag.setMinimumSize(txtFieldDimensions);
-		this.txtNewTag.setPreferredSize(txtFieldDimensions);
-		this.txtNewTag.setMaximumSize(txtFieldDimensions);
+		setDimensions(this.txtNewTag, txtFieldDimensions);
 		this.add(this.txtNewTag, constraints);
 
 		y++;
@@ -203,13 +176,80 @@ public class FormulaEditor extends JPanel {
 		constraints.gridy = y;
 		this.btnDelTag.addActionListener(new DelTagAction(this.lstTags, this));
 		this.add(this.btnDelTag, constraints);
+		return y;
+	}
 
-		// Submit
-		y++;
+	/**
+	 * This method adds the ingredient components to the GUI
+	 *
+	 * @param y the y value for the grid
+	 * @param constraints the constraints to work with
+	 * @return the y value of the last item
+	 */
+	private int addIngredientComponents(int y, GridBagConstraints constraints) {
+
 		constraints.gridx = 0;
 		constraints.gridy = y;
 		constraints.gridwidth = 2;
-		this.add(this.btnSubmit, constraints);
+		this.add(lblIngredients, constraints);
+		constraints.gridwidth = 1;
+
+		y++;
+		constraints.gridx = 0;
+		constraints.gridy = y;
+		constraints.gridheight = 4;
+		setDimensions(this.lstFormulas, listDimensions);
+		this.add(this.lstFormulas, constraints);
+		constraints.gridheight = 1;
+
+		constraints.gridx = 1;
+		constraints.gridy = y;
+		setDimensions(lblIngredientName, txtFieldDimensions);
+		this.add(lblIngredientName, constraints);
+
+		constraints.gridx = 2;
+		constraints.gridy = y;
+		setDimensions(lblAmount, amountDimensions);
+		this.add(lblAmount, constraints);
+
+		y++;
+		constraints.gridx = 1;
+		constraints.gridy = y;
+		setDimensions(this.txtNewIngredient, txtFieldDimensions);
+		this.add(this.txtNewIngredient, constraints);
+
+		constraints.gridx = 2;
+		constraints.gridy = y;
+		setDimensions(this.txtNewIngredientAmount, amountDimensions);
+		this.add(this.txtNewIngredientAmount, constraints);
+
+		y++;
+		constraints.gridx = 1;
+		constraints.gridy = y;
+		this.btnAddIngredient.addActionListener(new AddIngredientAction(this.txtNewIngredient, this.txtNewIngredientAmount, this.lstFormulaModel));
+		this.add(this.btnAddIngredient, constraints);
+
+		y++;
+		constraints.gridx = 1;
+		constraints.gridy = y;
+		this.btnDelIngredient.addActionListener(new DelIngredientAction(this.lstFormulas, this.lstFormulaModel));
+		this.add(this.btnDelIngredient, constraints);
+		return y;
+	}
+
+	/**
+	 * This method sets 3 different sizes to a component:
+	 * - minimum
+	 * - preferred
+	 * - maximum
+	 *
+	 * @param comp The component
+	 * @param dim The dimensions for the sizing
+	 */
+	private void setDimensions(JComponent comp, Dimension dim) {
+		comp.setMinimumSize(dim);
+		comp.setPreferredSize(dim);
+		comp.setMaximumSize(dim);
 	}
 
 	/**
