@@ -48,7 +48,9 @@ public class MainGUI {
 	}
 
 	public void replaceWindow(Component comp) {
-		this.panel.remove(0);
+		if (this.panel.getComponentCount() > 0) {
+			this.panel.remove(0);
+		}
 		this.panel.add(comp);
 		this.panel.revalidate();
 	}
@@ -68,11 +70,11 @@ public class MainGUI {
 
 		JMenuItem search = new JMenuItem("Search");
 		newMenuItem.add(search);
-		search.addActionListener(new NewSearchWindowAction(this.panel));
+		search.addActionListener(new NewSearchWindowAction());
 
 		JMenuItem add = new JMenuItem("Add");
 		newMenuItem.add(add);
-		add.addActionListener(new NewAddWindowAction(this.panel));
+		add.addActionListener(new NewAddWindowAction());
 
 		return newMenuItem;
 	}
