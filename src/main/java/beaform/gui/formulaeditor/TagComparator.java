@@ -1,5 +1,6 @@
 package beaform.gui.formulaeditor;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 import beaform.entities.Tag;
@@ -10,7 +11,12 @@ import beaform.entities.Tag;
  * @author steven
  *
  */
-public class TagComparator implements Comparator<Tag> {
+public class TagComparator implements Comparator<Tag>, Serializable {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 6949518937805857985L;
 
 	@Override
 	public int compare(Tag o1, Tag o2) {
