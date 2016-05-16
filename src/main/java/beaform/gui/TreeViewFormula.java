@@ -7,6 +7,9 @@ public class TreeViewFormula {
 	private final String metadata;
 
 	public TreeViewFormula(Formula form, String metadata) {
+		if (metadata == null) {
+			metadata = "";
+		}
 		this.form = form;
 		metadata = metadata.substring(metadata.indexOf('|') + 1);
 		this.metadata = metadata;

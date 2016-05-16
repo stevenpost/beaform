@@ -36,7 +36,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	public FormulaTree(Formula formula) {
 		super(new GridLayout(1,0));
 
-		DefaultMutableTreeNode top = new DefaultMutableTreeNode(new TreeViewFormula(formula, ""));
+		DefaultMutableTreeNode top = new DefaultMutableTreeNode(new TreeViewFormula(formula, formula.getTotalAmount()));
 		createNodes(top);
 
 		//Create a tree that allows one selection at a time.
@@ -113,6 +113,12 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		StringBuilder sb = new StringBuilder();
 		if (node.isLeaf()) {
 			sb.append("Amount: ");
+			sb.append(form.getMetadata());
+			sb.append('\n');
+			sb.append('\n');
+		}
+		else {
+			sb.append("Total amount: ");
 			sb.append(form.getMetadata());
 			sb.append('\n');
 			sb.append('\n');
