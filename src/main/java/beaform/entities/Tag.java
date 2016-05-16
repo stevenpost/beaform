@@ -1,10 +1,17 @@
 package beaform.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class Tag {
+public class Tag implements Serializable {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 8568943568088422588L;
 
 	@Id
 	private String name;
