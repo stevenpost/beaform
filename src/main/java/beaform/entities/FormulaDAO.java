@@ -66,25 +66,7 @@ public class FormulaDAO {
 		formula.setDescription(description);
 		formula.clearTags();
 
-		for (Tag tag : tags) {
-			// See if the tag exist in the DB, if so, use it.
-			Tag pTag = null;
-			final Future<Tag> searchresult = GraphDbHandlerForJTA.addTask(new SearchTagTask(tag.getName()));
-			try {
-				pTag = searchresult.get();
-			}
-			catch (InterruptedException | ExecutionException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			if (pTag == null) {
-				em.persist(tag);
-			}
-			else {
-				tag = pTag;
-			}
-			formula.addTag(tag);
-		}
+		addTags(tags, em, formula);
 
 		formula.clearIngredients();
 		for (Ingredient ingredient : ingredients) {
@@ -126,25 +108,7 @@ public class FormulaDAO {
 		formula.setName(name);
 		formula.setDescription(description);
 
-		for (Tag tag : tags) {
-			// See if the tag exist in the DB, if so, use it.
-			Tag pTag = null;
-			final Future<Tag> searchresult = GraphDbHandlerForJTA.addTask(new SearchTagTask(tag.getName()));
-			try {
-				pTag = searchresult.get();
-			}
-			catch (InterruptedException | ExecutionException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			if (pTag == null) {
-				em.persist(tag);
-			}
-			else {
-				tag = pTag;
-			}
-			formula.addTag(tag);
-		}
+		addTags(tags, em, formula);
 
 		for (Ingredient ingredient : ingredients) {
 			// We should only be holding existing Formulas at this point
@@ -164,6 +128,35 @@ public class FormulaDAO {
 		{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+		}
+	}
+
+	/**
+	 * This method adds tags to a formula.
+	 *
+	 * @param tags A list of tags
+	 * @param em an open entity manager
+	 * @param formula the formula to add the tags to
+	 */
+	private void addTags(List<Tag> tags, final EntityManager em, Formula formula) {
+		for (Tag tag : tags) {
+			// See if the tag exist in the DB, if so, use it.
+			Tag pTag = null;
+			final Future<Tag> searchresult = GraphDbHandlerForJTA.addTask(new SearchTagTask(tag.getName()));
+			try {
+				pTag = searchresult.get();
+			}
+			catch (InterruptedException | ExecutionException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			if (pTag == null) {
+				em.persist(tag);
+			}
+			else {
+				tag = pTag;
+			}
+			formula.addTag(tag);
 		}
 	}
 
