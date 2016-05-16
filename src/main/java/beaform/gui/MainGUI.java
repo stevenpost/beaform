@@ -29,7 +29,7 @@ import beaform.gui.search.NewSearchWindowAction;
 public class MainGUI {
 
 	private static MainGUI instance;
-	private static final Logger log = LoggerFactory.getLogger(MainGUI.class);
+	private static final Logger LOG = LoggerFactory.getLogger(MainGUI.class);
 
 	private static JFrame frm = new JFrame("BeaForm");
 	private final JMenuBar menu = new JMenuBar();
@@ -44,10 +44,15 @@ public class MainGUI {
 		//Putting components in place
 		frm.setJMenuBar(this.menu);
 
-		log.info("end init");
+		LOG.info("end init");
 	}
 
-	public void replaceWindow(Component comp) {
+	/**
+	 * This method will replace the current active window.
+	 *
+	 * @param comp The new window to display
+	 */
+	public void replaceWindow(final Component comp) {
 		if (this.panel.getComponentCount() > 0) {
 			this.panel.remove(0);
 		}
@@ -59,7 +64,7 @@ public class MainGUI {
 		return this.panel;
 	}
 
-	private void createMenu(JMenuBar menu) {
+	private void createMenu(final JMenuBar menu) {
 		menu.add(createNewMenu());
 		menu.add(createHelpMenu());
 		menu.add(createDebugMenu());
@@ -121,11 +126,12 @@ public class MainGUI {
 	public static void createAndShowGUI() {
 		//Set the look and feel.
 		try{
-			// Using OpenJDK, there is a bug that causes the application to freeze when using a GTK look and feel.
+			// Using OpenJDK, there is a bug that causes the
+			// application to freeze when using a GTK look and feel.
 			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 		}
 		catch (Exception e){
-			log.error("Look'n feel: " + e.getMessage());
+			LOG.error("Look'n feel: " + e.getMessage());
 		}
 
 		//Make sure we have nice window decorations.
@@ -134,7 +140,7 @@ public class MainGUI {
 		//Create and set up the window.
 		frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		MainGUI app = new MainGUI();
+		final MainGUI app = new MainGUI();
 		app.init();
 		frm.add(app.getPanel());
 		frm.setLocation(150, 150);
@@ -147,9 +153,16 @@ public class MainGUI {
 		instance = app;
 	}
 
+	/**
+	 * This action lets one launch the 'about' window.
+	 *
+	 * @author steven
+	 *
+	 */
 	public static final class AboutLaunchAction implements ActionListener {
+
 		@Override
-		public void actionPerformed(ActionEvent e){
+		public void actionPerformed(final ActionEvent e){
 			javax.swing.SwingUtilities.invokeLater(new About());
 		}
 	}

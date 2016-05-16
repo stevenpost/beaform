@@ -30,13 +30,13 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	private final JTree tree;
 	private final JEditorPane htmlPane;
 
-	private static boolean playWithLineStyle = false;
+	private static boolean playWithLineStyle;
 	private static String lineStyle = "Horizontal";
 
-	public FormulaTree(Formula formula) {
+	public FormulaTree(final Formula formula) {
 		super(new GridLayout(1,0));
 
-		DefaultMutableTreeNode top = new DefaultMutableTreeNode(new TreeViewFormula(formula));
+		final DefaultMutableTreeNode top = new DefaultMutableTreeNode(new TreeViewFormula(formula));
 		createNodes(top);
 
 		//Create a tree that allows one selection at a time.
@@ -51,8 +51,8 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		//Listen for double click events.
 		this.tree.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mousePressed(MouseEvent e) {
-				if(e.getClickCount() == 2) {
+			public void mousePressed(final MouseEvent e) {
+				if(e.getClickCount() == 2) { // NOPMD by steven on 5/16/16 3:59 PM
 					doubleClick();
 				}
 			}
@@ -64,19 +64,19 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		}
 
 		//Create the scroll pane and add the tree to it.
-		JScrollPane treeView = new JScrollPane(this.tree);
+		final JScrollPane treeView = new JScrollPane(this.tree);
 
 		//Create the HTML viewing pane.
 		this.htmlPane = new JEditorPane();
 		this.htmlPane.setEditable(false);
-		JScrollPane htmlView = new JScrollPane(this.htmlPane);
+		final JScrollPane htmlView = new JScrollPane(this.htmlPane);
 
 		//Add the scroll panes to a split pane.
-		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		final JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		splitPane.setTopComponent(treeView);
 		splitPane.setBottomComponent(htmlView);
 
-		Dimension minimumSize = new Dimension(100, 50);
+		final Dimension minimumSize = new Dimension(100, 50);
 		htmlView.setMinimumSize(minimumSize);
 		treeView.setMinimumSize(minimumSize);
 		splitPane.setDividerLocation(100);
@@ -86,20 +86,20 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		add(splitPane);
 	}
 
-	private static void createNodes(DefaultMutableTreeNode top) {
+	private static void createNodes(DefaultMutableTreeNode top) { // NOPMD by steven on 5/16/16 3:58 PM
 
-		TreeViewFormula form = (TreeViewFormula) top.getUserObject();
-		List<Ingredient> ingredients = form.getFormula().getIngredients();
-		for (Ingredient ingredient : ingredients) {
-			top.add(new DefaultMutableTreeNode(new TreeViewFormula(ingredient)));
+		final TreeViewFormula form = (TreeViewFormula) top.getUserObject();
+		final List<Ingredient> ingredients = form.getFormula().getIngredients();
+		for (final Ingredient ingredient : ingredients) {
+			top.add(new DefaultMutableTreeNode(new TreeViewFormula(ingredient))); // NOPMD by steven on 5/16/16 3:58 PM
 		}
 	}
 
 	@Override
-	public void valueChanged(TreeSelectionEvent e) {
+	public void valueChanged(final TreeSelectionEvent e) {
 		//Returns the last path element of the selection.
 		//This method is useful only when the selection model allows a single selection.
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode)
+		final DefaultMutableTreeNode node = (DefaultMutableTreeNode)
 						this.tree.getLastSelectedPathComponent();
 
 		if (node == null) {
@@ -107,36 +107,23 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 			return;
 		}
 
-		Object nodeInfo = node.getUserObject();
-		TreeViewFormula form = (TreeViewFormula)nodeInfo;
-		StringBuilder sb = new StringBuilder();
+		final Object nodeInfo = node.getUserObject();
+		final TreeViewFormula form = (TreeViewFormula)nodeInfo;
+		final StringBuilder description = new StringBuilder(31);
 		if (node.isLeaf()) {
-			sb.append("Amount: ");
-			sb.append(form.getAmount());
-			sb.append('\n');
-			sb.append('\n');
+			description.append("Amount: ").append(form.getAmount()).append("\n\n");
 		}
 		else {
-			sb.append("Total amount: ");
-			sb.append(form.getFormula().getTotalAmount());
-			sb.append('\n');
-			sb.append('\n');
+			description.append("Total amount: ").append(form.getFormula().getTotalAmount()).append("\n\n");
 		}
-		sb.append("Descrtiption:");
-		sb.append('\n');
-		sb.append(form.getFormula().getDescription());
-		sb.append('\n');
-		sb.append('\n');
-		sb.append("Tags: ");
-		sb.append('\n');
-		sb.append(String.join(",", form.getFormula().getTagsAsStrings()));
-		this.htmlPane.setText(sb.toString());
+		description.append("Descrtiption:\n").append(form.getFormula().getDescription()).append("\n\nTags: \n").append(String.join(",", form.getFormula().getTagsAsStrings()));
+		this.htmlPane.setText(description.toString());
 	}
 
 	public void doubleClick() {
 		//Returns the last path element of the selection.
 		//This method is useful only when the selection model allows a single selection.
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode)
+		final DefaultMutableTreeNode node = (DefaultMutableTreeNode)
 						this.tree.getLastSelectedPathComponent();
 
 		if (node == null) {
@@ -144,8 +131,8 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 			return;
 		}
 
-		Object nodeInfo = node.getUserObject();
-		TreeViewFormula form = (TreeViewFormula)nodeInfo;
+		final Object nodeInfo = node.getUserObject();
+		final TreeViewFormula form = (TreeViewFormula)nodeInfo;
 		MainGUI.getInstance().replaceWindow(new FormulaEditor(form.getFormula()));
 	}
 
