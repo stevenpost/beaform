@@ -12,60 +12,89 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.TransactionManager;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import beaform.GraphDbHandlerForJTA;
 import beaform.Ingredient;
 import beaform.SearchTagTask;
 
+/**
+ * This class handles all DB access for formulas.
+ *
+ * @author steven
+ *
+ */
 public class FormulaDAO {
 
+	/**
+	 * The logger.
+	 */
+	private static final Logger LOG = LoggerFactory.getLogger(FormulaDAO.class);
+
+	/**
+	 * Get the ingredients of a formula.
+	 * @param formula
+	 * @return a list of {@link Ingredient} objects
+	 * @throws NotSupportedException
+	 * @throws SystemException
+	 */
 	public List<Ingredient> getIngredients(Formula formula) throws NotSupportedException, SystemException {
-		final TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
+		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getInstance().getTransactionManager();
 
-		tm.begin();
+		transactionMgr.begin();
 
-		final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
-		formula = (Formula) em.createNativeQuery("match (n:Formula { name:'" + formula.getName() + "' }) return n", Formula.class).getSingleResult();
+		final EntityManager ementityManager = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
+		formula = (Formula) ementityManager.createNativeQuery("match (n:Formula { name:'" + formula.getName() + "' }) return n", Formula.class).getSingleResult();
 		final List<Ingredient> retList = formula.getIngredients();
 
-		em.flush();
-		em.close();
+		ementityManager.flush();
+		ementityManager.close();
 
 		try {
-			tm.commit();
+			transactionMgr.commit();
 		}
 		catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
 						| HeuristicRollbackException | SystemException e1)
 		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			LOG.error(e1.getMessage(), e1);
 		}
 
 		return retList;
 	}
 
+	/**
+	 * Update an existing formula.
+	 *
+	 * @param oldName the old name of the formula
+	 * @param name the name of the formula
+	 * @param description the description for the formula
+	 * @param totalAmount the total amount for the formula
+	 * @param ingredients a list of ingredients
+	 * @param tags a list of tags
+	 */
 	public void updateExisting(final String oldName, final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<Tag> tags) {
-		final TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
+		final TransactionManager tmtransactionMgr = GraphDbHandlerForJTA.getInstance().getTransactionManager();
 
 		try {
-			tm.begin();
+			tmtransactionMgr.begin();
 		}
 		catch (NotSupportedException | SystemException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			LOG.error(e1.getMessage(), e1);
 			return;
 		}
 
-		final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
+		final EntityManager ementityManager = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
 
-		String query = "match (n:Formula { name:'" + oldName + "' }) return n";
-		Formula formula = (Formula) em.createNativeQuery(query, Formula.class).getSingleResult();
+		final String query = "match (n:Formula { name:'" + oldName + "' }) return n";
+		final Formula formula = (Formula) ementityManager.createNativeQuery(query, Formula.class).getSingleResult();
 
 		formula.setName(name);
 		formula.setDescription(description);
 		formula.setTotalAmount(totalAmount);
 		formula.clearTags();
 
-		addTags(tags, em, formula);
+		addTags(tags, ementityManager, formula);
 
 		formula.clearIngredients();
 		for (final Ingredient ingredient : ingredients) {
@@ -73,61 +102,58 @@ public class FormulaDAO {
 			formula.addIngredient(ingredient.getFormula(), ingredient.getAmount());
 		}
 
-		em.persist(formula);
+		ementityManager.persist(formula);
 
-		em.flush();
-		em.close();
+		ementityManager.flush();
+		ementityManager.close();
 
 		try {
-			tm.commit();
+			tmtransactionMgr.commit();
 		}
 		catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
 						| HeuristicRollbackException | SystemException e1)
 		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			LOG.error(e1.getMessage(), e1);
 		}
 	}
 
 	public void addFormula(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<Tag> tags) {
-		final TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
+		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getInstance().getTransactionManager();
 
 		try {
-			tm.begin();
+			transactionMgr.begin();
 		}
 		catch (NotSupportedException | SystemException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			LOG.error(e1.getMessage(), e1);
 			return;
 		}
 
-		final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
+		final EntityManager entityManager = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
 
 		final Formula formula = new Formula();
 		formula.setName(name);
 		formula.setDescription(description);
 		formula.setTotalAmount(totalAmount);
 
-		addTags(tags, em, formula);
+		addTags(tags, entityManager, formula);
 
 		for (final Ingredient ingredient : ingredients) {
 			// We should only be holding existing Formulas at this point
 			formula.addIngredient(ingredient.getFormula(), ingredient.getAmount());
 		}
 
-		em.persist(formula);
+		entityManager.persist(formula);
 
-		em.flush();
-		em.close();
+		entityManager.flush();
+		entityManager.close();
 
 		try {
-			tm.commit();
+			transactionMgr.commit();
 		}
 		catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
 						| HeuristicRollbackException | SystemException e1)
 		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			LOG.error(e1.getMessage(), e1);
 		}
 	}
 
@@ -147,8 +173,7 @@ public class FormulaDAO {
 				pTag = searchresult.get();
 			}
 			catch (InterruptedException | ExecutionException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				LOG.error(e1.getMessage(), e1);
 			}
 			if (pTag == null) {
 				em.persist(tag);

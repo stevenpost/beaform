@@ -10,6 +10,9 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.TransactionManager;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import beaform.GraphDbHandlerForJTA;
 import beaform.entities.Formula;
 
@@ -21,44 +24,49 @@ import beaform.entities.Formula;
  */
 public class ListFormulasTask implements Runnable {
 
+	/**
+	 * The logger.
+	 */
+	private static final Logger LOG = LoggerFactory.getLogger(ListFormulasTask.class);
+
 	@Override
 	public void run() {
-		final TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
+		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getInstance().getTransactionManager();
 
 		try {
-			tm.begin();
+			transactionMgr.begin();
 		}
 		catch (NotSupportedException | SystemException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			LOG.error(e1.getMessage(), e1);
 			return;
 		}
 
-		final EntityManager em = GraphDbHandlerForJTA.getInstance().createNewEntityManager();
+		final EntityManager entityManager = GraphDbHandlerForJTA.getInstance().createNewEntityManager();
 
-		String query = "match (n:Formula) return n";
+		final String query = "match (n:Formula) return n";
 
 		@SuppressWarnings("unchecked")
-		List<Formula> formulas = em.createNativeQuery(query, Formula.class).getResultList();
+		final List<Formula> formulas = entityManager.createNativeQuery(query, Formula.class).getResultList();
 
-		System.out.println(formulas.size());
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("Number of formulas: " + formulas.size());
+		}
 
 		for (final Formula formula : formulas) {
-			System.out.println(formula);
+			LOG.debug(formula.toString());
 		}
-		em.flush();
-		em.close();
+		entityManager.flush();
+		entityManager.close();
 
 		try {
-			tm.commit();
+			transactionMgr.commit();
 		}
 		catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
 						| HeuristicRollbackException | SystemException e1)
 		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			LOG.error(e1.getMessage(), e1);
 		}
 
-		System.out.println(query);
+		LOG.debug(query);
 	}
 }
