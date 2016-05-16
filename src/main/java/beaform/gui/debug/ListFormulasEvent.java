@@ -4,14 +4,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import beaform.GraphDbHandlerForJTA;
-import beaform.debug.listFormulasTask;
+import beaform.debug.ListFormulasTask;
 
 public class ListFormulasEvent implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		GraphDbHandlerForJTA.addTask(new listFormulasTask());
+		GraphDbHandlerForJTA.addTask(new ListFormulasTask());
 	}
 
 }

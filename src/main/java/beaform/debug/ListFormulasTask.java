@@ -13,7 +13,7 @@ import javax.transaction.TransactionManager;
 import beaform.GraphDbHandlerForJTA;
 import beaform.entities.Formula;
 
-public class listFormulasTask implements Runnable {
+public class ListFormulasTask implements Runnable {
 
 	@Override
 	public void run() {
