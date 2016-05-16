@@ -79,7 +79,6 @@ public class FormulaDAO {
 			}
 			if (pTag == null) {
 				em.persist(tag);
-				pTag = tag;
 			}
 			else {
 				tag = pTag;
@@ -140,7 +139,6 @@ public class FormulaDAO {
 			}
 			if (pTag == null) {
 				em.persist(tag);
-				pTag = tag;
 			}
 			else {
 				tag = pTag;
