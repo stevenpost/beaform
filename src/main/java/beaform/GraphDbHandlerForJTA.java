@@ -21,9 +21,9 @@ public class GraphDbHandlerForJTA {
 	private static final GraphDbHandlerForJTA INSTANCE = new GraphDbHandlerForJTA();
 	private static final ExecutorService EXEC_SERVICE = Executors.newSingleThreadExecutor();
 
-	private final EntityManagerFactory emf;
-	private final EntityManager em;
-	private final TransactionManager tm;
+	private final EntityManagerFactory entityManagerFact;
+	private final EntityManager entityManager;
+	private final TransactionManager transactionMgr;
 	private final SessionFactoryImplementor sessionFactory;
 
 	public static GraphDbHandlerForJTA getInstance() {
@@ -32,31 +32,31 @@ public class GraphDbHandlerForJTA {
 
 	private GraphDbHandlerForJTA() {
 		//build the EntityManagerFactory as you would build in in Hibernate ORM
-		this.emf = Persistence.createEntityManagerFactory("ogm-jpa-tutorial");
+		this.entityManagerFact = Persistence.createEntityManagerFactory("ogm-jpa-tutorial");
 
 		//accessing JBoss's Transaction can be done differently but this one works nicely
 		final SessionFactoryImplementor sessionFactory =
-						(SessionFactoryImplementor) ( (HibernateEntityManagerFactory) this.emf ).getSessionFactory();
+						(SessionFactoryImplementor) ( (HibernateEntityManagerFactory) this.entityManagerFact ).getSessionFactory();
 		this.sessionFactory = sessionFactory;
-		this.tm = sessionFactory.getServiceRegistry().getService( JtaPlatform.class ).retrieveTransactionManager();
+		this.transactionMgr = sessionFactory.getServiceRegistry().getService( JtaPlatform.class ).retrieveTransactionManager();
 
 		// Initialize the main entity manager
-		this.em = this.emf.createEntityManager();
+		this.entityManager = this.entityManagerFact.createEntityManager();
 
-		final ShutDownHook shutdownHook = new ShutDownHook(this.em, this.emf);
+		final ShutDownHook shutdownHook = new ShutDownHook(this.entityManager, this.entityManagerFact);
 		Runtime.getRuntime().addShutdownHook(shutdownHook);
 	}
 
 	public TransactionManager getTransactionManager() {
-		return this.tm;
+		return this.transactionMgr;
 	}
 
 	public EntityManagerFactory getEntityManagerFactory() {
-		return this.emf;
+		return this.entityManagerFact;
 	}
 
 	public EntityManager getEntityManager() {
-		return this.em;
+		return this.entityManager;
 	}
 
 	public SessionFactoryImplementor getSessionFactory() {
@@ -82,20 +82,20 @@ public class GraphDbHandlerForJTA {
 
 		private static final Logger LOG = LoggerFactory.getLogger(ShutDownHook.class);
 
-		private final EntityManagerFactory emf;
-		private final EntityManager em;
+		private final EntityManagerFactory entityManagerFact;
+		private final EntityManager entityManager;
 
-		public ShutDownHook(final EntityManager em, final EntityManagerFactory emf) {
+		public ShutDownHook(final EntityManager entityManager, final EntityManagerFactory entityManagerFact) {
 			super();
-			this.em = em;
-			this.emf = emf;
+			this.entityManager = entityManager;
+			this.entityManagerFact = entityManagerFact;
 		}
 
 		@Override
 		public void run() {
 			LOG.info("Start DB shutdown");
-			this.em.close();
-			this.emf.close();
+			this.entityManager.close();
+			this.entityManagerFact.close();
 			LOG.info("DB shutdown complete");
 		}
 	}
