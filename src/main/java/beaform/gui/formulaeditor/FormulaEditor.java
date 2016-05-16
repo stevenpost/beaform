@@ -152,7 +152,7 @@ public class FormulaEditor extends JPanel {
 	 * @param constraints the constraints to work with
 	 * @return the y value of the last item
 	 */
-	private int addTagComponents(int y, GridBagConstraints constraints) {
+	private int addTagComponents(int y, final GridBagConstraints constraints) {
 		final JList<Tag> lstTags = new JList<Tag>(this.lstTagModel);
 		final JTextField txtNewTag = new JTextField();
 		final JButton btnAddTag = new JButton("Add Tag");
@@ -198,7 +198,7 @@ public class FormulaEditor extends JPanel {
 	 * @param constraints the constraints to work with
 	 * @return the y value of the last item
 	 */
-	private int addIngredientComponents(int y, GridBagConstraints constraints) {
+	private int addIngredientComponents(int y, final GridBagConstraints constraints) {
 
 		final JList<Ingredient> lstFormulas = new JList<Ingredient>(this.lstFormulaModel);
 		final JTextField txtNewIngredient = new JTextField();
