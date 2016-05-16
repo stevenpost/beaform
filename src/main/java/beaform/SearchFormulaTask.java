@@ -1,7 +1,6 @@
 package beaform;
 
-import java.util.Iterator;
-import java.util.Map.Entry;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 import javax.persistence.EntityManager;
@@ -39,13 +38,10 @@ public final class SearchFormulaTask implements Callable<Formula> {
 			System.out.println("Found: " + result);
 
 			System.out.println("Printing ingredients...");
-			Iterator<Entry<String, Formula>> it = result.getIngredients();
-			while (it.hasNext()) {
-				Entry<String, Formula> entry = it.next();
-
-				String amount = entry.getKey();
-				amount = amount.substring(amount.indexOf('|') + 1);
-				System.out.println(" - " + amount + " " + entry.getValue());
+			List<Ingredient> ingredients = result.getIngredients();
+			for (Ingredient ingredient : ingredients) {
+				String amount = ingredient.getAmount();
+				System.out.println(" - " + amount + " " + ingredient.getFormula().getName());
 			}
 
 			em.flush();

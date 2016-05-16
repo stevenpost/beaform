@@ -1,8 +1,6 @@
 package beaform.entities;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -20,14 +18,14 @@ import beaform.SearchTagTask;
 
 public class FormulaDAO {
 
-	public Iterator<Entry<String, Formula>> getIngredients(Formula formula) throws NotSupportedException, SystemException {
+	public List<Ingredient> getIngredients(Formula formula) throws NotSupportedException, SystemException {
 		TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
 
 		tm.begin();
 
 		final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
 		formula = (Formula) em.createNativeQuery("match (n:Formula { name:'" + formula.getName() + "' }) return n", Formula.class).getSingleResult();
-		Iterator<Entry<String, Formula>> retIt = formula.getIngredients();
+		List<Ingredient> retList = formula.getIngredients();
 
 		em.flush();
 		em.close();
@@ -42,7 +40,7 @@ public class FormulaDAO {
 			e1.printStackTrace();
 		}
 
-		return retIt;
+		return retList;
 	}
 
 	public void updateExisting(String oldName, String name, String description, String totalAmount, List<Ingredient> ingredients, List<Tag> tags) {

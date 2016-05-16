@@ -4,8 +4,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Iterator;
-import java.util.Map.Entry;
+import java.util.List;
 
 import javax.swing.JEditorPane;
 import javax.swing.JPanel;
@@ -17,6 +16,7 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
+import beaform.Ingredient;
 import beaform.entities.Formula;
 import beaform.gui.formulaeditor.FormulaEditor;
 
@@ -36,7 +36,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	public FormulaTree(Formula formula) {
 		super(new GridLayout(1,0));
 
-		DefaultMutableTreeNode top = new DefaultMutableTreeNode(new TreeViewFormula(formula, formula.getTotalAmount()));
+		DefaultMutableTreeNode top = new DefaultMutableTreeNode(new TreeViewFormula(formula));
 		createNodes(top);
 
 		//Create a tree that allows one selection at a time.
@@ -89,10 +89,9 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	private static void createNodes(DefaultMutableTreeNode top) {
 
 		TreeViewFormula form = (TreeViewFormula) top.getUserObject();
-		Iterator<Entry<String, Formula>> it = form.getFormula().getIngredients();
-		while (it.hasNext()) {
-			Entry<String, Formula> entry = it.next();
-			top.add(new DefaultMutableTreeNode(new TreeViewFormula(entry.getValue(), entry.getKey())));
+		List<Ingredient> ingredients = form.getFormula().getIngredients();
+		for (Ingredient ingredient : ingredients) {
+			top.add(new DefaultMutableTreeNode(new TreeViewFormula(ingredient)));
 		}
 	}
 
@@ -113,13 +112,13 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		StringBuilder sb = new StringBuilder();
 		if (node.isLeaf()) {
 			sb.append("Amount: ");
-			sb.append(form.getMetadata());
+			sb.append(form.getAmount());
 			sb.append('\n');
 			sb.append('\n');
 		}
 		else {
 			sb.append("Total amount: ");
-			sb.append(form.getMetadata());
+			sb.append(form.getFormula().getTotalAmount());
 			sb.append('\n');
 			sb.append('\n');
 		}

@@ -8,8 +8,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import beaform.Ingredient;
 
 @Entity
 public class Formula {
@@ -22,7 +25,7 @@ public class Formula {
 	@OneToMany
 	private final Map<String, Formula> ingredients = new HashMap<String, Formula>();
 
-	@OneToMany
+	@OneToMany(fetch=FetchType.EAGER)
 	private final List<Tag> tags = new ArrayList<Tag>();
 
 	public String getName() {
@@ -53,8 +56,17 @@ public class Formula {
 		this.ingredients.put(ingredient.getName() + "|" + amount, ingredient);
 	}
 
-	public Iterator<Entry<String, Formula>> getIngredients() {
-		return this.ingredients.entrySet().iterator();
+	public List<Ingredient> getIngredients() {
+		ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
+
+		for (Entry<String, Formula> entry : this.ingredients.entrySet()) {
+			Formula formula = entry.getValue();
+			String amount = entry.getKey();
+			amount = amount.substring(amount.indexOf('|') + 1);
+			ingredients.add(new Ingredient(formula, amount));
+		}
+
+		return ingredients;
 	}
 
 	public void clearIngredients() {

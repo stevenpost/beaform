@@ -1,31 +1,33 @@
 package beaform.gui;
 
+import beaform.Ingredient;
 import beaform.entities.Formula;
 
 public class TreeViewFormula {
-	private final Formula form;
-	private final String metadata;
+	private final Formula formula;
+	private final String amount;
 
-	public TreeViewFormula(Formula form, String metadata) {
-		if (metadata == null) {
-			metadata = "";
-		}
-		this.form = form;
-		metadata = metadata.substring(metadata.indexOf('|') + 1);
-		this.metadata = metadata;
+	public TreeViewFormula(Formula formula) {
+		this.formula = formula;
+		this.amount = "";
+	}
+
+	public TreeViewFormula(Ingredient ingredient) {
+		this.formula = ingredient.getFormula();
+		this.amount = ingredient.getAmount();
 	}
 
 	@Override
 	public String toString() {
-		return this.form.getName();
+		return this.formula.getName();
 	}
 
 	public Formula getFormula() {
-		return this.form;
+		return this.formula;
 	}
 
-	public String getMetadata() {
-		return this.metadata;
+	public String getAmount() {
+		return this.amount;
 	}
 
 }

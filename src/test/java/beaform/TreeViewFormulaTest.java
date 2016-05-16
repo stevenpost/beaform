@@ -14,10 +14,10 @@ public class TreeViewFormulaTest {
 		Formula form = new Formula();
 		form.setName("TestFormula");
 		form.setDescription("Test formula");
-		TreeViewFormula testObj = new TreeViewFormula(form, "");
+		TreeViewFormula testObj = new TreeViewFormula(form);
 
 		assertEquals("TestFormula", testObj.getFormula().getName());
-		assertEquals("", testObj.getMetadata());
+		assertEquals("", testObj.getAmount());
 
 	}
 
@@ -26,10 +26,11 @@ public class TreeViewFormulaTest {
 		Formula form = new Formula();
 		form.setName("TestFormula");
 		form.setDescription("Test formula");
-		TreeViewFormula testObj = new TreeViewFormula(form, "TestFormula|50%");
+		Ingredient ingredient = new Ingredient(form, "50%");
+		TreeViewFormula testObj = new TreeViewFormula(ingredient);
 
 		assertEquals("TestFormula", testObj.getFormula().getName());
-		assertEquals("50%", testObj.getMetadata());
+		assertEquals("50%", testObj.getAmount());
 
 	}
 

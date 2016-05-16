@@ -6,7 +6,6 @@ import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -77,11 +76,9 @@ public class FormulaEditor extends JPanel {
 
 		try {
 			// Add ingredients to the list
-			Iterator<Entry<String, Formula>> ingredientIterator = new FormulaDAO().getIngredients(formula);
-			while (ingredientIterator.hasNext()) {
-				Entry<String, Formula> entry = ingredientIterator.next();
-				Ingredient element = new Ingredient(entry.getValue(), entry.getKey());
-				this.lstFormulaModel.addElement(element);
+			List<Ingredient> ingredientList = new FormulaDAO().getIngredients(formula);
+			for (Ingredient ingredient : ingredientList) {
+				this.lstFormulaModel.addElement(ingredient);
 			}
 
 			// Add tags to the list
