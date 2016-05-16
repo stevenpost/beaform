@@ -99,7 +99,7 @@ public class FormulaEditor extends JPanel {
 			e.printStackTrace();
 		}
 
-		this.btnSubmit.addActionListener(new SaveExistingAction(formula, this.txtName, this.txtDescription, this.txtTotalAmount, this.lstFormulaModel, this.tags));
+		this.btnSubmit.addActionListener(new SaveExistingAction(formula, this.txtDescription, this.txtTotalAmount, this.lstFormulaModel, this.tags));
 
 	}
 

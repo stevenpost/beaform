@@ -73,7 +73,7 @@ public class FormulaDAO {
 	 * @param ingredients a list of ingredients
 	 * @param tags a list of tags
 	 */
-	public void updateExisting(final String oldName, final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<Tag> tags) {
+	public void updateExisting(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<Tag> tags) {
 		final TransactionManager tmtransactionMgr = GraphDbHandlerForJTA.getInstance().getTransactionManager();
 
 		try {
@@ -86,10 +86,9 @@ public class FormulaDAO {
 
 		final EntityManager ementityManager = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
 
-		final String query = "match (n:Formula { name:'" + oldName + "' }) return n";
+		final String query = "match (n:Formula { name:'" + name + "' }) return n";
 		final Formula formula = (Formula) ementityManager.createNativeQuery(query, Formula.class).getSingleResult();
 
-		formula.setName(name);
 		formula.setDescription(description);
 		formula.setTotalAmount(totalAmount);
 		formula.clearTags();
