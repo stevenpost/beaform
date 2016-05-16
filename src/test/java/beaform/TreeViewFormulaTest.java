@@ -14,7 +14,7 @@ public class TreeViewFormulaTest {
 		final Formula form = new Formula();
 		form.setName("TestFormula");
 		form.setDescription("Test formula");
-		TreeViewFormula testObj = new TreeViewFormula(form);
+		final TreeViewFormula testObj = new TreeViewFormula(form);
 
 		assertEquals("TestFormula", testObj.getFormula().getName());
 		assertEquals("", testObj.getAmount());
@@ -26,8 +26,8 @@ public class TreeViewFormulaTest {
 		final Formula form = new Formula();
 		form.setName("TestFormula");
 		form.setDescription("Test formula");
-		Ingredient ingredient = new Ingredient(form, "50%");
-		TreeViewFormula testObj = new TreeViewFormula(ingredient);
+		final Ingredient ingredient = new Ingredient(form, "50%");
+		final TreeViewFormula testObj = new TreeViewFormula(ingredient);
 
 		assertEquals("TestFormula", testObj.getFormula().getName());
 		assertEquals("50%", testObj.getAmount());

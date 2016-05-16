@@ -14,7 +14,7 @@ import beaform.GraphDbHandlerForJTA;
 public class ClearDbTask implements Runnable {
 	@Override
 	public void run() {
-		TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
+		final TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
 
 		try {
 			tm.begin();
@@ -27,7 +27,7 @@ public class ClearDbTask implements Runnable {
 
 		final EntityManager ementityManager = GraphDbHandlerForJTA.getInstance().createNewEntityManager();
 
-		String query = "MATCH n OPTIONAL MATCH (n)-[r]-() DELETE n,r";
+		final String query = "MATCH n OPTIONAL MATCH (n)-[r]-() DELETE n,r";
 		try {
 			ementityManager.createNativeQuery(query).getSingleResult();
 		}

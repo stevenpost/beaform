@@ -15,6 +15,12 @@ import beaform.Ingredient;
 import beaform.entities.FormulaDAO;
 import beaform.entities.Tag;
 
+/**
+ * This class kicks off the creation of a new formula from the editor.
+ *
+ * @author steven
+ *
+ */
 public class AddAction implements ActionListener {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AddAction.class);
@@ -35,7 +41,9 @@ public class AddAction implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		LOG.info("Add: " + this.txtNameField.getText() + " with description: " + this.txtDescriptionField.getText());
+		if (LOG.isInfoEnabled()) {
+			LOG.info("Add: " + this.txtNameField.getText() + " with description: " + this.txtDescriptionField.getText());
+		}
 
 		// Get Ingredients in a list
 		final List<Ingredient> ingredients = new ArrayList<Ingredient>();

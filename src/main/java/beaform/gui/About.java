@@ -70,7 +70,9 @@ public class About implements Runnable {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		}
 		catch (Exception e){
-			LOG.error("Look'n feel: " + e.getMessage());
+			if (LOG.isErrorEnabled()) {
+				LOG.error("Look'n feel: " + e.getMessage());
+			}
 		}
 
 		//Make sure we have nice window decorations.

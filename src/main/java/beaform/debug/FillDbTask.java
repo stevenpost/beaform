@@ -18,10 +18,10 @@ import beaform.entities.Tag;
 public final class FillDbTask implements Runnable {
 	@Override
 	public void run() {
-		TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
+		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getInstance().getTransactionManager();
 
 		try {
-			tm.begin();
+			transactionMgr.begin();
 		}
 		catch (NotSupportedException | SystemException e1) {
 			// TODO Auto-generated catch block
@@ -31,15 +31,15 @@ public final class FillDbTask implements Runnable {
 
 		try {
 			final EntityManager em = GraphDbHandlerForJTA.getInstance().createNewEntityManager();
-			Tag firstTag = new Tag();
+			final Tag firstTag = new Tag();
 			firstTag.setName("First");
 			em.persist(firstTag);
 
-			Tag secondTag = new Tag();
+			final Tag secondTag = new Tag();
 			secondTag.setName("Second");
 			em.persist(secondTag);
 
-			Formula form1 = new Formula();
+			final Formula form1 = new Formula();
 			form1.setName("Form1");
 			form1.setDescription("First test formula");
 			form1.addTag(firstTag);
@@ -47,20 +47,20 @@ public final class FillDbTask implements Runnable {
 
 			em.persist(form1);
 
-			Formula form2 = new Formula();
+			final Formula form2 = new Formula();
 			form2.setName("Form2");
 			form2.setDescription("Second test formula");
 			form2.addTag(firstTag);
 
 			em.persist(form2);
 
-			Formula form3 = new Formula();
+			final Formula form3 = new Formula();
 			form3.setName("Form3");
 			form3.setDescription("Third test formula");
 
 			em.persist(form3);
 
-			Formula form4 = new Formula();
+			final Formula form4 = new Formula();
 			form4.setName("Form4");
 			form4.setDescription("Fourth test formula");
 
@@ -78,7 +78,7 @@ public final class FillDbTask implements Runnable {
 			em.close();
 
 			try {
-				tm.commit();
+				transactionMgr.commit();
 				System.out.println("stored");
 			}
 			catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
@@ -96,7 +96,7 @@ public final class FillDbTask implements Runnable {
 				pe.printStackTrace();
 			}
 			try {
-				tm.rollback();
+				transactionMgr.rollback();
 				System.out.println("Transaction rolled back");
 			}
 			catch (IllegalStateException | SecurityException | SystemException e) {

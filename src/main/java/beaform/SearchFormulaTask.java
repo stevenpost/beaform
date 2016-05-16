@@ -33,14 +33,14 @@ public final class SearchFormulaTask implements Callable<Formula> {
 		try {
 			final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
 
-			String query = "match (n:Formula { name:'" + this.name + "' }) return n";
+			final String query = "match (n:Formula { name:'" + this.name + "' }) return n";
 			result = (Formula) em.createNativeQuery(query, Formula.class).getSingleResult();
 			System.out.println("Found: " + result);
 
 			System.out.println("Printing ingredients...");
 			final List<Ingredient> ingredients = result.getIngredients();
 			for (final Ingredient ingredient : ingredients) {
-				String amount = ingredient.getAmount();
+				final String amount = ingredient.getAmount();
 				System.out.println(" - " + amount + " " + ingredient.getFormula().getName());
 			}
 

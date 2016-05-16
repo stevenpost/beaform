@@ -16,8 +16,16 @@ import beaform.entities.Formula;
 import beaform.entities.FormulaDAO;
 import beaform.entities.Tag;
 
+/**
+ * This class kicks off an update to a existing formula.
+ * @author steven
+ *
+ */
 public class SaveExistingAction implements ActionListener {
 
+	/**
+	 * The logger.
+	 */
 	private static final Logger LOG = LoggerFactory.getLogger(SaveExistingAction.class);
 
 	private final JTextField txtDescriptionField;

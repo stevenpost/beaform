@@ -86,7 +86,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		add(splitPane);
 	}
 
-	private static void createNodes(DefaultMutableTreeNode top) { // NOPMD by steven on 5/16/16 3:58 PM
+	private static void createNodes(final DefaultMutableTreeNode top) {
 
 		final TreeViewFormula form = (TreeViewFormula) top.getUserObject();
 		final List<Ingredient> ingredients = form.getFormula().getIngredients();

@@ -1,11 +1,11 @@
 package beaform.entities;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -23,7 +23,7 @@ public class Formula {
 	private String totalAmount;
 
 	@OneToMany
-	private final Map<String, Formula> ingredients = new HashMap<String, Formula>();
+	private final Map<String, Formula> ingredients = new ConcurrentHashMap<String, Formula>();
 
 	@OneToMany(fetch=FetchType.EAGER)
 	private final List<Tag> tags = new ArrayList<Tag>();
@@ -32,7 +32,7 @@ public class Formula {
 		return this.name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -59,8 +59,8 @@ public class Formula {
 	public List<Ingredient> getIngredients() {
 		final ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
 
-		for (Entry<String, Formula> entry : this.ingredients.entrySet()) {
-			Formula formula = entry.getValue();
+		for (final Entry<String, Formula> entry : this.ingredients.entrySet()) {
+			final Formula formula = entry.getValue();
 			String amount = entry.getKey();
 			amount = amount.substring(amount.indexOf('|') + 1);
 			ingredients.add(new Ingredient(formula, amount));
@@ -95,7 +95,7 @@ public class Formula {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append(this.name).append(" | ").append(this.description).append(" | [").append(String.join(",", this.getTagsAsStrings())).append(']');
 
 		return builder.toString();

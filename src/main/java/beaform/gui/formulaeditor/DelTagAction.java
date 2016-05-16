@@ -20,7 +20,7 @@ public final class DelTagAction implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		while (!this.lstTags.isSelectionEmpty()) {
-			int selected = this.lstTags.getSelectedIndex();
+			final int selected = this.lstTags.getSelectedIndex();
 			this.formulaEditor.removeTag(selected);
 		}
 	}
