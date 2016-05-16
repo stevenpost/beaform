@@ -131,8 +131,7 @@ public class FormulaEditor extends JPanel {
 		setDimensions(lblTotalAmount, txtFieldDimensions);
 		this.add(lblTotalAmount, constraints);
 
-		y++;
-		constraints.gridx = 0;
+		constraints.gridx = 1;
 		constraints.gridy = y;
 		setDimensions(this.txtTotalAmount, txtFieldDimensions);
 		this.add(this.txtTotalAmount, constraints);
