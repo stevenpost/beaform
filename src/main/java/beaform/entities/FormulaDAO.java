@@ -109,4 +109,64 @@ public class FormulaDAO {
 		}
 	}
 
+	public void addFormula(String name, String description, List<Ingredient> ingredients, List<Tag> tags) {
+		TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
+
+		try {
+			tm.begin();
+		}
+		catch (NotSupportedException | SystemException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return;
+		}
+
+		final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
+
+		Formula formula = new Formula();
+		formula.setName(name);
+		formula.setDescription(description);
+
+		for (Tag tag : tags) {
+			// See if the tag exist in the DB, if so, use it.
+			Tag pTag = null;
+			final Future<Tag> searchresult = GraphDbHandlerForJTA.addTask(new SearchTagTask(tag.getName()));
+			try {
+				pTag = searchresult.get();
+			}
+			catch (InterruptedException | ExecutionException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			if (pTag == null) {
+				em.persist(tag);
+				pTag = tag;
+			}
+			else {
+				tag = pTag;
+			}
+			formula.addTag(tag);
+		}
+
+		for (Ingredient ingredient : ingredients) {
+			// We should only be holding existing Formulas at this point
+			formula.addIngredient(ingredient.getFormula(), ingredient.getAmount());
+		}
+
+		em.persist(formula);
+
+		em.flush();
+		em.close();
+
+		try {
+			tm.commit();
+		}
+		catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
+						| HeuristicRollbackException | SystemException e1)
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+
 }
