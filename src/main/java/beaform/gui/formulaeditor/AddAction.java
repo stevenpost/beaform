@@ -38,8 +38,8 @@ public class AddAction implements ActionListener {
 		LOG.info("Add: " + this.txtNameField.getText() + " with description: " + this.txtDescriptionField.getText());
 
 		// Get Ingredients in a list
-		List<Ingredient> ingredients = new ArrayList<Ingredient>();
-		int nrOfIngredients = this.lstIngredients.getSize();
+		final List<Ingredient> ingredients = new ArrayList<Ingredient>();
+		final int nrOfIngredients = this.lstIngredients.getSize();
 		for (int i = 0; i < nrOfIngredients; i++) {
 			// See if the tag exist in the DB, if so, use it.
 			ingredients.add(this.lstIngredients.getElementAt(i));

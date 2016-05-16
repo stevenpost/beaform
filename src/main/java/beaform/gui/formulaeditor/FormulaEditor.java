@@ -82,8 +82,8 @@ public class FormulaEditor extends JPanel {
 
 		try {
 			// Add ingredients to the list
-			List<Ingredient> ingredientList = new FormulaDAO().getIngredients(formula);
-			for (Ingredient ingredient : ingredientList) {
+			final List<Ingredient> ingredientList = new FormulaDAO().getIngredients(formula);
+			for (final Ingredient ingredient : ingredientList) {
 				this.lstFormulaModel.addElement(ingredient);
 			}
 
