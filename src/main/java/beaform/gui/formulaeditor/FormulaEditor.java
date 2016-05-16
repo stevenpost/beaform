@@ -22,6 +22,12 @@ import beaform.entities.Formula;
 import beaform.entities.FormulaDAO;
 import beaform.entities.Tag;
 
+/**
+ * This class represents a GUI for editing formulas.
+ *
+ * @author steven
+ *
+ */
 public class FormulaEditor extends JPanel {
 
 	/**
@@ -29,16 +35,16 @@ public class FormulaEditor extends JPanel {
 	 */
 	private static final long serialVersionUID = 2557014310487638917L;
 
-	private static final Dimension txtFieldDimensions = new Dimension(100, 30);
-	private static final Dimension amountDimensions = new Dimension(60, 30);
-	private static final Dimension listDimensions = new Dimension(200, 100);
-	private static final JLabel lblTotalAmount = new JLabel("total amount");
-	private static final JLabel lblName = new JLabel("Name");
-	private static final JLabel lblDescription = new JLabel("Description");
-	private static final JLabel lblTags = new JLabel("Tags");
-	private static final JLabel lblIngredients = new JLabel("Ingredients");
-	private static final JLabel lblIngredientName = new JLabel("Name");
-	private static final JLabel lblAmount = new JLabel("Amount");
+	private static final Dimension DIM_TEXTFIELDS = new Dimension(100, 30);
+	private static final Dimension DIM_AMOUNT = new Dimension(60, 30);
+	private static final Dimension DIM_LISTS = new Dimension(200, 100);
+	private static final JLabel LBL_TOTAL_AMOUNT = new JLabel("total amount");
+	private static final JLabel LBL_NAME = new JLabel("Name");
+	private static final JLabel LBL_DESCRIPTION = new JLabel("Description");
+	private static final JLabel LBL_TAGS = new JLabel("Tags");
+	private static final JLabel LBL_INGREDIENTS = new JLabel("Ingredients");
+	private static final JLabel LBL_INGREDIENT_NAME = new JLabel("Name");
+	private static final JLabel LBL_AMOUNT = new JLabel("Amount");
 
 	private final JTextField txtName = new JTextField();
 	private final JTextField txtDescription = new JTextField();
@@ -66,7 +72,7 @@ public class FormulaEditor extends JPanel {
 		this.btnSubmit.addActionListener(new AddAction(this.txtName, this.txtDescription, this.txtTotalAmount, this.lstFormulaModel, this.tags));
 	}
 
-	public FormulaEditor(Formula formula) {
+	public FormulaEditor(final Formula formula) {
 		super(new GridBagLayout());
 		init(false);
 
@@ -82,7 +88,7 @@ public class FormulaEditor extends JPanel {
 			}
 
 			// Add tags to the list
-			Iterator<Tag> tagIterator = formula.getTags();
+			final Iterator<Tag> tagIterator = formula.getTags();
 			while (tagIterator.hasNext()) {
 				this.tags.add(tagIterator.next());
 			}
@@ -97,40 +103,40 @@ public class FormulaEditor extends JPanel {
 
 	}
 
-	private void init(boolean isNew) {
+	private void init(final boolean isNew) {
 		int y = 0;
 
 		// Formula requirements
-		GridBagConstraints constraints = new GridBagConstraints();
+		final GridBagConstraints constraints = new GridBagConstraints();
 		constraints.gridx = 0;
 		constraints.gridy = y;
-		this.add(lblName, constraints);
+		this.add(LBL_NAME, constraints);
 
 		constraints.gridx = 1;
 		constraints.gridy = y;
-		setDimensions(this.txtName, txtFieldDimensions);
+		setDimensions(this.txtName, DIM_TEXTFIELDS);
 		this.txtName.setEnabled(isNew);
 		this.add(this.txtName, constraints);
 
 		y++;
 		constraints.gridx = 0;
 		constraints.gridy = y;
-		this.add(lblDescription, constraints);
+		this.add(LBL_DESCRIPTION, constraints);
 
 		constraints.gridx = 1;
 		constraints.gridy = y;
-		setDimensions(this.txtDescription, txtFieldDimensions);
+		setDimensions(this.txtDescription, DIM_TEXTFIELDS);
 		this.add(this.txtDescription, constraints);
 
 		y++;
 		constraints.gridx = 0;
 		constraints.gridy = y;
-		setDimensions(lblTotalAmount, txtFieldDimensions);
-		this.add(lblTotalAmount, constraints);
+		setDimensions(LBL_TOTAL_AMOUNT, DIM_TEXTFIELDS);
+		this.add(LBL_TOTAL_AMOUNT, constraints);
 
 		constraints.gridx = 1;
 		constraints.gridy = y;
-		setDimensions(this.txtTotalAmount, txtFieldDimensions);
+		setDimensions(this.txtTotalAmount, DIM_TEXTFIELDS);
 		this.add(this.txtTotalAmount, constraints);
 
 		// Ingredients
@@ -160,20 +166,20 @@ public class FormulaEditor extends JPanel {
 		constraints.gridx = 0;
 		constraints.gridy = y;
 		constraints.gridwidth = 2;
-		this.add(lblTags, constraints);
+		this.add(LBL_TAGS, constraints);
 		constraints.gridwidth = 1;
 
 		y++;
 		constraints.gridx = 0;
 		constraints.gridy = y;
 		constraints.gridheight = 3;
-		setDimensions(this.lstTags, listDimensions);
+		setDimensions(this.lstTags, DIM_LISTS);
 		this.add(this.lstTags, constraints);
 
 		constraints.gridx = 1;
 		constraints.gridy = y;
 		constraints.gridheight = 1;
-		setDimensions(this.txtNewTag, txtFieldDimensions);
+		setDimensions(this.txtNewTag, DIM_TEXTFIELDS);
 		this.add(this.txtNewTag, constraints);
 
 		y++;
@@ -202,36 +208,36 @@ public class FormulaEditor extends JPanel {
 		constraints.gridx = 0;
 		constraints.gridy = y;
 		constraints.gridwidth = 2;
-		this.add(lblIngredients, constraints);
+		this.add(LBL_INGREDIENTS, constraints);
 		constraints.gridwidth = 1;
 
 		y++;
 		constraints.gridx = 0;
 		constraints.gridy = y;
 		constraints.gridheight = 4;
-		setDimensions(this.lstFormulas, listDimensions);
+		setDimensions(this.lstFormulas, DIM_LISTS);
 		this.add(this.lstFormulas, constraints);
 		constraints.gridheight = 1;
 
 		constraints.gridx = 1;
 		constraints.gridy = y;
-		setDimensions(lblIngredientName, txtFieldDimensions);
-		this.add(lblIngredientName, constraints);
+		setDimensions(LBL_INGREDIENT_NAME, DIM_TEXTFIELDS);
+		this.add(LBL_INGREDIENT_NAME, constraints);
 
 		constraints.gridx = 2;
 		constraints.gridy = y;
-		setDimensions(lblAmount, amountDimensions);
-		this.add(lblAmount, constraints);
+		setDimensions(LBL_AMOUNT, DIM_AMOUNT);
+		this.add(LBL_AMOUNT, constraints);
 
 		y++;
 		constraints.gridx = 1;
 		constraints.gridy = y;
-		setDimensions(this.txtNewIngredient, txtFieldDimensions);
+		setDimensions(this.txtNewIngredient, DIM_TEXTFIELDS);
 		this.add(this.txtNewIngredient, constraints);
 
 		constraints.gridx = 2;
 		constraints.gridy = y;
-		setDimensions(this.txtNewIngredientAmount, amountDimensions);
+		setDimensions(this.txtNewIngredientAmount, DIM_AMOUNT);
 		this.add(this.txtNewIngredientAmount, constraints);
 
 		y++;
@@ -257,7 +263,7 @@ public class FormulaEditor extends JPanel {
 	 * @param comp The component
 	 * @param dim The dimensions for the sizing
 	 */
-	private void setDimensions(JComponent comp, Dimension dim) {
+	private void setDimensions(final JComponent comp, final Dimension dim) {
 		comp.setMinimumSize(dim);
 		comp.setPreferredSize(dim);
 		comp.setMaximumSize(dim);
@@ -268,20 +274,21 @@ public class FormulaEditor extends JPanel {
 	 *
 	 * @param tag the tag to add
 	 */
-	public void addTag(Tag tag) {
+	public void addTag(final Tag tag) {
 		this.tags.add(tag);
 		sortTags();
 	}
 
 	/**
 	 * This method sorts the tags alphabetically in the list.
-	 * should the list model and the backing list be out of sync, this method will synchronize them.
+	 * should the list model and the backing list be out of sync,
+	 * this method will synchronize them.
 	 */
-	public void sortTags() {
+	public final void sortTags() {
 		this.tags.sort(new TagComparator());
 
 		this.lstTagModel.clear();
-		for (Tag tag : this.tags) {
+		for (final Tag tag : this.tags) {
 			this.lstTagModel.addElement(tag);
 		}
 	}
@@ -290,9 +297,9 @@ public class FormulaEditor extends JPanel {
 	 * Remove a tag from the list.
 	 * @param i the index of the tag to delete
 	 */
-	public void removeTag(int i) {
-		this.tags.remove(i);
-		this.lstTagModel.remove(i);
+	public void removeTag(final int index) {
+		this.tags.remove(index);
+		this.lstTagModel.remove(index);
 	}
 
 }

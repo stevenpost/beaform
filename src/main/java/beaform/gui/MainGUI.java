@@ -29,7 +29,7 @@ import beaform.gui.search.NewSearchWindowAction;
 public class MainGUI {
 
 	private static MainGUI instance;
-	private static Logger log = LoggerFactory.getLogger(MainGUI.class);
+	private static final Logger log = LoggerFactory.getLogger(MainGUI.class);
 
 	private static JFrame frm = new JFrame("BeaForm");
 	private final JMenuBar menu = new JMenuBar();
@@ -66,13 +66,13 @@ public class MainGUI {
 	}
 
 	private JMenu createNewMenu() {
-		JMenu newMenuItem = new JMenu("New...");
+		final JMenu newMenuItem = new JMenu("New...");
 
-		JMenuItem search = new JMenuItem("Search");
+		final JMenuItem search = new JMenuItem("Search");
 		newMenuItem.add(search);
 		search.addActionListener(new NewSearchWindowAction());
 
-		JMenuItem add = new JMenuItem("Add");
+		final JMenuItem add = new JMenuItem("Add");
 		newMenuItem.add(add);
 		add.addActionListener(new NewAddWindowAction());
 
@@ -80,9 +80,9 @@ public class MainGUI {
 	}
 
 	private JMenu createHelpMenu() {
-		JMenu helpmenu = new JMenu("Help");
+		final JMenu helpmenu = new JMenu("Help");
 
-		JMenuItem about = new JMenuItem("About...");
+		final JMenuItem about = new JMenuItem("About...");
 		helpmenu.add(about);
 		about.addActionListener(new AboutLaunchAction());
 
@@ -90,23 +90,27 @@ public class MainGUI {
 	}
 
 	private JMenu createDebugMenu() {
-		JMenu debugMenuItem = new JMenu("Debug");
+		final JMenu debugMenuItem = new JMenu("Debug");
 
-		JMenuItem dbgAllFormulas = new JMenuItem("List all formulas");
+		final JMenuItem dbgAllFormulas = new JMenuItem("List all formulas");
 		debugMenuItem.add(dbgAllFormulas);
 		dbgAllFormulas.addActionListener(new ListFormulasEvent());
 
-		JMenuItem dbgFill = new JMenuItem("Fill DB");
+		final JMenuItem dbgFill = new JMenuItem("Fill DB");
 		debugMenuItem.add(dbgFill);
 		dbgFill.addActionListener(new FillDbEvent());
 
-		JMenuItem dbgClear = new JMenuItem("Clear DB");
+		final JMenuItem dbgClear = new JMenuItem("Clear DB");
 		debugMenuItem.add(dbgClear);
 		dbgClear.addActionListener(new ClearDbEvent());
 
 		return debugMenuItem;
 	}
 
+	/**
+	 * Gets the (current) instance.
+	 * @return the instance of this window
+	 */
 	public static MainGUI getInstance() {
 		if (instance == null) {
 			throw new IllegalStateException("The MainGUI should be initialized before trying to get the instance");
