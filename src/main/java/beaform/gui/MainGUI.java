@@ -82,12 +82,7 @@ public class MainGUI {
 
 		JMenuItem about = new JMenuItem("About...");
 		helpmenu.add(about);
-		about.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e){
-				javax.swing.SwingUtilities.invokeLater(new About());
-			}
-		});
+		about.addActionListener(new AboutLaunchAction());
 
 		return helpmenu;
 	}
@@ -144,6 +139,13 @@ public class MainGUI {
 		frm.setVisible(true);
 
 		instance = app;
+	}
+
+	public static final class AboutLaunchAction implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e){
+			javax.swing.SwingUtilities.invokeLater(new About());
+		}
 	}
 
 }
