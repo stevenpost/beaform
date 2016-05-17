@@ -17,7 +17,7 @@ import beaform.GraphDbHandlerForJTA;
 import beaform.entities.Formula;
 
 /**
- * This class implements a task to retrive all formulas.
+ * This class implements a task to retrieve all formulas.
  *
  * @author steven
  *
