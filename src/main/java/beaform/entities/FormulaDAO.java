@@ -42,7 +42,7 @@ public class FormulaDAO {
 	 */
 	public List<Ingredient> getIngredients(Formula formula) throws NotSupportedException, SystemException {
 
-		boolean hasTransaction = setupTransaction();
+		final boolean hasTransaction = setupTransaction();
 
 		final EntityManager ementityManager = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
 		formula = (Formula) ementityManager.createNativeQuery("match (n:Formula { name:'" + formula.getName() + "' }) return n", Formula.class).getSingleResult();
@@ -73,7 +73,7 @@ public class FormulaDAO {
 	 * @throws SystemException If the transaction service fails in an unexpected way.
 	 */
 	public void updateExisting(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<FormulaTag> tags) throws SystemException, NotSupportedException {
-		boolean hasTransaction = setupTransaction();
+		final boolean hasTransaction = setupTransaction();
 
 		final EntityManager ementityManager = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
 
@@ -117,7 +117,7 @@ public class FormulaDAO {
 	 * @throws SystemException If the transaction service fails in an unexpected way.
 	 */
 	public void addFormula(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<FormulaTag> tags) throws SystemException, NotSupportedException {
-		boolean hasTransaction = setupTransaction();
+		final boolean hasTransaction = setupTransaction();
 
 		final EntityManager entityManager = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
 
@@ -188,7 +188,7 @@ public class FormulaDAO {
 	 */
 	public Formula findFormulaByName(String name) throws SystemException, NotSupportedException {
 
-		boolean hasTransaction = setupTransaction();
+		final boolean hasTransaction = setupTransaction();
 		Formula result;
 
 		final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
