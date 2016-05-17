@@ -32,6 +32,7 @@ public class FormulaDAO {
 
 	/**
 	 * Get the ingredients of a formula.
+	 *
 	 * @param formula
 	 * @return a list of {@link Ingredient} objects
 	 * @throws NotSupportedException If the calling thread is already
@@ -60,12 +61,12 @@ public class FormulaDAO {
 	/**
 	 * Update an existing formula.
 	 *
-	 * @param oldName the old name of the formula
 	 * @param name the name of the formula
 	 * @param description the description for the formula
 	 * @param totalAmount the total amount for the formula
 	 * @param ingredients a list of ingredients
 	 * @param tags a list of tags
+	 *
 	 * @throws NotSupportedException If the calling thread is already
 	 *         associated with a transaction,
 	 *         and nested transactions are not supported.
@@ -101,6 +102,20 @@ public class FormulaDAO {
 		}
 	}
 
+	/**
+	 * Add a new formula.
+	 *
+	 * @param name the name of the formula
+	 * @param description the description for the formula
+	 * @param totalAmount the total amount for the formula
+	 * @param ingredients a list of ingredients
+	 * @param tags a list of tags
+	 *
+	 * @throws NotSupportedException If the calling thread is already
+	 *         associated with a transaction,
+	 *         and nested transactions are not supported.
+	 * @throws SystemException If the transaction service fails in an unexpected way.
+	 */
 	public void addFormula(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<FormulaTag> tags) throws SystemException, NotSupportedException {
 		boolean hasTransaction = setupTransaction();
 
