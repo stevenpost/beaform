@@ -30,8 +30,6 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	private final JTree tree;
 	private final JEditorPane htmlPane;
 
-	private static boolean playWithLineStyle;
-	private static String lineStyle = "Horizontal";
 
 	public FormulaTree(final Formula formula) {
 		super(new GridLayout(1,0));
@@ -57,11 +55,6 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 				}
 			}
 		});
-
-		if (playWithLineStyle) {
-			System.out.println("line style = " + lineStyle);
-			this.tree.putClientProperty("JTree.lineStyle", lineStyle);
-		}
 
 		//Create the scroll pane and add the tree to it.
 		final JScrollPane treeView = new JScrollPane(this.tree);
