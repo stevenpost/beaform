@@ -3,7 +3,6 @@ package beaform.gui.formulaeditor;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -57,9 +56,6 @@ public class FormulaEditor extends JPanel {
 	/** A label for the description of a formula */
 	private static final JLabel LBL_DESCRIPTION = new JLabel("Description");
 
-	/** A label for the list of tags */
-	private static final JLabel LBL_TAGS = new JLabel("Tags");
-
 	/** A label for the list of ingredients */
 	private static final JLabel LBL_INGREDIENTS = new JLabel("Ingredients");
 
@@ -78,17 +74,14 @@ public class FormulaEditor extends JPanel {
 	/** A text field for the total amount of a formula */
 	private final transient JTextField txtTotalAmount = new JTextField();
 
-	/** A list of formula tags */
-	private final transient List<FormulaTag> tags = new ArrayList<FormulaTag>();
-
-	/** A list model to get the list of tags to the screen */
-	private final transient DefaultListModel<FormulaTag> lstTagModel = new DefaultListModel<FormulaTag>();
-
 	/** A list model to get the list of formulas to the screen */
 	private final transient DefaultListModel<Ingredient> lstFormulaModel = new DefaultListModel<Ingredient>();
 
 	/** The 'save' button */
 	private final transient JButton btnSubmit = new JButton("Submit");
+
+	/** The panel with all the tag components */
+	private final transient TagPane tagPane = new TagPane();
 
 	/**
 	 * Main constructor for this editor to add a new formula.
@@ -98,7 +91,7 @@ public class FormulaEditor extends JPanel {
 	public FormulaEditor() {
 		super(new GridBagLayout());
 		init(true);
-		this.btnSubmit.addActionListener(new AddAction(this.txtName, this.txtDescription, this.txtTotalAmount, this.lstFormulaModel, this.tags));
+		this.btnSubmit.addActionListener(new AddAction(this.txtName, this.txtDescription, this.txtTotalAmount, this.lstFormulaModel, this.tagPane));
 	}
 
 	/**
@@ -123,16 +116,13 @@ public class FormulaEditor extends JPanel {
 
 			// Add tags to the list
 			final Iterator<FormulaTag> tagIterator = formula.getTags();
-			while (tagIterator.hasNext()) {
-				this.tags.add(tagIterator.next());
-			}
-			sortTags();
+			this.tagPane.addMultipleTags(tagIterator);
 		}
 		catch (NotSupportedException | SystemException e) {
 			LOG.error("Failed to add all tags and ingredients", e);
 		}
 
-		this.btnSubmit.addActionListener(new SaveExistingAction(formula, this.txtDescription, this.txtTotalAmount, this.lstFormulaModel, this.tags));
+		this.btnSubmit.addActionListener(new SaveExistingAction(formula, this.txtDescription, this.txtTotalAmount, this.lstFormulaModel, this.tagPane));
 
 	}
 
@@ -178,7 +168,13 @@ public class FormulaEditor extends JPanel {
 
 		// Tags
 		gridy++;
-		gridy = addTagComponents(gridy, constraints);
+		constraints.gridx = 0;
+		constraints.gridy = gridy;
+		constraints.gridwidth = 3;
+		constraints.gridheight = 4;
+		this.add(this.tagPane, constraints);
+		constraints.gridheight = 1;
+		constraints.gridwidth = 1;
 
 		// Submit
 		gridy++;
@@ -186,53 +182,6 @@ public class FormulaEditor extends JPanel {
 		constraints.gridy = gridy;
 		constraints.gridwidth = 2;
 		this.add(this.btnSubmit, constraints);
-	}
-
-	/**
-	 * This method adds the GUI components for tags to the GUI
-	 * @param tmpGridy the y value for the grid
-	 * @param constraints the constraints to work with
-	 * @return the y value of the last item
-	 */
-	private int addTagComponents(final int gridy, final GridBagConstraints constraints) {
-		int tmpGridy = gridy;
-		final JList<FormulaTag> lstTags = new JList<FormulaTag>(this.lstTagModel);
-		final JTextField txtNewTag = new JTextField();
-		final JButton btnAddTag = new JButton("Add Tag");
-		final JButton btnDelTag = new JButton("Remove Tag");
-
-		constraints.gridx = 0;
-		constraints.gridy = tmpGridy;
-		constraints.gridwidth = 2;
-		this.add(LBL_TAGS, constraints);
-		constraints.gridwidth = 1;
-
-		tmpGridy++;
-		constraints.gridx = 0;
-		constraints.gridy = tmpGridy;
-		constraints.gridheight = 3;
-		setDimensions(lstTags, DIM_LISTS);
-		this.add(lstTags, constraints);
-
-		constraints.gridx = 1;
-		constraints.gridy = tmpGridy;
-		constraints.gridheight = 1;
-		setDimensions(txtNewTag, DIM_TEXTFIELDS);
-		this.add(txtNewTag, constraints);
-
-		tmpGridy++;
-		constraints.gridx = 1;
-		constraints.gridy = tmpGridy;
-		btnAddTag.addActionListener(new AddTagAction(txtNewTag, this));
-		this.add(btnAddTag, constraints);
-
-		tmpGridy++;
-		constraints.gridx = 1;
-		constraints.gridy = tmpGridy;
-		btnDelTag.addActionListener(new DelTagAction(lstTags, this));
-		this.add(btnDelTag, constraints);
-
-		return tmpGridy;
 	}
 
 	/**
@@ -312,39 +261,6 @@ public class FormulaEditor extends JPanel {
 		comp.setMinimumSize(dim);
 		comp.setPreferredSize(dim);
 		comp.setMaximumSize(dim);
-	}
-
-	/**
-	 * This method adds a tag to the list of tags for this formula
-	 *
-	 * @param tag the tag to add
-	 */
-	public void addTag(final FormulaTag tag) {
-		this.tags.add(tag);
-		sortTags();
-	}
-
-	/**
-	 * This method sorts the tags alphabetically in the list.
-	 * should the list model and the backing list be out of sync,
-	 * this method will synchronize them.
-	 */
-	public final void sortTags() {
-		this.tags.sort(new TagComparator());
-
-		this.lstTagModel.clear();
-		for (final FormulaTag tag : this.tags) {
-			this.lstTagModel.addElement(tag);
-		}
-	}
-
-	/**
-	 * Remove a tag from the list.
-	 * @param i the index of the tag to delete
-	 */
-	public void removeTag(final int index) {
-		this.tags.remove(index);
-		this.lstTagModel.remove(index);
 	}
 
 }

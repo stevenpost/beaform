@@ -8,6 +8,7 @@ import java.util.List;
 import javax.swing.JTextField;
 import javax.swing.ListModel;
 
+import org.apache.commons.collections.IteratorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,16 +31,16 @@ public class SaveExistingAction implements ActionListener {
 
 	private final JTextField txtDescription;
 	private final JTextField txtTotalAmount;
-	private final List<FormulaTag> tags;
+	private final TagPane tagPane;
 	private final ListModel<Ingredient> lstIngredients;
 	private final Formula formula;
 
-	public SaveExistingAction(final Formula formula, final JTextField txtDescription, final JTextField txtTotalAmount, final ListModel<Ingredient> lstFormulas, final List<FormulaTag> tags) {
+	public SaveExistingAction(final Formula formula, final JTextField txtDescription, final JTextField txtTotalAmount, final ListModel<Ingredient> lstFormulas, final TagPane tagPane) {
 		this.formula = formula;
 		this.txtDescription = txtDescription;
 		this.txtTotalAmount = txtTotalAmount;
 		this.lstIngredients = lstFormulas;
-		this.tags = tags;
+		this.tagPane = tagPane;
 	}
 
 	@Override
@@ -55,8 +56,9 @@ public class SaveExistingAction implements ActionListener {
 			// See if the tag exist in the DB, if so, use it.
 			ingredients.add(this.lstIngredients.getElementAt(i));
 		}
-
-		new FormulaDAO().updateExisting(this.formula.getName(), this.txtDescription.getText(), this.txtTotalAmount.getText(), ingredients, this.tags);
+		@SuppressWarnings("unchecked")
+		final List<FormulaTag> tags = IteratorUtils.toList(this.tagPane.getTags());
+		new FormulaDAO().updateExisting(this.formula.getName(), this.txtDescription.getText(), this.txtTotalAmount.getText(), ingredients, tags);
 
 	}
 

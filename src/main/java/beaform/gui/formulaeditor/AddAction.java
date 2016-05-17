@@ -8,6 +8,7 @@ import java.util.List;
 import javax.swing.JTextField;
 import javax.swing.ListModel;
 
+import org.apache.commons.collections.IteratorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,20 +24,21 @@ import beaform.entities.FormulaTag;
  */
 public class AddAction implements ActionListener {
 
+	/** a logger */
 	private static final Logger LOG = LoggerFactory.getLogger(AddAction.class);
 
 	private final JTextField txtNameField;
 	private final JTextField txtDescriptionField;
 	private final JTextField txtTotalAmount;
-	private final List<FormulaTag> tags;
+	private final TagPane tagPane;
 	private final ListModel<Ingredient> lstIngredients;
 
-	public AddAction(JTextField txtNameField, JTextField txtDescriptionField,JTextField txtTotalAmount, ListModel<Ingredient> lstFormulas, List<FormulaTag> tags) {
+	public AddAction(JTextField txtNameField, JTextField txtDescriptionField,JTextField txtTotalAmount, ListModel<Ingredient> lstFormulas, TagPane tagPane) {
 		this.txtNameField = txtNameField;
 		this.txtDescriptionField = txtDescriptionField;
 		this.txtTotalAmount = txtTotalAmount;
 		this.lstIngredients = lstFormulas;
-		this.tags = tags;
+		this.tagPane = tagPane;
 	}
 
 	@Override
@@ -53,7 +55,9 @@ public class AddAction implements ActionListener {
 			ingredients.add(this.lstIngredients.getElementAt(i));
 		}
 
-		new FormulaDAO().addFormula(this.txtNameField.getText(), this.txtDescriptionField.getText(), this.txtTotalAmount.getText(), ingredients, this.tags);
+		@SuppressWarnings("unchecked")
+		final List<FormulaTag> tags = IteratorUtils.toList(this.tagPane.getTags());
+		new FormulaDAO().addFormula(this.txtNameField.getText(), this.txtDescriptionField.getText(), this.txtTotalAmount.getText(), ingredients, tags);
 
 	}
 
