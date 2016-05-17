@@ -40,13 +40,13 @@ public class FormulaDAO {
 	 *         and nested transactions are not supported.
 	 * @throws SystemException If the transaction service fails in an unexpected way.
 	 */
-	public List<Ingredient> getIngredients(Formula formula) throws NotSupportedException, SystemException {
+	public List<Ingredient> getIngredients(final Formula formula) throws NotSupportedException, SystemException {
 
 		final boolean hasTransaction = setupTransaction();
 
 		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
-		formula = (Formula) entityManager.createNativeQuery("match (n:Formula { name:'" + formula.getName() + "' }) return n", Formula.class).getSingleResult();
-		final List<Ingredient> retList = formula.getIngredients();
+		final Formula retrievedFormula = findByName(formula.getName(), entityManager);
+		final List<Ingredient> retList = retrievedFormula.getIngredients();
 
 		GraphDbHandlerForJTA.tryCloseEntityManager(entityManager);
 
@@ -76,8 +76,7 @@ public class FormulaDAO {
 
 		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
 
-		final String query = "match (n:Formula { name:'" + name + "' }) return n";
-		final Formula formula = (Formula) entityManager.createNativeQuery(query, Formula.class).getSingleResult();
+		final Formula formula = findByName(name, entityManager);
 
 		formula.setDescription(description);
 		formula.setTotalAmount(totalAmount);
@@ -186,12 +185,10 @@ public class FormulaDAO {
 	public Formula findFormulaByName(final String name) throws SystemException, NotSupportedException {
 
 		final boolean hasTransaction = setupTransaction();
-		Formula result;
 
 		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
 
-		final String query = "match (n:Formula { name:'" + name + "' }) return n";
-		result = (Formula) entityManager.createNativeQuery(query, Formula.class).getSingleResult();
+		final Formula result = findByName(name, entityManager);
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Found: " + result);
 		}
@@ -201,6 +198,13 @@ public class FormulaDAO {
 		if (hasTransaction) {
 			commitTransation();
 		}
+
+		return result;
+	}
+
+	private Formula findByName(final String name, final EntityManager entityManager) {
+		final String query = "match (n:Formula { name:'" + name + "' }) return n";
+		final Formula result = (Formula) entityManager.createNativeQuery(query, Formula.class).getSingleResult();
 
 		return result;
 	}
