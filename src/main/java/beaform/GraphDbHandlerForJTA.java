@@ -63,20 +63,36 @@ public class GraphDbHandlerForJTA {
 		Runtime.getRuntime().addShutdownHook(shutdownHook);
 	}
 
-	public TransactionManager getTransactionManager() {
-		return this.transactionMgr;
+	/**
+	 * Gets the global {@link TransactionManager}.
+	 * @return the {@link TransactionManager}
+	 */
+	public static TransactionManager getTransactionManager() {
+		return INSTANCE.transactionMgr;
 	}
 
-	public EntityManagerFactory getEntityManagerFactory() {
-		return this.entityManagerFact;
+	/**
+	 * Gets the {@link EntityManagerFactory}.
+	 * @return the factory
+	 */
+	public static EntityManagerFactory getEntityManagerFactory() {
+		return INSTANCE.entityManagerFact;
 	}
 
 	/**
 	 * This method creates a new {@link EntityManager}
 	 * @return the new manager
 	 */
-	public EntityManager createNewEntityManager() {
+	private EntityManager createNewEntityManager() {
 		return this.entityManagerFact.createEntityManager();
+	}
+
+	/**
+	 * This method creates a new {@link EntityManager}
+	 * @return the new manager
+	 */
+	public static EntityManager getNewEntityManager() {
+		return INSTANCE.createNewEntityManager();
 	}
 
 	/**

@@ -46,7 +46,7 @@ public final class DebugUtils {
 	 * List all formulas in the DB.
 	 */
 	public static void listAllFormulas() {
-		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getInstance().getTransactionManager();
+		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getTransactionManager();
 
 		try {
 			transactionMgr.begin();
@@ -56,7 +56,7 @@ public final class DebugUtils {
 			return;
 		}
 
-		final EntityManager entityManager = GraphDbHandlerForJTA.getInstance().createNewEntityManager();
+		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
 
 		@SuppressWarnings("unchecked")
 		final List<Formula> formulas = entityManager.createNativeQuery(ALL_FORMULAS, Formula.class).getResultList();
@@ -87,7 +87,7 @@ public final class DebugUtils {
 	 * Delete everything in the DB.
 	 */
 	public static void clearDb() {
-		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getInstance().getTransactionManager();
+		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getTransactionManager();
 
 		try {
 			transactionMgr.begin();
@@ -97,7 +97,7 @@ public final class DebugUtils {
 			return;
 		}
 
-		final EntityManager entityManager = GraphDbHandlerForJTA.getInstance().createNewEntityManager();
+		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
 
 		try {
 			entityManager.createNativeQuery(DELETE_QUERY).getSingleResult();
@@ -124,7 +124,7 @@ public final class DebugUtils {
 	 * Fills the database with some test values.
 	 */
 	public static void fillDb() {
-		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getInstance().getTransactionManager();
+		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getTransactionManager();
 
 		try {
 			transactionMgr.begin();
@@ -135,7 +135,7 @@ public final class DebugUtils {
 		}
 
 		try {
-			final EntityManager entityManager = GraphDbHandlerForJTA.getInstance().createNewEntityManager();
+			final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
 
 			final FormulaTag firstTag = createTag(entityManager, "First");
 			final FormulaTag secondTag = createTag(entityManager, "Second");
