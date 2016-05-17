@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JTextField;
+import javax.transaction.NotSupportedException;
+import javax.transaction.SystemException;
 
 import org.apache.commons.collections.IteratorUtils;
 import org.slf4j.Logger;
@@ -63,7 +65,12 @@ public class SaveExistingAction implements ActionListener {
 		// Get tags in a list
 		@SuppressWarnings("unchecked")
 		final List<FormulaTag> tags = IteratorUtils.toList(this.tagPane.getTags());
-		new FormulaDAO().updateExisting(this.formula.getName(), this.txtDescription.getText(), this.txtTotalAmount.getText(), ingredients, tags);
+		try {
+			new FormulaDAO().updateExisting(this.formula.getName(), this.txtDescription.getText(), this.txtTotalAmount.getText(), ingredients, tags);
+		}
+		catch (SystemException | NotSupportedException e1) {
+			LOG.error("Something went wrong updating the formula", e1);
+		}
 
 	}
 

@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JTextField;
+import javax.transaction.NotSupportedException;
+import javax.transaction.SystemException;
 
 import org.apache.commons.collections.IteratorUtils;
 import org.slf4j.Logger;
@@ -62,7 +64,12 @@ public class AddAction implements ActionListener {
 		@SuppressWarnings("unchecked")
 		final List<FormulaTag> tags = IteratorUtils.toList(this.tagPane.getTags());
 
-		new FormulaDAO().addFormula(this.txtNameField.getText(), this.txtDescriptionField.getText(), this.txtTotalAmount.getText(), ingredients, tags);
+		try {
+			new FormulaDAO().addFormula(this.txtNameField.getText(), this.txtDescriptionField.getText(), this.txtTotalAmount.getText(), ingredients, tags);
+		}
+		catch (SystemException | NotSupportedException e1) {
+			LOG.error("Something wen wrong adding the new formula", e1);
+		}
 
 	}
 

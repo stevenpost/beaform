@@ -7,6 +7,7 @@ import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
+import javax.transaction.Status;
 import javax.transaction.SystemException;
 import javax.transaction.TransactionManager;
 
@@ -19,7 +20,7 @@ import beaform.Ingredient;
 /**
  * This class handles all DB access for formulas.
  *
- * @author steven
+ * @author Steven Post
  *
  */
 public class FormulaDAO {
@@ -39,9 +40,8 @@ public class FormulaDAO {
 	 * @throws SystemException If the transaction service fails in an unexpected way.
 	 */
 	public List<Ingredient> getIngredients(Formula formula) throws NotSupportedException, SystemException {
-		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getInstance().getTransactionManager();
 
-		transactionMgr.begin();
+		boolean hasTransaction = setupTransaction();
 
 		final EntityManager ementityManager = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
 		formula = (Formula) ementityManager.createNativeQuery("match (n:Formula { name:'" + formula.getName() + "' }) return n", Formula.class).getSingleResult();
@@ -50,13 +50,8 @@ public class FormulaDAO {
 		ementityManager.flush();
 		ementityManager.close();
 
-		try {
-			transactionMgr.commit();
-		}
-		catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
-						| HeuristicRollbackException | SystemException e1)
-		{
-			LOG.error(e1.getMessage(), e1);
+		if (hasTransaction) {
+			commitTransation();
 		}
 
 		return retList;
@@ -71,17 +66,13 @@ public class FormulaDAO {
 	 * @param totalAmount the total amount for the formula
 	 * @param ingredients a list of ingredients
 	 * @param tags a list of tags
+	 * @throws NotSupportedException If the calling thread is already
+	 *         associated with a transaction,
+	 *         and nested transactions are not supported.
+	 * @throws SystemException If the transaction service fails in an unexpected way.
 	 */
-	public void updateExisting(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<FormulaTag> tags) {
-		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getInstance().getTransactionManager();
-
-		try {
-			transactionMgr.begin();
-		}
-		catch (NotSupportedException | SystemException e1) {
-			LOG.error(e1.getMessage(), e1);
-			return;
-		}
+	public void updateExisting(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<FormulaTag> tags) throws SystemException, NotSupportedException {
+		boolean hasTransaction = setupTransaction();
 
 		final EntityManager ementityManager = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
 
@@ -105,26 +96,13 @@ public class FormulaDAO {
 		ementityManager.flush();
 		ementityManager.close();
 
-		try {
-			transactionMgr.commit();
-		}
-		catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
-						| HeuristicRollbackException | SystemException e1)
-		{
-			LOG.error(e1.getMessage(), e1);
+		if (hasTransaction) {
+			commitTransation();
 		}
 	}
 
-	public void addFormula(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<FormulaTag> tags) {
-		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getInstance().getTransactionManager();
-
-		try {
-			transactionMgr.begin();
-		}
-		catch (NotSupportedException | SystemException e1) {
-			LOG.error(e1.getMessage(), e1);
-			return;
-		}
+	public void addFormula(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<FormulaTag> tags) throws SystemException, NotSupportedException {
+		boolean hasTransaction = setupTransaction();
 
 		final EntityManager entityManager = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
 
@@ -145,13 +123,8 @@ public class FormulaDAO {
 		entityManager.flush();
 		entityManager.close();
 
-		try {
-			transactionMgr.commit();
-		}
-		catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
-						| HeuristicRollbackException | SystemException e1)
-		{
-			LOG.error(e1.getMessage(), e1);
+		if (hasTransaction) {
+			commitTransation();
 		}
 	}
 
@@ -162,8 +135,12 @@ public class FormulaDAO {
 	 * @param tags A list of tags
 	 * @param entityManager an open entity manager
 	 * @param formula the formula to add the tags to
+	 * @throws NotSupportedException If the calling thread is already
+	 *         associated with a transaction,
+	 *         and nested transactions are not supported.
+	 * @throws SystemException If the transaction service fails in an unexpected way.
 	 */
-	private void addTags(final List<FormulaTag> tags, final EntityManager entityManager, final Formula formula) {
+	private void addTags(final List<FormulaTag> tags, final EntityManager entityManager, final Formula formula) throws SystemException, NotSupportedException {
 		final FormulaTagDAO formulaTagDAO = new FormulaTagDAO();
 
 		for (FormulaTag tag : tags) {
@@ -208,6 +185,29 @@ public class FormulaDAO {
 		em.close();
 
 		return result;
+	}
+
+	private boolean setupTransaction() throws SystemException, NotSupportedException {
+		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getInstance().getTransactionManager();
+		if (transactionMgr.getStatus() == Status.STATUS_NO_TRANSACTION) {
+			transactionMgr.begin();
+			return true;
+		}
+		return false;
+	}
+
+	private boolean commitTransation() {
+		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getInstance().getTransactionManager();
+		try {
+			transactionMgr.commit();
+		}
+		catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
+						| HeuristicRollbackException | SystemException e1)
+		{
+			LOG.error(e1.getMessage(), e1);
+			return false;
+		}
+		return true;
 	}
 
 }
