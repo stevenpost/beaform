@@ -17,6 +17,9 @@ import javax.swing.JTextField;
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import beaform.Ingredient;
 import beaform.entities.Formula;
 import beaform.entities.FormulaDAO;
@@ -32,6 +35,9 @@ public class FormulaEditor extends JPanel {
 
 	/** A serial */
 	private static final long serialVersionUID = 2557014310487638917L;
+
+	/** A logger */
+	private static final Logger LOG = LoggerFactory.getLogger(FormulaEditor.class);
 
 	/** Dimensions for most text fields */
 	private static final Dimension DIM_TEXTFIELDS = new Dimension(100, 30);
@@ -123,8 +129,7 @@ public class FormulaEditor extends JPanel {
 			sortTags();
 		}
 		catch (NotSupportedException | SystemException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error("Failed to add all tags and ingredients", e);
 		}
 
 		this.btnSubmit.addActionListener(new SaveExistingAction(formula, this.txtDescription, this.txtTotalAmount, this.lstFormulaModel, this.tags));
