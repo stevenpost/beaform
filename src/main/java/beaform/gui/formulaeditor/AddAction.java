@@ -2,11 +2,9 @@ package beaform.gui.formulaeditor;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTextField;
-import javax.swing.ListModel;
 
 import org.apache.commons.collections.IteratorUtils;
 import org.slf4j.Logger;
@@ -27,17 +25,26 @@ public class AddAction implements ActionListener {
 	/** a logger */
 	private static final Logger LOG = LoggerFactory.getLogger(AddAction.class);
 
-	private final JTextField txtNameField;
-	private final JTextField txtDescriptionField;
-	private final JTextField txtTotalAmount;
-	private final TagPane tagPane;
-	private final ListModel<Ingredient> lstIngredients;
+	/** a text field for the name of the new formula */
+	private final transient JTextField txtNameField;
 
-	public AddAction(JTextField txtNameField, JTextField txtDescriptionField,JTextField txtTotalAmount, ListModel<Ingredient> lstFormulas, TagPane tagPane) {
+	/** a text field for the description of the new formula */
+	private final transient JTextField txtDescriptionField;
+
+	/** a text field for the total amount in the formula */
+	private final transient JTextField txtTotalAmount;
+
+	/** a reference to the tag panel */
+	private final transient TagPane tagPane;
+
+	/** a reference to the ingredients panel */
+	private final transient IngredientPane ingredientPane;
+
+	public AddAction(JTextField txtNameField, JTextField txtDescriptionField,JTextField txtTotalAmount, IngredientPane ingredientPane, TagPane tagPane) {
 		this.txtNameField = txtNameField;
 		this.txtDescriptionField = txtDescriptionField;
 		this.txtTotalAmount = txtTotalAmount;
-		this.lstIngredients = lstFormulas;
+		this.ingredientPane = ingredientPane;
 		this.tagPane = tagPane;
 	}
 
@@ -47,16 +54,14 @@ public class AddAction implements ActionListener {
 			LOG.info("Add: " + this.txtNameField.getText() + " with description: " + this.txtDescriptionField.getText());
 		}
 
-		// Get Ingredients in a list
-		final List<Ingredient> ingredients = new ArrayList<Ingredient>();
-		final int nrOfIngredients = this.lstIngredients.getSize();
-		for (int i = 0; i < nrOfIngredients; i++) {
-			// See if the tag exist in the DB, if so, use it.
-			ingredients.add(this.lstIngredients.getElementAt(i));
-		}
+		// Get ingredients in a list
+		@SuppressWarnings("unchecked")
+		final List<Ingredient> ingredients = IteratorUtils.toList(this.ingredientPane.getIngredients());
 
+		// Get tags in a list
 		@SuppressWarnings("unchecked")
 		final List<FormulaTag> tags = IteratorUtils.toList(this.tagPane.getTags());
+
 		new FormulaDAO().addFormula(this.txtNameField.getText(), this.txtDescriptionField.getText(), this.txtTotalAmount.getText(), ingredients, tags);
 
 	}
