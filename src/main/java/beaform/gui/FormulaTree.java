@@ -15,9 +15,15 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
+import javax.transaction.NotSupportedException;
+import javax.transaction.SystemException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import beaform.Ingredient;
 import beaform.entities.Formula;
+import beaform.entities.FormulaDAO;
 import beaform.gui.formulaeditor.FormulaEditor;
 
 /**
@@ -30,6 +36,9 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 
 	/** A serial used for serialization */
 	private static final long serialVersionUID = 2506532995127262817L;
+
+	/** A logger */
+	private static final Logger LOG = LoggerFactory.getLogger(FormulaTree.class);
 
 	/** The visual Tree object */
 	private final transient JTree tree;
@@ -87,11 +96,20 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	}
 
 	private static void createNodes(final DefaultMutableTreeNode top) {
+		final FormulaDAO formulaDAO = new FormulaDAO();
 
 		final TreeViewFormula form = (TreeViewFormula) top.getUserObject();
-		final List<Ingredient> ingredients = form.getFormula().getIngredients();
-		for (final Ingredient ingredient : ingredients) {
-			top.add(new DefaultMutableTreeNode(new TreeViewFormula(ingredient))); // NOPMD by steven on 5/16/16 3:58 PM
+		try {
+			final List<Ingredient> ingredients = formulaDAO.getIngredients(form.getFormula());
+			for (final Ingredient ingredient : ingredients) {
+				top.add(new DefaultMutableTreeNode(new TreeViewFormula(ingredient))); // NOPMD by steven on 5/16/16 3:58 PM
+			}
+		}
+		catch (NotSupportedException e) {
+			LOG.error("There is already a transaction going on in this thread", e);
+		}
+		catch (SystemException e) {
+			LOG.error("There was a problem with the transaction service", e);
 		}
 	}
 
