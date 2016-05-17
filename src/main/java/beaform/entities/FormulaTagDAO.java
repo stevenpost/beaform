@@ -34,7 +34,7 @@ public class FormulaTagDAO {
 	public FormulaTag findByName(final String name) throws NotSupportedException, SystemException {
 		FormulaTag result;
 
-		final EntityManager entityManager = GraphDbHandlerForJTA.getEntityManagerFactory().createEntityManager();
+		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
 
 		final String query = "match (n:FormulaTag { name:'" + name + "' }) return n";
 		result = (FormulaTag) entityManager.createNativeQuery(query, FormulaTag.class).getSingleResult();
@@ -62,7 +62,7 @@ public class FormulaTagDAO {
 	public FormulaTag findByObject(final FormulaTag name) throws NotSupportedException, SystemException {
 		FormulaTag result;
 
-		final EntityManager entityManager = GraphDbHandlerForJTA.getEntityManagerFactory().createEntityManager();
+		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
 
 		final String query = "match (n:FormulaTag { name:'" + name.getName() + "' }) return n";
 		result = (FormulaTag) entityManager.createNativeQuery(query, FormulaTag.class).getSingleResult();

@@ -44,7 +44,7 @@ public class FormulaDAO {
 
 		final boolean hasTransaction = setupTransaction();
 
-		final EntityManager ementityManager = GraphDbHandlerForJTA.getEntityManagerFactory().createEntityManager();
+		final EntityManager ementityManager = GraphDbHandlerForJTA.getNewEntityManager();
 		formula = (Formula) ementityManager.createNativeQuery("match (n:Formula { name:'" + formula.getName() + "' }) return n", Formula.class).getSingleResult();
 		final List<Ingredient> retList = formula.getIngredients();
 
@@ -75,7 +75,7 @@ public class FormulaDAO {
 	public void updateExisting(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<FormulaTag> tags) throws SystemException, NotSupportedException {
 		final boolean hasTransaction = setupTransaction();
 
-		final EntityManager ementityManager = GraphDbHandlerForJTA.getEntityManagerFactory().createEntityManager();
+		final EntityManager ementityManager = GraphDbHandlerForJTA.getNewEntityManager();
 
 		final String query = "match (n:Formula { name:'" + name + "' }) return n";
 		final Formula formula = (Formula) ementityManager.createNativeQuery(query, Formula.class).getSingleResult();
@@ -119,7 +119,7 @@ public class FormulaDAO {
 	public void addFormula(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<FormulaTag> tags) throws SystemException, NotSupportedException {
 		final boolean hasTransaction = setupTransaction();
 
-		final EntityManager entityManager = GraphDbHandlerForJTA.getEntityManagerFactory().createEntityManager();
+		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
 
 		final Formula formula = new Formula();
 		formula.setName(name);
@@ -191,7 +191,7 @@ public class FormulaDAO {
 		final boolean hasTransaction = setupTransaction();
 		Formula result;
 
-		final EntityManager em = GraphDbHandlerForJTA.getEntityManagerFactory().createEntityManager();
+		final EntityManager em = GraphDbHandlerForJTA.getNewEntityManager();
 
 		final String query = "match (n:Formula { name:'" + name + "' }) return n";
 		result = (Formula) em.createNativeQuery(query, Formula.class).getSingleResult();
