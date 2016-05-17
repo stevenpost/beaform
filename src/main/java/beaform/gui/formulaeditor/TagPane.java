@@ -2,6 +2,7 @@ package beaform.gui.formulaeditor;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -47,6 +48,7 @@ public class TagPane extends JPanel {
 	 * Constructor.
 	 */
 	public TagPane() {
+		super(new GridBagLayout());
 		init();
 	}
 

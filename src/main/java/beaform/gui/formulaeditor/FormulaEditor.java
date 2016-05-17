@@ -177,7 +177,7 @@ public class FormulaEditor extends JPanel {
 		constraints.gridwidth = 1;
 
 		// Submit
-		gridy++;
+		gridy = gridy + 5;
 		constraints.gridx = 0;
 		constraints.gridy = gridy;
 		constraints.gridwidth = 2;
