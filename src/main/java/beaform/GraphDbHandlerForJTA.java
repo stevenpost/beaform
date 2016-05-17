@@ -16,9 +16,18 @@ import org.hibernate.jpa.HibernateEntityManagerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * A handler for the graph database using JTA.
+ *
+ * @author Steven Post
+ *
+ */
 public class GraphDbHandlerForJTA {
 
+	/** The instance of this singleton */
 	private static final GraphDbHandlerForJTA INSTANCE = new GraphDbHandlerForJTA();
+
+	/** An executor service for handling DB tasks */
 	private static final ExecutorService EXEC_SERVICE = Executors.newSingleThreadExecutor();
 
 	private final EntityManagerFactory entityManagerFact;
@@ -63,6 +72,11 @@ public class GraphDbHandlerForJTA {
 		return this.entityManagerFact.createEntityManager();
 	}
 
+	/**
+	 * Getter for the entity manager.
+	 *
+	 * @return the entity manager
+	 */
 	public EntityManager getEntityManager() {
 		return this.entityManager;
 	}
@@ -79,11 +93,10 @@ public class GraphDbHandlerForJTA {
 		return EXEC_SERVICE.submit(task);
 	}
 
-
 	/**
 	 * This class is a shutdownhook to make sure the embedded DB is stopped.
 	 *
-	 * @author steven
+	 * @author Steven Post
 	 *
 	 */
 	private final static class ShutDownHook extends Thread {
