@@ -1,11 +1,8 @@
 package beaform.entities;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
@@ -18,7 +15,6 @@ import org.slf4j.LoggerFactory;
 
 import beaform.GraphDbHandlerForJTA;
 import beaform.Ingredient;
-import beaform.SearchTagTask;
 
 /**
  * This class handles all DB access for formulas.
@@ -168,17 +164,12 @@ public class FormulaDAO {
 		for (FormulaTag tag : tags) {
 			// See if the tag exist in the DB, if so, use it.
 			FormulaTag pTag = null;
-			final Future<FormulaTag> searchresult = GraphDbHandlerForJTA.addTask(new SearchTagTask(tag.getName()));
 			try {
-				pTag = searchresult.get();
+				pTag = new FormulaTagDAO().findByName(tag.getName());
 			}
-			catch (InterruptedException e) {
-				LOG.error("The search for the tag was interrupted.", e);
-			}
-			catch (ExecutionException e) {
-				if (!(e.getCause() instanceof NoResultException)) {
-					LOG.error(e.getMessage(), e);
-				}
+			catch (NotSupportedException | SystemException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 			if (pTag == null) {
 				em.persist(tag);
