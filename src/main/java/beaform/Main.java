@@ -15,10 +15,11 @@ import beaform.gui.MainGUI;
  */
 public class Main {
 
+	/** a logger */
 	private static final Logger LOG = LoggerFactory.getLogger(Main.class);
 
 	public static void main(String[] args) throws InvocationTargetException, InterruptedException {
-		LOG.info("Starting GUI...");
+		LOG.debug("Starting GUI...");
 
 		javax.swing.SwingUtilities.invokeAndWait(new Runnable() {
 
@@ -28,10 +29,10 @@ public class Main {
 			}
 		});
 
-		LOG.info("Initializing DB...");
+		LOG.debug("Initializing DB...");
 		GraphDbHandlerForJTA.getInstance();
 
-		LOG.info("Done");
+		LOG.debug("Done");
 
 	}
 
