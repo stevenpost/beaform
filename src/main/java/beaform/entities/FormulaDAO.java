@@ -155,24 +155,26 @@ public class FormulaDAO {
 
 	/**
 	 * This method adds tags to a formula.
+	 * It assumes a running transaction.
 	 *
 	 * @param tags A list of tags
-	 * @param em an open entity manager
+	 * @param entityManager an open entity manager
 	 * @param formula the formula to add the tags to
 	 */
-	private void addTags(final List<FormulaTag> tags, final EntityManager em, final Formula formula) {
+	private void addTags(final List<FormulaTag> tags, final EntityManager entityManager, final Formula formula) {
+		final FormulaTagDAO formulaTagDAO = new FormulaTagDAO();
+
 		for (FormulaTag tag : tags) {
 			// See if the tag exist in the DB, if so, use it.
 			FormulaTag pTag = null;
 			try {
-				pTag = new FormulaTagDAO().findByName(tag.getName());
+				pTag = formulaTagDAO.findByObject(tag);
 			}
 			catch (NotSupportedException | SystemException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				LOG.error("Failed to find the tag", e1);
 			}
 			if (pTag == null) {
-				em.persist(tag);
+				entityManager.persist(tag);
 			}
 			else {
 				tag = pTag;
