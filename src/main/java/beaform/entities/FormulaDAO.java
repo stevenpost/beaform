@@ -78,8 +78,7 @@ public class FormulaDAO {
 
 		final Formula formula = findByName(name, entityManager);
 
-		formula.setDescription(description);
-		formula.setTotalAmount(totalAmount);
+		setFormulaProperties(formula, description, totalAmount);
 		formula.clearTags();
 
 		addTags(tags, entityManager, formula);
@@ -119,9 +118,7 @@ public class FormulaDAO {
 		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
 
 		final Formula formula = new Formula();
-		formula.setName(name);
-		formula.setDescription(description);
-		formula.setTotalAmount(totalAmount);
+		setFormulaProperties(formula, name, description, totalAmount);
 
 		addTags(tags, entityManager, formula);
 
@@ -137,6 +134,31 @@ public class FormulaDAO {
 		if (hasTransaction) {
 			commitTransation();
 		}
+	}
+
+	/**
+	 * This method sets the different properties of a formula.
+	 * @param formula The formula to change.
+	 * @param name The name of the formula.
+	 * @param description The description of the formula.
+	 * @param totalAmount The total amount in this formula.
+	 */
+	private void setFormulaProperties(final Formula formula, final String description, final String totalAmount) {
+		formula.setDescription(description);
+		formula.setTotalAmount(totalAmount);
+	}
+
+	/**
+	 * This method sets the different properties of a formula.
+	 * @param formula The formula to change.
+	 * @param name The name of the formula.
+	 * @param description The description of the formula.
+	 * @param totalAmount The total amount in this formula.
+	 */
+	private void setFormulaProperties(final Formula formula, final String name, final String description, final String totalAmount) {
+		formula.setName(name);
+		formula.setDescription(description);
+		formula.setTotalAmount(totalAmount);
 	}
 
 	/**
