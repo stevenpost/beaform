@@ -259,7 +259,7 @@ public class FormulaDAO {
 		return true;
 	}
 
-	private void clearFormulaRelations(Formula formula) {
+	private void clearFormulaRelations(final Formula formula) {
 		formula.clearIngredients();
 		formula.clearTags();
 	}
