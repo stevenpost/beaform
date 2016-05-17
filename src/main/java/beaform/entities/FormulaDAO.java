@@ -183,9 +183,12 @@ public class FormulaDAO {
 	 *
 	 * @param formula the name of the formula to look for
 	 * @return the found {@link Formula} or null if none was found.
+	 * @throws NotSupportedException
+	 * @throws SystemException
 	 */
-	public Formula findFormulaByName(String name) {
+	public Formula findFormulaByName(String name) throws SystemException, NotSupportedException {
 
+		boolean hasTransaction = setupTransaction();
 		Formula result;
 
 		final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
@@ -198,6 +201,10 @@ public class FormulaDAO {
 
 		em.flush();
 		em.close();
+
+		if (hasTransaction) {
+			commitTransation();
+		}
 
 		return result;
 	}
