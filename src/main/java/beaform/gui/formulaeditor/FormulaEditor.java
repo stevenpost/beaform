@@ -132,111 +132,113 @@ public class FormulaEditor extends JPanel {
 	}
 
 	private void init(final boolean isNew) {
-		int y = 0;
+		int gridy = 0;
 
 		// Formula requirements
 		final GridBagConstraints constraints = new GridBagConstraints();
 		constraints.gridx = 0;
-		constraints.gridy = y;
+		constraints.gridy = gridy;
 		this.add(LBL_NAME, constraints);
 
 		constraints.gridx = 1;
-		constraints.gridy = y;
+		constraints.gridy = gridy;
 		setDimensions(this.txtName, DIM_TEXTFIELDS);
 		this.txtName.setEnabled(isNew);
 		this.add(this.txtName, constraints);
 
-		y++;
+		gridy++;
 		constraints.gridx = 0;
-		constraints.gridy = y;
+		constraints.gridy = gridy;
 		this.add(LBL_DESCRIPTION, constraints);
 
 		constraints.gridx = 1;
-		constraints.gridy = y;
+		constraints.gridy = gridy;
 		setDimensions(this.txtDescription, DIM_TEXTFIELDS);
 		this.add(this.txtDescription, constraints);
 
-		y++;
+		gridy++;
 		constraints.gridx = 0;
-		constraints.gridy = y;
+		constraints.gridy = gridy;
 		setDimensions(LBL_TOTAL_AMOUNT, DIM_TEXTFIELDS);
 		this.add(LBL_TOTAL_AMOUNT, constraints);
 
 		constraints.gridx = 1;
-		constraints.gridy = y;
+		constraints.gridy = gridy;
 		setDimensions(this.txtTotalAmount, DIM_TEXTFIELDS);
 		this.add(this.txtTotalAmount, constraints);
 
 		// Ingredients
-		y++;
-		y = addIngredientComponents(y, constraints);
+		gridy++;
+		gridy = addIngredientComponents(gridy, constraints);
 
 		// Tags
-		y++;
-		y = addTagComponents(y, constraints);
+		gridy++;
+		gridy = addTagComponents(gridy, constraints);
 
 		// Submit
-		y++;
+		gridy++;
 		constraints.gridx = 0;
-		constraints.gridy = y;
+		constraints.gridy = gridy;
 		constraints.gridwidth = 2;
 		this.add(this.btnSubmit, constraints);
 	}
 
 	/**
 	 * This method adds the GUI components for tags to the GUI
-	 * @param y the y value for the grid
+	 * @param tmpGridy the y value for the grid
 	 * @param constraints the constraints to work with
 	 * @return the y value of the last item
 	 */
-	private int addTagComponents(int y, final GridBagConstraints constraints) {
+	private int addTagComponents(final int gridy, final GridBagConstraints constraints) {
+		int tmpGridy = gridy;
 		final JList<FormulaTag> lstTags = new JList<FormulaTag>(this.lstTagModel);
 		final JTextField txtNewTag = new JTextField();
 		final JButton btnAddTag = new JButton("Add Tag");
 		final JButton btnDelTag = new JButton("Remove Tag");
 
 		constraints.gridx = 0;
-		constraints.gridy = y;
+		constraints.gridy = tmpGridy;
 		constraints.gridwidth = 2;
 		this.add(LBL_TAGS, constraints);
 		constraints.gridwidth = 1;
 
-		y++;
+		tmpGridy++;
 		constraints.gridx = 0;
-		constraints.gridy = y;
+		constraints.gridy = tmpGridy;
 		constraints.gridheight = 3;
 		setDimensions(lstTags, DIM_LISTS);
 		this.add(lstTags, constraints);
 
 		constraints.gridx = 1;
-		constraints.gridy = y;
+		constraints.gridy = tmpGridy;
 		constraints.gridheight = 1;
 		setDimensions(txtNewTag, DIM_TEXTFIELDS);
 		this.add(txtNewTag, constraints);
 
-		y++;
+		tmpGridy++;
 		constraints.gridx = 1;
-		constraints.gridy = y;
+		constraints.gridy = tmpGridy;
 		btnAddTag.addActionListener(new AddTagAction(txtNewTag, this));
 		this.add(btnAddTag, constraints);
 
-		y++;
+		tmpGridy++;
 		constraints.gridx = 1;
-		constraints.gridy = y;
+		constraints.gridy = tmpGridy;
 		btnDelTag.addActionListener(new DelTagAction(lstTags, this));
 		this.add(btnDelTag, constraints);
-		return y;
+		return tmpGridy;
 	}
 
 	/**
 	 * This method adds the ingredient components to the GUI
 	 *
-	 * @param y the y value for the grid
+	 * @param tmpGridy the y value for the grid
 	 * @param constraints the constraints to work with
 	 * @return the y value of the last item
 	 */
-	private int addIngredientComponents(int y, final GridBagConstraints constraints) {
+	private int addIngredientComponents(final int gridy, final GridBagConstraints constraints) {
 
+		int tmpGridy = gridy;
 		final JList<Ingredient> lstFormulas = new JList<Ingredient>(this.lstFormulaModel);
 		final JTextField txtNewIngredient = new JTextField();
 		final JTextField txtNewIngredientAmount = new JTextField();
@@ -244,52 +246,52 @@ public class FormulaEditor extends JPanel {
 		final JButton btnDelIngredient = new JButton("Del ingedrient");
 
 		constraints.gridx = 0;
-		constraints.gridy = y;
+		constraints.gridy = tmpGridy;
 		constraints.gridwidth = 2;
 		this.add(LBL_INGREDIENTS, constraints);
 		constraints.gridwidth = 1;
 
-		y++;
+		tmpGridy++;
 		constraints.gridx = 0;
-		constraints.gridy = y;
+		constraints.gridy = tmpGridy;
 		constraints.gridheight = 4;
 		setDimensions(lstFormulas, DIM_LISTS);
 		this.add(lstFormulas, constraints);
 		constraints.gridheight = 1;
 
 		constraints.gridx = 1;
-		constraints.gridy = y;
+		constraints.gridy = tmpGridy;
 		setDimensions(LBL_INGREDIENT_NAME, DIM_TEXTFIELDS);
 		this.add(LBL_INGREDIENT_NAME, constraints);
 
 		constraints.gridx = 2;
-		constraints.gridy = y;
+		constraints.gridy = tmpGridy;
 		setDimensions(LBL_AMOUNT, DIM_AMOUNT);
 		this.add(LBL_AMOUNT, constraints);
 
-		y++;
+		tmpGridy++;
 		constraints.gridx = 1;
-		constraints.gridy = y;
+		constraints.gridy = tmpGridy;
 		setDimensions(txtNewIngredient, DIM_TEXTFIELDS);
 		this.add(txtNewIngredient, constraints);
 
 		constraints.gridx = 2;
-		constraints.gridy = y;
+		constraints.gridy = tmpGridy;
 		setDimensions(txtNewIngredientAmount, DIM_AMOUNT);
 		this.add(txtNewIngredientAmount, constraints);
 
-		y++;
+		tmpGridy++;
 		constraints.gridx = 1;
-		constraints.gridy = y;
+		constraints.gridy = tmpGridy;
 		btnAddIngredient.addActionListener(new AddIngredientAction(txtNewIngredient, txtNewIngredientAmount, this.lstFormulaModel));
 		this.add(btnAddIngredient, constraints);
 
-		y++;
+		tmpGridy++;
 		constraints.gridx = 1;
-		constraints.gridy = y;
+		constraints.gridy = tmpGridy;
 		btnDelIngredient.addActionListener(new DelIngredientAction(lstFormulas, this.lstFormulaModel));
 		this.add(btnDelIngredient, constraints);
-		return y;
+		return tmpGridy;
 	}
 
 	/**
