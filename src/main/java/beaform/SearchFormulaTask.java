@@ -1,9 +1,7 @@
 package beaform;
 
-import java.util.List;
 import java.util.concurrent.Callable;
 
-import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
@@ -13,6 +11,7 @@ import javax.transaction.SystemException;
 import javax.transaction.TransactionManager;
 
 import beaform.entities.Formula;
+import beaform.entities.FormulaDAO;
 
 public final class SearchFormulaTask implements Callable<Formula> {
 
@@ -25,28 +24,15 @@ public final class SearchFormulaTask implements Callable<Formula> {
 	@Override
 	public Formula call() throws NotSupportedException, SystemException {
 
+		final FormulaDAO formulaDAO = new FormulaDAO();
+
 		final TransactionManager tm = GraphDbHandlerForJTA.getInstance().getTransactionManager();
 
 		tm.begin();
 		Formula result;
 
 		try {
-			final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
-
-			final String query = "match (n:Formula { name:'" + this.name + "' }) return n";
-			result = (Formula) em.createNativeQuery(query, Formula.class).getSingleResult();
-			System.out.println("Found: " + result);
-
-			System.out.println("Printing ingredients...");
-			final List<Ingredient> ingredients = result.getIngredients();
-			for (final Ingredient ingredient : ingredients) {
-				final String amount = ingredient.getAmount();
-				System.out.println(" - " + amount + " " + ingredient.getFormula().getName());
-			}
-
-			em.flush();
-			em.close();
-
+			result = formulaDAO.findFormulaByName(this.name);
 			try {
 				tm.commit();
 			}

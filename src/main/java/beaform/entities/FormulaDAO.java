@@ -183,4 +183,29 @@ public class FormulaDAO {
 		}
 	}
 
+	/**
+	 * This method finds a formula in the DB based on a name.
+	 * It assumes a transaction is already in progress.
+	 *
+	 * @param formula the name of the formula to look for
+	 * @return the found {@link Formula} or null if none was found.
+	 */
+	public Formula findFormulaByName(String name) {
+
+		Formula result;
+
+		final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
+
+		final String query = "match (n:Formula { name:'" + name + "' }) return n";
+		result = (Formula) em.createNativeQuery(query, Formula.class).getSingleResult();
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("Found: " + result);
+		}
+
+		em.flush();
+		em.close();
+
+		return result;
+	}
+
 }
