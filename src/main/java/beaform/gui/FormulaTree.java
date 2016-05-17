@@ -129,16 +129,20 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 			return;
 		}
 
-		final Object nodeInfo = node.getUserObject();
-		final TreeViewFormula form = (TreeViewFormula)nodeInfo;
+		final TreeViewFormula form = (TreeViewFormula)node.getUserObject();
 		final StringBuilder description = new StringBuilder(31);
 		if (node.isLeaf()) {
-			description.append("Amount: ").append(form.getAmount()).append("\n\n");
+			final String amount = form.getAmount();
+			description.append("Amount: ").append(amount).append("\n\n");
 		}
 		else {
-			description.append("Total amount: ").append(form.getFormula().getTotalAmount()).append("\n\n");
+			final String amount = form.getFormula().getTotalAmount();
+			description.append("Total amount: ").append(amount).append("\n\n");
 		}
-		description.append("Descrtiption:\n").append(form.getFormula().getDescription()).append("\n\nTags: \n").append(String.join(",", form.getFormula().getTagsAsStrings()));
+
+		final String formDescription = form.getDescription();
+		final String tagsAsString = String.join(",", form.getTagsAsStrings());
+		description.append("Descrtiption:\n").append(formDescription).append("\n\nTags: \n").append(tagsAsString);
 		this.htmlPane.setText(description.toString());
 	}
 

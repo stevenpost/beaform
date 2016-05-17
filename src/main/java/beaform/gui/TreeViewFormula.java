@@ -1,5 +1,7 @@
 package beaform.gui;
 
+import java.util.List;
+
 import beaform.Ingredient;
 import beaform.entities.Formula;
 
@@ -62,6 +64,22 @@ public class TreeViewFormula {
 	 */
 	public String getAmount() {
 		return this.amount;
+	}
+
+	/**
+	 * Get a list of tags as strings
+	 * @return a list of strings
+	 */
+	public List<String> getTagsAsStrings() {
+		return this.formula.getTagsAsStrings();
+	}
+
+	/**
+	 * Getter for the formula description
+	 * @return the description of the formula
+	 */
+	public String getDescription() {
+		return this.formula.getDescription();
 	}
 
 }
