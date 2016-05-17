@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
@@ -171,8 +172,13 @@ public class FormulaDAO {
 			try {
 				pTag = searchresult.get();
 			}
-			catch (InterruptedException | ExecutionException e1) {
-				LOG.error(e1.getMessage(), e1);
+			catch (InterruptedException e) {
+				LOG.error("The search for the tag was interrupted.", e);
+			}
+			catch (ExecutionException e) {
+				if (!(e.getCause() instanceof NoResultException)) {
+					LOG.error(e.getMessage(), e);
+				}
 			}
 			if (pTag == null) {
 				em.persist(tag);
