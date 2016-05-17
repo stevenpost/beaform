@@ -32,7 +32,7 @@ public final class SearchTagTask implements Callable<FormulaTag> {
 		try {
 			final EntityManager em = GraphDbHandlerForJTA.getInstance().getEntityManagerFactory().createEntityManager();
 
-			final String query = "match (n:Tag { name:'" + this.name + "' }) return n";
+			final String query = "match (n:FormulaTag { name:'" + this.name + "' }) return n";
 			result = (FormulaTag) em.createNativeQuery(query, FormulaTag.class).getSingleResult();
 			System.out.println("Found: " + result);
 
