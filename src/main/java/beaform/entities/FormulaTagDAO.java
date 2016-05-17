@@ -32,12 +32,10 @@ public class FormulaTagDAO {
 	 * @throws SystemException If the transaction service fails in an unexpected way.
 	 */
 	public FormulaTag findByName(final String name) throws NotSupportedException, SystemException {
-		FormulaTag result;
 
 		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
 
-		final String query = "match (n:FormulaTag { name:'" + name + "' }) return n";
-		result = (FormulaTag) entityManager.createNativeQuery(query, FormulaTag.class).getSingleResult();
+		final FormulaTag result = findByName(name, entityManager);
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Found: " + result);
 		}
@@ -45,6 +43,17 @@ public class FormulaTagDAO {
 		GraphDbHandlerForJTA.tryCloseEntityManager(entityManager);
 
 		return result;
+	}
+
+	/**
+	 * Find a tag in the DB by its name.
+	 * @param name the name of the tag to look for
+	 * @param entityManager the entity manager
+	 * @return the tag found
+	 */
+	private FormulaTag findByName(final String name, final EntityManager entityManager) {
+		final String query = "match (n:FormulaTag { name:'" + name + "' }) return n";
+		return (FormulaTag) entityManager.createNativeQuery(query, FormulaTag.class).getSingleResult();
 	}
 
 	/**
@@ -58,13 +67,11 @@ public class FormulaTagDAO {
 	 *         and nested transactions are not supported.
 	 * @throws SystemException If the transaction service fails in an unexpected way.
 	 */
-	public FormulaTag findByObject(final FormulaTag name) throws NotSupportedException, SystemException {
-		FormulaTag result;
+	public FormulaTag findByObject(final FormulaTag tag) throws NotSupportedException, SystemException {
 
 		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
 
-		final String query = "match (n:FormulaTag { name:'" + name.getName() + "' }) return n";
-		result = (FormulaTag) entityManager.createNativeQuery(query, FormulaTag.class).getSingleResult();
+		final FormulaTag result = findByName(tag.getName(), entityManager);
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Found: " + result);
 		}
