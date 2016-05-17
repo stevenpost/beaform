@@ -231,6 +231,7 @@ public class FormulaEditor extends JPanel {
 		constraints.gridy = tmpGridy;
 		btnDelTag.addActionListener(new DelTagAction(lstTags, this));
 		this.add(btnDelTag, constraints);
+
 		return tmpGridy;
 	}
 
@@ -296,6 +297,7 @@ public class FormulaEditor extends JPanel {
 		constraints.gridy = tmpGridy;
 		btnDelIngredient.addActionListener(new DelIngredientAction(lstFormulas, this.lstFormulaModel));
 		this.add(btnDelIngredient, constraints);
+
 		return tmpGridy;
 	}
 
