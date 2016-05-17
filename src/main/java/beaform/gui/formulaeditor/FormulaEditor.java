@@ -296,9 +296,7 @@ public class FormulaEditor extends JPanel {
 
 	/**
 	 * This method sets 3 different sizes to a component:
-	 * - minimum
-	 * - preferred
-	 * - maximum
+	 * minimum, preferred and maximum
 	 *
 	 * @param comp The component
 	 * @param dim The dimensions for the sizing
