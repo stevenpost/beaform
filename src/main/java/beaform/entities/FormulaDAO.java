@@ -33,8 +33,10 @@ public class FormulaDAO {
 	 * Get the ingredients of a formula.
 	 * @param formula
 	 * @return a list of {@link Ingredient} objects
-	 * @throws NotSupportedException
-	 * @throws SystemException
+	 * @throws NotSupportedException If the calling thread is already
+	 *         associated with a transaction,
+	 *         and nested transactions are not supported.
+	 * @throws SystemException If the transaction service fails in an unexpected way.
 	 */
 	public List<Ingredient> getIngredients(Formula formula) throws NotSupportedException, SystemException {
 		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getInstance().getTransactionManager();
