@@ -25,7 +25,6 @@ public class SearchAction implements ActionListener {
 	public void actionPerformed(final ActionEvent e) {
 		final Future<Formula> searchresult = GraphDbHandlerForJTA.addTask(new SearchFormulaTask(this.txtName.getText()));
 		GraphDbHandlerForJTA.addTask(new RenderSearchResult(searchresult, this.pane));
-
 	}
 
 }
