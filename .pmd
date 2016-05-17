@@ -210,10 +210,6 @@
             <ruleset>Design</ruleset>
         </rule>
         <rule>
-            <name>BeanMembersShouldSerialize</name>
-            <ruleset>JavaBeans</ruleset>
-        </rule>
-        <rule>
             <name>BigIntegerInstantiation</name>
             <ruleset>Basic</ruleset>
         </rule>
