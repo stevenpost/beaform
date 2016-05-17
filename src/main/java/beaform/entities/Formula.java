@@ -63,7 +63,7 @@ public class Formula {
 			final Formula formula = entry.getValue();
 			String amount = entry.getKey();
 			amount = amount.substring(amount.indexOf('|') + 1);
-			ingredients.add(new Ingredient(formula, amount));
+			ingredients.add(new Ingredient(formula, amount)); // NOPMD by steven on 5/17/16 11:43 PM
 		}
 
 		return ingredients;
