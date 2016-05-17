@@ -33,7 +33,7 @@ public class IngredientPane extends JPanel {
 	private static final JLabel LBL_INGREDIENTS = new JLabel("Ingredients");
 
 	/** A label for the name of ingredients */
-	private static final JLabel LBL_INGREDIENT_NAME = new JLabel("Name");
+	private static final JLabel LBL_NAME = new JLabel("Name");
 
 	/** A label for the amount in an ingredient */
 	private static final JLabel LBL_AMOUNT = new JLabel("Amount");
@@ -63,8 +63,8 @@ public class IngredientPane extends JPanel {
 
 		int gridy = 0;
 		final JList<Ingredient> lstFormulas = new JList<Ingredient>(this.ingredients);
-		final JTextField txtNewIngredient = new JTextField();
-		final JTextField txtNewIngredientAmount = new JTextField();
+		final JTextField txtName = new JTextField();
+		final JTextField txtAmount = new JTextField();
 		final JButton btnAddIngredient = new JButton("Add ingedrient");
 		final JButton btnDelIngredient = new JButton("Del ingedrient");
 
@@ -86,10 +86,10 @@ public class IngredientPane extends JPanel {
 
 		constraints.gridx = 1;
 		constraints.gridy = gridy;
-		LBL_INGREDIENT_NAME.setMinimumSize(DIM_TEXTFIELDS);
-		LBL_INGREDIENT_NAME.setPreferredSize(DIM_TEXTFIELDS);
-		LBL_INGREDIENT_NAME.setMaximumSize(DIM_TEXTFIELDS);
-		this.add(LBL_INGREDIENT_NAME, constraints);
+		LBL_NAME.setMinimumSize(DIM_TEXTFIELDS);
+		LBL_NAME.setPreferredSize(DIM_TEXTFIELDS);
+		LBL_NAME.setMaximumSize(DIM_TEXTFIELDS);
+		this.add(LBL_NAME, constraints);
 
 		constraints.gridx = 2;
 		constraints.gridy = gridy;
@@ -101,22 +101,22 @@ public class IngredientPane extends JPanel {
 		gridy++;
 		constraints.gridx = 1;
 		constraints.gridy = gridy;
-		txtNewIngredient.setMinimumSize(DIM_TEXTFIELDS);
-		txtNewIngredient.setPreferredSize(DIM_TEXTFIELDS);
-		txtNewIngredient.setMaximumSize(DIM_TEXTFIELDS);
-		this.add(txtNewIngredient, constraints);
+		txtName.setMinimumSize(DIM_TEXTFIELDS);
+		txtName.setPreferredSize(DIM_TEXTFIELDS);
+		txtName.setMaximumSize(DIM_TEXTFIELDS);
+		this.add(txtName, constraints);
 
 		constraints.gridx = 2;
 		constraints.gridy = gridy;
-		txtNewIngredientAmount.setMinimumSize(DIM_AMOUNT);
-		txtNewIngredientAmount.setPreferredSize(DIM_AMOUNT);
-		txtNewIngredientAmount.setMaximumSize(DIM_AMOUNT);
-		this.add(txtNewIngredientAmount, constraints);
+		txtAmount.setMinimumSize(DIM_AMOUNT);
+		txtAmount.setPreferredSize(DIM_AMOUNT);
+		txtAmount.setMaximumSize(DIM_AMOUNT);
+		this.add(txtAmount, constraints);
 
 		gridy++;
 		constraints.gridx = 1;
 		constraints.gridy = gridy;
-		btnAddIngredient.addActionListener(new AddIngredientAction(txtNewIngredient, txtNewIngredientAmount, this.ingredients));
+		btnAddIngredient.addActionListener(new AddIngredientAction(txtName, txtAmount, this.ingredients));
 		this.add(btnAddIngredient, constraints);
 
 		gridy++;
@@ -135,6 +135,10 @@ public class IngredientPane extends JPanel {
 		this.ingredients.addElement(ingredient);
 	}
 
+	/**
+	 * Gets all the ingredients.
+	 * @return all the ingredients
+	 */
 	public Iterator<Ingredient> getIngredients() {
 		final List<Ingredient> ingredients = new ArrayList<Ingredient>();
 		final int nrOfIngredients = this.ingredients.getSize();
