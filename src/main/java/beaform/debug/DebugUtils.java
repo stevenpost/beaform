@@ -69,7 +69,7 @@ public final class DebugUtils {
 			LOG.debug(formula.toString());
 		}
 
-		tryCloseEntityManager(entityManager);
+		GraphDbHandlerForJTA.tryCloseEntityManager(entityManager);
 
 		try {
 			transactionMgr.commit();
@@ -107,7 +107,7 @@ public final class DebugUtils {
 			LOG.trace("No result found, which is good");
 		}
 
-		tryCloseEntityManager(entityManager);
+		GraphDbHandlerForJTA.tryCloseEntityManager(entityManager);
 
 		try {
 			transactionMgr.commit();
@@ -149,7 +149,7 @@ public final class DebugUtils {
 			addIngredientsToFormula(form1, new Ingredient(form3, "50%"));
 			addIngredientsToFormula(form2, new Ingredient(form4, "10%"), new Ingredient(form1, "50%"));
 
-			tryCloseEntityManager(entityManager);
+			GraphDbHandlerForJTA.tryCloseEntityManager(entityManager);
 
 			try {
 				transactionMgr.commit();
@@ -176,11 +176,6 @@ public final class DebugUtils {
 				LOG.error("Error on rollback", e);
 			}
 		}
-	}
-
-	private static void tryCloseEntityManager(final EntityManager entityManager) {
-		entityManager.flush();
-		entityManager.close();
 	}
 
 	/**

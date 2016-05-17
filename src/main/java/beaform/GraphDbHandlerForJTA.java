@@ -117,6 +117,16 @@ public class GraphDbHandlerForJTA {
 	}
 
 	/**
+	 * Try to close the entity manager.
+	 * This method will flush the manager first.
+	 * @param entityManager the manager to close.
+	 */
+	public static void tryCloseEntityManager(final EntityManager entityManager) {
+		entityManager.flush();
+		entityManager.close();
+	}
+
+	/**
 	 * This class is a shutdownhook to make sure the embedded DB is stopped.
 	 *
 	 * @author Steven Post
