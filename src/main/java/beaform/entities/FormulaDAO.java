@@ -73,10 +73,10 @@ public class FormulaDAO {
 	 * @param tags a list of tags
 	 */
 	public void updateExisting(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<FormulaTag> tags) {
-		final TransactionManager tmtransactionMgr = GraphDbHandlerForJTA.getInstance().getTransactionManager();
+		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getInstance().getTransactionManager();
 
 		try {
-			tmtransactionMgr.begin();
+			transactionMgr.begin();
 		}
 		catch (NotSupportedException | SystemException e1) {
 			LOG.error(e1.getMessage(), e1);
@@ -106,7 +106,7 @@ public class FormulaDAO {
 		ementityManager.close();
 
 		try {
-			tmtransactionMgr.commit();
+			transactionMgr.commit();
 		}
 		catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
 						| HeuristicRollbackException | SystemException e1)
