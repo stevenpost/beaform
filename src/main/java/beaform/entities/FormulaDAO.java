@@ -79,15 +79,11 @@ public class FormulaDAO {
 		final Formula formula = findByName(name, entityManager);
 
 		setFormulaProperties(formula, description, totalAmount);
-		formula.clearTags();
+
+		clearFormulaRelations(formula);
 
 		addTags(tags, entityManager, formula);
-
-		formula.clearIngredients();
-		for (final Ingredient ingredient : ingredients) {
-			// We should only be holding existing Formulas at this point
-			formula.addIngredient(ingredient.getFormula(), ingredient.getAmount());
-		}
+		addIngredientsToFormula(formula, ingredients);
 
 		entityManager.persist(formula);
 
@@ -95,6 +91,18 @@ public class FormulaDAO {
 
 		if (hasTransaction) {
 			commitTransation();
+		}
+	}
+
+	/**
+	 * This method adds ingredients to a formula.
+	 * @param formula the formula
+	 * @param ingredients a list of ingredients to add
+	 */
+	private void addIngredientsToFormula(final Formula formula, final List<Ingredient> ingredients) {
+		for (final Ingredient ingredient : ingredients) {
+			// We should only be holding existing Formulas at this point
+			formula.addIngredient(ingredient.getFormula(), ingredient.getAmount());
 		}
 	}
 
@@ -122,10 +130,7 @@ public class FormulaDAO {
 
 		addTags(tags, entityManager, formula);
 
-		for (final Ingredient ingredient : ingredients) {
-			// We should only be holding existing Formulas at this point
-			formula.addIngredient(ingredient.getFormula(), ingredient.getAmount());
-		}
+		addIngredientsToFormula(formula, ingredients);
 
 		entityManager.persist(formula);
 
@@ -252,6 +257,11 @@ public class FormulaDAO {
 			return false;
 		}
 		return true;
+	}
+
+	private void clearFormulaRelations(Formula formula) {
+		formula.clearIngredients();
+		formula.clearTags();
 	}
 
 }
