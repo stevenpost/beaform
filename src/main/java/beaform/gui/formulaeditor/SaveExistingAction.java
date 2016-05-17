@@ -46,7 +46,7 @@ public class SaveExistingAction implements ActionListener {
 	@Override
 	public void actionPerformed(final ActionEvent e) {
 		if (LOG.isInfoEnabled()) {
-			LOG.info("Add: " + this.formula.getName() + " with description: " + this.txtDescription.getText());
+			LOG.info("Edit: " + this.formula.getName() + " with description: " + this.txtDescription.getText());
 		}
 
 		// Get Ingredients in a list
