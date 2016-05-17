@@ -42,8 +42,7 @@ public class FormulaTagDAO {
 			LOG.debug("Found: " + result);
 		}
 
-		entityManager.flush();
-		entityManager.close();
+		GraphDbHandlerForJTA.tryCloseEntityManager(entityManager);
 
 		return result;
 	}
@@ -70,8 +69,7 @@ public class FormulaTagDAO {
 			LOG.debug("Found: " + result);
 		}
 
-		entityManager.flush();
-		entityManager.close();
+		GraphDbHandlerForJTA.tryCloseEntityManager(entityManager);
 
 		return result;
 	}

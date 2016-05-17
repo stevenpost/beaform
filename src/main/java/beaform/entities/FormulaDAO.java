@@ -44,12 +44,11 @@ public class FormulaDAO {
 
 		final boolean hasTransaction = setupTransaction();
 
-		final EntityManager ementityManager = GraphDbHandlerForJTA.getNewEntityManager();
-		formula = (Formula) ementityManager.createNativeQuery("match (n:Formula { name:'" + formula.getName() + "' }) return n", Formula.class).getSingleResult();
+		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
+		formula = (Formula) entityManager.createNativeQuery("match (n:Formula { name:'" + formula.getName() + "' }) return n", Formula.class).getSingleResult();
 		final List<Ingredient> retList = formula.getIngredients();
 
-		ementityManager.flush();
-		ementityManager.close();
+		GraphDbHandlerForJTA.tryCloseEntityManager(entityManager);
 
 		if (hasTransaction) {
 			commitTransation();
@@ -75,16 +74,16 @@ public class FormulaDAO {
 	public void updateExisting(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<FormulaTag> tags) throws SystemException, NotSupportedException {
 		final boolean hasTransaction = setupTransaction();
 
-		final EntityManager ementityManager = GraphDbHandlerForJTA.getNewEntityManager();
+		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
 
 		final String query = "match (n:Formula { name:'" + name + "' }) return n";
-		final Formula formula = (Formula) ementityManager.createNativeQuery(query, Formula.class).getSingleResult();
+		final Formula formula = (Formula) entityManager.createNativeQuery(query, Formula.class).getSingleResult();
 
 		formula.setDescription(description);
 		formula.setTotalAmount(totalAmount);
 		formula.clearTags();
 
-		addTags(tags, ementityManager, formula);
+		addTags(tags, entityManager, formula);
 
 		formula.clearIngredients();
 		for (final Ingredient ingredient : ingredients) {
@@ -92,10 +91,9 @@ public class FormulaDAO {
 			formula.addIngredient(ingredient.getFormula(), ingredient.getAmount());
 		}
 
-		ementityManager.persist(formula);
+		entityManager.persist(formula);
 
-		ementityManager.flush();
-		ementityManager.close();
+		GraphDbHandlerForJTA.tryCloseEntityManager(entityManager);
 
 		if (hasTransaction) {
 			commitTransation();
@@ -135,8 +133,7 @@ public class FormulaDAO {
 
 		entityManager.persist(formula);
 
-		entityManager.flush();
-		entityManager.close();
+		GraphDbHandlerForJTA.tryCloseEntityManager(entityManager);
 
 		if (hasTransaction) {
 			commitTransation();
@@ -191,16 +188,15 @@ public class FormulaDAO {
 		final boolean hasTransaction = setupTransaction();
 		Formula result;
 
-		final EntityManager em = GraphDbHandlerForJTA.getNewEntityManager();
+		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
 
 		final String query = "match (n:Formula { name:'" + name + "' }) return n";
-		result = (Formula) em.createNativeQuery(query, Formula.class).getSingleResult();
+		result = (Formula) entityManager.createNativeQuery(query, Formula.class).getSingleResult();
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Found: " + result);
 		}
 
-		em.flush();
-		em.close();
+		GraphDbHandlerForJTA.tryCloseEntityManager(entityManager);
 
 		if (hasTransaction) {
 			commitTransation();
