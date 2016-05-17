@@ -25,53 +25,81 @@ import beaform.entities.FormulaTag;
 /**
  * This class represents a GUI for editing formulas.
  *
- * @author steven
+ * @author Steven Post
  *
  */
 public class FormulaEditor extends JPanel {
 
-	/**
-	 *
-	 */
+	/** A serial */
 	private static final long serialVersionUID = 2557014310487638917L;
 
-	/**
-	 * Dimensions for most text fields
-	 */
+	/** Dimensions for most text fields */
 	private static final Dimension DIM_TEXTFIELDS = new Dimension(100, 30);
-	/**
-	 * Dimensions for the amount field
-	 */
+
+	/** Dimensions for the amount field */
 	private static final Dimension DIM_AMOUNT = new Dimension(60, 30);
-	/**
-	 * Dimensions for lists
-	 */
+
+	/** Dimensions for lists */
 	private static final Dimension DIM_LISTS = new Dimension(200, 100);
+
+	/** A label for the total amount of a formula */
 	private static final JLabel LBL_TOTAL_AMOUNT = new JLabel("total amount");
+
+	/** A label for the name of a formula */
 	private static final JLabel LBL_NAME = new JLabel("Name");
+
+	/** A label for the description of a formula */
 	private static final JLabel LBL_DESCRIPTION = new JLabel("Description");
+
+	/** A label for the list of tags */
 	private static final JLabel LBL_TAGS = new JLabel("Tags");
+
+	/** A label for the list of ingredients */
 	private static final JLabel LBL_INGREDIENTS = new JLabel("Ingredients");
+
+	/** A label for the name of ingredients */
 	private static final JLabel LBL_INGREDIENT_NAME = new JLabel("Name");
+
+	/** A label for the amount in an ingredient */
 	private static final JLabel LBL_AMOUNT = new JLabel("Amount");
 
-	private final JTextField txtName = new JTextField();
-	private final JTextField txtDescription = new JTextField();
-	private final JTextField txtTotalAmount = new JTextField();
+	/** A text field for the name of the formula */
+	private final transient JTextField txtName = new JTextField();
 
-	private final List<FormulaTag> tags = new ArrayList<FormulaTag>();
-	private final DefaultListModel<FormulaTag> lstTagModel = new DefaultListModel<FormulaTag>();
+	/** A text field for the description of a formula */
+	private final transient JTextField txtDescription = new JTextField();
 
-	private final DefaultListModel<Ingredient> lstFormulaModel = new DefaultListModel<Ingredient>();
+	/** A text field for the total amount of a formula */
+	private final transient JTextField txtTotalAmount = new JTextField();
 
-	private final JButton btnSubmit = new JButton("Submit");
+	/** A list of formula tags */
+	private final transient List<FormulaTag> tags = new ArrayList<FormulaTag>();
 
+	/** A list model to get the list of tags to the screen */
+	private final transient DefaultListModel<FormulaTag> lstTagModel = new DefaultListModel<FormulaTag>();
+
+	/** A list model to get the list of formulas to the screen */
+	private final transient DefaultListModel<Ingredient> lstFormulaModel = new DefaultListModel<Ingredient>();
+
+	/** The 'save' button */
+	private final transient JButton btnSubmit = new JButton("Submit");
+
+	/**
+	 * Main constructor for this editor to add a new formula.
+	 * If you want to edit an existing one,
+	 * use the overridden constructor that takes a formula as argument.
+	 */
 	public FormulaEditor() {
 		super(new GridBagLayout());
 		init(true);
 		this.btnSubmit.addActionListener(new AddAction(this.txtName, this.txtDescription, this.txtTotalAmount, this.lstFormulaModel, this.tags));
 	}
 
+	/**
+	 * Constructor that makes this an editor for existing formulas.
+	 *
+	 * @param formula The formula that needs editing.
+	 */
 	public FormulaEditor(final Formula formula) {
 		super(new GridBagLayout());
 		init(false);
