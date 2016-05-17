@@ -41,13 +41,13 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	private static final Logger LOG = LoggerFactory.getLogger(FormulaTree.class);
 
 	/** The visual Tree object */
-	private final transient JTree tree;
+	private final JTree tree;
 
 	/**
 	 * A description pane to show a more detailed
 	 * description of the selected object
 	 */
-	private final transient JEditorPane htmlPane;
+	private final JEditorPane htmlPane;
 
 	/**
 	 * Constructor for the tree view.

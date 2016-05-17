@@ -34,10 +34,10 @@ public class TagPane extends JPanel {
 	private static final JLabel LBL_TAGS = new JLabel("Tags");
 
 	/** A list of formula tags */
-	private final transient List<FormulaTag> tags = new ArrayList<FormulaTag>();
+	private final List<FormulaTag> tags = new ArrayList<FormulaTag>();
 
 	/** A list model to get the list of tags to the screen */
-	private final transient DefaultListModel<FormulaTag> lstTagModel = new DefaultListModel<FormulaTag>();
+	private final DefaultListModel<FormulaTag> lstTagModel = new DefaultListModel<FormulaTag>();
 
 	/**
 	 * Serial

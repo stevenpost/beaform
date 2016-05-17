@@ -49,22 +49,22 @@ public class FormulaEditor extends JPanel {
 	private static final JLabel LBL_DESCRIPTION = new JLabel("Description");
 
 	/** A text field for the name of the formula */
-	private final transient JTextField txtName = new JTextField();
+	private final JTextField txtName = new JTextField();
 
 	/** A text field for the description of a formula */
-	private final transient JTextField txtDescription = new JTextField();
+	private final JTextField txtDescription = new JTextField();
 
 	/** A text field for the total amount of a formula */
-	private final transient JTextField txtTotalAmount = new JTextField();
+	private final JTextField txtTotalAmount = new JTextField();
 
 	/** The 'save' button */
-	private final transient JButton btnSubmit = new JButton("Submit");
+	private final JButton btnSubmit = new JButton("Submit");
 
 	/** The panel with all the tag components */
-	private final transient TagPane tagPane = new TagPane();
+	private final TagPane tagPane = new TagPane();
 
 	/** The panel with all the ingredient components */
-	private final transient IngredientPane ingredientPane = new IngredientPane();
+	private final IngredientPane ingredientPane = new IngredientPane();
 
 	/**
 	 * Main constructor for this editor to add a new formula.

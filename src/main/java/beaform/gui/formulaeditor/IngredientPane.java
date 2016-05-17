@@ -48,7 +48,7 @@ public class IngredientPane extends JPanel {
 	private static final Dimension DIM_TEXTFIELDS = new Dimension(100, 30);
 
 	/** A list model to get the list of formulas to the screen */
-	private final transient DefaultListModel<Ingredient> ingredients = new DefaultListModel<Ingredient>();
+	private final DefaultListModel<Ingredient> ingredients = new DefaultListModel<Ingredient>();
 
 	/**
 	 * Constructor
