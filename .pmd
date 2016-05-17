@@ -830,10 +830,6 @@
             <ruleset>Controversial</ruleset>
         </rule>
         <rule>
-            <name>OnlyOneReturn</name>
-            <ruleset>Controversial</ruleset>
-        </rule>
-        <rule>
             <name>OptimizableToArrayCall</name>
             <ruleset>Design</ruleset>
         </rule>
