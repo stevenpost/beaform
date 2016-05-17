@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
 import org.slf4j.Logger;
@@ -24,13 +25,29 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class About implements Runnable {
+
+	/** Logger */
 	private static final Logger LOG = LoggerFactory.getLogger(About.class);
+
+	/** The main frame of this dialog */
 	private static JFrame frm = new JFrame("About...");
+
+	/** The main content panel of this dialog */
 	private static JPanel pane = new JPanel();
+
+	/** The title label */
 	private static JLabel lblTitle = new JLabel();
+
+	/** The author label */
 	private static JLabel lblAuthor = new JLabel();
+
+	/** The area in which to display the license text */
 	private static JTextArea txtLicense = new JTextArea();
 
+	/**
+	 * Runs the body of this task.
+	 * This should not be invoked directly.
+	 */
 	@Override
 	public void run() {
 		createAndShowGUI();
@@ -64,12 +81,17 @@ public class About implements Runnable {
 
 	}
 
+	/**
+	 * Create and show the about box.
+	 */
 	public static void createAndShowGUI() {
 		//Set the look and feel.
-		try{
+		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		}
-		catch (Exception e){
+		catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+						| UnsupportedLookAndFeelException e)
+		{
 			if (LOG.isErrorEnabled()) {
 				LOG.error("Look'n feel: " + e.getMessage());
 			}
