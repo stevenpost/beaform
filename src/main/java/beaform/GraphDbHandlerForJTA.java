@@ -30,9 +30,16 @@ public class GraphDbHandlerForJTA {
 	/** An executor service for handling DB tasks */
 	private static final ExecutorService EXEC_SERVICE = Executors.newSingleThreadExecutor();
 
-	private final EntityManagerFactory entityManagerFact;
+	/** The {@link EntityManagerFactory} */
+	private final transient EntityManagerFactory entityManagerFact;
+
+	/** The global {@link EntityManager} */
 	private final EntityManager entityManager;
-	private final TransactionManager transactionMgr;
+
+	/** The {@link TransactionManager} */
+	private final transient TransactionManager transactionMgr;
+
+	/** The session factory */
 	private final SessionFactoryImplementor sessionFactory;
 
 	public static GraphDbHandlerForJTA getInstance() {
