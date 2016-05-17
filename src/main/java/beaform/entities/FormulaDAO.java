@@ -183,7 +183,7 @@ public class FormulaDAO {
 	 * @throws NotSupportedException
 	 * @throws SystemException
 	 */
-	public Formula findFormulaByName(String name) throws SystemException, NotSupportedException {
+	public Formula findFormulaByName(final String name) throws SystemException, NotSupportedException {
 
 		final boolean hasTransaction = setupTransaction();
 		Formula result;
