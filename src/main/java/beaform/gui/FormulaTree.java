@@ -20,17 +20,31 @@ import beaform.Ingredient;
 import beaform.entities.Formula;
 import beaform.gui.formulaeditor.FormulaEditor;
 
+/**
+ * This class implements a panel to show a tree view of formulas.
+ *
+ * @author Steven Post
+ *
+ */
 public class FormulaTree extends JPanel implements TreeSelectionListener {
 
-	/**
-	 *
-	 */
+	/** A serial used for serialization */
 	private static final long serialVersionUID = 2506532995127262817L;
 
-	private final JTree tree;
-	private final JEditorPane htmlPane;
+	/** The visual Tree object */
+	private final transient JTree tree;
 
+	/**
+	 * A description pane to show a more detailed
+	 * description of the selected object
+	 */
+	private final transient JEditorPane htmlPane;
 
+	/**
+	 * Constructor for the tree view.
+	 *
+	 * @param formula The formula that is the starting point of the tree
+	 */
 	public FormulaTree(final Formula formula) {
 		super(new GridLayout(1,0));
 
@@ -47,14 +61,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		this.tree.addTreeSelectionListener(this);
 
 		//Listen for double click events.
-		this.tree.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(final MouseEvent e) {
-				if(e.getClickCount() == 2) { // NOPMD by steven on 5/16/16 3:59 PM
-					doubleClick();
-				}
-			}
-		});
+		this.tree.addMouseListener(new DoubleClickListener());
 
 		//Create the scroll pane and add the tree to it.
 		final JScrollPane treeView = new JScrollPane(this.tree);
@@ -88,8 +95,12 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		}
 	}
 
+	/**
+	 * Called when the selection in the tree view changes.
+	 * It will display the details of the selected node.
+	 */
 	@Override
-	public void valueChanged(final TreeSelectionEvent e) {
+	public void valueChanged(final TreeSelectionEvent event) {
 		//Returns the last path element of the selection.
 		//This method is useful only when the selection model allows a single selection.
 		final DefaultMutableTreeNode node = (DefaultMutableTreeNode)
@@ -113,6 +124,11 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		this.htmlPane.setText(description.toString());
 	}
 
+	/**
+	 * This method is executed when double clicking on a node.
+	 *
+	 * It opens the formula editor with the formula of the node.
+	 */
 	public void doubleClick() {
 		//Returns the last path element of the selection.
 		//This method is useful only when the selection model allows a single selection.
@@ -127,6 +143,28 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		final Object nodeInfo = node.getUserObject();
 		final TreeViewFormula form = (TreeViewFormula)nodeInfo;
 		MainGUI.getInstance().replaceWindow(new FormulaEditor(form.getFormula()));
+	}
+
+	/**
+	 * A listener that activates on double clicks.
+	 *
+	 * @author Steven Post
+	 *
+	 */
+	public class DoubleClickListener extends MouseAdapter {
+
+		/**
+		 * This method fires when the mouse is clicked,
+		 * but only does something on double click events.
+		 *
+		 * @param event The event passed to this method when clicks are seen.
+		 */
+		@Override
+		public void mousePressed(final MouseEvent event) {
+			if(event.getClickCount() == 2) { // NOPMD by steven on 5/16/16 3:59 PM
+				doubleClick();
+			}
+		}
 	}
 
 }
