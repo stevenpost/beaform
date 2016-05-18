@@ -36,14 +36,14 @@ public class SearchAction implements ActionListener {
 	private final JPanel pane;
 
 	/** The combo box to select a type of search */
-	private final JComboBox<String> searchType;
+	private final JComboBox<SearchType> searchType;
 
 	/**
 	 * Constructor.
 	 * @param name the text field with the name of the formula
 	 * @param pane the panel on which to render the result
 	 */
-	public SearchAction(final JTextField name, final JPanel pane, final JComboBox<String> searchType) {
+	public SearchAction(final JTextField name, final JPanel pane, final JComboBox<SearchType> searchType) {
 		this.txtName = name;
 		this.pane = pane;
 		this.searchType = searchType;
@@ -56,18 +56,26 @@ public class SearchAction implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(final ActionEvent event) {
-		if ("Formula".equals(this.searchType.getSelectedItem())) {
-			final Future<Formula> searchresult = DbTaskHandler.addTask(new SearchFormulaTask(this.txtName.getText()));
-			VariousTaskHandler.addTask(new RenderFormulaSearchResult(searchresult, this.pane));
-		}
-		else if ("Tag".equals(this.searchType.getSelectedItem())) {
-			final Future<List<Formula>> searchresult = DbTaskHandler.addTask(new SearchFormulasByTagTask(this.txtName.getText()));
-			VariousTaskHandler.addTask(new RenderFormulaSearchByTagResult(searchresult, this.pane));
-		}
-		else {
-			if (LOG.isErrorEnabled()) {
-				LOG.error(this.searchType.getSelectedItem() + " is an unknown search");
+		final SearchType searchType = (SearchType) this.searchType.getSelectedItem();
+
+		switch (searchType) {
+			case FORMULA:
+			{
+				final Future<Formula> searchresult = DbTaskHandler.addTask(new SearchFormulaTask(this.txtName.getText()));
+				VariousTaskHandler.addTask(new RenderFormulaSearchResult(searchresult, this.pane));
+				break;
 			}
+			case TAG:
+			{
+				final Future<List<Formula>> searchresult = DbTaskHandler.addTask(new SearchFormulasByTagTask(this.txtName.getText()));
+				VariousTaskHandler.addTask(new RenderFormulaSearchByTagResult(searchresult, this.pane));
+				break;
+			}
+			default:
+				if (LOG.isErrorEnabled()) {
+					LOG.error(searchType + " is an unknown search");
+				}
+				break;
 		}
 	}
 

@@ -3,6 +3,7 @@ package beaform.gui.search;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -28,8 +29,11 @@ public class SearchGui extends JPanel {
 	/** A button to kickoff the search */
 	private final JButton btnSearch = new JButton("Search");
 
+	/** The model for the combo box. */
+	private final DefaultComboBoxModel<SearchType> comboBoxModel = new DefaultComboBoxModel<SearchType>(SearchType.values());
+
 	/** A combo box to define the type of search */
-	private final JComboBox<String> cmbType = new JComboBox<String>();
+	private final JComboBox<SearchType> cmbType = new JComboBox<SearchType>(this.comboBoxModel);
 
 	/**
 	 * Constructor.
@@ -51,8 +55,6 @@ public class SearchGui extends JPanel {
 		this.cmbType.setMaximumSize(DIM_TXTFIELDS);
 		this.cmbType.setPreferredSize(DIM_TXTFIELDS);
 		this.cmbType.setEditable(false);
-		this.cmbType.addItem("Formula");
-		this.cmbType.addItem("Tag");
 		this.cmbType.setSelectedIndex(0);
 		this.add(this.cmbType, constraints);
 
