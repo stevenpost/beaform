@@ -60,7 +60,7 @@ public final class RenderFormulaSearchResult implements Runnable {
 	 * @author Steven Post
 	 *
 	 */
-	public static final class AddFormTreeToGui implements Runnable {
+	private static final class AddFormTreeToGui implements Runnable {
 
 		/** The index of the formula tree on the target panel */
 		private static final int FORMULA_TREE_LOC = 3;
