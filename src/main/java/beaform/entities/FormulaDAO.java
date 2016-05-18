@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import beaform.GraphDbHandlerForJTA;
-import beaform.Ingredient;
 
 /**
  * This class handles all DB access for formulas.

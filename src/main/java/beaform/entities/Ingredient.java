@@ -1,6 +1,4 @@
-package beaform;
-
-import beaform.entities.Formula;
+package beaform.entities;
 
 /**
  * This class represents an ingredient

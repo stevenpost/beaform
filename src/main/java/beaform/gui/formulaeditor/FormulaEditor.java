@@ -17,10 +17,10 @@ import javax.transaction.SystemException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import beaform.Ingredient;
 import beaform.entities.Formula;
 import beaform.entities.FormulaDAO;
 import beaform.entities.FormulaTag;
+import beaform.entities.Ingredient;
 
 /**
  * This class represents a GUI for editing formulas.

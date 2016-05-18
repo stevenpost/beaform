@@ -2,8 +2,8 @@ package beaform.gui;
 
 import java.util.List;
 
-import beaform.Ingredient;
 import beaform.entities.Formula;
+import beaform.entities.Ingredient;
 
 /**
  * This class represents a formula for use in a tree view.

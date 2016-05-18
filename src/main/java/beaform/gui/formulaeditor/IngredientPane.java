@@ -14,7 +14,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import beaform.Ingredient;
+import beaform.entities.Ingredient;
 
 /**
  * This class houses all the components for the Ingredients in the formula editor.

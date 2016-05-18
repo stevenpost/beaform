@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import beaform.entities.Formula;
+import beaform.entities.Ingredient;
 import beaform.gui.TreeViewFormula;
 
 public class TreeViewFormulaTest {

@@ -9,9 +9,9 @@ import javax.swing.JTextField;
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 
-import beaform.Ingredient;
 import beaform.entities.Formula;
 import beaform.entities.FormulaDAO;
+import beaform.entities.Ingredient;
 
 /**
  * This action adds an ingredient to the list.

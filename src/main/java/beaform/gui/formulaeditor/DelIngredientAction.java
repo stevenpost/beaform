@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
-import beaform.Ingredient;
+import beaform.entities.Ingredient;
 
 public final class DelIngredientAction implements ActionListener {
 
