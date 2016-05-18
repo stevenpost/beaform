@@ -52,13 +52,14 @@ public class SearchGui extends JPanel {
 		this.cmbType.setPreferredSize(DIM_TXTFIELDS);
 		this.cmbType.setEditable(false);
 		this.cmbType.addItem("Formula");
+		this.cmbType.addItem("Tag");
 		this.cmbType.setSelectedIndex(0);
 		this.add(this.cmbType, constraints);
 
 		constraints.gridx = 1;
 		constraints.gridy = 0;
 		this.add(this.btnSearch, constraints);
-		this.btnSearch.addActionListener(new SearchFormulaAction(this.txtSearchTag, this));
+		this.btnSearch.addActionListener(new SearchAction(this.txtSearchTag, this, this.cmbType));
 
 
 	}

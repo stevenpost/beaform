@@ -60,8 +60,36 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		final DefaultMutableTreeNode top = new DefaultMutableTreeNode(new TreeViewFormula(formula));
 		createNodes(top);
 
-		//Create a tree that allows one selection at a time.
+		this.htmlPane = new JEditorPane();
 		this.tree = new JTree(top);
+		init();
+	}
+
+	/**
+	 * Constructor for the tree view.
+	 *
+	 * @param formula The formula that is the starting point of the tree
+	 */
+	public FormulaTree(final List<Formula> formulas) {
+		super(new GridLayout(1,0));
+
+		final DefaultMutableTreeNode top = new DefaultMutableTreeNode("Search results");
+		for (Formula formula : formulas) {
+			DefaultMutableTreeNode node = new DefaultMutableTreeNode(new TreeViewFormula(formula));
+			top.add(node);
+			createNodes(node);
+		}
+
+		this.htmlPane = new JEditorPane();
+		this.tree = new JTree(top);
+		init();
+	}
+
+	/**
+	 * Initializes the tree view gui.
+	 */
+	private void init() {
+		//Create a tree that allows one selection at a time.
 		this.tree.setToggleClickCount(0);
 		this.tree.getSelectionModel().setSelectionMode
 		(TreeSelectionModel.SINGLE_TREE_SELECTION);
@@ -76,7 +104,6 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		final JScrollPane treeView = new JScrollPane(this.tree);
 
 		//Create the HTML viewing pane.
-		this.htmlPane = new JEditorPane();
 		this.htmlPane.setEditable(false);
 		final JScrollPane htmlView = new JScrollPane(this.htmlPane);
 
@@ -126,6 +153,11 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 
 		if (node == null) {
 			//Nothing is selected.
+			return;
+		}
+		if (node.isRoot()) {
+			// The root node is selected, reflect that in the description field.
+			this.htmlPane.setText("Search result");
 			return;
 		}
 

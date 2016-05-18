@@ -228,6 +228,48 @@ public class FormulaDAO {
 		return result;
 	}
 
+	/**
+	 * Find formulas based on a tag.
+	 *
+	 * @param tagName The name of the tag.
+	 * @return a list of matching formulas
+	 * @throws NotSupportedException
+	 * @throws SystemException
+	 */
+	public List<Formula> findFormulasByTag(final String tagName) throws SystemException, NotSupportedException {
+		final boolean hasTransaction = setupTransaction();
+
+		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
+
+		final List<Formula> result = findByTag(tagName, entityManager);
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("Found: " + result);
+		}
+
+		GraphDbHandlerForJTA.tryCloseEntityManager(entityManager);
+
+		if (hasTransaction) {
+			commitTransation();
+		}
+
+		return result;
+	}
+
+	/**
+	 * Find formulas that are tagged by a specific tag.
+	 * @param tagName the tag
+	 * @param entityManager the entity manager
+	 * @return the list of formulas found
+	 */
+	private List<Formula> findByTag(final String tagName, final EntityManager entityManager) {
+		final String query = "MATCH (t:FormulaTag { name:'" + tagName + "' })<-[r]-(f:Formula) RETURN f";
+
+		@SuppressWarnings("unchecked")
+		final List<Formula> result = entityManager.createNativeQuery(query, Formula.class).getResultList();
+
+		return result;
+	}
+
 	private Formula findByName(final String name, final EntityManager entityManager) {
 		final String query = "match (n:Formula { name:'" + name + "' }) return n";
 		final Formula result = (Formula) entityManager.createNativeQuery(query, Formula.class).getSingleResult();
