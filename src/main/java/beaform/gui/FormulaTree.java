@@ -183,27 +183,71 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 			//Nothing is selected.
 			return;
 		}
+
+		fillDescription(node);
+	}
+
+	/**
+	 * Fill in the description field based on the currently selected node.
+	 *
+	 * @param node The currently selected node.
+	 */
+	private void fillDescription(final DefaultMutableTreeNode node) {
 		if (node.isRoot()) {
 			// The root node is selected, reflect that in the description field.
 			this.htmlPane.setText("Search result");
 			return;
 		}
 
-		final TreeViewFormula form = (TreeViewFormula)node.getUserObject();
-		final StringBuilder description = new StringBuilder(31);
+		final TreeViewFormula formula = (TreeViewFormula)node.getUserObject();
+		final StringBuilder description = new StringBuilder();
+
 		if (node.isLeaf()) {
-			final String amount = form.getAmount();
-			description.append("Amount: ").append(amount).append("\n\n");
+			appendAmount(formula, description);
 		}
 		else {
-			final String amount = form.getFormula().getTotalAmount();
-			description.append("Total amount: ").append(amount).append("\n\n");
+			appendTotalAmount(formula, description);
 		}
 
-		final String formDescription = form.getDescription();
-		final String tagsAsString = String.join(",", form.getTagsAsStrings());
-		description.append("Descrtiption:\n").append(formDescription).append("\n\nTags: \n").append(tagsAsString);
+		appendDescription(formula, description);
+		appendTags(formula, description);
 		this.htmlPane.setText(description.toString());
+	}
+
+	/**
+	 * @param formula
+	 * @param description
+	 */
+	private void appendTags(final TreeViewFormula formula, final StringBuilder description) {
+		final String tagsAsString = String.join(",", formula.getTagsAsStrings());
+		description.append("\n\nTags: \n").append(tagsAsString);
+	}
+
+	/**
+	 * @param formula
+	 * @param description
+	 */
+	private void appendDescription(final TreeViewFormula formula, final StringBuilder description) {
+		final String formDescription = formula.getDescription();
+		description.append("Descrtiption:\n").append(formDescription);
+	}
+
+	/**
+	 * @param formula
+	 * @param description
+	 */
+	private void appendTotalAmount(final TreeViewFormula formula, final StringBuilder description) {
+		final String amount = formula.getTotalAmount();
+		description.append("Total amount: ").append(amount).append("\n\n");
+	}
+
+	/**
+	 * @param formula
+	 * @param description
+	 */
+	private void appendAmount(final TreeViewFormula formula, final StringBuilder description) {
+		final String amount = formula.getAmount();
+		description.append("Amount: ").append(amount).append("\n\n");
 	}
 
 	/**

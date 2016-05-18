@@ -40,6 +40,14 @@ public class TreeViewFormula {
 	}
 
 	/**
+	 * Get the total amount in this formula.
+	 * @return the total amount
+	 */
+	public String getTotalAmount() {
+		return this.formula.getTotalAmount();
+	}
+
+	/**
 	 * A toString implementation
 	 *
 	 * @return name of the formula this object represents
