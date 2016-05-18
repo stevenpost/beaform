@@ -193,9 +193,9 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	 * @param node The currently selected node.
 	 */
 	private void fillDescription(final DefaultMutableTreeNode node) {
-		if (node.isRoot()) {
+		if (node.getUserObject() instanceof String) {
 			// The root node is selected, reflect that in the description field.
-			this.htmlPane.setText("Search result");
+			this.htmlPane.setText((String) node.getUserObject());
 			return;
 		}
 
