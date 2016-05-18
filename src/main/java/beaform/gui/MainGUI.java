@@ -32,9 +32,9 @@ public class MainGUI {
 	private static final Logger LOG = LoggerFactory.getLogger(MainGUI.class);
 
 	private static JFrame frm = new JFrame("BeaForm");
-	private final transient JMenuBar menu = new JMenuBar();
-	private final transient GridLayout layout = new GridLayout();
-	private final transient JPanel panel = new JPanel(this.layout);
+	private final JMenuBar menu = new JMenuBar();
+	private final GridLayout layout = new GridLayout();
+	private final JPanel panel = new JPanel(this.layout);
 
 	private void init(){
 
