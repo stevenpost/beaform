@@ -8,18 +8,32 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * A search GUI.
+ *
+ * @author Steven Post
+ *
+ */
 public class SearchGui extends JPanel {
 
-	/**
-	 *
-	 */
+	/** A serial. */
 	private static final long serialVersionUID = 2557014310487638917L;
 
+	/** The dimensions for most text fields */
 	private static final Dimension DIM_TXTFIELDS = new Dimension(100, 30);
+
+	/** The field to type in the search */
 	private final JTextField txtSearchTag = new JTextField();
+
+	/** A button to kickoff the search */
 	private final JButton btnSearch = new JButton("Search");
+
+	/** A combo box to define the type of search */
 	private final JComboBox<String> cmbType = new JComboBox<String>();
 
+	/**
+	 * Constructor.
+	 */
 	public SearchGui() {
 		super();
 
