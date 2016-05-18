@@ -26,15 +26,14 @@ public final class RenderSearchResult implements Runnable { // NOPMD by steven o
 
 	@Override
 	public void run() {
-		Formula searchResult;
 		try {
-			searchResult = this.searchresult.get();
+			final Formula searchResult = this.searchresult.get();
+			SwingUtilities.invokeLater(new AddFormTreeToGui(searchResult, this.pane));
 		}
 		catch (InterruptedException | ExecutionException e1) {
 			LOG.error("An error happened getting the result from the search.", e1);
 			return;
 		}
-		SwingUtilities.invokeLater(new AddFormTreeToGui(searchResult, this.pane));
 	}
 
 	public static final class AddFormTreeToGui implements Runnable { // NOPMD by steven on 5/16/16 4:30 PM
