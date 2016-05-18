@@ -43,7 +43,7 @@ public class SearchFormulaAction implements ActionListener {
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 		final Future<Formula> searchresult = GraphDbHandlerForJTA.addTask(new SearchFormulaTask(this.txtName.getText()));
-		GraphDbHandlerForJTA.addTask(new RenderSearchResult(searchresult, this.pane));
+		GraphDbHandlerForJTA.addTask(new RenderFormulaSearchResult(searchresult, this.pane));
 	}
 
 }

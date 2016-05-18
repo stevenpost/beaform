@@ -18,10 +18,10 @@ import beaform.gui.FormulaTree;
  * @author Steven Post
  *
  */
-public final class RenderSearchResult implements Runnable {
+public final class RenderFormulaSearchResult implements Runnable {
 
 	/** A logger */
-	private static final Logger LOG = LoggerFactory.getLogger(RenderSearchResult.class);
+	private static final Logger LOG = LoggerFactory.getLogger(RenderFormulaSearchResult.class);
 
 	/** The task with the search result */
 	private final transient Future<Formula> searchresult;
@@ -34,7 +34,7 @@ public final class RenderSearchResult implements Runnable {
 	 * @param searchresult The task for the search.
 	 * @param pane The target panel.
 	 */
-	public RenderSearchResult(final Future<Formula> searchresult, final JPanel pane) {
+	public RenderFormulaSearchResult(final Future<Formula> searchresult, final JPanel pane) {
 		this.searchresult = searchresult;
 		this.pane = pane;
 	}
