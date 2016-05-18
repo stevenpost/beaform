@@ -39,9 +39,6 @@ public class GraphDbHandlerForJTA {
 	/** The {@link TransactionManager} */
 	private final transient TransactionManager transactionMgr;
 
-	/** The session factory */
-	private final SessionFactoryImplementor sessionFactory;
-
 	public static GraphDbHandlerForJTA getInstance() {
 		return INSTANCE;
 	}
@@ -53,7 +50,6 @@ public class GraphDbHandlerForJTA {
 		//accessing JBoss's Transaction can be done differently but this one works nicely
 		final SessionFactoryImplementor sessionFactory =
 						(SessionFactoryImplementor) ( (HibernateEntityManagerFactory) this.entityManagerFact ).getSessionFactory();
-		this.sessionFactory = sessionFactory;
 		this.transactionMgr = sessionFactory.getServiceRegistry().getService( JtaPlatform.class ).retrieveTransactionManager();
 
 		// Initialize the main entity manager
@@ -102,10 +98,6 @@ public class GraphDbHandlerForJTA {
 	 */
 	public EntityManager getEntityManager() {
 		return this.entityManager;
-	}
-
-	public SessionFactoryImplementor getSessionFactory() {
-		return this.sessionFactory;
 	}
 
 	public static <T> Future<T> addTask(final Callable<T> task) {
