@@ -266,9 +266,23 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 			return;
 		}
 
-		final Object nodeInfo = node.getUserObject();
-		final TreeViewFormula form = (TreeViewFormula)nodeInfo;
+		final TreeViewFormula form = extractFormula(node);
+		launchFormulaEditor(form);
+	}
+
+	/**
+	 * @param form
+	 */
+	private void launchFormulaEditor(final TreeViewFormula form) {
 		MainGUI.getInstance().replaceWindow(new FormulaEditor(form.getFormula()));
+	}
+
+	/**
+	 * @param node
+	 * @return
+	 */
+	private TreeViewFormula extractFormula(final DefaultMutableTreeNode node) {
+		return (TreeViewFormula)node.getUserObject();
 	}
 
 	/**
