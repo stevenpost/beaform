@@ -45,11 +45,11 @@ public final class RenderSearchResult implements Runnable { // NOPMD by steven o
 
 		@Override
 		public void run() {
-			final FormulaTree ft = new FormulaTree(this.searchResult);
+			final FormulaTree formulaTree = new FormulaTree(this.searchResult);
 			if (this.pane.getComponentCount() > FORMULA_TREE_LOC) {
 				this.pane.remove(FORMULA_TREE_LOC);
 			}
-			this.pane.add(ft);
+			this.pane.add(formulaTree);
 			this.pane.revalidate();
 		}
 	}
