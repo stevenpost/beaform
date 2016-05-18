@@ -6,11 +6,16 @@ import java.util.concurrent.Future;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import beaform.entities.Formula;
 import beaform.gui.FormulaTree;
 
 public final class RenderSearchResult implements Runnable { // NOPMD by steven on 5/16/16 4:31 PM
 
+	/** A logger */
+	private static final Logger LOG = LoggerFactory.getLogger(RenderSearchResult.class);
 	private static final int FORMULA_TREE_LOC = 3;
 	private final transient Future<Formula> searchresult;
 	private final transient JPanel pane;
@@ -27,8 +32,7 @@ public final class RenderSearchResult implements Runnable { // NOPMD by steven o
 			searchResult = this.searchresult.get();
 		}
 		catch (InterruptedException | ExecutionException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			LOG.error("An error happened getting the result from the search.", e1);
 			return;
 		}
 		SwingUtilities.invokeLater(new AddFormTreeToGui(searchResult, this.pane));
