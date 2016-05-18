@@ -42,9 +42,9 @@ public class AddAction implements ActionListener {
 	/** a reference to the ingredients panel */
 	private final IngredientPane ingredientPane;
 
-	public AddAction(JTextField txtNameField, JTextField txtDescriptionField,JTextField txtTotalAmount, IngredientPane ingredientPane, TagPane tagPane) {
+	public AddAction(JTextField txtNameField, JTextField txtDescription,JTextField txtTotalAmount, IngredientPane ingredientPane, TagPane tagPane) {
 		this.txtNameField = txtNameField;
-		this.txtDescription = txtDescriptionField;
+		this.txtDescription = txtDescription;
 		this.txtTotalAmount = txtTotalAmount;
 		this.ingredientPane = ingredientPane;
 		this.tagPane = tagPane;
