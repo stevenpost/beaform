@@ -42,7 +42,15 @@ public class AddAction implements ActionListener {
 	/** a reference to the ingredients panel */
 	private final IngredientPane ingredientPane;
 
-	public AddAction(JTextField txtNameField, JTextField txtDescription,JTextField txtTotalAmount, IngredientPane ingredientPane, TagPane tagPane) {
+	/**
+	 * Constructor
+	 * @param txtNameField text field for the name of the new formula
+	 * @param txtDescription text field for the description of the new formula
+	 * @param txtTotalAmount text field for the total amount in the formula
+	 * @param ingredientPane a reference to the ingredients panel
+	 * @param tagPane reference to the tag panel
+	 */
+	public AddAction(final JTextField txtNameField, final JTextField txtDescription, final JTextField txtTotalAmount, final IngredientPane ingredientPane, final TagPane tagPane) {
 		this.txtNameField = txtNameField;
 		this.txtDescription = txtDescription;
 		this.txtTotalAmount = txtTotalAmount;
@@ -50,8 +58,13 @@ public class AddAction implements ActionListener {
 		this.tagPane = tagPane;
 	}
 
+	/**
+	 * Invoked when the action occurs.
+	 *
+	 * @param event the event object
+	 */
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent event) {
 		if (LOG.isInfoEnabled()) {
 			LOG.info("Add: " + this.txtNameField.getText() + " with description: " + this.txtDescription.getText());
 		}
