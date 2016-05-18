@@ -31,7 +31,7 @@ public class AddAction implements ActionListener {
 	private final transient JTextField txtNameField;
 
 	/** a text field for the description of the new formula */
-	private final transient JTextField txtDescriptionField;
+	private final transient JTextField txtDescription;
 
 	/** a text field for the total amount in the formula */
 	private final transient JTextField txtTotalAmount;
@@ -44,7 +44,7 @@ public class AddAction implements ActionListener {
 
 	public AddAction(JTextField txtNameField, JTextField txtDescriptionField,JTextField txtTotalAmount, IngredientPane ingredientPane, TagPane tagPane) {
 		this.txtNameField = txtNameField;
-		this.txtDescriptionField = txtDescriptionField;
+		this.txtDescription = txtDescriptionField;
 		this.txtTotalAmount = txtTotalAmount;
 		this.ingredientPane = ingredientPane;
 		this.tagPane = tagPane;
@@ -53,7 +53,7 @@ public class AddAction implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (LOG.isInfoEnabled()) {
-			LOG.info("Add: " + this.txtNameField.getText() + " with description: " + this.txtDescriptionField.getText());
+			LOG.info("Add: " + this.txtNameField.getText() + " with description: " + this.txtDescription.getText());
 		}
 
 		// Get ingredients in a list
@@ -65,7 +65,7 @@ public class AddAction implements ActionListener {
 		final List<FormulaTag> tags = IteratorUtils.toList(this.tagPane.getTags());
 
 		try {
-			new FormulaDAO().addFormula(this.txtNameField.getText(), this.txtDescriptionField.getText(), this.txtTotalAmount.getText(), ingredients, tags);
+			new FormulaDAO().addFormula(this.txtNameField.getText(), this.txtDescription.getText(), this.txtTotalAmount.getText(), ingredients, tags);
 		}
 		catch (SystemException | NotSupportedException e1) {
 			LOG.error("Something wen wrong adding the new formula", e1);
