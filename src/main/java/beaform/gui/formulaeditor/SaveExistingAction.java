@@ -44,6 +44,15 @@ public class SaveExistingAction implements ActionListener {
 	/** a reference to the ingredients panel */
 	private final transient IngredientPane ingredientPane;
 
+	/**
+	 * Constructor
+	 *
+	 * @param formula the formula that needs editing
+	 * @param txtDescription text field for the description of the new formula
+	 * @param txtTotalAmount text field for the total amount in the formula
+	 * @param ingredientPane a reference to the ingredients panel
+	 * @param tagPane reference to the tag panel
+	 */
 	public SaveExistingAction(final Formula formula, final JTextField txtDescription, final JTextField txtTotalAmount, final IngredientPane ingredientPane, final TagPane tagPane) {
 		this.formula = formula;
 		this.txtDescription = txtDescription;
@@ -52,8 +61,13 @@ public class SaveExistingAction implements ActionListener {
 		this.tagPane = tagPane;
 	}
 
+	/**
+	 * This method is invoked when the event is triggered.
+	 *
+	 * @param event The event object
+	 */
 	@Override
-	public void actionPerformed(final ActionEvent e) {
+	public void actionPerformed(final ActionEvent event) {
 		if (LOG.isInfoEnabled()) {
 			LOG.info("Edit: " + this.formula.getName() + " with description: " + this.txtDescription.getText());
 		}
