@@ -39,6 +39,10 @@ public class GraphDbHandlerForJTA {
 	/** The {@link TransactionManager} */
 	private final transient TransactionManager transactionMgr;
 
+	/**
+	 * Get the instance of this handler.
+	 * @return the instance
+	 */
 	public static GraphDbHandlerForJTA getInstance() {
 		return INSTANCE;
 	}
