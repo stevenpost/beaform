@@ -16,7 +16,6 @@ public final class RenderSearchResult implements Runnable { // NOPMD by steven o
 
 	/** A logger */
 	private static final Logger LOG = LoggerFactory.getLogger(RenderSearchResult.class);
-	private static final int FORMULA_TREE_LOC = 3;
 	private final transient Future<Formula> searchresult;
 	private final transient JPanel pane;
 
@@ -39,6 +38,9 @@ public final class RenderSearchResult implements Runnable { // NOPMD by steven o
 	}
 
 	public static final class AddFormTreeToGui implements Runnable { // NOPMD by steven on 5/16/16 4:30 PM
+		/** The index of the formula tree on the target panel */
+		private static final int FORMULA_TREE_LOC = 3;
+
 		private final Formula searchResult;
 		private final JPanel pane;
 
