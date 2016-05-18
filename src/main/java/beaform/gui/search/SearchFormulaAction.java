@@ -11,18 +11,37 @@ import beaform.GraphDbHandlerForJTA;
 import beaform.SearchFormulaTask;
 import beaform.entities.Formula;
 
-public class SearchAction implements ActionListener {
+/**
+ * An action that kicks of a search
+ *
+ * @author Steven Post
+ *
+ */
+public class SearchFormulaAction implements ActionListener {
 
+	/** The text field with the name of a formula */
 	private final JTextField txtName;
+
+	/** The panel on which to render the result */
 	private final JPanel pane;
 
-	public SearchAction(final JTextField name, final JPanel pane) {
+	/**
+	 * Constructor.
+	 * @param name the text field with the name of the formula
+	 * @param pane the panel on which to render the result
+	 */
+	public SearchFormulaAction(final JTextField name, final JPanel pane) {
 		this.txtName = name;
 		this.pane = pane;
 	}
 
+	/**
+	 * Invoked when the action occurs.
+	 *
+	 * @param event the event object
+	 */
 	@Override
-	public void actionPerformed(final ActionEvent e) {
+	public void actionPerformed(final ActionEvent event) {
 		final Future<Formula> searchresult = GraphDbHandlerForJTA.addTask(new SearchFormulaTask(this.txtName.getText()));
 		GraphDbHandlerForJTA.addTask(new RenderSearchResult(searchresult, this.pane));
 	}
