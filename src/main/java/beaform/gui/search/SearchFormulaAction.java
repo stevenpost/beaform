@@ -9,6 +9,7 @@ import javax.swing.JTextField;
 
 import beaform.DbTaskHandler;
 import beaform.SearchFormulaTask;
+import beaform.VariousTaskHandler;
 import beaform.entities.Formula;
 
 /**
@@ -43,7 +44,7 @@ public class SearchFormulaAction implements ActionListener {
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 		final Future<Formula> searchresult = DbTaskHandler.addTask(new SearchFormulaTask(this.txtName.getText()));
-		DbTaskHandler.addTask(new RenderFormulaSearchResult(searchresult, this.pane));
+		VariousTaskHandler.addTask(new RenderFormulaSearchResult(searchresult, this.pane));
 	}
 
 }
