@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JEditorPane;
@@ -74,15 +75,25 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		super(new GridLayout(1,0));
 
 		final DefaultMutableTreeNode top = new DefaultMutableTreeNode("Search results");
-		for (Formula formula : formulas) {
-			DefaultMutableTreeNode node = new DefaultMutableTreeNode(new TreeViewFormula(formula));
-			top.add(node);
-			createNodes(node);
+		for (final Formula formula : formulas) {
+			addDescendantNodes(top, formula);
 		}
 
 		this.htmlPane = new JEditorPane();
 		this.tree = new JTree(top);
 		init();
+	}
+
+	/**
+	 * Add any descendant nodes to the given parent node.
+	 *
+	 * @param parent The node that will get additional descendants.
+	 * @param formula The formula for the direct child.
+	 */
+	private void addDescendantNodes(final DefaultMutableTreeNode parent, final Formula formula) {
+		final DefaultMutableTreeNode node = new DefaultMutableTreeNode(new TreeViewFormula(formula));
+		parent.add(node);
+		createNodes(node);
 	}
 
 	/**
@@ -122,15 +133,19 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		add(splitPane);
 	}
 
-	private static void createNodes(final DefaultMutableTreeNode top) {
+	private void createNodes(final DefaultMutableTreeNode parent) {
+		final TreeViewFormula formula = (TreeViewFormula) parent.getUserObject();
+		final List<Ingredient> ingredients = getIngredientsFromFormula(formula);
+		for (final Ingredient ingredient : ingredients) {
+			addIngredientNode(parent, ingredient);
+		}
+	}
+
+	private List<Ingredient> getIngredientsFromFormula(final TreeViewFormula formula) {
 		final FormulaDAO formulaDAO = new FormulaDAO();
 
-		final TreeViewFormula form = (TreeViewFormula) top.getUserObject();
 		try {
-			final List<Ingredient> ingredients = formulaDAO.getIngredients(form.getFormula());
-			for (final Ingredient ingredient : ingredients) {
-				top.add(new DefaultMutableTreeNode(new TreeViewFormula(ingredient))); // NOPMD by steven on 5/16/16 3:58 PM
-			}
+			return formulaDAO.getIngredients(formula.getFormula());
 		}
 		catch (NotSupportedException e) {
 			LOG.error("There is already a transaction going on in this thread", e);
@@ -138,6 +153,19 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		catch (SystemException e) {
 			LOG.error("There was a problem with the transaction service", e);
 		}
+
+		return Collections.emptyList();
+	}
+
+	/**
+	 * Adds an ingredient node to a tree node.
+	 * @param parent the node to attach to
+	 * @param ingredient the ingredient to add as a child node
+	 */
+	private static void addIngredientNode(final DefaultMutableTreeNode parent, final Ingredient ingredient) {
+		final TreeViewFormula formula = new TreeViewFormula(ingredient);
+		final DefaultMutableTreeNode node = new DefaultMutableTreeNode(formula);
+		parent.add(node);
 	}
 
 	/**
