@@ -6,10 +6,21 @@ import java.awt.event.ActionListener;
 import beaform.GraphDbHandlerForJTA;
 import beaform.debug.FillDbTask;
 
+/**
+ * An event that fills the DB with test data.
+ *
+ * @author Steven Post
+ *
+ */
 public class FillDbEvent implements ActionListener {
 
+	/**
+	 * Invoked when the action occurs.
+	 *
+	 * @param event the event object
+	 */
 	@Override
-	public void actionPerformed(final ActionEvent e) {
+	public void actionPerformed(final ActionEvent event) {
 		GraphDbHandlerForJTA.addTask(new FillDbTask());
 	}
 
