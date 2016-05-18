@@ -86,7 +86,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	}
 
 	/**
-	 * Initializes the tree view gui.
+	 * Initializes the tree view GUI.
 	 */
 	private void init() {
 		//Create a tree that allows one selection at a time.
