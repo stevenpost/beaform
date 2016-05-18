@@ -28,19 +28,19 @@ public class AddAction implements ActionListener {
 	private static final Logger LOG = LoggerFactory.getLogger(AddAction.class);
 
 	/** a text field for the name of the new formula */
-	private final transient JTextField txtNameField;
+	private final JTextField txtNameField;
 
 	/** a text field for the description of the new formula */
-	private final transient JTextField txtDescription;
+	private final JTextField txtDescription;
 
 	/** a text field for the total amount in the formula */
-	private final transient JTextField txtTotalAmount;
+	private final JTextField txtTotalAmount;
 
 	/** a reference to the tag panel */
-	private final transient TagPane tagPane;
+	private final TagPane tagPane;
 
 	/** a reference to the ingredients panel */
-	private final transient IngredientPane ingredientPane;
+	private final IngredientPane ingredientPane;
 
 	public AddAction(JTextField txtNameField, JTextField txtDescriptionField,JTextField txtTotalAmount, IngredientPane ingredientPane, TagPane tagPane) {
 		this.txtNameField = txtNameField;
