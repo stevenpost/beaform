@@ -7,7 +7,7 @@ import java.util.concurrent.Future;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import beaform.GraphDbHandlerForJTA;
+import beaform.DbTaskHandler;
 import beaform.SearchFormulaTask;
 import beaform.entities.Formula;
 
@@ -42,8 +42,8 @@ public class SearchFormulaAction implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(final ActionEvent event) {
-		final Future<Formula> searchresult = GraphDbHandlerForJTA.addTask(new SearchFormulaTask(this.txtName.getText()));
-		GraphDbHandlerForJTA.addTask(new RenderFormulaSearchResult(searchresult, this.pane));
+		final Future<Formula> searchresult = DbTaskHandler.addTask(new SearchFormulaTask(this.txtName.getText()));
+		DbTaskHandler.addTask(new RenderFormulaSearchResult(searchresult, this.pane));
 	}
 
 }

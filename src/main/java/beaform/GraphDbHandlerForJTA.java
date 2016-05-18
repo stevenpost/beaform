@@ -1,10 +1,5 @@
 package beaform;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -26,9 +21,6 @@ public class GraphDbHandlerForJTA {
 
 	/** The instance of this singleton */
 	private static final GraphDbHandlerForJTA INSTANCE = new GraphDbHandlerForJTA();
-
-	/** An executor service for handling DB tasks */
-	private static final ExecutorService EXEC_SERVICE = Executors.newSingleThreadExecutor();
 
 	/** The {@link EntityManagerFactory} */
 	private final transient EntityManagerFactory entityManagerFact;
@@ -102,14 +94,6 @@ public class GraphDbHandlerForJTA {
 	 */
 	public EntityManager getEntityManager() {
 		return this.entityManager;
-	}
-
-	public static <T> Future<T> addTask(final Callable<T> task) {
-		return EXEC_SERVICE.submit(task);
-	}
-
-	public static Future<?> addTask(final Runnable task) {
-		return EXEC_SERVICE.submit(task);
 	}
 
 	/**

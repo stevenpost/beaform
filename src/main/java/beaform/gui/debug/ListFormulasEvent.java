@@ -3,7 +3,7 @@ package beaform.gui.debug;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import beaform.GraphDbHandlerForJTA;
+import beaform.DbTaskHandler;
 import beaform.debug.ListFormulasTask;
 
 /**
@@ -22,7 +22,7 @@ public class ListFormulasEvent implements ActionListener {
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 
-		GraphDbHandlerForJTA.addTask(new ListFormulasTask());
+		DbTaskHandler.addTask(new ListFormulasTask());
 	}
 
 }
