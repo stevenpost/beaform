@@ -83,7 +83,8 @@ public class FormulaEditor extends JPanel {
 	 */
 	public FormulaEditor() {
 		super(new GridBagLayout());
-		init(true);
+		init();
+
 		this.btnSubmit.addActionListener(new ActionListener() {
 
 			/**
@@ -103,7 +104,9 @@ public class FormulaEditor extends JPanel {
 	 */
 	public FormulaEditor(final Formula formula) {
 		super(new GridBagLayout());
-		init(false);
+		init();
+		this.txtName.setEnabled(false);
+
 		this.formula = formula;
 
 		this.txtName.setText(formula.getName());
@@ -138,7 +141,7 @@ public class FormulaEditor extends JPanel {
 
 	}
 
-	private void init(final boolean isNew) {
+	private void init() {
 		int gridy = 0;
 
 		// Formula requirements
@@ -150,7 +153,6 @@ public class FormulaEditor extends JPanel {
 		constraints.gridx = 1;
 		constraints.gridy = gridy;
 		setDimensions(this.txtName, DIM_TEXTFIELDS);
-		this.txtName.setEnabled(isNew);
 		this.add(this.txtName, constraints);
 
 		gridy++;
