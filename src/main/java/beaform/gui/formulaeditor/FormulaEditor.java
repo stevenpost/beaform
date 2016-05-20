@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
@@ -39,6 +40,9 @@ public class FormulaEditor extends JPanel {
 	/** Dimensions for most text fields */
 	private static final Dimension DIM_TEXTFIELDS = new Dimension(100, 30);
 
+	/** Dimensions for the description field */
+	private static final Dimension DIM_TEXTAREA = new Dimension(100, 90);
+
 	/** A label for the total amount of a formula */
 	private static final JLabel LBL_TOTAL_AMOUNT = new JLabel("total amount");
 
@@ -52,7 +56,7 @@ public class FormulaEditor extends JPanel {
 	private final JTextField txtName = new JTextField();
 
 	/** A text field for the description of a formula */
-	private final JTextField txtDescription = new JTextField();
+	private final JTextArea txtDescription = new JTextArea();
 
 	/** A text field for the total amount of a formula */
 	private final JTextField txtTotalAmount = new JTextField();
@@ -131,7 +135,7 @@ public class FormulaEditor extends JPanel {
 
 		constraints.gridx = 1;
 		constraints.gridy = gridy;
-		setDimensions(this.txtDescription, DIM_TEXTFIELDS);
+		setDimensions(this.txtDescription, DIM_TEXTAREA);
 		this.add(this.txtDescription, constraints);
 
 		gridy++;

@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
@@ -31,7 +32,7 @@ public class AddAction implements ActionListener {
 	private final JTextField txtNameField;
 
 	/** a text field for the description of the new formula */
-	private final JTextField txtDescription;
+	private final JTextArea txtDescription;
 
 	/** a text field for the total amount in the formula */
 	private final JTextField txtTotalAmount;
@@ -50,7 +51,7 @@ public class AddAction implements ActionListener {
 	 * @param ingredientPane a reference to the ingredients panel
 	 * @param tagPane reference to the tag panel
 	 */
-	public AddAction(final JTextField txtNameField, final JTextField txtDescription, final JTextField txtTotalAmount, final IngredientPane ingredientPane, final TagPane tagPane) {
+	public AddAction(final JTextField txtNameField, final JTextArea txtDescription, final JTextField txtTotalAmount, final IngredientPane ingredientPane, final TagPane tagPane) {
 		this.txtNameField = txtNameField;
 		this.txtDescription = txtDescription;
 		this.txtTotalAmount = txtTotalAmount;

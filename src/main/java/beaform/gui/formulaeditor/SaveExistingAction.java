@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
@@ -33,7 +34,7 @@ public class SaveExistingAction implements ActionListener {
 	private final transient Formula formula;
 
 	/** a text field for the description of the new formula */
-	private final transient JTextField txtDescription;
+	private final transient JTextArea txtDescription;
 
 	/** a text field for the total amount in the formula */
 	private final transient JTextField txtTotalAmount;
@@ -53,7 +54,7 @@ public class SaveExistingAction implements ActionListener {
 	 * @param ingredientPane a reference to the ingredients panel
 	 * @param tagPane reference to the tag panel
 	 */
-	public SaveExistingAction(final Formula formula, final JTextField txtDescription, final JTextField txtTotalAmount, final IngredientPane ingredientPane, final TagPane tagPane) {
+	public SaveExistingAction(final Formula formula, final JTextArea txtDescription, final JTextField txtTotalAmount, final IngredientPane ingredientPane, final TagPane tagPane) {
 		this.formula = formula;
 		this.txtDescription = txtDescription;
 		this.txtTotalAmount = txtTotalAmount;
