@@ -1,7 +1,6 @@
 package beaform.gui;
 
 import java.awt.Component;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -40,11 +39,8 @@ public class MainGUI {
 	/** The menu */
 	private final JMenuBar menu = new JMenuBar();
 
-	/** The layout  of the panel */
-	private final GridLayout layout = new GridLayout();
-
 	/** The main panel */
-	private final JPanel panel = new JPanel(this.layout);
+	private final MainPanel panel = new MainPanel();
 
 	private void init(){
 
@@ -63,11 +59,7 @@ public class MainGUI {
 	 * @param comp The new window to display
 	 */
 	public void replaceWindow(final Component comp) {
-		if (this.panel.getComponentCount() > 0) {
-			this.panel.remove(0);
-		}
-		this.panel.add(comp);
-		this.panel.revalidate();
+		this.panel.replaceWindow(comp);
 	}
 
 	private JPanel getPanel() {
