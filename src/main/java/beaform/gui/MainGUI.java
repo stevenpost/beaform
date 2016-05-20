@@ -36,21 +36,14 @@ public class MainGUI {
 	/** The main frame (or window) */
 	private static JFrame frm = new JFrame("BeaForm");
 
-	/** The menu */
-	private final JMenuBar menu = new JMenuBar();
-
 	/** The main panel */
 	private final MainPanel panel = new MainPanel();
 
 	private void init(){
+		final JMenuBar menu = createMenu();
+		frm.setJMenuBar(menu);
 
-		//Create pane and add components
-		createMenu(this.menu);
-
-		//Putting components in place
-		frm.setJMenuBar(this.menu);
-
-		LOG.info("end init");
+		LOG.debug("end init");
 	}
 
 	/**
@@ -66,10 +59,13 @@ public class MainGUI {
 		return this.panel;
 	}
 
-	private void createMenu(final JMenuBar menu) {
+	private JMenuBar createMenu() {
+		final JMenuBar menu = new JMenuBar();
 		menu.add(createNewMenu());
 		menu.add(createHelpMenu());
 		menu.add(createDebugMenu());
+
+		return menu;
 	}
 
 	private JMenu createNewMenu() {
