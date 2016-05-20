@@ -181,28 +181,40 @@ public class FormulaDAO {
 	private void addTags(final List<FormulaTag> tags, final EntityManager entityManager, final Formula formula) throws SystemException, NotSupportedException {
 		final FormulaTagDAO formulaTagDAO = new FormulaTagDAO();
 
-		for (FormulaTag tag : tags) {
-			// See if the tag exist in the DB, if so, use it.
-			FormulaTag pTag = null;
-			try {
-				pTag = formulaTagDAO.findByObject(tag);
-			}
-			catch (NotSupportedException | SystemException e1) {
-				LOG.error("Failed to find the tag", e1);
-			}
-			catch (NoResultException e1) {
-				if (LOG.isDebugEnabled()) {
-					LOG.debug("No tag with name " + tag.getName() + " found: " + e1.getMessage());
-				}
-			}
-			if (pTag == null) {
-				entityManager.persist(tag);
-			}
-			else {
-				tag = pTag;
-			}
-			formula.addTag(tag);
+		for (final FormulaTag tag : tags) {
+			addTagToFormula(entityManager, formula, formulaTagDAO, tag);
 		}
+	}
+
+	/**
+	 * Add a tag to a formula.
+	 *
+	 * If the tag does not yet exist in the DB it will be added.
+	 *
+	 * @param entityManager the entity manager to use
+	 * @param formula the formula to add the tag to
+	 * @param formulaTagDAO the DAO for internal lookups
+	 * @param tag the tag to add
+	 */
+	private void addTagToFormula(final EntityManager entityManager, final Formula formula,
+	                             final FormulaTagDAO formulaTagDAO, final FormulaTag tag) {
+		// See if the tag exist in the DB, if so, use it.
+		FormulaTag tagToAdd;
+		try {
+			tagToAdd = formulaTagDAO.findByObject(tag);
+		}
+		catch (NotSupportedException | SystemException e1) {
+			LOG.error("Failed to find the tag", e1);
+			return;
+		}
+		catch (NoResultException e1) {
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("No tag with name " + tag.getName() + " found: " + e1.getMessage());
+			}
+			entityManager.persist(tag);
+			tagToAdd = tag;
+		}
+		formula.addTag(tagToAdd);
 	}
 
 	/**
