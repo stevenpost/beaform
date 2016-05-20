@@ -21,6 +21,7 @@ import beaform.SearchFormulaTask;
 import beaform.SearchFormulasByTagTask;
 import beaform.VariousTaskHandler;
 import beaform.entities.Formula;
+import beaform.gui.FormulaTree;
 
 /**
  * A search GUI.
@@ -50,6 +51,9 @@ public class SearchGui extends JPanel {
 
 	/** A combo box to define the type of search */
 	private final JComboBox<SearchType> cmbType = new JComboBox<SearchType>(this.comboBoxModel);
+
+	/** The index of the formula tree on the target panel */
+	private static final int FORMULA_TREE_LOC = 3;
 
 	/**
 	 * Constructor.
@@ -115,6 +119,19 @@ public class SearchGui extends JPanel {
 				}
 				break;
 		}
+	}
+
+	/**
+	 * Set the search results in a view.
+	 *
+	 * @param formulaTree the search results
+	 */
+	public void setSearchResults(final FormulaTree formulaTree) {
+		if (this.getComponentCount() > FORMULA_TREE_LOC) {
+			this.remove(FORMULA_TREE_LOC);
+		}
+		this.add(formulaTree);
+		this.revalidate();
 	}
 
 }

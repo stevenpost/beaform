@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import org.slf4j.Logger;
@@ -28,14 +27,14 @@ public final class RenderFormulaSearchByTagResult implements Runnable {
 	private final transient Future<List<Formula>> searchresult;
 
 	/** The target panel */
-	private final transient JPanel pane;
+	private final SearchGui pane;
 
 	/**
 	 * Constructor.
 	 * @param searchresult The task for the search.
 	 * @param pane The target panel.
 	 */
-	public RenderFormulaSearchByTagResult(final Future<List<Formula>> searchresult, final JPanel pane) {
+	public RenderFormulaSearchByTagResult(final Future<List<Formula>> searchresult, final SearchGui pane) {
 		this.searchresult = searchresult;
 		this.pane = pane;
 	}
@@ -63,21 +62,18 @@ public final class RenderFormulaSearchByTagResult implements Runnable {
 	 */
 	private static final class AddFormTreeToGui implements Runnable {
 
-		/** The index of the formula tree on the target panel */
-		private static final int FORMULA_TREE_LOC = 3;
-
 		/** The result of the search */
 		private final List<Formula> searchResult;
 
 		/** The target panel */
-		private final JPanel pane;
+		private final SearchGui pane;
 
 		/**
 		 * Constructor.
 		 * @param searchResult the result of the search
 		 * @param pane the target panel
 		 */
-		public AddFormTreeToGui(final List<Formula> searchResult, final JPanel pane) {
+		public AddFormTreeToGui(final List<Formula> searchResult, final SearchGui pane) {
 			this.searchResult = searchResult;
 			this.pane = pane;
 		}
@@ -88,11 +84,7 @@ public final class RenderFormulaSearchByTagResult implements Runnable {
 		@Override
 		public void run() {
 			final FormulaTree formulaTree = new FormulaTree(this.searchResult);
-			if (this.pane.getComponentCount() > FORMULA_TREE_LOC) {
-				this.pane.remove(FORMULA_TREE_LOC);
-			}
-			this.pane.add(formulaTree);
-			this.pane.revalidate();
+			this.pane.setSearchResults(formulaTree);
 		}
 	}
 }
