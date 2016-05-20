@@ -138,7 +138,13 @@ public class MainGUI {
 		try{
 			// Using OpenJDK, there is a bug that causes the
 			// application to freeze when using a GTK look and feel.
-			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+			final boolean crossplatform = Boolean.getBoolean("beaform.useCrossPlatformLookAndFeel");
+			if (crossplatform) {
+				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+			}
+			else {
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			}
 		}
 		catch (Exception e){
 			if (LOG.isErrorEnabled()) {
