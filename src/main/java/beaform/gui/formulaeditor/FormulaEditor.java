@@ -86,8 +86,11 @@ public class FormulaEditor extends JPanel {
 		init(true);
 		this.btnSubmit.addActionListener(new ActionListener() {
 
+			/**
+			 * Invoked when the button is pressed.
+			 */
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(final ActionEvent event) {
 				addNewFormula();
 			}
 		});
@@ -124,8 +127,11 @@ public class FormulaEditor extends JPanel {
 
 		this.btnSubmit.addActionListener(new ActionListener() {
 
+			/**
+			 * Invoked when the button is pressed.
+			 */
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(final ActionEvent event) {
 				updateFormula();
 			}
 		});
