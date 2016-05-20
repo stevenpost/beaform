@@ -3,6 +3,8 @@ package beaform.gui.formulaeditor;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -33,11 +35,20 @@ public class TagPane extends JPanel {
 	/** A label for the list of tags */
 	private static final JLabel LBL_TAGS = new JLabel("Tags");
 
+	/** What text should be in the text field after adding the tag */
+	private static final String AFTER_ADD = "";
+
 	/** A list of formula tags */
 	private final List<FormulaTag> tags = new ArrayList<FormulaTag>();
 
 	/** A list model to get the list of tags to the screen */
 	private final DefaultListModel<FormulaTag> lstTagModel = new DefaultListModel<FormulaTag>();
+
+	/** The graphical list of tags */
+	private final JList<FormulaTag> lstTags = new JList<FormulaTag>(this.lstTagModel);
+
+	/** A field for the name of the new tag */
+	private final JTextField txtNewTag = new JTextField();
 
 	/**
 	 * Serial
@@ -56,8 +67,6 @@ public class TagPane extends JPanel {
 		final GridBagConstraints constraints = new GridBagConstraints();
 
 		int gridy = 0;
-		final JList<FormulaTag> lstTags = new JList<FormulaTag>(this.lstTagModel);
-		final JTextField txtNewTag = new JTextField();
 		final JButton btnAddTag = new JButton("Add Tag");
 		final JButton btnDelTag = new JButton("Remove Tag");
 
@@ -71,40 +80,48 @@ public class TagPane extends JPanel {
 		constraints.gridx = 0;
 		constraints.gridy = gridy;
 		constraints.gridheight = 3;
-		lstTags.setMinimumSize(DIM_LISTS);
-		lstTags.setPreferredSize(DIM_LISTS);
-		lstTags.setMaximumSize(DIM_LISTS);
-		this.add(lstTags, constraints);
+		this.lstTags.setMinimumSize(DIM_LISTS);
+		this.lstTags.setPreferredSize(DIM_LISTS);
+		this.lstTags.setMaximumSize(DIM_LISTS);
+		this.add(this.lstTags, constraints);
 
 		constraints.gridx = 1;
 		constraints.gridy = gridy;
 		constraints.gridheight = 1;
-		txtNewTag.setMinimumSize(DIM_TEXTFIELDS);
-		txtNewTag.setPreferredSize(DIM_TEXTFIELDS);
-		txtNewTag.setMaximumSize(DIM_TEXTFIELDS);
-		this.add(txtNewTag, constraints);
+		this.txtNewTag.setMinimumSize(DIM_TEXTFIELDS);
+		this.txtNewTag.setPreferredSize(DIM_TEXTFIELDS);
+		this.txtNewTag.setMaximumSize(DIM_TEXTFIELDS);
+		this.add(this.txtNewTag, constraints);
 
 		gridy++;
 		constraints.gridx = 1;
 		constraints.gridy = gridy;
-		btnAddTag.addActionListener(new AddTagAction(txtNewTag, this));
+		btnAddTag.addActionListener(new ActionListener() {
+
+			/**
+			 * Invoked when the button is pressed.
+			 */
+			@Override
+			public void actionPerformed(final ActionEvent event) {
+				addNewTag();
+			}
+		});
 		this.add(btnAddTag, constraints);
 
 		gridy++;
 		constraints.gridx = 1;
 		constraints.gridy = gridy;
-		btnDelTag.addActionListener(new DelTagAction(lstTags, this));
-		this.add(btnDelTag, constraints);
-	}
+		btnDelTag.addActionListener(new ActionListener() {
 
-	/**
-	 * This method adds a tag to the list of tags for this formula
-	 *
-	 * @param tag the tag to add
-	 */
-	public void addTag(final FormulaTag tag) {
-		this.tags.add(tag);
-		sortTags();
+			/**
+			 * Invoked when the button is pressed.
+			 */
+			@Override
+			public void actionPerformed(final ActionEvent event) {
+				removeSelectedTags();
+			}
+		});
+		this.add(btnDelTag, constraints);
 	}
 
 	/**
@@ -123,7 +140,7 @@ public class TagPane extends JPanel {
 	 * should the list model and the backing list be out of sync,
 	 * this method will synchronize them.
 	 */
-	public final void sortTags() {
+	private final void sortTags() {
 		this.tags.sort(new TagComparator());
 
 		this.lstTagModel.clear();
@@ -136,7 +153,7 @@ public class TagPane extends JPanel {
 	 * Remove a tag from the list.
 	 * @param i the index of the tag to delete
 	 */
-	public void removeTag(final int index) {
+	private void removeTag(final int index) {
 		this.tags.remove(index);
 		this.lstTagModel.remove(index);
 	}
@@ -148,6 +165,31 @@ public class TagPane extends JPanel {
 	 */
 	public Iterator<FormulaTag> getTags() {
 		return this.tags.iterator();
+	}
+
+	/**
+	 * Remove the selected tags from the formula.
+	 */
+	public void removeSelectedTags() {
+		while (!this.lstTags.isSelectionEmpty()) {
+			final int selected = this.lstTags.getSelectedIndex();
+			removeTag(selected);
+		}
+	}
+
+	/**
+	 * Add a new tag to the list.
+	 * The name comes from the provided text field.
+	 */
+	public void addNewTag() {
+		final String strTag = this.txtNewTag.getText();
+		if (!AFTER_ADD.equals(strTag) && !this.txtNewTag.getText().isEmpty()) {
+			this.txtNewTag.setText(AFTER_ADD);
+			final FormulaTag tag = new FormulaTag();
+			tag.setName(strTag);
+			this.tags.add(tag);
+			sortTags();
+		}
 	}
 
 }
