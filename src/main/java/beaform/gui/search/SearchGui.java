@@ -2,12 +2,25 @@ package beaform.gui.search;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.concurrent.Future;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import beaform.DbTaskHandler;
+import beaform.SearchFormulaTask;
+import beaform.SearchFormulasByTagTask;
+import beaform.VariousTaskHandler;
+import beaform.entities.Formula;
 
 /**
  * A search GUI.
@@ -19,6 +32,9 @@ public class SearchGui extends JPanel {
 
 	/** A serial. */
 	private static final long serialVersionUID = 2557014310487638917L;
+
+	/** A logger */
+	private static final Logger LOG = LoggerFactory.getLogger(SearchGui.class);
 
 	/** The dimensions for most text fields */
 	private static final Dimension DIM_TXTFIELDS = new Dimension(100, 30);
@@ -61,9 +77,44 @@ public class SearchGui extends JPanel {
 		constraints.gridx = 1;
 		constraints.gridy = 0;
 		this.add(this.btnSearch, constraints);
-		this.btnSearch.addActionListener(new SearchAction(this.txtSearchTag, this, this.cmbType));
+		this.btnSearch.addActionListener(new ActionListener() {
 
+			/**
+			 * Invoked when the action occurs.
+			 */
+			@Override
+			public void actionPerformed(final ActionEvent event) {
+				search();
+			}
+		});
 
+	}
+
+	/**
+	 * Kickoff the search.
+	 */
+	public void search() {
+		final SearchType searchType = (SearchType) this.comboBoxModel.getSelectedItem();
+
+		switch (searchType) {
+			case FORMULA:
+			{
+				final Future<Formula> searchresult = DbTaskHandler.addTask(new SearchFormulaTask(this.txtSearchTag.getText()));
+				VariousTaskHandler.addTask(new RenderFormulaSearchResult(searchresult, this));
+				break;
+			}
+			case TAG:
+			{
+				final Future<List<Formula>> searchresult = DbTaskHandler.addTask(new SearchFormulasByTagTask(this.txtSearchTag.getText()));
+				VariousTaskHandler.addTask(new RenderFormulaSearchByTagResult(searchresult, this));
+				break;
+			}
+			default:
+				if (LOG.isErrorEnabled()) {
+					LOG.error(searchType + " is an unknown search");
+				}
+				break;
+		}
 	}
 
 }
