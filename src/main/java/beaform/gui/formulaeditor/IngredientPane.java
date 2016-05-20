@@ -57,10 +57,19 @@ public class IngredientPane extends JPanel {
 	/** A list model to get the list of formulas to the screen */
 	private final DefaultListModel<Ingredient> ingredients = new DefaultListModel<Ingredient>();
 
+	/** The graphical list ofr ingredients */
 	private final JList<Ingredient> lstFormulas = new JList<Ingredient>(this.ingredients);
+
+	/** A text field for the name of the ingredient */
 	private final JTextField txtName = new JTextField();
+
+	/** A text field to enter the amount of the ingredient that goes into the formula */
 	private final JTextField txtAmount = new JTextField();
+
+	/** A button to add an ingredient */
 	private final JButton btnAddIngredient = new JButton("Add ingedrient");
+
+	/** A button to remove an ingredient */
 	private final JButton btnDelIngredient = new JButton("Del ingedrient");
 
 	/**
@@ -174,6 +183,9 @@ public class IngredientPane extends JPanel {
 		return ingredients.iterator();
 	}
 
+	/**
+	 * Add a new ingredient to the list, based on the user input.
+	 */
 	public void addNewIngredient() {
 
 		final String ingredient = this.txtName.getText();
