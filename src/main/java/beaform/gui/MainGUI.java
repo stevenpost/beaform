@@ -28,12 +28,22 @@ import beaform.gui.search.NewSearchWindowAction;
  */
 public class MainGUI {
 
-	private static MainGUI instance;
+	/** A logger */
 	private static final Logger LOG = LoggerFactory.getLogger(MainGUI.class);
 
+	/** The main instance of the GUI */
+	private static MainGUI instance;
+
+	/** The main frame (or window) */
 	private static JFrame frm = new JFrame("BeaForm");
+
+	/** The menu */
 	private final JMenuBar menu = new JMenuBar();
+
+	/** The layout  of the panel */
 	private final GridLayout layout = new GridLayout();
+
+	/** The main panel */
 	private final JPanel panel = new JPanel(this.layout);
 
 	private void init(){
@@ -163,6 +173,11 @@ public class MainGUI {
 	 */
 	public static final class AboutLaunchAction implements ActionListener {
 
+		/**
+		 * Invoked when the action is triggered.
+		 *
+		 * @param the event object
+		 */
 		@Override
 		public void actionPerformed(final ActionEvent event){
 			javax.swing.SwingUtilities.invokeLater(new About());
