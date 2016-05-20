@@ -13,6 +13,18 @@ import beaform.gui.formulaeditor.FormulaEditor;
  */
 public class NewAddWindowAction implements ActionListener {
 
+	/** Panel for the new content */
+	private final MainPanel panel;
+
+	/**
+	 * Constructor
+	 *
+	 * @param panel the target panel
+	 */
+	public NewAddWindowAction(final MainPanel panel) {
+		this.panel = panel;
+	}
+
 	/**
 	 * Invoked when the action occurs.
 	 *
@@ -20,7 +32,7 @@ public class NewAddWindowAction implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(final ActionEvent event) {
-		MainGUI.getInstance().replaceWindow(new FormulaEditor());
+		this.panel.replaceWindow(new FormulaEditor());
 	}
 
 }

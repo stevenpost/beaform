@@ -3,7 +3,7 @@ package beaform.gui.search;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import beaform.gui.MainGUI;
+import beaform.gui.MainPanel;
 
 /**
  * This action opens up a new search.
@@ -13,6 +13,18 @@ import beaform.gui.MainGUI;
  */
 public class NewSearchWindowAction implements ActionListener {
 
+	/** Panel for the new content */
+	private final MainPanel panel;
+
+	/**
+	 * Constructor
+	 *
+	 * @param panel the target panel
+	 */
+	public NewSearchWindowAction(final MainPanel panel) {
+		this.panel = panel;
+	}
+
 	/**
 	 * Invoked when the action occurs.
 	 *
@@ -20,7 +32,7 @@ public class NewSearchWindowAction implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(final ActionEvent event) {
-		MainGUI.getInstance().replaceWindow(new SearchGui());
+		this.panel.replaceWindow(new SearchGui());
 	}
 
 }

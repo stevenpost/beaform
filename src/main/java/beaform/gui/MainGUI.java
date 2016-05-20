@@ -73,11 +73,11 @@ public class MainGUI {
 
 		final JMenuItem search = new JMenuItem("Search");
 		newMenuItem.add(search);
-		search.addActionListener(new NewSearchWindowAction());
+		search.addActionListener(new NewSearchWindowAction(this.panel));
 
 		final JMenuItem add = new JMenuItem("Add");
 		newMenuItem.add(add);
-		add.addActionListener(new NewAddWindowAction());
+		add.addActionListener(new NewAddWindowAction(this.panel));
 
 		return newMenuItem;
 	}
