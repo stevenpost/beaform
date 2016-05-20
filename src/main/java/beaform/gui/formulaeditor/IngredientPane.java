@@ -3,17 +3,24 @@ package beaform.gui.formulaeditor;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.transaction.NotSupportedException;
+import javax.transaction.SystemException;
 
+import beaform.entities.Formula;
+import beaform.entities.FormulaDAO;
 import beaform.entities.Ingredient;
 
 /**
@@ -50,6 +57,12 @@ public class IngredientPane extends JPanel {
 	/** A list model to get the list of formulas to the screen */
 	private final DefaultListModel<Ingredient> ingredients = new DefaultListModel<Ingredient>();
 
+	private final JList<Ingredient> lstFormulas = new JList<Ingredient>(this.ingredients);
+	private final JTextField txtName = new JTextField();
+	private final JTextField txtAmount = new JTextField();
+	private final JButton btnAddIngredient = new JButton("Add ingedrient");
+	private final JButton btnDelIngredient = new JButton("Del ingedrient");
+
 	/**
 	 * Constructor
 	 */
@@ -62,11 +75,6 @@ public class IngredientPane extends JPanel {
 		final GridBagConstraints constraints = new GridBagConstraints();
 
 		int gridy = 0;
-		final JList<Ingredient> lstFormulas = new JList<Ingredient>(this.ingredients);
-		final JTextField txtName = new JTextField();
-		final JTextField txtAmount = new JTextField();
-		final JButton btnAddIngredient = new JButton("Add ingedrient");
-		final JButton btnDelIngredient = new JButton("Del ingedrient");
 
 		constraints.gridx = 0;
 		constraints.gridy = gridy;
@@ -78,10 +86,10 @@ public class IngredientPane extends JPanel {
 		constraints.gridx = 0;
 		constraints.gridy = gridy;
 		constraints.gridheight = 4;
-		lstFormulas.setMinimumSize(DIM_LISTS);
-		lstFormulas.setPreferredSize(DIM_LISTS);
-		lstFormulas.setMaximumSize(DIM_LISTS);
-		this.add(lstFormulas, constraints);
+		this.lstFormulas.setMinimumSize(DIM_LISTS);
+		this.lstFormulas.setPreferredSize(DIM_LISTS);
+		this.lstFormulas.setMaximumSize(DIM_LISTS);
+		this.add(this.lstFormulas, constraints);
 		constraints.gridheight = 1;
 
 		constraints.gridx = 1;
@@ -101,29 +109,47 @@ public class IngredientPane extends JPanel {
 		gridy++;
 		constraints.gridx = 1;
 		constraints.gridy = gridy;
-		txtName.setMinimumSize(DIM_TEXTFIELDS);
-		txtName.setPreferredSize(DIM_TEXTFIELDS);
-		txtName.setMaximumSize(DIM_TEXTFIELDS);
-		this.add(txtName, constraints);
+		this.txtName.setMinimumSize(DIM_TEXTFIELDS);
+		this.txtName.setPreferredSize(DIM_TEXTFIELDS);
+		this.txtName.setMaximumSize(DIM_TEXTFIELDS);
+		this.add(this.txtName, constraints);
 
 		constraints.gridx = 2;
 		constraints.gridy = gridy;
-		txtAmount.setMinimumSize(DIM_AMOUNT);
-		txtAmount.setPreferredSize(DIM_AMOUNT);
-		txtAmount.setMaximumSize(DIM_AMOUNT);
-		this.add(txtAmount, constraints);
+		this.txtAmount.setMinimumSize(DIM_AMOUNT);
+		this.txtAmount.setPreferredSize(DIM_AMOUNT);
+		this.txtAmount.setMaximumSize(DIM_AMOUNT);
+		this.add(this.txtAmount, constraints);
 
 		gridy++;
 		constraints.gridx = 1;
 		constraints.gridy = gridy;
-		btnAddIngredient.addActionListener(new AddIngredientAction(txtName, txtAmount, this.ingredients));
-		this.add(btnAddIngredient, constraints);
+		this.btnAddIngredient.addActionListener(new ActionListener() {
+
+			/**
+			 * Invoked when the button is pressed.
+			 */
+			@Override
+			public void actionPerformed(final ActionEvent event) {
+				addNewIngredient();
+			}
+		});
+		this.add(this.btnAddIngredient, constraints);
 
 		gridy++;
 		constraints.gridx = 1;
 		constraints.gridy = gridy;
-		btnDelIngredient.addActionListener(new DelIngredientAction(lstFormulas, this.ingredients));
-		this.add(btnDelIngredient, constraints);
+		this.btnDelIngredient.addActionListener(new ActionListener() {
+
+			/**
+			 * Invoked when the button is pressed.
+			 */
+			@Override
+			public void actionPerformed(final ActionEvent event) {
+				removeSelectedIngredients();
+			}
+		});
+		this.add(this.btnDelIngredient, constraints);
 	}
 
 	/**
@@ -146,6 +172,46 @@ public class IngredientPane extends JPanel {
 			ingredients.add(this.ingredients.getElementAt(i));
 		}
 		return ingredients.iterator();
+	}
+
+	public void addNewIngredient() {
+
+		final String ingredient = this.txtName.getText();
+		if ("".equals(ingredient)) {
+			throw new UnsupportedOperationException("No formula name entered");
+		}
+
+		final String amount = this.txtAmount.getText();
+		if ("".equals(amount)) {
+			throw new UnsupportedOperationException("No amount entered");
+		}
+
+		final FormulaDAO formulaDAO = new FormulaDAO();
+
+		try {
+			final Formula form = formulaDAO.findFormulaByName(ingredient);
+			this.ingredients.addElement(new Ingredient(form, amount));
+		}
+		catch (SystemException | NotSupportedException e1) {
+			throw new IllegalStateException("Something went wrong when getting the existing formula", e1);
+		}
+		catch (NoResultException e) {
+			throw new UnsupportedOperationException("The entered formula doesn't exist", e);
+		}
+
+
+		this.txtName.setText("");
+		this.txtAmount.setText("");
+	}
+
+	/**
+	 * Removes the selected ingredients from the view.
+	 */
+	public void removeSelectedIngredients() {
+		while (!this.lstFormulas.isSelectionEmpty()) {
+			final int selected = this.lstFormulas.getSelectedIndex();
+			this.ingredients.remove(selected);
+		}
 	}
 
 }
