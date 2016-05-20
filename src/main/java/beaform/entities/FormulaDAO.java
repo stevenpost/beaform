@@ -3,6 +3,7 @@ package beaform.entities;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
@@ -188,6 +189,11 @@ public class FormulaDAO {
 			}
 			catch (NotSupportedException | SystemException e1) {
 				LOG.error("Failed to find the tag", e1);
+			}
+			catch (NoResultException e1) {
+				if (LOG.isDebugEnabled()) {
+					LOG.debug("No tag with name " + tag.getName() + " found: " + e1.getMessage());
+				}
 			}
 			if (pTag == null) {
 				entityManager.persist(tag);
