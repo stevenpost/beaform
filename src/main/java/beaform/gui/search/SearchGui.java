@@ -2,6 +2,7 @@ package beaform.gui.search;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -59,9 +60,10 @@ public class SearchGui extends JPanel {
 	 * Constructor.
 	 */
 	public SearchGui() {
-		super();
+		super(new GridBagLayout());
 
 		final GridBagConstraints constraints = new GridBagConstraints();
+
 		constraints.gridx = 0;
 		constraints.gridy = 0;
 		this.txtSearchTag.setMinimumSize(DIM_TXTFIELDS);
@@ -69,8 +71,8 @@ public class SearchGui extends JPanel {
 		this.txtSearchTag.setMaximumSize(DIM_TXTFIELDS);
 		this.add(this.txtSearchTag, constraints);
 
-		constraints.gridx = 0;
-		constraints.gridy = 1;
+		constraints.gridx = 1;
+		constraints.gridy = 0;
 		this.cmbType.setMinimumSize(DIM_TXTFIELDS);
 		this.cmbType.setMaximumSize(DIM_TXTFIELDS);
 		this.cmbType.setPreferredSize(DIM_TXTFIELDS);
@@ -78,7 +80,7 @@ public class SearchGui extends JPanel {
 		this.cmbType.setSelectedIndex(0);
 		this.add(this.cmbType, constraints);
 
-		constraints.gridx = 1;
+		constraints.gridx = 2;
 		constraints.gridy = 0;
 		this.add(this.btnSearch, constraints);
 		this.btnSearch.addActionListener(new ActionListener() {
@@ -130,7 +132,11 @@ public class SearchGui extends JPanel {
 		if (this.getComponentCount() > FORMULA_TREE_LOC) {
 			this.remove(FORMULA_TREE_LOC);
 		}
-		this.add(formulaTree);
+		final GridBagConstraints constraints = new GridBagConstraints();
+		constraints.gridx = 0;
+		constraints.gridy = 1;
+		constraints.gridwidth = 3;
+		this.add(formulaTree, constraints);
 		this.revalidate();
 	}
 
