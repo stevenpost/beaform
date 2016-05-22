@@ -175,6 +175,17 @@ public class IngredientPane extends JPanel {
 	}
 
 	/**
+	 * Add multiple ingredients to the list of ingredients.
+	 *
+	 * @param ingredients A list of ingredient to add
+	 */
+	public void addIngredients(final List<Ingredient> ingredients) {
+		for (final Ingredient ingredient : ingredients) {
+			this.ingredients.addElement(ingredient);
+		}
+	}
+
+	/**
 	 * Gets all the ingredients.
 	 * @return all the ingredients
 	 */

@@ -100,7 +100,7 @@ public class FormulaEditor extends JPanel {
 
 		try {
 			final List<Ingredient> ingredientList = new FormulaDAO().getIngredients(formula);
-			addIngredients(ingredientList);
+			this.ingredientPane.addIngredients(ingredientList);
 
 			// Add tags to the list
 			final Iterator<FormulaTag> tagIterator = formula.getTags();
@@ -108,12 +108,6 @@ public class FormulaEditor extends JPanel {
 		}
 		catch (NotSupportedException | SystemException e) {
 			LOG.error("Failed to add all tags and ingredients", e);
-		}
-	}
-
-	private void addIngredients(final List<Ingredient> ingredientList) {
-		for (final Ingredient ingredient : ingredientList) {
-			this.ingredientPane.addIngredient(ingredient);
 		}
 	}
 
