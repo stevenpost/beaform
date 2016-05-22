@@ -39,7 +39,7 @@ public class SearchGui extends JPanel {
 	private static final Logger LOG = LoggerFactory.getLogger(SearchGui.class);
 
 	/** The field to type in the search */
-	private final JTextField txtSearchTag = new JTextField();
+	private final JTextField txtSearch = new JTextField();
 
 	/** The model for the combo box. */
 	private final DefaultComboBoxModel<SearchType> comboBoxModel = new DefaultComboBoxModel<SearchType>(SearchType.values());
@@ -65,7 +65,7 @@ public class SearchGui extends JPanel {
 		final JPanel searchPanel = new JPanel();
 		searchPanel.setLayout(new BoxLayout(searchPanel, BoxLayout.LINE_AXIS));
 
-		final JTextField search = this.txtSearchTag;
+		final JTextField search = this.txtSearch;
 		search.setMinimumSize(textFieldSize);
 		search.setPreferredSize(textFieldSize);
 		search.setMaximumSize(textFieldMaxSize);
@@ -104,13 +104,13 @@ public class SearchGui extends JPanel {
 		switch (searchType) {
 			case FORMULA:
 			{
-				final Future<Formula> searchresult = DbTaskHandler.addTask(new SearchFormulaTask(this.txtSearchTag.getText()));
+				final Future<Formula> searchresult = DbTaskHandler.addTask(new SearchFormulaTask(this.txtSearch.getText()));
 				VariousTaskHandler.addTask(new RenderFormulaSearchResult(searchresult, this));
 				break;
 			}
 			case TAG:
 			{
-				final Future<List<Formula>> searchresult = DbTaskHandler.addTask(new SearchFormulasByTagTask(this.txtSearchTag.getText()));
+				final Future<List<Formula>> searchresult = DbTaskHandler.addTask(new SearchFormulasByTagTask(this.txtSearch.getText()));
 				VariousTaskHandler.addTask(new RenderFormulaSearchByTagResult(searchresult, this));
 				break;
 			}
