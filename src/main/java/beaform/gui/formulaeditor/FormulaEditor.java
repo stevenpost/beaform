@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -88,7 +89,7 @@ public class FormulaEditor extends JPanel {
 	 * use the overridden constructor that takes a formula as argument.
 	 */
 	public FormulaEditor() {
-		super(new GridBagLayout());
+		super();
 		init();
 
 		this.btnSubmit.addActionListener(new ActionListener() {
@@ -109,7 +110,7 @@ public class FormulaEditor extends JPanel {
 	 * @param formula The formula that needs editing.
 	 */
 	public FormulaEditor(final Formula formula) {
-		super(new GridBagLayout());
+		super();
 		init();
 		this.txtName.setEnabled(false);
 
@@ -148,33 +149,19 @@ public class FormulaEditor extends JPanel {
 	}
 
 	private void init() {
-		int gridy = 0;
-		final GridBagConstraints constraints = new GridBagConstraints();
-		constraints.weightx = 0.1;
-		constraints.weighty = 0.1;
-		constraints.gridx = 0;
-
-		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
 		final JPanel generalPanel = createGeneralComponentsPanel();
-		constraints.gridy = gridy;
-		this.add(generalPanel, constraints);
+		this.add(generalPanel);
 
 		// Ingredients
-		gridy++;
-		constraints.gridy = gridy;
-		this.add(this.ingredientPane, constraints);
+		this.add(this.ingredientPane);
 
 		// Tags
-		gridy++;
-		constraints.gridy = gridy;
-		this.add(this.tagPane, constraints);
+		this.add(this.tagPane);
 
 		// Submit
-		gridy++;
-		constraints.gridy = gridy;
-		constraints.fill = GridBagConstraints.NONE;
-		this.add(this.btnSubmit, constraints);
+		this.add(this.btnSubmit);
 	}
 
 	private JPanel createGeneralComponentsPanel() {
