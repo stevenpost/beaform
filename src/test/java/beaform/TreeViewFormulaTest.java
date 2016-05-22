@@ -1,12 +1,12 @@
 package beaform;
 
-import static org.junit.Assert.assertEquals;
-
+import org.junit.Before;
 import org.junit.Test;
 
 import beaform.entities.Formula;
 import beaform.entities.Ingredient;
 import beaform.gui.TreeViewFormula;
+import junit.framework.TestCase;
 
 /**
  * A testing class for the {@link TreeViewFormula}
@@ -14,20 +14,35 @@ import beaform.gui.TreeViewFormula;
  * @author Steven Post
  *
  */
-public class TreeViewFormulaTest {
+public class TreeViewFormulaTest extends TestCase {
+
+	/** An arbitrary test amount */
+	private static final String AMOUNT = "50%";
+
+	/** The name of the test formula */
+	private static final String NAME = "TestFormula";
+
+	/** The formula is initialized during test setup */
+	private Formula form;
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@Before
+	public void setUp() {
+		this.form = new Formula();
+		this.form.setName(NAME);
+		this.form.setDescription("Test formula");
+	}
 
 	/**
 	 * Test a simple formula
 	 */
 	@Test
-	public void testSimpleFormula() {
-		final Formula form = new Formula();
-		form.setName("TestFormula");
-		form.setDescription("Test formula");
-		final TreeViewFormula testObj = new TreeViewFormula(form);
-
-		assertEquals("TestFormula", testObj.getFormula().getName());
-		assertEquals("", testObj.getAmount());
+	public void testEmptyAmount() {
+		final TreeViewFormula testObj = new TreeViewFormula(this.form);
+		assertEquals("The amount is not empty.", "", testObj.getAmount());
 
 	}
 
@@ -35,15 +50,11 @@ public class TreeViewFormulaTest {
 	 * Test a formula with ingredients.
 	 */
 	@Test
-	public void testIngredient() {
-		final Formula form = new Formula();
-		form.setName("TestFormula");
-		form.setDescription("Test formula");
-		final Ingredient ingredient = new Ingredient(form, "50%");
+	public void testWithIngredient() {
+		final Ingredient ingredient = new Ingredient(this.form, AMOUNT);
 		final TreeViewFormula testObj = new TreeViewFormula(ingredient);
 
-		assertEquals("TestFormula", testObj.getFormula().getName());
-		assertEquals("50%", testObj.getAmount());
+		assertEquals("The ingredient amount is not as expected.", AMOUNT, testObj.getAmount());
 
 	}
 
