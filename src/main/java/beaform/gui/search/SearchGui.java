@@ -63,6 +63,10 @@ public class SearchGui extends JPanel {
 		super(new GridBagLayout());
 
 		final GridBagConstraints constraints = new GridBagConstraints();
+		constraints.weightx = 0.1;
+		constraints.weighty = 0.1;
+		constraints.anchor = GridBagConstraints.PAGE_START;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
 
 		constraints.gridx = 0;
 		constraints.gridy = 0;
