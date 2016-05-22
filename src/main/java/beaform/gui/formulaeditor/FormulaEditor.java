@@ -177,7 +177,6 @@ public class FormulaEditor extends JPanel {
 
 	private void createDescriptionComponents(final JPanel parent, final JTextArea description) {
 		final Dimension textAreaSize = new Dimension(100, 90);
-		final Dimension textAreaMaxSize = new Dimension(500, 400);
 		final JLabel descriptionLabel = new JLabel("Description");
 		final JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -187,7 +186,6 @@ public class FormulaEditor extends JPanel {
 		description.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		description.setMinimumSize(textAreaSize);
 		description.setPreferredSize(textAreaSize);
-		description.setMaximumSize(textAreaMaxSize);
 		panel.add(description);
 
 		parent.add(panel);
