@@ -3,10 +3,9 @@ package beaform.gui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -56,26 +55,17 @@ public class About implements Runnable {
 	private void init(){
 
 		//Create pane and add components
-		pane.setLayout(new GridBagLayout()); //create pane
-		final GridBagConstraints cconstraints = new GridBagConstraints();
-		//c.fill = GridBagConstraints.HORIZONTAL;
-		cconstraints.weightx = 0.5;
+		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 
-		cconstraints.gridx = 0;
-		cconstraints.gridy = 0;
 		lblTitle.setText("BeaForm");
-		pane.add(lblTitle, cconstraints);
+		pane.add(lblTitle);
 
-		cconstraints.gridx = 0;
-		cconstraints.gridy = 1;
 		lblAuthor.setText("By Steven Post");
-		pane.add(lblAuthor, cconstraints);
+		pane.add(lblAuthor);
 
-		cconstraints.gridx = 0;
-		cconstraints.gridy = 2;
 		txtLicense.setText("This program is distributed under the MIT License.\n You can re-distribute, and/or modify the program under the conditions of the MIT License.");
 		txtLicense.setEditable(false);
-		pane.add(txtLicense, cconstraints);
+		pane.add(txtLicense);
 
 		pane.setBorder(BorderFactory.createEmptyBorder(20, /*top*/20, /*left*/20, /*bottom*/20)/*right*/);
 
