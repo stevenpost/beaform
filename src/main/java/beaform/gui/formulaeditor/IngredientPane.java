@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 
@@ -36,24 +37,6 @@ public class IngredientPane extends JPanel {
 	 * a serial
 	 */
 	private static final long serialVersionUID = 2342490028064073798L;
-
-	/** A label for the list of ingredients */
-	private static final JLabel LBL_INGREDIENTS = new JLabel("Ingredients");
-
-	/** A label for the name of ingredients */
-	private static final JLabel LBL_NAME = new JLabel("Name");
-
-	/** A label for the amount in an ingredient */
-	private static final JLabel LBL_AMOUNT = new JLabel("Amount");
-
-	/** Dimensions for the amount field */
-	private static final Dimension DIM_AMOUNT = new Dimension(60, 30);
-
-	/** Dimensions for lists */
-	private static final Dimension DIM_LISTS = new Dimension(200, 100);
-
-	/** Dimensions for most text fields */
-	private static final Dimension DIM_TEXTFIELDS = new Dimension(100, 30);
 
 	/** A list model to get the list of formulas to the screen */
 	private final DefaultListModel<Ingredient> ingredients = new DefaultListModel<Ingredient>();
@@ -82,56 +65,60 @@ public class IngredientPane extends JPanel {
 	}
 
 	private void init() {
+		final Dimension amountSize = new Dimension(60, 30);
+		final Dimension listMinSize = new Dimension(200, 100);
+		final Dimension nameSize = new Dimension(100, 30);
+
+		final JLabel amountLabel = new JLabel("Amount");
+		final JLabel ingredientsLabel = new JLabel("Ingredients", SwingConstants.CENTER);
+		final JLabel nameLabel = new JLabel("Name");
+
 		final GridBagConstraints constraints = new GridBagConstraints();
 		constraints.weightx = 0.1;
 		constraints.weighty = 0.1;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
 
 		int gridy = 0;
 
 		constraints.gridx = 0;
 		constraints.gridy = gridy;
 		constraints.gridwidth = 3;
-		Utilities.setBoldFont(LBL_INGREDIENTS);
-		this.add(LBL_INGREDIENTS, constraints);
+		Utilities.setBoldFont(ingredientsLabel);
+		this.add(ingredientsLabel, constraints);
 		constraints.gridwidth = 1;
 
 		gridy++;
 		constraints.gridx = 0;
 		constraints.gridy = gridy;
 		constraints.gridheight = 4;
-		this.lstFormulas.setMinimumSize(DIM_LISTS);
-		this.lstFormulas.setPreferredSize(DIM_LISTS);
-		this.lstFormulas.setMaximumSize(DIM_LISTS);
+		constraints.fill = GridBagConstraints.BOTH;
+		this.lstFormulas.setMinimumSize(listMinSize);
+		this.lstFormulas.setPreferredSize(listMinSize);
 		this.add(this.lstFormulas, constraints);
 		constraints.gridheight = 1;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
 
 		constraints.gridx = 1;
 		constraints.gridy = gridy;
-		LBL_NAME.setMinimumSize(DIM_TEXTFIELDS);
-		LBL_NAME.setPreferredSize(DIM_TEXTFIELDS);
-		LBL_NAME.setMaximumSize(DIM_TEXTFIELDS);
-		this.add(LBL_NAME, constraints);
+		this.add(nameLabel, constraints);
 
 		constraints.gridx = 2;
 		constraints.gridy = gridy;
-		LBL_AMOUNT.setMinimumSize(DIM_AMOUNT);
-		LBL_AMOUNT.setPreferredSize(DIM_AMOUNT);
-		LBL_AMOUNT.setMaximumSize(DIM_AMOUNT);
-		this.add(LBL_AMOUNT, constraints);
+		this.add(amountLabel, constraints);
 
 		gridy++;
 		constraints.gridx = 1;
 		constraints.gridy = gridy;
-		this.txtName.setMinimumSize(DIM_TEXTFIELDS);
-		this.txtName.setPreferredSize(DIM_TEXTFIELDS);
-		this.txtName.setMaximumSize(DIM_TEXTFIELDS);
+		this.txtName.setMinimumSize(nameSize);
+		this.txtName.setPreferredSize(nameSize);
+		this.txtName.setMaximumSize(nameSize);
 		this.add(this.txtName, constraints);
 
 		constraints.gridx = 2;
 		constraints.gridy = gridy;
-		this.txtAmount.setMinimumSize(DIM_AMOUNT);
-		this.txtAmount.setPreferredSize(DIM_AMOUNT);
-		this.txtAmount.setMaximumSize(DIM_AMOUNT);
+		this.txtAmount.setMinimumSize(amountSize);
+		this.txtAmount.setPreferredSize(amountSize);
+		this.txtAmount.setMaximumSize(amountSize);
 		this.add(this.txtAmount, constraints);
 
 		gridy++;
