@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
@@ -58,8 +59,9 @@ public final class DebugUtils {
 
 		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
 
+		final Query query = entityManager.createNativeQuery(ALL_FORMULAS, Formula.class);
 		@SuppressWarnings("unchecked")
-		final List<Formula> formulas = entityManager.createNativeQuery(ALL_FORMULAS, Formula.class).getResultList();
+		final List<Formula> formulas = query.getResultList();
 
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Number of formulas: " + formulas.size());
@@ -100,7 +102,8 @@ public final class DebugUtils {
 		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
 
 		try {
-			entityManager.createNativeQuery(DELETE_QUERY).getSingleResult();
+			final Query query = entityManager.createNativeQuery(DELETE_QUERY);
+			query.getSingleResult();
 		}
 		catch (NoResultException nre) {
 			// We delete everything, there won't be a result.
