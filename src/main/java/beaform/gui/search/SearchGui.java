@@ -50,9 +50,6 @@ public class SearchGui extends JPanel {
 	/** The model for the combo box. */
 	private final DefaultComboBoxModel<SearchType> comboBoxModel = new DefaultComboBoxModel<SearchType>(SearchType.values());
 
-	/** A combo box to define the type of search */
-	private final JComboBox<SearchType> cmbType = new JComboBox<SearchType>(this.comboBoxModel);
-
 	/** The index of the formula tree on the target panel */
 	private static final int FORMULA_TREE_LOC = 3;
 
@@ -60,7 +57,17 @@ public class SearchGui extends JPanel {
 	 * Constructor.
 	 */
 	public SearchGui() {
-		super(new GridBagLayout());
+		super();
+		final JPanel searchPanel =  createSearchPanel();
+		this.add(searchPanel);
+
+	}
+
+	/**
+	 *
+	 */
+	private JPanel createSearchPanel() {
+		final JPanel searchPanel = new JPanel(new GridBagLayout());
 
 		final GridBagConstraints constraints = new GridBagConstraints();
 		constraints.weightx = 0.1;
@@ -73,20 +80,21 @@ public class SearchGui extends JPanel {
 		this.txtSearchTag.setMinimumSize(DIM_TXTFIELDS);
 		this.txtSearchTag.setPreferredSize(DIM_TXTFIELDS);
 		this.txtSearchTag.setMaximumSize(DIM_TXTFIELDS);
-		this.add(this.txtSearchTag, constraints);
+		searchPanel.add(this.txtSearchTag, constraints);
 
 		constraints.gridx = 1;
 		constraints.gridy = 0;
-		this.cmbType.setMinimumSize(DIM_TXTFIELDS);
-		this.cmbType.setMaximumSize(DIM_TXTFIELDS);
-		this.cmbType.setPreferredSize(DIM_TXTFIELDS);
-		this.cmbType.setEditable(false);
-		this.cmbType.setSelectedIndex(0);
-		this.add(this.cmbType, constraints);
+		final JComboBox<SearchType> cmbType = new JComboBox<SearchType>(this.comboBoxModel);
+		cmbType.setMinimumSize(DIM_TXTFIELDS);
+		cmbType.setMaximumSize(DIM_TXTFIELDS);
+		cmbType.setPreferredSize(DIM_TXTFIELDS);
+		cmbType.setEditable(false);
+		cmbType.setSelectedIndex(0);
+		searchPanel.add(cmbType, constraints);
 
 		constraints.gridx = 2;
 		constraints.gridy = 0;
-		this.add(this.btnSearch, constraints);
+		searchPanel.add(this.btnSearch, constraints);
 		this.btnSearch.addActionListener(new ActionListener() {
 
 			/**
@@ -98,6 +106,7 @@ public class SearchGui extends JPanel {
 			}
 		});
 
+		return searchPanel;
 	}
 
 	/**
