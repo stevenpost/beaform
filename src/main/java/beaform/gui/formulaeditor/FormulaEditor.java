@@ -51,7 +51,7 @@ public class FormulaEditor extends JPanel {
 	private static final Dimension DIM_TEXTAREA = new Dimension(100, 90);
 
 	/** A label for the total amount of a formula */
-	private static final JLabel LBL_TOTAL_AMOUNT = new JLabel("total amount", SwingConstants.RIGHT);
+	private static final JLabel LBL_TOTAL_AMOUNT = new JLabel("Total amount", SwingConstants.RIGHT);
 
 	/** A label for the name of a formula */
 	private static final JLabel LBL_NAME = new JLabel("Name", SwingConstants.RIGHT);
