@@ -104,13 +104,17 @@ public class SearchGui extends JPanel {
 		switch (searchType) {
 			case FORMULA:
 			{
-				final Future<Formula> searchresult = DbTaskHandler.addTask(new SearchFormulaTask(this.txtSearch.getText()));
+				final String searchText = this.txtSearch.getText();
+				final SearchFormulaTask task = new SearchFormulaTask(searchText);
+				final Future<Formula> searchresult = DbTaskHandler.addTask(task);
 				VariousTaskHandler.addTask(new RenderFormulaSearchResult(searchresult, this));
 				break;
 			}
 			case TAG:
 			{
-				final Future<List<Formula>> searchresult = DbTaskHandler.addTask(new SearchFormulasByTagTask(this.txtSearch.getText()));
+				final String searchText = this.txtSearch.getText();
+				final SearchFormulasByTagTask task = new SearchFormulasByTagTask(searchText);
+				final Future<List<Formula>> searchresult = DbTaskHandler.addTask(task);
 				VariousTaskHandler.addTask(new RenderFormulaSearchByTagResult(searchresult, this));
 				break;
 			}
