@@ -1,5 +1,6 @@
 package beaform.gui.formulaeditor;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -8,12 +9,14 @@ import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 
@@ -47,13 +50,13 @@ public class FormulaEditor extends JPanel {
 	private static final Dimension DIM_TEXTAREA = new Dimension(100, 90);
 
 	/** A label for the total amount of a formula */
-	private static final JLabel LBL_TOTAL_AMOUNT = new JLabel("total amount");
+	private static final JLabel LBL_TOTAL_AMOUNT = new JLabel("total amount", SwingConstants.RIGHT);
 
 	/** A label for the name of a formula */
-	private static final JLabel LBL_NAME = new JLabel("Name");
+	private static final JLabel LBL_NAME = new JLabel("Name", SwingConstants.RIGHT);
 
 	/** A label for the description of a formula */
-	private static final JLabel LBL_DESCRIPTION = new JLabel("Description");
+	private static final JLabel LBL_DESCRIPTION = new JLabel("Description", SwingConstants.RIGHT);
 
 	/** A text field for the name of the formula */
 	private final JTextField txtName = new JTextField();
@@ -75,6 +78,9 @@ public class FormulaEditor extends JPanel {
 
 	/** The formula that needs editing */
 	private Formula formula;
+
+	/** A panel for the general components */
+	private final JPanel panel = new JPanel(new GridBagLayout());
 
 	/**
 	 * Main constructor for this editor to add a new formula.
@@ -143,65 +149,74 @@ public class FormulaEditor extends JPanel {
 
 	private void init() {
 		int gridy = 0;
-
-		// Formula requirements
 		final GridBagConstraints constraints = new GridBagConstraints();
+		constraints.weightx = 0.1;
+		constraints.weighty = 0.1;
 		constraints.gridx = 0;
-		constraints.gridy = gridy;
-		this.add(LBL_NAME, constraints);
 
-		constraints.gridx = 1;
-		constraints.gridy = gridy;
-		setDimensions(this.txtName, DIM_TEXTFIELDS);
-		this.add(this.txtName, constraints);
+		constraints.fill = GridBagConstraints.HORIZONTAL;
 
-		gridy++;
-		constraints.gridx = 0;
+		final JPanel generalPanel = createGeneralComponentsPanel();
 		constraints.gridy = gridy;
-		this.add(LBL_DESCRIPTION, constraints);
-
-		constraints.gridx = 1;
-		constraints.gridy = gridy;
-		setDimensions(this.txtDescription, DIM_TEXTAREA);
-		this.add(this.txtDescription, constraints);
-
-		gridy++;
-		constraints.gridx = 0;
-		constraints.gridy = gridy;
-		setDimensions(LBL_TOTAL_AMOUNT, DIM_TEXTFIELDS);
-		this.add(LBL_TOTAL_AMOUNT, constraints);
-
-		constraints.gridx = 1;
-		constraints.gridy = gridy;
-		setDimensions(this.txtTotalAmount, DIM_TEXTFIELDS);
-		this.add(this.txtTotalAmount, constraints);
+		this.add(generalPanel, constraints);
 
 		// Ingredients
 		gridy++;
-		constraints.gridx = 0;
 		constraints.gridy = gridy;
-		constraints.gridwidth = 3;
-		constraints.gridheight = 4;
 		this.add(this.ingredientPane, constraints);
-		constraints.gridheight = 1;
-		constraints.gridwidth = 1;
 
 		// Tags
-		gridy = gridy + 5;
-		constraints.gridx = 0;
+		gridy++;
 		constraints.gridy = gridy;
-		constraints.gridwidth = 3;
-		constraints.gridheight = 4;
 		this.add(this.tagPane, constraints);
-		constraints.gridheight = 1;
-		constraints.gridwidth = 1;
 
 		// Submit
-		gridy = gridy + 5;
-		constraints.gridx = 0;
+		gridy++;
 		constraints.gridy = gridy;
-		constraints.gridwidth = 2;
+		constraints.fill = GridBagConstraints.NONE;
 		this.add(this.btnSubmit, constraints);
+	}
+
+	private JPanel createGeneralComponentsPanel() {
+		final GridBagConstraints constraints = new GridBagConstraints();
+		constraints.weightx = 0.1;
+		constraints.weighty = 0.1;
+		constraints.anchor = GridBagConstraints.LINE_END;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+
+		// Formula requirements
+		constraints.gridx = 0;
+		constraints.gridy = 0;
+		this.panel.add(LBL_NAME, constraints);
+
+		constraints.gridx = 1;
+		constraints.gridy = 0;
+		setDimensions(this.txtName, DIM_TEXTFIELDS);
+		this.panel.add(this.txtName, constraints);
+
+		constraints.gridx = 2;
+		constraints.gridy = 0;
+		this.panel.add(LBL_DESCRIPTION, constraints);
+
+		constraints.gridx = 0;
+		constraints.gridy = 1;
+		setDimensions(LBL_TOTAL_AMOUNT, DIM_TEXTFIELDS);
+		this.panel.add(LBL_TOTAL_AMOUNT, constraints);
+
+		constraints.gridx = 1;
+		constraints.gridy = 1;
+		setDimensions(this.txtTotalAmount, DIM_TEXTFIELDS);
+		this.panel.add(this.txtTotalAmount, constraints);
+
+		constraints.gridx = 3;
+		constraints.gridy = 0;
+		constraints.gridheight = 2;
+		constraints.fill = GridBagConstraints.BOTH;
+		this.txtDescription.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		setDimensions(this.txtDescription, DIM_TEXTAREA);
+		this.panel.add(this.txtDescription, constraints);
+
+		return this.panel;
 	}
 
 	/**

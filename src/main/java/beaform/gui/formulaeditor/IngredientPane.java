@@ -82,6 +82,8 @@ public class IngredientPane extends JPanel {
 
 	private void init() {
 		final GridBagConstraints constraints = new GridBagConstraints();
+		constraints.weightx = 0.1;
+		constraints.weighty = 0.1;
 
 		int gridy = 0;
 
