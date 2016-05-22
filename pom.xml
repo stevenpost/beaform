@@ -301,9 +301,4 @@
 	<properties>
 		<encoding>UTF-8</encoding>
 	</properties>
-	<scm>
-		<url>https://github.com/stevenpost/beaform</url>
-		<connection>scm:git:https://github.com/stevenpost/beaform.git</connection>
-		<developerConnection>scm:git:git@github.com:stevenpost/beaform</developerConnection>
-	</scm>
 </project>
