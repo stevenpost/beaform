@@ -2,13 +2,12 @@ package beaform.gui.search;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.concurrent.Future;
 
+import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -42,6 +41,9 @@ public class SearchGui extends JPanel {
 	/** The dimensions for most text fields */
 	private static final Dimension DIM_TXTFIELDS = new Dimension(100, 30);
 
+	/** The dimensions for most text fields */
+	private static final Dimension DIM_MAX_TXTFIELDS = new Dimension(300, 30);
+
 	/** The field to type in the search */
 	private final JTextField txtSearchTag = new JTextField();
 
@@ -69,34 +71,23 @@ public class SearchGui extends JPanel {
 	 *
 	 */
 	private JPanel createSearchPanel() {
-		final JPanel searchPanel = new JPanel(new GridBagLayout());
+		final JPanel searchPanel = new JPanel();
+		searchPanel.setLayout(new BoxLayout(searchPanel, BoxLayout.LINE_AXIS));
 
-		final GridBagConstraints constraints = new GridBagConstraints();
-		constraints.weightx = 0.1;
-		constraints.weighty = 0.1;
-		constraints.anchor = GridBagConstraints.PAGE_START;
-		constraints.fill = GridBagConstraints.HORIZONTAL;
-
-		constraints.gridx = 0;
-		constraints.gridy = 0;
 		this.txtSearchTag.setMinimumSize(DIM_TXTFIELDS);
 		this.txtSearchTag.setPreferredSize(DIM_TXTFIELDS);
-		this.txtSearchTag.setMaximumSize(DIM_TXTFIELDS);
-		searchPanel.add(this.txtSearchTag, constraints);
+		this.txtSearchTag.setMaximumSize(DIM_MAX_TXTFIELDS);
+		searchPanel.add(this.txtSearchTag);
 
-		constraints.gridx = 1;
-		constraints.gridy = 0;
 		final JComboBox<SearchType> cmbType = new JComboBox<SearchType>(this.comboBoxModel);
 		cmbType.setMinimumSize(DIM_TXTFIELDS);
-		cmbType.setMaximumSize(DIM_TXTFIELDS);
+		cmbType.setMaximumSize(DIM_MAX_TXTFIELDS);
 		cmbType.setPreferredSize(DIM_TXTFIELDS);
 		cmbType.setEditable(false);
 		cmbType.setSelectedIndex(0);
-		searchPanel.add(cmbType, constraints);
+		searchPanel.add(cmbType);
 
-		constraints.gridx = 2;
-		constraints.gridy = 0;
-		searchPanel.add(this.btnSearch, constraints);
+		searchPanel.add(this.btnSearch);
 		this.btnSearch.addActionListener(new ActionListener() {
 
 			/**
