@@ -137,6 +137,9 @@ public class SearchGui extends JPanel {
 			this.remove(FORMULA_TREE_LOC);
 		}
 		final GridBagConstraints constraints = new GridBagConstraints();
+		constraints.weightx = 0.1;
+		constraints.weighty = 0.1;
+		constraints.fill = GridBagConstraints.BOTH;
 		constraints.gridx = 0;
 		constraints.gridy = 1;
 		constraints.gridwidth = 3;
