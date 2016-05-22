@@ -13,6 +13,7 @@ public final class Utilities {
 
 	/**
 	 * Set a bold font on the component.
+	 * @param comp The component to set the font of.
 	 */
 	public static void setBoldFont(final Component comp) {
 		final Font font = comp.getFont();
