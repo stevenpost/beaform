@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import beaform.entities.FormulaTag;
+import beaform.gui.Utilities;
 
 /**
  * Represents the GUI panel inside the editor to manage the tags.
@@ -73,6 +74,7 @@ public class TagPane extends JPanel {
 		constraints.gridx = 0;
 		constraints.gridy = gridy;
 		constraints.gridwidth = 2;
+		Utilities.setBoldFont(LBL_TAGS);
 		this.add(LBL_TAGS, constraints);
 		constraints.gridwidth = 1;
 

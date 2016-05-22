@@ -22,6 +22,7 @@ import javax.transaction.SystemException;
 import beaform.entities.Formula;
 import beaform.entities.FormulaDAO;
 import beaform.entities.Ingredient;
+import beaform.gui.Utilities;
 
 /**
  * This class houses all the components for the Ingredients in the formula editor.
@@ -89,7 +90,8 @@ public class IngredientPane extends JPanel {
 
 		constraints.gridx = 0;
 		constraints.gridy = gridy;
-		constraints.gridwidth = 2;
+		constraints.gridwidth = 3;
+		Utilities.setBoldFont(LBL_INGREDIENTS);
 		this.add(LBL_INGREDIENTS, constraints);
 		constraints.gridwidth = 1;
 
