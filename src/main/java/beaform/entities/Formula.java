@@ -99,13 +99,17 @@ public class Formula {
 		final ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
 
 		for (final Entry<String, Formula> entry : this.ingredients.entrySet()) {
-			final Formula formula = entry.getValue();
-			String amount = entry.getKey();
-			amount = amount.substring(amount.indexOf('|') + 1);
-			ingredients.add(new Ingredient(formula, amount)); // NOPMD by steven on 5/17/16 11:43 PM
+			final Ingredient ingredient = createIngredient(entry.getKey(), entry.getValue());
+			ingredients.add(ingredient);
 		}
 
 		return ingredients;
+	}
+
+	private Ingredient createIngredient(final String amount, final Formula formula) {
+		final String tmpAmount = amount.substring(amount.indexOf('|') + 1);
+
+		return new Ingredient(formula, tmpAmount);
 	}
 
 	/**
@@ -154,7 +158,8 @@ public class Formula {
 	 */
 	@Override
 	public String toString() {
-		final String tags = String.join(",", this.getTagsAsStrings());
+		final List<String> tagList = getTagsAsStrings();
+		final String tags = String.join(",", tagList);
 		final StringBuilder builder = new StringBuilder();
 		builder.append(this.name).append(" | ").append(this.description).append(" | [").append(tags).append(']');
 
