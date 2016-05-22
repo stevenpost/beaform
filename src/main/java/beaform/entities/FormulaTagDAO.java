@@ -1,6 +1,7 @@
 package beaform.entities;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 
@@ -52,8 +53,9 @@ public class FormulaTagDAO {
 	 * @return the tag found
 	 */
 	private FormulaTag findByName(final String name, final EntityManager entityManager) {
-		final String query = "match (n:FormulaTag { name:'" + name + "' }) return n";
-		return (FormulaTag) entityManager.createNativeQuery(query, FormulaTag.class).getSingleResult();
+		final String queryString = "match (n:FormulaTag { name:'" + name + "' }) return n";
+		final Query query = entityManager.createNativeQuery(queryString, FormulaTag.class);
+		return (FormulaTag) query.getSingleResult();
 	}
 
 	/**
