@@ -22,10 +22,16 @@ public class FormulaTag implements Serializable {
 	@Id
 	private String name;
 
+	/**
+	 * @return the name
+	 */
 	public String getName() {
 		return this.name;
 	}
 
+	/**
+	 * @param name the name to set
+	 */
 	public void setName(final String name) {
 		this.name = name;
 	}

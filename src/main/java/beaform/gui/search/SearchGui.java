@@ -67,9 +67,6 @@ public class SearchGui extends JPanel {
 
 	}
 
-	/**
-	 *
-	 */
 	private JPanel createSearchPanel() {
 		final JPanel searchPanel = new JPanel();
 		searchPanel.setLayout(new BoxLayout(searchPanel, BoxLayout.LINE_AXIS));

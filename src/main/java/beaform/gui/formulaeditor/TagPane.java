@@ -57,7 +57,7 @@ public class TagPane extends JPanel {
 	private static final long serialVersionUID = -6447838745127288741L;
 
 	/**
-	 * Constructor.
+	 * Creates a tag panel.
 	 */
 	public TagPane() {
 		super(new GridBagLayout());
@@ -153,10 +153,6 @@ public class TagPane extends JPanel {
 		}
 	}
 
-	/**
-	 * Remove a tag from the list.
-	 * @param i the index of the tag to delete
-	 */
 	private void removeTagFromList(final int index) {
 		this.tags.remove(index);
 		this.lstTagModel.remove(index);

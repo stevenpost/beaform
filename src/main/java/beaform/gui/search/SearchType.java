@@ -13,10 +13,6 @@ public enum SearchType {
 	/** A display string. */
 	private final String display;
 
-	/**
-	 * A private constructor.
-	 * @param display the display name for the enum
-	 */
 	private SearchType(final String display) {
 		this.display = display;
 	}
