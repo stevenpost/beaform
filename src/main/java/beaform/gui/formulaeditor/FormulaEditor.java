@@ -59,7 +59,7 @@ public class FormulaEditor extends JPanel {
 	private final IngredientPane ingredientPane = new IngredientPane();
 
 	/** The formula that needs editing */
-	private Formula formula;
+	private transient Formula formula;
 
 	/**
 	 * Main constructor for this editor to add a new formula.
