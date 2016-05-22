@@ -20,7 +20,7 @@ public class MainPanel extends JPanel {
 	/** An inner panel for the actual content */
 	private final JPanel panel = new JPanel(new GridLayout());
 
-	/** A scrollpane */
+	/** A scroll panel */
 	private final JScrollPane scrollPane = new JScrollPane(this.panel);
 
 	/**
