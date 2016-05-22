@@ -153,7 +153,7 @@ public class MainGUI {
 
 		//Display the window.
 		//frm.pack();
-		frm.setSize(600, 400);
+		frm.setSize(700, 500);
 		frm.setVisible(true);
 
 		instance = app;
