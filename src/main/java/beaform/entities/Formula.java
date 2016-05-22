@@ -21,14 +21,21 @@ import javax.persistence.OneToMany;
 @Entity
 public class Formula {
 
+	/** The name of this formula */
 	@Id
 	private String name;
+
+	/** The description of this formula */
 	private String description;
+
+	/** The total amount of this formula */
 	private String totalAmount;
 
+	/** All ingredients that make up this formula */
 	@OneToMany
 	private final Map<String, Formula> ingredients = new ConcurrentHashMap<String, Formula>();
 
+	/** All tags associated with this formula */
 	@OneToMany(fetch=FetchType.EAGER)
 	private final List<FormulaTag> tags = new ArrayList<FormulaTag>();
 
