@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
@@ -289,15 +290,16 @@ public class FormulaDAO {
 	}
 
 	private Formula findByName(final String name, final EntityManager entityManager) {
-		final String query = "match (n:Formula { name:'" + name + "' }) return n";
-		final Formula result = (Formula) entityManager.createNativeQuery(query, Formula.class).getSingleResult();
+		final String queryString = "match (n:Formula { name:'" + name + "' }) return n";
+		final Query query = entityManager.createNativeQuery(queryString, Formula.class);
+		final Formula result = (Formula) query.getSingleResult();
 
 		return result;
 	}
 
 	private boolean setupTransaction() throws SystemException, NotSupportedException {
 		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getTransactionManager();
-		if (transactionMgr.getStatus() == Status.STATUS_NO_TRANSACTION) {
+		if (GraphDbHandlerForJTA.getTransactionManagerStatus() == Status.STATUS_NO_TRANSACTION) {
 			transactionMgr.begin();
 			return true;
 		}

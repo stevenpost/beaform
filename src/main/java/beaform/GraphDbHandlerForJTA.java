@@ -3,6 +3,7 @@ package beaform;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.transaction.SystemException;
 import javax.transaction.TransactionManager;
 
 import org.hibernate.engine.spi.SessionFactoryImplementor;
@@ -53,6 +54,15 @@ public class GraphDbHandlerForJTA {
 
 		final ShutDownHook shutdownHook = new ShutDownHook(this.entityManager, this.entityManagerFact);
 		Runtime.getRuntime().addShutdownHook(shutdownHook);
+	}
+
+	/**
+	 * Gets the status of the global {@link TransactionManager}.
+	 * @return the status of the transaction manager
+	 * @throws SystemException If the transaction service fails in an unexpected way.
+	 */
+	public static int getTransactionManagerStatus() throws SystemException {
+		return INSTANCE.transactionMgr.getStatus();
 	}
 
 	/**
