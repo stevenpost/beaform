@@ -147,8 +147,9 @@ public class Formula {
 	 */
 	@Override
 	public String toString() {
+		final String tags = String.join(",", this.getTagsAsStrings());
 		final StringBuilder builder = new StringBuilder();
-		builder.append(this.name).append(" | ").append(this.description).append(" | [").append(String.join(",", this.getTagsAsStrings())).append(']');
+		builder.append(this.name).append(" | ").append(this.description).append(" | [").append(tags).append(']');
 
 		return builder.toString();
 
