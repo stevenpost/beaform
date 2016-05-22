@@ -28,15 +28,6 @@ import beaform.gui.Utilities;
  */
 public class TagPane extends JPanel {
 
-	/** Dimensions for most text fields */
-	private static final Dimension DIM_TEXTFIELDS = new Dimension(100, 30);
-
-	/** Dimensions for lists */
-	private static final Dimension DIM_LISTS = new Dimension(200, 100);
-
-	/** A label for the list of tags */
-	private static final JLabel LBL_TAGS = new JLabel("Tags", SwingConstants.CENTER);
-
 	/** What text should be in the text field after adding the tag */
 	private static final String AFTER_ADD = "";
 
@@ -66,6 +57,10 @@ public class TagPane extends JPanel {
 	}
 
 	private void init() {
+		final Dimension nameSize = new Dimension(100, 30);
+		final Dimension listSize = new Dimension(200, 90);
+		final JLabel tagLabel = new JLabel("Tags", SwingConstants.CENTER);
+
 		final GridBagConstraints constraints = new GridBagConstraints();
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		constraints.weightx = 0.1;
@@ -78,27 +73,27 @@ public class TagPane extends JPanel {
 		constraints.gridx = 0;
 		constraints.gridy = gridy;
 		constraints.gridwidth = 2;
-		Utilities.setBoldFont(LBL_TAGS);
-		this.add(LBL_TAGS, constraints);
+		Utilities.setBoldFont(tagLabel);
+		this.add(tagLabel, constraints);
 		constraints.gridwidth = 1;
-
-		constraints.fill = GridBagConstraints.HORIZONTAL;
 
 		gridy++;
 		constraints.gridx = 0;
 		constraints.gridy = gridy;
 		constraints.gridheight = 3;
-		this.lstTags.setMinimumSize(DIM_LISTS);
-		this.lstTags.setPreferredSize(DIM_LISTS);
-		this.lstTags.setMaximumSize(DIM_LISTS);
+		constraints.fill = GridBagConstraints.BOTH;
+		this.lstTags.setMinimumSize(listSize);
+		this.lstTags.setPreferredSize(listSize);
+		this.lstTags.setMaximumSize(listSize);
 		this.add(this.lstTags, constraints);
+		constraints.fill = GridBagConstraints.HORIZONTAL;
 
 		constraints.gridx = 1;
 		constraints.gridy = gridy;
 		constraints.gridheight = 1;
-		this.txtNewTag.setMinimumSize(DIM_TEXTFIELDS);
-		this.txtNewTag.setPreferredSize(DIM_TEXTFIELDS);
-		this.txtNewTag.setMaximumSize(DIM_TEXTFIELDS);
+		this.txtNewTag.setMinimumSize(nameSize);
+		this.txtNewTag.setPreferredSize(nameSize);
+		this.txtNewTag.setMaximumSize(nameSize);
 		this.add(this.txtNewTag, constraints);
 
 		gridy++;
