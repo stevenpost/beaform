@@ -19,6 +19,9 @@ public class FormulaTag implements Serializable {
 	 */
 	private static final long serialVersionUID = 8568943568088422588L;
 
+	/**
+	 * The name of this tag.
+	 */
 	@Id
 	private String name;
 
@@ -36,6 +39,9 @@ public class FormulaTag implements Serializable {
 		this.name = name;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String toString() {
 		return this.name;

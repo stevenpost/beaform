@@ -69,7 +69,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	/**
 	 * Constructor for the tree view.
 	 *
-	 * @param formula The formula that is the starting point of the tree
+	 * @param formulas The formula that is the starting point of the tree
 	 */
 	public FormulaTree(final List<Formula> formulas) {
 		super(new GridLayout(1,0));

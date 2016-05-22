@@ -8,8 +8,17 @@ import beaform.entities.Formula;
 import beaform.entities.Ingredient;
 import beaform.gui.TreeViewFormula;
 
+/**
+ * A testing class for the {@link TreeViewFormula}
+ *
+ * @author Steven Post
+ *
+ */
 public class TreeViewFormulaTest {
 
+	/**
+	 * Test a simple formula
+	 */
 	@Test
 	public void testSimpleFormula() {
 		final Formula form = new Formula();
@@ -22,6 +31,9 @@ public class TreeViewFormulaTest {
 
 	}
 
+	/**
+	 * Test a formula with ingredients.
+	 */
 	@Test
 	public void testIngredient() {
 		final Formula form = new Formula();

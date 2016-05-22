@@ -221,7 +221,7 @@ public class FormulaDAO {
 	 * This method finds a formula in the DB based on a name.
 	 * It assumes a transaction is already in progress.
 	 *
-	 * @param formula the name of the formula to look for
+	 * @param name the name of the formula to look for
 	 * @return the found {@link Formula} or null if none was found.
 	 * @throws NotSupportedException
 	 * @throws SystemException

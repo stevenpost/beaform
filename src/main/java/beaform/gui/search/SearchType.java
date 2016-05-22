@@ -7,7 +7,9 @@ package beaform.gui.search;
  *
  */
 public enum SearchType {
+	/** Tag */
 	TAG("Tag"),
+	/** Formula */
 	FORMULA("Formula");
 
 	/** A display string. */

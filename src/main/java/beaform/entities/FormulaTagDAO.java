@@ -60,7 +60,7 @@ public class FormulaTagDAO {
 	 * Find a tag by using a tag object.
 	 * This method assumes we are already in a transaction.
 	 *
-	 * @param The tag to find
+	 * @param tag The tag to find
 	 * @return the tag that was found, null if no tag was found
 	 * @throws NotSupportedException If the calling thread is already
 	 *         associated with a transaction,
