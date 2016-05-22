@@ -70,16 +70,7 @@ public class FormulaEditor extends JPanel {
 		super();
 		init();
 
-		this.btnSubmit.addActionListener(new ActionListener() {
-
-			/**
-			 * Invoked when the button is pressed.
-			 */
-			@Override
-			public void actionPerformed(final ActionEvent event) {
-				addNewFormula();
-			}
-		});
+		this.btnSubmit.addActionListener(new AddNewFormulaTrigger());
 	}
 
 	/**
@@ -90,20 +81,26 @@ public class FormulaEditor extends JPanel {
 	public FormulaEditor(final Formula formula) {
 		super();
 		init();
+
+		// Don't allow editing the name of a formula since this
+		// will cause duplicate entity errors when persisting.
 		this.txtName.setEnabled(false);
 
-		this.formula = formula;
+		fillEditorFromFormula(formula);
 
+		this.btnSubmit.addActionListener(new UpdateFormulaTrigger());
+
+	}
+
+	private void fillEditorFromFormula(final Formula formula) {
+		this.formula = formula;
 		this.txtName.setText(formula.getName());
 		this.txtDescription.setText(formula.getDescription());
 		this.txtTotalAmount.setText(formula.getTotalAmount());
 
 		try {
-			// Add ingredients to the list
 			final List<Ingredient> ingredientList = new FormulaDAO().getIngredients(formula);
-			for (final Ingredient ingredient : ingredientList) {
-				this.ingredientPane.addIngredient(ingredient);
-			}
+			addIngredients(ingredientList);
 
 			// Add tags to the list
 			final Iterator<FormulaTag> tagIterator = formula.getTags();
@@ -112,20 +109,20 @@ public class FormulaEditor extends JPanel {
 		catch (NotSupportedException | SystemException e) {
 			LOG.error("Failed to add all tags and ingredients", e);
 		}
-
-		this.btnSubmit.addActionListener(new ActionListener() {
-
-			/**
-			 * Invoked when the button is pressed.
-			 */
-			@Override
-			public void actionPerformed(final ActionEvent event) {
-				updateFormula();
-			}
-		});
-
 	}
 
+	private void addIngredients(final List<Ingredient> ingredientList) {
+		for (final Ingredient ingredient : ingredientList) {
+			this.ingredientPane.addIngredient(ingredient);
+		}
+	}
+
+	/**
+	 * Initialize the formula editor.
+	 *
+	 * Note that this will <strong>not</strong> add the needed behaviour
+	 * to the submit button.
+	 */
 	private void init() {
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
@@ -262,6 +259,40 @@ public class FormulaEditor extends JPanel {
 			LOG.error("Something went wrong updating the formula", e1);
 		}
 
+	}
+
+	/**
+	 * An trigger for updating an existing formula.
+	 *
+	 * @author Steven Post
+	 *
+	 */
+	final class UpdateFormulaTrigger implements ActionListener {
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void actionPerformed(final ActionEvent event) {
+			updateFormula();
+		}
+	}
+
+	/**
+	 * An trigger for adding of a new formula.
+	 *
+	 * @author Steven Post
+	 *
+	 */
+	final class AddNewFormulaTrigger implements ActionListener {
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void actionPerformed(final ActionEvent event) {
+			addNewFormula();
+		}
 	}
 
 }
