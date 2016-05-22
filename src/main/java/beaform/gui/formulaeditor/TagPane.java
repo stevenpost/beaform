@@ -157,7 +157,7 @@ public class TagPane extends JPanel {
 	 * Remove a tag from the list.
 	 * @param i the index of the tag to delete
 	 */
-	private void removeTag(final int index) {
+	private void removeTagFromList(final int index) {
 		this.tags.remove(index);
 		this.lstTagModel.remove(index);
 	}
@@ -177,7 +177,7 @@ public class TagPane extends JPanel {
 	public void removeSelectedTags() {
 		while (!this.lstTags.isSelectionEmpty()) {
 			final int selected = this.lstTags.getSelectedIndex();
-			removeTag(selected);
+			removeTagFromList(selected);
 		}
 	}
 
