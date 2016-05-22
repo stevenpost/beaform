@@ -38,12 +38,6 @@ public class SearchGui extends JPanel {
 	/** A logger */
 	private static final Logger LOG = LoggerFactory.getLogger(SearchGui.class);
 
-	/** The dimensions for most text fields */
-	private static final Dimension DIM_TXTFIELDS = new Dimension(100, 30);
-
-	/** The dimensions for most text fields */
-	private static final Dimension DIM_MAX_TXTFIELDS = new Dimension(300, 30);
-
 	/** The field to type in the search */
 	private final JTextField txtSearchTag = new JTextField();
 
@@ -65,18 +59,22 @@ public class SearchGui extends JPanel {
 	}
 
 	private JPanel createSearchPanel() {
+		final Dimension textFieldSize = new Dimension(100, 30);
+		final Dimension textFieldMaxSize = new Dimension(300, 30);
+
 		final JPanel searchPanel = new JPanel();
 		searchPanel.setLayout(new BoxLayout(searchPanel, BoxLayout.LINE_AXIS));
 
-		this.txtSearchTag.setMinimumSize(DIM_TXTFIELDS);
-		this.txtSearchTag.setPreferredSize(DIM_TXTFIELDS);
-		this.txtSearchTag.setMaximumSize(DIM_MAX_TXTFIELDS);
-		searchPanel.add(this.txtSearchTag);
+		final JTextField search = this.txtSearchTag;
+		search.setMinimumSize(textFieldSize);
+		search.setPreferredSize(textFieldSize);
+		search.setMaximumSize(textFieldMaxSize);
+		searchPanel.add(search);
 
 		final JComboBox<SearchType> cmbType = new JComboBox<SearchType>(this.comboBoxModel);
-		cmbType.setMinimumSize(DIM_TXTFIELDS);
-		cmbType.setMaximumSize(DIM_MAX_TXTFIELDS);
-		cmbType.setPreferredSize(DIM_TXTFIELDS);
+		cmbType.setMinimumSize(textFieldSize);
+		cmbType.setMaximumSize(textFieldMaxSize);
+		cmbType.setPreferredSize(textFieldSize);
 		cmbType.setEditable(false);
 		cmbType.setSelectedIndex(0);
 		searchPanel.add(cmbType);
