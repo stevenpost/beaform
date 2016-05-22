@@ -10,6 +10,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -137,9 +138,10 @@ public class MainGUI {
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			}
 		}
-		catch (Exception e){
+		catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+						| UnsupportedLookAndFeelException e) {
 			if (LOG.isErrorEnabled()) {
-				LOG.error("Look'n feel: " + e.getMessage());
+				LOG.error("Setting look and feel failed", e);
 			}
 		}
 
