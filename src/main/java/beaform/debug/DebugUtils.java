@@ -112,15 +112,7 @@ public final class DebugUtils {
 
 		GraphDbHandlerForJTA.tryCloseEntityManager(entityManager);
 
-		try {
-			transactionMgr.commit();
-			LOG.info("Cleared DB");
-		}
-		catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
-						| HeuristicRollbackException | SystemException e1)
-		{
-			LOG.error("Error on commit", e1);
-		}
+		commitTransaction(transactionMgr, "Cleared DB");
 	}
 
 	/**
@@ -154,30 +146,38 @@ public final class DebugUtils {
 
 			GraphDbHandlerForJTA.tryCloseEntityManager(entityManager);
 
-			try {
-				transactionMgr.commit();
-				LOG.info("stored");
-			}
-			catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
-							| HeuristicRollbackException | SystemException e1)
-			{
-				LOG.error("Error on commit", e1);
-			}
+			commitTransaction(transactionMgr, "Stored");
 		}
 		catch(PersistenceException pe) {
-			if (pe.getCause() instanceof EntityAlreadyExistsException) {
-				LOG.error("Entity already exists (executing this twice?)", pe);
-			}
-			else {
-				LOG.error("Error persisting data", pe);
-			}
-			try {
-				transactionMgr.rollback();
-				LOG.error("Transaction rolled back");
-			}
-			catch (IllegalStateException | SecurityException | SystemException e) {
-				LOG.error("Error on rollback", e);
-			}
+			handlePersitenceException(transactionMgr, pe);
+		}
+	}
+
+	private static void commitTransaction(final TransactionManager transactionMgr, final String logMessage) {
+		try {
+			transactionMgr.commit();
+			LOG.info(logMessage);
+		}
+		catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
+						| HeuristicRollbackException | SystemException e1)
+		{
+			LOG.error("Error on commit", e1);
+		}
+	}
+
+	private static void handlePersitenceException(final TransactionManager transactionMgr,final PersistenceException persistenceException) {
+		if (persistenceException.getCause() instanceof EntityAlreadyExistsException) {
+			LOG.error("Entity already exists (executing this twice?)", persistenceException);
+		}
+		else {
+			LOG.error("Error persisting data", persistenceException);
+		}
+		try {
+			transactionMgr.rollback();
+			LOG.error("Transaction rolled back");
+		}
+		catch (IllegalStateException | SecurityException | SystemException e) {
+			LOG.error("Error on rollback", e);
 		}
 	}
 
