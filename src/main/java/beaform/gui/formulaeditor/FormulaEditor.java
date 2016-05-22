@@ -224,15 +224,19 @@ public class FormulaEditor extends JPanel {
 	 *
 	 */
 	public void addNewFormula() {
+		final String name = this.txtName.getText();
+		final String description = this.txtDescription.getText();
+		final String totalAmount = this.txtTotalAmount.getText();
+
 		if (LOG.isInfoEnabled()) {
-			LOG.info("Add: " + this.txtName.getText() + " with description: " + this.txtDescription.getText());
+			LOG.info("Add: " + name + " with description: " + description);
 		}
 
 		final List<Ingredient> ingredients = getIngredientList();
 		final List<FormulaTag> tags = getTagList();
 
 		try {
-			new FormulaDAO().addFormula(this.txtName.getText(), this.txtDescription.getText(), this.txtTotalAmount.getText(), ingredients, tags);
+			new FormulaDAO().addFormula(name, description, totalAmount, ingredients, tags);
 		}
 		catch (SystemException | NotSupportedException e1) {
 			LOG.error("Something wen wrong adding the new formula", e1);
@@ -242,12 +246,14 @@ public class FormulaEditor extends JPanel {
 
 	@SuppressWarnings("unchecked")
 	private List<Ingredient> getIngredientList() {
-		return IteratorUtils.toList(this.ingredientPane.getIngredients());
+		final Iterator<Ingredient> ingredients = this.ingredientPane.getIngredients();
+		return IteratorUtils.toList(ingredients);
 	}
 
 	@SuppressWarnings("unchecked")
 	private List<FormulaTag> getTagList() {
-		return IteratorUtils.toList(this.tagPane.getTags());
+		final Iterator<FormulaTag> tags = this.tagPane.getTags();
+		return IteratorUtils.toList(tags);
 	}
 
 	/**
@@ -255,14 +261,19 @@ public class FormulaEditor extends JPanel {
 	 */
 	public void updateFormula() {
 		if (LOG.isInfoEnabled()) {
-			LOG.info("Edit: " + this.formula.getName() + " with description: " + this.txtDescription.getText());
+			final String name = this.formula.getName();
+			final String description = this.txtDescription.getText();
+			LOG.info("Edit: " + name + " with description: " + description);
 		}
 
 		final List<Ingredient> ingredients = getIngredientList();
 		final List<FormulaTag> tags = getTagList();
 
 		try {
-			new FormulaDAO().updateExisting(this.formula.getName(), this.txtDescription.getText(), this.txtTotalAmount.getText(), ingredients, tags);
+			final String name = this.formula.getName();
+			final String description = this.txtDescription.getText();
+			final String totalAmount = this.txtTotalAmount.getText();
+			new FormulaDAO().updateExisting(name, description, totalAmount, ingredients, tags);
 		}
 		catch (SystemException | NotSupportedException e1) {
 			LOG.error("Something went wrong updating the formula", e1);
