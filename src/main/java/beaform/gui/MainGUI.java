@@ -121,6 +121,9 @@ public class MainGUI {
 		return instance;
 	}
 
+	/**
+	 * Create and show the frame.
+	 */
 	public static void createAndShowGUI() {
 		//Set the look and feel.
 		try{
@@ -170,7 +173,7 @@ public class MainGUI {
 		/**
 		 * Invoked when the action is triggered.
 		 *
-		 * @param the event object
+		 * @param event the event object
 		 */
 		@Override
 		public void actionPerformed(final ActionEvent event){
