@@ -116,7 +116,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>beaform.Main</mainClass>
+							<mainClass>beaform.MainEntry</mainClass>
 							<classpathPrefix>lib/</classpathPrefix>
 						</manifest>
 					</archive>

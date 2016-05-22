@@ -13,16 +13,26 @@ import beaform.gui.MainGUI;
  * @author steven
  *
  */
-public class Main {
+public final class MainEntry {
 
 	/** a logger */
-	private static final Logger LOG = LoggerFactory.getLogger(Main.class);
+	private static final Logger LOG = LoggerFactory.getLogger(MainEntry.class);
 
-	public static void main(String[] args) throws InvocationTargetException, InterruptedException {
+	/**
+	 * The main method of the program.
+	 *
+	 * @param args
+	 * @throws InvocationTargetException
+	 * @throws InterruptedException
+	 */
+	public static void main(final String[] args) throws InvocationTargetException, InterruptedException { // NOPMD by steven on 5/22/16 2:17 PM
 		LOG.debug("Starting GUI...");
 
 		javax.swing.SwingUtilities.invokeAndWait(new Runnable() {
 
+			/**
+			 * @{inheritDoc}
+			 */
 			@Override
 			public void run() {
 				MainGUI.createAndShowGUI();
@@ -34,6 +44,10 @@ public class Main {
 
 		LOG.debug("Done");
 
+	}
+
+	private MainEntry() {
+		// A utility class doesn't need a public constructor.
 	}
 
 }
