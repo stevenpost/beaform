@@ -2,8 +2,6 @@ package beaform.gui.formulaeditor;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
@@ -12,12 +10,10 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 
@@ -44,21 +40,6 @@ public class FormulaEditor extends JPanel {
 	/** A logger */
 	private static final Logger LOG = LoggerFactory.getLogger(FormulaEditor.class);
 
-	/** Dimensions for most text fields */
-	private static final Dimension DIM_TEXTFIELDS = new Dimension(100, 30);
-
-	/** Dimensions for the description field */
-	private static final Dimension DIM_TEXTAREA = new Dimension(100, 90);
-
-	/** A label for the total amount of a formula */
-	private static final JLabel LBL_TOTAL_AMOUNT = new JLabel("Total amount", SwingConstants.RIGHT);
-
-	/** A label for the name of a formula */
-	private static final JLabel LBL_NAME = new JLabel("Name", SwingConstants.RIGHT);
-
-	/** A label for the description of a formula */
-	private static final JLabel LBL_DESCRIPTION = new JLabel("Description", SwingConstants.RIGHT);
-
 	/** A text field for the name of the formula */
 	private final JTextField txtName = new JTextField();
 
@@ -79,9 +60,6 @@ public class FormulaEditor extends JPanel {
 
 	/** The formula that needs editing */
 	private Formula formula;
-
-	/** A panel for the general components */
-	private final JPanel panel = new JPanel(new GridBagLayout());
 
 	/**
 	 * Main constructor for this editor to add a new formula.
@@ -151,72 +129,77 @@ public class FormulaEditor extends JPanel {
 	private void init() {
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
-		final JPanel generalPanel = createGeneralComponentsPanel();
-		this.add(generalPanel);
+		addGeneralComponentsToPanel(this);
 
-		// Ingredients
 		this.add(this.ingredientPane);
-
-		// Tags
 		this.add(this.tagPane);
-
-		// Submit
 		this.add(this.btnSubmit);
 	}
 
-	private JPanel createGeneralComponentsPanel() {
-		final GridBagConstraints constraints = new GridBagConstraints();
-		constraints.weightx = 0.1;
-		constraints.weighty = 0.1;
-		constraints.anchor = GridBagConstraints.LINE_END;
-		constraints.fill = GridBagConstraints.HORIZONTAL;
+	private void addGeneralComponentsToPanel(final JPanel parent) {
+		final JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+		final Dimension textFieldSize = new Dimension(100, 30);
+		final Dimension textFieldMaxSize = new Dimension(200, 30);
+		final JTextField totalAmount = this.txtTotalAmount;
+		final JTextArea description = this.txtDescription;
 
-		// Formula requirements
-		constraints.gridx = 0;
-		constraints.gridy = 0;
-		this.panel.add(LBL_NAME, constraints);
+		createNameComponents(panel, textFieldSize, textFieldMaxSize);
+		createTotalAmountComponents(panel, totalAmount, textFieldSize, textFieldMaxSize);
+		createDescriptionComponents(panel, description);
 
-		constraints.gridx = 1;
-		constraints.gridy = 0;
-		setDimensions(this.txtName, DIM_TEXTFIELDS);
-		this.panel.add(this.txtName, constraints);
-
-		constraints.gridx = 2;
-		constraints.gridy = 0;
-		this.panel.add(LBL_DESCRIPTION, constraints);
-
-		constraints.gridx = 0;
-		constraints.gridy = 1;
-		setDimensions(LBL_TOTAL_AMOUNT, DIM_TEXTFIELDS);
-		this.panel.add(LBL_TOTAL_AMOUNT, constraints);
-
-		constraints.gridx = 1;
-		constraints.gridy = 1;
-		setDimensions(this.txtTotalAmount, DIM_TEXTFIELDS);
-		this.panel.add(this.txtTotalAmount, constraints);
-
-		constraints.gridx = 3;
-		constraints.gridy = 0;
-		constraints.gridheight = 2;
-		constraints.fill = GridBagConstraints.BOTH;
-		this.txtDescription.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		setDimensions(this.txtDescription, DIM_TEXTAREA);
-		this.panel.add(this.txtDescription, constraints);
-
-		return this.panel;
+		parent.add(panel);
 	}
 
-	/**
-	 * This method sets 3 different sizes to a component:
-	 * minimum, preferred and maximum
-	 *
-	 * @param comp The component
-	 * @param dim The dimensions for the sizing
-	 */
-	private void setDimensions(final JComponent comp, final Dimension dim) {
-		comp.setMinimumSize(dim);
-		comp.setPreferredSize(dim);
-		comp.setMaximumSize(dim);
+	private void createTotalAmountComponents(final JPanel parent, final JTextField totalAmount, final Dimension textFieldSize,
+	                                         final Dimension textFieldMaxSize) {
+		final JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+		final JLabel totalAmountLabel = new JLabel("Total amount");
+
+		panel.add(totalAmountLabel);
+
+		totalAmount.setMinimumSize(textFieldSize);
+		totalAmount.setPreferredSize(textFieldSize);
+		totalAmount.setMaximumSize(textFieldMaxSize);
+		panel.add(totalAmount);
+
+		parent.add(panel);
+	}
+
+	private void createNameComponents(final JPanel parent, final Dimension textFieldSize, final Dimension textFieldMaxSize) {
+		final JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+		final JLabel nameLabel = new JLabel("Name");
+		panel.add(nameLabel);
+
+		final JTextField name = this.txtName;
+		name.setMinimumSize(textFieldSize);
+		name.setPreferredSize(textFieldSize);
+		name.setMaximumSize(textFieldMaxSize);
+		panel.add(name);
+
+		parent.add(panel);
+	}
+
+	private void createDescriptionComponents(final JPanel parent, final JTextArea description) {
+		final Dimension textAreaSize = new Dimension(100, 90);
+		final Dimension textAreaMaxSize = new Dimension(500, 400);
+		final JLabel descriptionLabel = new JLabel("Description");
+		final JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+		panel.add(descriptionLabel);
+
+		description.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		description.setMinimumSize(textAreaSize);
+		description.setPreferredSize(textAreaSize);
+		description.setMaximumSize(textAreaMaxSize);
+		panel.add(description);
+
+		parent.add(panel);
 	}
 
 	/**
