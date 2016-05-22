@@ -6,6 +6,8 @@ import java.awt.Component;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import beaform.gui.debug.DebugUtilities;
+
 /**
  * This class represents the main panel where all views will work in.
  *
@@ -42,6 +44,14 @@ public class MainPanel extends JPanel {
 		}
 		this.panel.add(comp);
 		this.panel.revalidate();
+	}
+
+	/**
+	 * A method to assist in debugging.
+	 * It draws borders on all descendant JPanel objects.
+	 */
+	public void enableDebugBorders() {
+		DebugUtilities.drawBorders(this.panel);
 	}
 
 }

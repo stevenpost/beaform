@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import beaform.gui.debug.ClearDbEvent;
+import beaform.gui.debug.DrawAllPanelBordersAction;
 import beaform.gui.debug.FillDbEvent;
 import beaform.gui.debug.ListFormulasEvent;
 import beaform.gui.search.NewSearchWindowAction;
@@ -107,6 +108,10 @@ public class MainGUI {
 		final JMenuItem dbgClear = new JMenuItem("Clear DB");
 		debugMenuItem.add(dbgClear);
 		dbgClear.addActionListener(new ClearDbEvent());
+
+		final JMenuItem dbgBorders = new JMenuItem("Draw borders");
+		debugMenuItem.add(dbgBorders);
+		dbgBorders.addActionListener(new DrawAllPanelBordersAction(this.panel));
 
 		return debugMenuItem;
 	}
