@@ -47,9 +47,6 @@ public class SearchGui extends JPanel {
 	/** The field to type in the search */
 	private final JTextField txtSearchTag = new JTextField();
 
-	/** A button to kickoff the search */
-	private final JButton btnSearch = new JButton("Search");
-
 	/** The model for the combo box. */
 	private final DefaultComboBoxModel<SearchType> comboBoxModel = new DefaultComboBoxModel<SearchType>(SearchType.values());
 
@@ -84,8 +81,9 @@ public class SearchGui extends JPanel {
 		cmbType.setSelectedIndex(0);
 		searchPanel.add(cmbType);
 
-		searchPanel.add(this.btnSearch);
-		this.btnSearch.addActionListener(new ActionListener() {
+		final JButton btnSearch = new JButton("Search");
+		searchPanel.add(btnSearch);
+		btnSearch.addActionListener(new ActionListener() {
 
 			/**
 			 * Invoked when the action occurs.
