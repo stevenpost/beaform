@@ -78,6 +78,8 @@ public class TagPane extends JPanel {
 		this.add(LBL_TAGS, constraints);
 		constraints.gridwidth = 1;
 
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+
 		gridy++;
 		constraints.gridx = 0;
 		constraints.gridy = gridy;
