@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import beaform.entities.FormulaTag;
 import beaform.gui.Utilities;
@@ -34,7 +35,7 @@ public class TagPane extends JPanel {
 	private static final Dimension DIM_LISTS = new Dimension(200, 100);
 
 	/** A label for the list of tags */
-	private static final JLabel LBL_TAGS = new JLabel("Tags");
+	private static final JLabel LBL_TAGS = new JLabel("Tags", SwingConstants.CENTER);
 
 	/** What text should be in the text field after adding the tag */
 	private static final String AFTER_ADD = "";
@@ -66,6 +67,9 @@ public class TagPane extends JPanel {
 
 	private void init() {
 		final GridBagConstraints constraints = new GridBagConstraints();
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		constraints.weightx = 0.1;
+		constraints.weighty = 0.1;
 
 		int gridy = 0;
 		final JButton btnAddTag = new JButton("Add Tag");
