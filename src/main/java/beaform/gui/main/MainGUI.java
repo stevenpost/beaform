@@ -1,13 +1,9 @@
-package beaform.gui;
+package beaform.gui.main;
 
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -15,11 +11,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import beaform.gui.debug.ClearDbEvent;
-import beaform.gui.debug.DrawAllPanelBordersAction;
-import beaform.gui.debug.FillDbEvent;
-import beaform.gui.debug.ListFormulasEvent;
-import beaform.gui.search.NewSearchWindowAction;
+import beaform.gui.MainPanel;
 
 
 /**
@@ -38,7 +30,7 @@ public class MainGUI {
 	/** The main frame (or window) */
 	private static JFrame frm = new JFrame("BeaForm");
 
-	/** The main panel */
+	/** The panel containing all content of this window */
 	private final MainPanel panel = new MainPanel();
 
 	private void init(){
@@ -63,57 +55,11 @@ public class MainGUI {
 
 	private JMenuBar createMenu() {
 		final JMenuBar menu = new JMenuBar();
-		menu.add(createNewMenu());
-		menu.add(createHelpMenu());
-		menu.add(createDebugMenu());
+		menu.add(new NewMenu(this.panel));
+		menu.add(new HelpMenu());
+		menu.add(new DebugMenu(this.panel));
 
 		return menu;
-	}
-
-	private JMenu createNewMenu() {
-		final JMenu newMenuItem = new JMenu("New...");
-
-		final JMenuItem search = new JMenuItem("Search");
-		newMenuItem.add(search);
-		search.addActionListener(new NewSearchWindowAction(this.panel));
-
-		final JMenuItem add = new JMenuItem("Add");
-		newMenuItem.add(add);
-		add.addActionListener(new NewAddWindowAction(this.panel));
-
-		return newMenuItem;
-	}
-
-	private JMenu createHelpMenu() {
-		final JMenu helpmenu = new JMenu("Help");
-
-		final JMenuItem about = new JMenuItem("About...");
-		helpmenu.add(about);
-		about.addActionListener(new AboutLaunchAction());
-
-		return helpmenu;
-	}
-
-	private JMenu createDebugMenu() {
-		final JMenu debugMenuItem = new JMenu("Debug");
-
-		final JMenuItem dbgAllFormulas = new JMenuItem("List all formulas");
-		debugMenuItem.add(dbgAllFormulas);
-		dbgAllFormulas.addActionListener(new ListFormulasEvent());
-
-		final JMenuItem dbgFill = new JMenuItem("Fill DB");
-		debugMenuItem.add(dbgFill);
-		dbgFill.addActionListener(new FillDbEvent());
-
-		final JMenuItem dbgClear = new JMenuItem("Clear DB");
-		debugMenuItem.add(dbgClear);
-		dbgClear.addActionListener(new ClearDbEvent());
-
-		final JMenuItem dbgBorders = new JMenuItem("Draw borders");
-		debugMenuItem.add(dbgBorders);
-		dbgBorders.addActionListener(new DrawAllPanelBordersAction(this.panel));
-
-		return debugMenuItem;
 	}
 
 	/**
@@ -167,25 +113,6 @@ public class MainGUI {
 		frm.setVisible(true);
 
 		instance = app;
-	}
-
-	/**
-	 * This action lets one launch the 'about' window.
-	 *
-	 * @author steven
-	 *
-	 */
-	public static final class AboutLaunchAction implements ActionListener {
-
-		/**
-		 * Invoked when the action is triggered.
-		 *
-		 * @param event the event object
-		 */
-		@Override
-		public void actionPerformed(final ActionEvent event){
-			javax.swing.SwingUtilities.invokeLater(new About());
-		}
 	}
 
 }

@@ -26,6 +26,7 @@ import beaform.entities.Formula;
 import beaform.entities.FormulaDAO;
 import beaform.entities.Ingredient;
 import beaform.gui.formulaeditor.FormulaEditor;
+import beaform.gui.main.MainGUI;
 
 /**
  * This class implements a panel to show a tree view of formulas.

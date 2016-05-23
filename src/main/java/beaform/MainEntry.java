@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import beaform.gui.MainGUI;
+import beaform.gui.main.MainGUI;
 
 /**
  * The main class to run this application.
