@@ -19,7 +19,7 @@ import beaform.gui.MainPanel;
  * @author Steven
  *
  */
-public class MainGUI {
+public final class MainGUI {
 
 	/** A logger */
 	private static final Logger LOG = LoggerFactory.getLogger(MainGUI.class);
@@ -32,6 +32,10 @@ public class MainGUI {
 
 	/** The panel containing all content of this window */
 	private final MainPanel panel = new MainPanel();
+
+	private MainGUI() {
+		init();
+	}
 
 	private void init(){
 		final JMenuBar menu = createMenu();
@@ -103,7 +107,6 @@ public class MainGUI {
 		frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		final MainGUI app = new MainGUI();
-		app.init();
 		frm.add(app.getPanel());
 		frm.setLocation(150, 150);
 
