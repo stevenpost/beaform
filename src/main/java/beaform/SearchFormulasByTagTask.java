@@ -20,7 +20,7 @@ public final class SearchFormulasByTagTask implements Callable<List<Formula>> {
 	/**
 	 * The tag to search for
 	 */
-	private final transient String tagName;
+	private final String tagName;
 
 	/**
 	 * Constructor.

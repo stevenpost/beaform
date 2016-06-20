@@ -23,10 +23,10 @@ public final class RenderFormulaSearchResult implements Runnable {
 	private static final Logger LOG = LoggerFactory.getLogger(RenderFormulaSearchResult.class);
 
 	/** The task with the search result */
-	private final transient Future<Formula> searchresult;
+	private final Future<Formula> searchresult;
 
 	/** The target panel */
-	private final transient SearchGui pane;
+	private final SearchGui pane;
 
 	/**
 	 * Constructor.

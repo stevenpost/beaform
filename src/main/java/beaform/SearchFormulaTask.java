@@ -19,7 +19,7 @@ public final class SearchFormulaTask implements Callable<Formula> {
 	/**
 	 * The name of the formula to search for
 	 */
-	private final transient String name;
+	private final String name;
 
 	/**
 	 * Constructor.
