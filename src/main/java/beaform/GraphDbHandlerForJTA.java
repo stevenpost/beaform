@@ -24,13 +24,13 @@ public class GraphDbHandlerForJTA {
 	private static final GraphDbHandlerForJTA INSTANCE = new GraphDbHandlerForJTA();
 
 	/** The {@link EntityManagerFactory} */
-	private final transient EntityManagerFactory entityManagerFact;
+	private final EntityManagerFactory entityManagerFact;
 
 	/** The global {@link EntityManager} */
 	private final EntityManager entityManager;
 
 	/** The {@link TransactionManager} */
-	private final transient TransactionManager transactionMgr;
+	private final TransactionManager transactionMgr;
 
 	/**
 	 * Get the instance of this handler.
