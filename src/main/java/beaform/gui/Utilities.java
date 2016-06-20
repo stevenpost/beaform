@@ -11,6 +11,10 @@ import java.awt.Font;
  */
 public final class Utilities {
 
+	private Utilities() {
+		// Utility classes don't need public constructors.
+	}
+
 	/**
 	 * Set a bold font on the component.
 	 * @param comp The component to set the font of.
@@ -28,10 +32,6 @@ public final class Utilities {
 	 */
 	public static Font createBoldFont(final Font font) {
 		return new Font(font.getName(), Font.BOLD, font.getSize());
-	}
-
-	private Utilities() {
-		// Utility classes don't need public constructors.
 	}
 
 }

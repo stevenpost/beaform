@@ -32,13 +32,13 @@ public class TagPane extends JPanel {
 	private static final String AFTER_ADD = "";
 
 	/** A list of formula tags */
-	private final List<FormulaTag> tags = new ArrayList<FormulaTag>();
+	private final List<FormulaTag> tags = new ArrayList<>();
 
 	/** A list model to get the list of tags to the screen */
-	private final DefaultListModel<FormulaTag> lstTagModel = new DefaultListModel<FormulaTag>();
+	private final DefaultListModel<FormulaTag> lstTagModel = new DefaultListModel<>();
 
 	/** The graphical list of tags */
-	private final JList<FormulaTag> lstTags = new JList<FormulaTag>(this.lstTagModel);
+	private final JList<FormulaTag> lstTags = new JList<>(this.lstTagModel);
 
 	/** A field for the name of the new tag */
 	private final JTextField txtNewTag = new JTextField();

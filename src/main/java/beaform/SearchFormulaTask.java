@@ -39,9 +39,7 @@ public final class SearchFormulaTask implements Callable<Formula> {
 	public Formula call() throws NotSupportedException, SystemException {
 
 		final FormulaDAO formulaDAO = new FormulaDAO();
-		final Formula result = formulaDAO.findFormulaByName(this.name);
-
-		return result;
+		return formulaDAO.findFormulaByName(this.name);
 
 	}
 }

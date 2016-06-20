@@ -111,7 +111,6 @@ public final class MainGUI {
 		frm.setLocation(150, 150);
 
 		//Display the window.
-		//frm.pack();
 		frm.setSize(700, 500);
 		frm.setVisible(true);
 

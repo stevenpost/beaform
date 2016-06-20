@@ -14,6 +14,10 @@ import javax.swing.JPanel;
  */
 public final class DebugUtilities {
 
+	private DebugUtilities() {
+		// Utility classes don't need a public constructor.
+	}
+
 	/**
 	 * Draw borders around the given {@link JPanel} and all descendants.
 	 * @param panel the panel to draw borders on
@@ -27,9 +31,5 @@ public final class DebugUtilities {
 			}
 		}
 		panel.revalidate();
-	}
-
-	private DebugUtilities() {
-		// Utility classes don't needa public constructor.
 	}
 }

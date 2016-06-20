@@ -39,10 +39,10 @@ public class IngredientPane extends JPanel {
 	private static final long serialVersionUID = 2342490028064073798L;
 
 	/** A list model to get the list of formulas to the screen */
-	private final DefaultListModel<Ingredient> ingredients = new DefaultListModel<Ingredient>();
+	private final DefaultListModel<Ingredient> ingredients = new DefaultListModel<>();
 
 	/** The graphical list ofr ingredients */
-	private final JList<Ingredient> lstFormulas = new JList<Ingredient>(this.ingredients);
+	private final JList<Ingredient> lstFormulas = new JList<>(this.ingredients);
 
 	/** A text field for the name of the ingredient */
 	private final JTextField txtName = new JTextField();
@@ -177,7 +177,7 @@ public class IngredientPane extends JPanel {
 	 * @return all the ingredients
 	 */
 	public Iterator<Ingredient> getIngredients() {
-		final List<Ingredient> ingredients = new ArrayList<Ingredient>();
+		final List<Ingredient> ingredients = new ArrayList<>();
 		final int nrOfIngredients = this.ingredients.getSize();
 		for (int i = 0; i < nrOfIngredients; i++) {
 			ingredients.add(this.ingredients.getElementAt(i));
