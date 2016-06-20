@@ -293,9 +293,8 @@ public class FormulaDAO {
 	private Formula findByName(final String name, final EntityManager entityManager) {
 		final String queryString = "match (n:Formula { name:'" + name + "' }) return n";
 		final Query query = entityManager.createNativeQuery(queryString, Formula.class);
-		final Formula result = (Formula) query.getSingleResult();
 
-		return result;
+		return (Formula) query.getSingleResult();
 	}
 
 	private boolean setupTransaction() throws SystemException, NotSupportedException {
