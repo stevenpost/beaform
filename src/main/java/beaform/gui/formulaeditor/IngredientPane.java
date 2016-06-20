@@ -3,8 +3,6 @@ package beaform.gui.formulaeditor;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -124,31 +122,13 @@ public class IngredientPane extends JPanel {
 		gridy++;
 		constraints.gridx = 1;
 		constraints.gridy = gridy;
-		this.btnAddIngredient.addActionListener(new ActionListener() {
-
-			/**
-			 * Invoked when the button is pressed.
-			 */
-			@Override
-			public void actionPerformed(final ActionEvent event) {
-				addNewIngredient();
-			}
-		});
+		this.btnAddIngredient.addActionListener(event -> addNewIngredient());
 		this.add(this.btnAddIngredient, constraints);
 
 		gridy++;
 		constraints.gridx = 1;
 		constraints.gridy = gridy;
-		this.btnDelIngredient.addActionListener(new ActionListener() {
-
-			/**
-			 * Invoked when the button is pressed.
-			 */
-			@Override
-			public void actionPerformed(final ActionEvent event) {
-				removeSelectedIngredients();
-			}
-		});
+		this.btnDelIngredient.addActionListener(event -> removeSelectedIngredients());
 		this.add(this.btnDelIngredient, constraints);
 	}
 

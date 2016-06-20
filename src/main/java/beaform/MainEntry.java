@@ -32,16 +32,7 @@ public final class MainEntry {
 	public static void main(final String[] args) throws InvocationTargetException, InterruptedException { // NOPMD by steven on 5/22/16 2:17 PM
 		LOG.debug("Starting GUI...");
 
-		javax.swing.SwingUtilities.invokeAndWait(new Runnable() {
-
-			/**
-			 * @{inheritDoc}
-			 */
-			@Override
-			public void run() {
-				MainGUI.createAndShowGUI();
-			}
-		});
+		javax.swing.SwingUtilities.invokeAndWait(() -> MainGUI.createAndShowGUI());
 
 		LOG.debug("Initializing DB...");
 		GraphDbHandlerForJTA.getInstance();
