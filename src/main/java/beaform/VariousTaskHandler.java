@@ -34,8 +34,9 @@ public final class VariousTaskHandler {
 	 * @param task The task to be executed.
 	 * @return The {@link Future} for this task.
 	 */
-	public static Future<?> addTask(final Runnable task) {
-		return EXEC_SERVICE.submit(task);
+	@SuppressWarnings("unchecked")
+	public static Future<Void> addTask(final Runnable task) {
+		return (Future<Void>) EXEC_SERVICE.submit(task);
 	}
 
 }
