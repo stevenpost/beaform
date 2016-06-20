@@ -2,8 +2,6 @@ package beaform.gui.search;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.concurrent.Future;
 
@@ -81,16 +79,7 @@ public class SearchGui extends JPanel {
 
 		final JButton btnSearch = new JButton("Search");
 		searchPanel.add(btnSearch);
-		btnSearch.addActionListener(new ActionListener() {
-
-			/**
-			 * Invoked when the action occurs.
-			 */
-			@Override
-			public void actionPerformed(final ActionEvent event) {
-				search();
-			}
-		});
+		btnSearch.addActionListener(event -> search());
 
 		return searchPanel;
 	}
@@ -103,27 +92,31 @@ public class SearchGui extends JPanel {
 
 		switch (searchType) {
 			case FORMULA:
-			{
-				final String searchText = this.txtSearch.getText();
-				final SearchFormulaTask task = new SearchFormulaTask(searchText);
-				final Future<Formula> searchresult = DbTaskHandler.addTask(task);
-				VariousTaskHandler.addTask(new RenderFormulaSearchResult(searchresult, this));
+				searchFormula();
 				break;
-			}
 			case TAG:
-			{
-				final String searchText = this.txtSearch.getText();
-				final SearchFormulasByTagTask task = new SearchFormulasByTagTask(searchText);
-				final Future<List<Formula>> searchresult = DbTaskHandler.addTask(task);
-				VariousTaskHandler.addTask(new RenderFormulaSearchByTagResult(searchresult, this));
+				searchTag();
 				break;
-			}
 			default:
 				if (LOG.isErrorEnabled()) {
 					LOG.error(searchType + " is an unknown search");
 				}
 				break;
 		}
+	}
+
+	private void searchTag() {
+		final String searchText = this.txtSearch.getText();
+		final SearchFormulasByTagTask task = new SearchFormulasByTagTask(searchText);
+		final Future<List<Formula>> searchresult = DbTaskHandler.addTask(task);
+		VariousTaskHandler.addTask(new RenderFormulaSearchByTagResult(searchresult, this));
+	}
+
+	private void searchFormula() {
+		final String searchText = this.txtSearch.getText();
+		final SearchFormulaTask task = new SearchFormulaTask(searchText);
+		final Future<Formula> searchresult = DbTaskHandler.addTask(task);
+		VariousTaskHandler.addTask(new RenderFormulaSearchResult(searchresult, this));
 	}
 
 	/**

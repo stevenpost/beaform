@@ -3,8 +3,6 @@ package beaform.gui.formulaeditor;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -99,31 +97,13 @@ public class TagPane extends JPanel {
 		gridy++;
 		constraints.gridx = 1;
 		constraints.gridy = gridy;
-		btnAddTag.addActionListener(new ActionListener() {
-
-			/**
-			 * Invoked when the button is pressed.
-			 */
-			@Override
-			public void actionPerformed(final ActionEvent event) {
-				addNewTag();
-			}
-		});
+		btnAddTag.addActionListener(event -> addNewTag());
 		this.add(btnAddTag, constraints);
 
 		gridy++;
 		constraints.gridx = 1;
 		constraints.gridy = gridy;
-		btnDelTag.addActionListener(new ActionListener() {
-
-			/**
-			 * Invoked when the button is pressed.
-			 */
-			@Override
-			public void actionPerformed(final ActionEvent event) {
-				removeSelectedTags();
-			}
-		});
+		btnDelTag.addActionListener(event -> removeSelectedTags());
 		this.add(btnDelTag, constraints);
 	}
 

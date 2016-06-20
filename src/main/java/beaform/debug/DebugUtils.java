@@ -107,7 +107,7 @@ public final class DebugUtils {
 		}
 		catch (NoResultException nre) {
 			// We delete everything, there won't be a result.
-			LOG.trace("No result found, which is good");
+			LOG.trace("No result found, which is good", nre);
 		}
 
 		GraphDbHandlerForJTA.tryCloseEntityManager(entityManager);

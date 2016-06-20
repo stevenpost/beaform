@@ -210,7 +210,7 @@ public class FormulaDAO {
 		}
 		catch (NoResultException e1) {
 			if (LOG.isDebugEnabled()) {
-				LOG.debug("No tag with name " + tag.getName() + " found: " + e1.getMessage());
+				LOG.debug("No tag with name " + tag.getName() + " found: " + e1.getMessage(), e1);
 			}
 			entityManager.persist(tag);
 			tagToAdd = tag;
