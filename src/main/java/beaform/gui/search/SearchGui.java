@@ -42,7 +42,7 @@ public class SearchGui extends JPanel {
 	private final JTextField txtSearch = new JTextField();
 
 	/** The model for the combo box. */
-	private final DefaultComboBoxModel<SearchType> comboBoxModel = new DefaultComboBoxModel<SearchType>(SearchType.values());
+	private final DefaultComboBoxModel<SearchType> comboBoxModel = new DefaultComboBoxModel<>(SearchType.values());
 
 	/** The index of the formula tree on the target panel */
 	private static final int FORMULA_TREE_LOC = 3;
@@ -71,7 +71,7 @@ public class SearchGui extends JPanel {
 		search.setMaximumSize(textFieldMaxSize);
 		searchPanel.add(search);
 
-		final JComboBox<SearchType> cmbType = new JComboBox<SearchType>(this.comboBoxModel);
+		final JComboBox<SearchType> cmbType = new JComboBox<>(this.comboBoxModel);
 		cmbType.setMinimumSize(textFieldSize);
 		cmbType.setMaximumSize(textFieldMaxSize);
 		cmbType.setPreferredSize(textFieldSize);
