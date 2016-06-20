@@ -280,14 +280,12 @@ public class FormulaDAO {
 	 * @param entityManager the entity manager
 	 * @return the list of formulas found
 	 */
+	@SuppressWarnings("unchecked")
 	private List<Formula> findByTag(final String tagName, final EntityManager entityManager) {
 		final String queryString = "MATCH (t:FormulaTag { name:'" + tagName + "' })<-[r]-(f:Formula) RETURN f";
 
 		final Query query = entityManager.createNativeQuery(queryString, Formula.class);
-		@SuppressWarnings("unchecked")
-		final List<Formula> result = query.getResultList();
-
-		return result;
+		return query.getResultList();
 	}
 
 	private Formula findByName(final String name, final EntityManager entityManager) {

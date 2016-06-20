@@ -83,7 +83,7 @@ public class About implements Runnable {
 						| UnsupportedLookAndFeelException e)
 		{
 			if (LOG.isErrorEnabled()) {
-				LOG.error("Look'n feel: " + e.getMessage());
+				LOG.error("Look'n feel: " + e.getMessage(), e);
 			}
 		}
 
@@ -91,7 +91,6 @@ public class About implements Runnable {
 		JFrame.setDefaultLookAndFeelDecorated(true);
 
 		//Create and set up the window.
-		//JFrame frame = new JFrame("GUI testing");
 		frm.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
 		final About app = new About();
@@ -103,8 +102,6 @@ public class About implements Runnable {
 		//Display the window.
 		frm.setMinimumSize(new Dimension(200, 100));
 		frm.pack();
-		//frame.setResizable(false);
 		frm.setVisible(true);
-		//frame.setSize(235, 165);
 	}
 }

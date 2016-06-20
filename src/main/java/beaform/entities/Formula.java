@@ -33,11 +33,11 @@ public class Formula {
 
 	/** All ingredients that make up this formula */
 	@OneToMany
-	private final Map<String, Formula> ingredients = new ConcurrentHashMap<String, Formula>();
+	private final Map<String, Formula> ingredients = new ConcurrentHashMap<>();
 
 	/** All tags associated with this formula */
 	@OneToMany(fetch=FetchType.EAGER)
-	private final List<FormulaTag> tags = new ArrayList<FormulaTag>();
+	private final List<FormulaTag> tags = new ArrayList<>();
 
 	/**
 	 * @return the name
@@ -96,7 +96,7 @@ public class Formula {
 	 * @return a list of ingredients
 	 */
 	public List<Ingredient> getIngredients() {
-		final ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
+		final ArrayList<Ingredient> ingredients = new ArrayList<>();
 
 		for (final Entry<String, Formula> entry : this.ingredients.entrySet()) {
 			final Ingredient ingredient = createIngredient(entry.getKey(), entry.getValue());
@@ -146,7 +146,7 @@ public class Formula {
 	 * @return a list of tags, represented as strings
 	 */
 	public List<String> getTagsAsStrings() {
-		final List<String> retval = new ArrayList<String>(this.tags.size());
+		final List<String> retval = new ArrayList<>(this.tags.size());
 		for (final FormulaTag tag : this.tags) {
 			retval.add(tag.getName());
 		}

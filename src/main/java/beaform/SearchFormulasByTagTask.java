@@ -41,9 +41,7 @@ public final class SearchFormulasByTagTask implements Callable<List<Formula>> {
 		final String name = this.tagName;
 
 		final FormulaDAO formulaDAO = new FormulaDAO();
-		final List<Formula> result = formulaDAO.findFormulasByTag(name);
-
-		return result;
+		return formulaDAO.findFormulasByTag(name);
 
 	}
 }
