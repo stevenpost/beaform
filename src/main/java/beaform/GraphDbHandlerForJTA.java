@@ -32,14 +32,6 @@ public class GraphDbHandlerForJTA {
 	/** The {@link TransactionManager} */
 	private final TransactionManager transactionMgr;
 
-	/**
-	 * Get the instance of this handler.
-	 * @return the instance
-	 */
-	public static GraphDbHandlerForJTA getInstance() {
-		return INSTANCE;
-	}
-
 	private GraphDbHandlerForJTA() {
 		//build the EntityManagerFactory as you would build in in Hibernate ORM
 		this.entityManagerFact = Persistence.createEntityManagerFactory("ogm-jpa-tutorial");
@@ -54,6 +46,14 @@ public class GraphDbHandlerForJTA {
 
 		final ShutDownHook shutdownHook = new ShutDownHook(this.entityManager, this.entityManagerFact);
 		Runtime.getRuntime().addShutdownHook(shutdownHook);
+	}
+
+	/**
+	 * Get the instance of this handler.
+	 * @return the instance
+	 */
+	public static GraphDbHandlerForJTA getInstance() {
+		return INSTANCE;
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class GraphDbHandlerForJTA {
 	 * @author Steven Post
 	 *
 	 */
-	private final static class ShutDownHook extends Thread {
+	private static final class ShutDownHook extends Thread {
 
 		/** A logger */
 		private static final Logger LOG = LoggerFactory.getLogger(ShutDownHook.class);

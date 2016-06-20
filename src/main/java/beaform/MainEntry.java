@@ -18,6 +18,10 @@ public final class MainEntry {
 	/** a logger */
 	private static final Logger LOG = LoggerFactory.getLogger(MainEntry.class);
 
+	private MainEntry() {
+		// A utility class doesn't need a public constructor.
+	}
+
 	/**
 	 * The main method of the program.
 	 *
@@ -44,10 +48,6 @@ public final class MainEntry {
 
 		LOG.debug("Done");
 
-	}
-
-	private MainEntry() {
-		// A utility class doesn't need a public constructor.
 	}
 
 }
