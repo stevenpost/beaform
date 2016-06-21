@@ -28,6 +28,10 @@ public class About implements Runnable {
 	/** Logger */
 	private static final Logger LOG = LoggerFactory.getLogger(About.class);
 
+	/** License text */
+	private static final String LICENSE = "This program is distributed under the MIT License.\n" +
+					"You can re-distribute, and/or modify the program under the conditions of the MIT License.";
+
 	/** The main frame of this dialog */
 	private static JFrame frm = new JFrame("About...");
 
@@ -63,7 +67,7 @@ public class About implements Runnable {
 		lblAuthor.setText("By Steven Post");
 		pane.add(lblAuthor);
 
-		txtLicense.setText("This program is distributed under the MIT License.\n You can re-distribute, and/or modify the program under the conditions of the MIT License.");
+		txtLicense.setText(LICENSE);
 		txtLicense.setEditable(false);
 		pane.add(txtLicense);
 
