@@ -1214,10 +1214,6 @@
             <ruleset>Design</ruleset>
         </rule>
         <rule>
-            <name>UseVarargs</name>
-            <ruleset>Design</ruleset>
-        </rule>
-        <rule>
             <name>VariableNamingConventions</name>
             <ruleset>Naming</ruleset>
         </rule>
