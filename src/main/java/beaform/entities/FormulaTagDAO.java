@@ -19,6 +19,9 @@ public final class FormulaTagDAO {
 	/** logger */
 	private static final Logger LOG = LoggerFactory.getLogger(FormulaTagDAO.class);
 
+	/** The query to search a tag by name */
+	private static final String QRY_TAG_BY_NAME = "match (n:FormulaTag { name:{name} }) return n";
+
 	private FormulaTagDAO() {
 		// Utility classes should not have a public constructor.
 	}
@@ -51,8 +54,7 @@ public final class FormulaTagDAO {
 	 * @return the tag found
 	 */
 	private static FormulaTag findByName(final String name, final EntityManager entityManager) {
-		final String queryString = "match (n:FormulaTag { name:{name} }) return n";
-		final Query query = entityManager.createNativeQuery(queryString, FormulaTag.class);
+		final Query query = entityManager.createNativeQuery(QRY_TAG_BY_NAME, FormulaTag.class);
 		query.setParameter("name", name);
 		return (FormulaTag) query.getSingleResult();
 	}

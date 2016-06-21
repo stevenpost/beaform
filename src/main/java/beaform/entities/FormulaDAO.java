@@ -31,6 +31,12 @@ public final class FormulaDAO {
 	 */
 	private static final Logger LOG = LoggerFactory.getLogger(FormulaDAO.class);
 
+	/** Query to search for a formula by name */
+	private static final String FORMULA_BY_NAME = "match (n:Formula { name:{name} }) return n";
+
+	/** Query to search for a formula by tag */
+	private static final String FORMULA_BY_TAG = "MATCH (t:FormulaTag { name:{name} })<-[r]-(f:Formula) RETURN f";
+
 	private FormulaDAO() {
 		// private constructor, because this is a utility class.
 	}
@@ -266,16 +272,13 @@ public final class FormulaDAO {
 	 * @return the list of formulas found
 	 */
 	private static List<Formula> findByTag(final String tagName, final EntityManager entityManager) {
-		final String queryString = "MATCH (t:FormulaTag { name:{name} })<-[r]-(f:Formula) RETURN f";
-
-		final Query query = entityManager.createNativeQuery(queryString, Formula.class);
+		final Query query = entityManager.createNativeQuery(FORMULA_BY_TAG, Formula.class);
 		query.setParameter("name", tagName);
 		return query.getResultList();
 	}
 
 	private static Formula findByName(final String name, final EntityManager entityManager) {
-		final String queryString = "match (n:Formula { name:{name} }) return n";
-		final Query query = entityManager.createNativeQuery(queryString, Formula.class);
+		final Query query = entityManager.createNativeQuery(FORMULA_BY_NAME, Formula.class);
 		query.setParameter("name", name);
 
 		return (Formula) query.getSingleResult();
