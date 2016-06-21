@@ -109,11 +109,11 @@ public final class TagPane extends JPanel {
 
 	/**
 	 * This method adds multiple tags to the list of tags.
-	 * @param tags the tags to add
+	 * @param tagList the tags to add
 	 */
-	public void addMultipleTags(final Iterator<FormulaTag> tags) {
-		while (tags.hasNext()) {
-			this.tags.add(tags.next());
+	public void addMultipleTags(final Iterator<FormulaTag> tagList) {
+		while (tagList.hasNext()) {
+			this.tags.add(tagList.next());
 		}
 		sortTags();
 	}

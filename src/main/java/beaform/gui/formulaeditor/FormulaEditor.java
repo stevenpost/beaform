@@ -91,18 +91,18 @@ public class FormulaEditor extends JPanel {
 
 	}
 
-	private void fillEditorFromFormula(final Formula formula) {
-		this.formula = formula;
-		this.txtName.setText(formula.getName());
-		this.txtDescription.setText(formula.getDescription());
-		this.txtTotalAmount.setText(formula.getTotalAmount());
+	private void fillEditorFromFormula(final Formula newFormula) {
+		this.formula = newFormula;
+		this.txtName.setText(newFormula.getName());
+		this.txtDescription.setText(newFormula.getDescription());
+		this.txtTotalAmount.setText(newFormula.getTotalAmount());
 
 		try {
-			final List<Ingredient> ingredientList = FormulaDAO.getIngredients(formula);
+			final List<Ingredient> ingredientList = FormulaDAO.getIngredients(newFormula);
 			this.ingredientPane.addIngredients(ingredientList);
 
 			// Add tags to the list
-			final Iterator<FormulaTag> tagIterator = formula.getTags();
+			final Iterator<FormulaTag> tagIterator = newFormula.getTags();
 			this.tagPane.addMultipleTags(tagIterator);
 		}
 		catch (TransactionSetupException e) {
