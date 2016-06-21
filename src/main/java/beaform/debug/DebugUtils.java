@@ -133,14 +133,17 @@ public final class DebugUtils {
 			final FormulaTag firstTag = createTag(entityManager, "First");
 			final FormulaTag secondTag = createTag(entityManager, "Second");
 
-			final Formula form1 = createFormula(entityManager, "Form1", "First test formula", firstTag, secondTag);
-			final Formula form2 = createFormula(entityManager, "Form2", "Second test formula", firstTag);
+			final Formula form1 = createFormula(entityManager, "Form1", "First test formula", new FormulaTag[]{firstTag, secondTag});
+			final Formula form2 = createFormula(entityManager, "Form2", "Second test formula", new FormulaTag[]{firstTag});
 			final Formula form3 = createFormula(entityManager, "Form3", "Third test formula");
 			final Formula form4 = createFormula(entityManager, "Form4", "Fourth test formula");
 
 			// Add relationships
-			addIngredientsToFormula(form1, new Ingredient(form3, "50%"));
-			addIngredientsToFormula(form2, new Ingredient(form4, "10%"), new Ingredient(form1, "50%"));
+			addIngredientsToFormula(form1, new Ingredient[]{new Ingredient(form3, "50%")});
+			final Ingredient[] form2Ingredients = new Ingredient[]{
+			                                                       new Ingredient(form4, "10%"),
+			                                                       new Ingredient(form1, "50%")};
+			addIngredientsToFormula(form2, form2Ingredients);
 
 			GraphDbHandlerForJTA.tryCloseEntityManager(entityManager);
 
@@ -182,16 +185,30 @@ public final class DebugUtils {
 	/**
 	 * Create a formula
 	 * @param entityManager the entity manager that is to be used
+	 * @return the created formula
+	 */
+	private static Formula createFormula(final EntityManager entityManager,
+	                                     final String name,
+	                                     final String description) {
+		return createFormula(entityManager, name, description, null);
+	}
+
+	/**
+	 * Create a formula
+	 * @param entityManager the entity manager that is to be used
 	 * @param tags any tags to be associated with the formula
 	 * @return the created formula
 	 */
 	private static Formula createFormula(final EntityManager entityManager,
 	                                     final String name,
 	                                     final String description,
-	                                     final FormulaTag... tags) {
+	                                     final FormulaTag[] tags) {
+
 		final Formula formula = new Formula(name, description, "0%");
-		for (final FormulaTag tag : tags) {
-			formula.addTag(tag);
+		if (tags != null) {
+			for (final FormulaTag tag : tags) {
+				formula.addTag(tag);
+			}
 		}
 
 		entityManager.persist(formula);
@@ -217,7 +234,7 @@ public final class DebugUtils {
 	 * @param formula The formula to add the ingredients to
 	 * @param ingredients The ingredients to add.
 	 */
-	private static void addIngredientsToFormula(final Formula formula, final Ingredient... ingredients){
+	private static void addIngredientsToFormula(final Formula formula, final Ingredient[] ingredients){
 		for (final Ingredient ingredient : ingredients) {
 			formula.addIngredient(ingredient.getFormula(), ingredient.getAmount());
 		}
