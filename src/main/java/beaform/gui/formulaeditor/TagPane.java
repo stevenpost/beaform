@@ -164,8 +164,7 @@ public class TagPane extends JPanel {
 		final String strTag = this.txtNewTag.getText();
 		if (!AFTER_ADD.equals(strTag) && !this.txtNewTag.getText().isEmpty()) {
 			this.txtNewTag.setText(AFTER_ADD);
-			final FormulaTag tag = new FormulaTag();
-			tag.setName(strTag);
+			final FormulaTag tag = new FormulaTag(strTag);
 			this.tags.add(tag);
 			sortTags();
 		}

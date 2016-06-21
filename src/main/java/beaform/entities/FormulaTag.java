@@ -26,6 +26,14 @@ public class FormulaTag implements Serializable {
 	private String name;
 
 	/**
+	 * Constructor.
+	 * @param name The name for this tag.
+	 */
+	public FormulaTag(String name) {
+		this.name = name;
+	}
+
+	/**
 	 * @return the name
 	 */
 	public String getName() {

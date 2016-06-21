@@ -204,8 +204,7 @@ public final class DebugUtils {
 	 * @return the new tag
 	 */
 	private static FormulaTag createTag(final EntityManager entityManager, final String name) {
-		final FormulaTag tag = new FormulaTag();
-		tag.setName(name);
+		final FormulaTag tag = new FormulaTag(name);
 		entityManager.persist(tag);
 
 		return tag;
