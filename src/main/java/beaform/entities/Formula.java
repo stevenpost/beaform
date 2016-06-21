@@ -108,14 +108,14 @@ public class Formula {
 	 * @return a list of ingredients
 	 */
 	public List<Ingredient> getIngredients() {
-		final ArrayList<Ingredient> ingredients = new ArrayList<>();
+		final ArrayList<Ingredient> returnIngredients = new ArrayList<>();
 
 		for (final Entry<String, Formula> entry : this.ingredients.entrySet()) {
 			final Ingredient ingredient = createIngredient(entry.getKey(), entry.getValue());
-			ingredients.add(ingredient);
+			returnIngredients.add(ingredient);
 		}
 
-		return ingredients;
+		return returnIngredients;
 	}
 
 	private static Ingredient createIngredient(final String amount, final Formula formula) {
@@ -171,9 +171,9 @@ public class Formula {
 	@Override
 	public String toString() {
 		final List<String> tagList = getTagsAsStrings();
-		final String tags = String.join(",", tagList);
+		final String joinedTags = String.join(",", tagList);
 		final StringBuilder builder = new StringBuilder();
-		builder.append(this.name).append(" | ").append(this.description).append(" | [").append(tags).append(']');
+		builder.append(this.name).append(" | ").append(this.description).append(" | [").append(joinedTags).append(']');
 
 		return builder.toString();
 
