@@ -133,8 +133,10 @@ public final class DebugUtils {
 			final FormulaTag firstTag = createTag(entityManager, "First");
 			final FormulaTag secondTag = createTag(entityManager, "Second");
 
-			final Formula form1 = createFormula(entityManager, "Form1", "First test formula", new FormulaTag[]{firstTag, secondTag});
-			final Formula form2 = createFormula(entityManager, "Form2", "Second test formula", new FormulaTag[]{firstTag});
+			final FormulaTag[] form1Tags = new FormulaTag[]{firstTag, secondTag};
+			final Formula form1 = createFormula(entityManager, "Form1", "First test formula", form1Tags);
+			final FormulaTag[] form2Tags = new FormulaTag[]{firstTag};
+			final Formula form2 = createFormula(entityManager, "Form2", "Second test formula", form2Tags);
 			final Formula form3 = createFormula(entityManager, "Form3", "Third test formula");
 			final Formula form4 = createFormula(entityManager, "Form4", "Fourth test formula");
 
