@@ -15,12 +15,11 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.transaction.NotSupportedException;
-import javax.transaction.SystemException;
 
 import beaform.entities.Formula;
 import beaform.entities.FormulaDAO;
 import beaform.entities.Ingredient;
+import beaform.entities.TransactionSetupException;
 import beaform.gui.Utilities;
 
 /**
@@ -184,11 +183,11 @@ public final class IngredientPane extends JPanel {
 			final Formula form = FormulaDAO.findFormulaByName(ingredient);
 			this.ingredients.addElement(new Ingredient(form, amount));
 		}
-		catch (SystemException | NotSupportedException e1) {
-			throw new IllegalStateException("Something went wrong when getting the existing formula", e1);
-		}
 		catch (NoResultException e) {
 			throw new UnsupportedOperationException("The entered formula doesn't exist", e);
+		}
+		catch (TransactionSetupException e) {
+			throw new IllegalStateException("Something went wrong when getting the existing formula", e);
 		}
 
 

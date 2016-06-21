@@ -16,8 +16,6 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
-import javax.transaction.NotSupportedException;
-import javax.transaction.SystemException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import beaform.entities.Formula;
 import beaform.entities.FormulaDAO;
 import beaform.entities.Ingredient;
+import beaform.entities.TransactionSetupException;
 import beaform.gui.formulaeditor.FormulaEditor;
 import beaform.gui.main.MainGUI;
 
@@ -147,11 +146,8 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		try {
 			return FormulaDAO.getIngredients(formula.getFormula());
 		}
-		catch (NotSupportedException e) {
-			LOG.error("There is already a transaction going on in this thread", e);
-		}
-		catch (SystemException e) {
-			LOG.error("There was a problem with the transaction service", e);
+		catch (TransactionSetupException e) {
+			LOG.error("There was a problem setting up the transaction", e);
 		}
 
 		return Collections.emptyList();

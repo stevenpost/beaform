@@ -7,6 +7,7 @@ import javax.transaction.SystemException;
 
 import beaform.entities.Formula;
 import beaform.entities.FormulaDAO;
+import beaform.entities.TransactionSetupException;
 
 /**
  * A search task to find formulas.
@@ -34,9 +35,10 @@ public final class SearchFormulaTask implements Callable<Formula> {
 	 * Called when the task is executed.
 	 *
 	 * @return the found formula, or null if none was found
+	 * @throws TransactionSetupException
 	 */
 	@Override
-	public Formula call() throws NotSupportedException, SystemException {
+	public Formula call() throws NotSupportedException, SystemException, TransactionSetupException {
 
 		return FormulaDAO.findFormulaByName(this.name);
 

@@ -3,11 +3,9 @@ package beaform;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import javax.transaction.NotSupportedException;
-import javax.transaction.SystemException;
-
 import beaform.entities.Formula;
 import beaform.entities.FormulaDAO;
+import beaform.entities.TransactionSetupException;
 
 /**
  * A search task to find formulas, based on tags assigned to them.
@@ -35,9 +33,10 @@ public final class SearchFormulasByTagTask implements Callable<List<Formula>> {
 	 * Called when the task is executed.
 	 *
 	 * @return the found formula, or null if none was found
+	 * @throws TransactionSetupException
 	 */
 	@Override
-	public List<Formula> call() throws NotSupportedException, SystemException {
+	public List<Formula> call() throws TransactionSetupException {
 		final String name = this.tagName;
 
 		return FormulaDAO.findFormulasByTag(name);

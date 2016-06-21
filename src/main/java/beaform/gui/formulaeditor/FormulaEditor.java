@@ -14,8 +14,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.transaction.NotSupportedException;
-import javax.transaction.SystemException;
 
 import org.apache.commons.collections.IteratorUtils;
 import org.slf4j.Logger;
@@ -25,6 +23,7 @@ import beaform.entities.Formula;
 import beaform.entities.FormulaDAO;
 import beaform.entities.FormulaTag;
 import beaform.entities.Ingredient;
+import beaform.entities.TransactionSetupException;
 
 /**
  * This class represents a GUI for editing formulas.
@@ -106,7 +105,7 @@ public class FormulaEditor extends JPanel {
 			final Iterator<FormulaTag> tagIterator = formula.getTags();
 			this.tagPane.addMultipleTags(tagIterator);
 		}
-		catch (NotSupportedException | SystemException e) {
+		catch (TransactionSetupException e) {
 			LOG.error("Failed to add all tags and ingredients", e);
 		}
 	}
@@ -210,7 +209,7 @@ public class FormulaEditor extends JPanel {
 		try {
 			FormulaDAO.addFormula(name, description, totalAmount, ingredients, tags);
 		}
-		catch (SystemException | NotSupportedException e1) {
+		catch (TransactionSetupException e1) {
 			LOG.error("Something wen wrong adding the new formula", e1);
 		}
 
@@ -247,7 +246,7 @@ public class FormulaEditor extends JPanel {
 			final String totalAmount = this.txtTotalAmount.getText();
 			FormulaDAO.updateExisting(name, description, totalAmount, ingredients, tags);
 		}
-		catch (SystemException | NotSupportedException e1) {
+		catch (TransactionSetupException e1) {
 			LOG.error("Something went wrong updating the formula", e1);
 		}
 
