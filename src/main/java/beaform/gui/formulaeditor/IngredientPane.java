@@ -35,6 +35,24 @@ public final class IngredientPane extends JPanel {
 	 */
 	private static final long serialVersionUID = 2342490028064073798L;
 
+	/** width for the amount field */
+	private static final int AMOUNT_WIDTH = 60;
+
+	/** height for the amount field */
+	private static final int AMOUNT_HEIGHT = 30;
+
+	/** minimum width for the list */
+	private static final int MIN_LIST_WIDTH = 200;
+
+	/** minimum height for the list */
+	private static final int MIN_LIST_HEIGHT = 100;
+
+	/** width for the name field */
+	private static final int NAME_WIDTH = 100;
+
+	/** height for the name field */
+	private static final int NAME_HEIGHT = 30;
+
 	/** A list model to get the list of formulas to the screen */
 	private final DefaultListModel<Ingredient> ingredients = new DefaultListModel<>();
 
@@ -62,9 +80,9 @@ public final class IngredientPane extends JPanel {
 	}
 
 	private void init() {
-		final Dimension amountSize = new Dimension(60, 30);
-		final Dimension listMinSize = new Dimension(200, 100);
-		final Dimension nameSize = new Dimension(100, 30);
+		final Dimension amountSize = new Dimension(AMOUNT_WIDTH, AMOUNT_HEIGHT);
+		final Dimension listMinSize = new Dimension(MIN_LIST_WIDTH, MIN_LIST_HEIGHT);
+		final Dimension nameSize = new Dimension(NAME_WIDTH, NAME_HEIGHT);
 
 		final JLabel amountLabel = new JLabel("Amount");
 		final JLabel ingredientsLabel = new JLabel("Ingredients", SwingConstants.CENTER);
