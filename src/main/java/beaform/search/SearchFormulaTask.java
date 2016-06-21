@@ -1,4 +1,4 @@
-package beaform;
+package beaform.search;
 
 import java.util.concurrent.Callable;
 

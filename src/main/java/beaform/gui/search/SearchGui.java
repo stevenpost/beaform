@@ -15,12 +15,12 @@ import javax.swing.JTextField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import beaform.DbTaskHandler;
-import beaform.SearchFormulaTask;
-import beaform.SearchFormulasByTagTask;
 import beaform.VariousTaskHandler;
+import beaform.dao.DbTaskHandler;
 import beaform.entities.Formula;
 import beaform.gui.FormulaTree;
+import beaform.search.SearchFormulaTask;
+import beaform.search.SearchFormulasByTagTask;
 
 /**
  * A search GUI.
