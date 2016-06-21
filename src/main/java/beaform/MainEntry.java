@@ -26,13 +26,16 @@ public final class MainEntry {
 	 * The main method of the program.
 	 *
 	 * @param args
-	 * @throws InvocationTargetException
-	 * @throws InterruptedException
 	 */
-	public static void main(final String[] args) throws InvocationTargetException, InterruptedException { // NOPMD by steven on 5/22/16 2:17 PM
+	public static void main(final String[] args) {
 		LOG.debug("Starting GUI...");
 
-		javax.swing.SwingUtilities.invokeAndWait(() -> MainGUI.createAndShowGUI());
+		try {
+			javax.swing.SwingUtilities.invokeAndWait(() -> MainGUI.createAndShowGUI());
+		}
+		catch (InvocationTargetException | InterruptedException e) {
+			LOG.error(e.getMessage(), e);
+		}
 
 		LOG.debug("Initializing DB...");
 		GraphDbHandlerForJTA.getInstance();
