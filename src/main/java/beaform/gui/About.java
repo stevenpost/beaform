@@ -32,6 +32,9 @@ public class About implements Runnable {
 	private static final String LICENSE = "This program is distributed under the MIT License.\n" +
 					"You can re-distribute, and/or modify the program under the conditions of the MIT License.";
 
+	/** Border size */
+	private static final int BORDERSIZE = 20;
+
 	/** The main frame of this dialog */
 	private static JFrame frm = new JFrame("About...");
 
@@ -71,7 +74,7 @@ public class About implements Runnable {
 		txtLicense.setEditable(false);
 		pane.add(txtLicense);
 
-		pane.setBorder(BorderFactory.createEmptyBorder(20, /*top*/20, /*left*/20, /*bottom*/20)/*right*/);
+		pane.setBorder(BorderFactory.createEmptyBorder(BORDERSIZE, BORDERSIZE, BORDERSIZE, BORDERSIZE));
 
 	}
 
@@ -84,8 +87,7 @@ public class About implements Runnable {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		}
 		catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-						| UnsupportedLookAndFeelException e)
-		{
+						| UnsupportedLookAndFeelException e){
 			if (LOG.isErrorEnabled()) {
 				LOG.error("Look'n feel: " + e.getMessage(), e);
 			}
