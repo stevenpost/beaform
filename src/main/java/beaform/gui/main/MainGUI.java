@@ -69,7 +69,7 @@ public final class MainGUI {
 
 	private JMenuBar createMenu() {
 		final JMenuBar menu = new JMenuBar();
-		menu.add(new NewMenu(this.panel));
+		menu.add(new NewMenu());
 		menu.add(new HelpMenu());
 		menu.add(new DebugMenu(this.panel));
 

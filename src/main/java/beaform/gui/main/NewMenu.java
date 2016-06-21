@@ -3,6 +3,9 @@ package beaform.gui.main;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
+import beaform.gui.formulaeditor.FormulaEditor;
+import beaform.gui.search.SearchGui;
+
 /**
  * The new menu for the application.
  *
@@ -14,9 +17,6 @@ class NewMenu extends JMenu {
 	/** A serial */
 	private static final long serialVersionUID = -6144314332877169796L;
 
-	/** The main panel */
-	private final MainPanel panel;
-
 	/** The search item */
 	private final JMenuItem search = new JMenuItem("Search");
 
@@ -25,21 +25,18 @@ class NewMenu extends JMenu {
 
 	/**
 	 * Creates a new instance.
-	 *
-	 * @param panel the main panel
 	 */
-	public NewMenu(final MainPanel panel) {
+	public NewMenu() {
 		super("New...");
-		this.panel = panel;
 		init();
 	}
 
 	private void init() {
 		this.add(this.search);
-		this.search.addActionListener(new NewSearchWindowAction(this.panel));
+		this.search.addActionListener(event -> MainGUI.getInstance().replaceWindow(new SearchGui()));
 
 		this.add(this.add);
-		this.add.addActionListener(new NewAddWindowAction(this.panel));
+		this.add.addActionListener(event -> MainGUI.getInstance().replaceWindow(new FormulaEditor()));
 	}
 
 }
