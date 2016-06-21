@@ -28,7 +28,7 @@ import beaform.gui.FormulaTree;
  * @author Steven Post
  *
  */
-public class SearchGui extends JPanel {
+public final class SearchGui extends JPanel {
 
 	/** A serial. */
 	private static final long serialVersionUID = 2557014310487638917L;

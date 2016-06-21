@@ -24,7 +24,7 @@ import beaform.gui.Utilities;
  * @author Steven Post
  *
  */
-public class TagPane extends JPanel {
+public final class TagPane extends JPanel {
 
 	/** What text should be in the text field after adding the tag */
 	private static final String AFTER_ADD = "";

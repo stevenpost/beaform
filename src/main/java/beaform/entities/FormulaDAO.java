@@ -24,12 +24,16 @@ import beaform.GraphDbHandlerForJTA;
  * @author Steven Post
  *
  */
-public class FormulaDAO {
+public final class FormulaDAO {
 
 	/**
 	 * The logger.
 	 */
 	private static final Logger LOG = LoggerFactory.getLogger(FormulaDAO.class);
+
+	private FormulaDAO() {
+		// private constructor, because this is a utility class.
+	}
 
 	/**
 	 * Get the ingredients of a formula.

@@ -29,7 +29,7 @@ import beaform.gui.Utilities;
  * @author Steven Post
  *
  */
-public class IngredientPane extends JPanel {
+public final class IngredientPane extends JPanel {
 
 	/**
 	 * a serial
