@@ -70,7 +70,13 @@ public final class FormulaDAO {
 	 *
 	 * @throws TransactionSetupException if the transaction cannot be set up
 	 */
-	public static void updateExisting(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<FormulaTag> tags) throws TransactionSetupException {
+	public static void updateExisting(final String name,
+	                                  final String description,
+	                                  final String totalAmount,
+	                                  final List<Ingredient> ingredients,
+	                                  final List<FormulaTag> tags)
+	                                				  throws TransactionSetupException {
+
 		final boolean hasTransaction = setupTransaction();
 
 		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
@@ -116,7 +122,13 @@ public final class FormulaDAO {
 	 *
 	 * @throws TransactionSetupException if the transaction cannot be set up
 	 */
-	public static void addFormula(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<FormulaTag> tags) throws TransactionSetupException {
+	public static void addFormula(final String name,
+	                              final String description,
+	                              final String totalAmount,
+	                              final List<Ingredient> ingredients,
+	                              final List<FormulaTag> tags)
+	                            				  throws TransactionSetupException {
+
 		final boolean hasTransaction = setupTransaction();
 
 		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
