@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import beaform.entities.Formula;
-import beaform.gui.FormulaTree;
 
 /**
  * A task to to the actual rendering.

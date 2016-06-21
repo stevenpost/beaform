@@ -1,4 +1,4 @@
-package beaform.gui;
+package beaform.gui.search;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -24,6 +24,7 @@ import beaform.dao.FormulaDAO;
 import beaform.entities.Formula;
 import beaform.entities.Ingredient;
 import beaform.entities.TransactionSetupException;
+import beaform.gui.TreeViewFormula;
 import beaform.gui.formulaeditor.FormulaEditor;
 import beaform.gui.main.MainGUI;
 
