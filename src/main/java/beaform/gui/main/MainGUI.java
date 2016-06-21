@@ -24,6 +24,18 @@ public final class MainGUI {
 	/** A logger */
 	private static final Logger LOG = LoggerFactory.getLogger(MainGUI.class);
 
+	/** Window width */
+	private static final int WINDOW_WIDTH = 700;
+
+	/** Window height */
+	private static final int WINDOW_HEIGHT= 500;
+
+	/** Window X location */
+	private static final int WINDOW_X_LOCATION = 150;
+
+	/** Window Y location */
+	private static final int WINDOW_Y_LOCATION = 150;
+
 	/** The main instance of the GUI */
 	private static volatile MainGUI instance;
 
@@ -108,10 +120,10 @@ public final class MainGUI {
 
 		final MainGUI app = new MainGUI();
 		frm.add(app.getPanel());
-		frm.setLocation(150, 150);
+		frm.setLocation(WINDOW_X_LOCATION, WINDOW_Y_LOCATION);
 
 		//Display the window.
-		frm.setSize(700, 500);
+		frm.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		frm.setVisible(true);
 
 		instance = app;
