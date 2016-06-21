@@ -37,8 +37,9 @@ public final class GraphDbHandlerForJTA {
 		this.entityManagerFact = Persistence.createEntityManagerFactory("ogm-jpa-tutorial");
 
 		//accessing JBoss's Transaction can be done differently but this one works nicely
-		final SessionFactory hibernateSessionFactory = ( (HibernateEntityManagerFactory) this.entityManagerFact ).getSessionFactory();
-		final SessionFactoryImplementor sessionFactory = (SessionFactoryImplementor) hibernateSessionFactory;
+		final HibernateEntityManagerFactory hibernateEMF = (HibernateEntityManagerFactory) this.entityManagerFact;
+		final SessionFactory hibernateSF = hibernateEMF.getSessionFactory();
+		final SessionFactoryImplementor sessionFactory = (SessionFactoryImplementor) hibernateSF;
 		final ServiceRegistryImplementor serviceRegistry = sessionFactory.getServiceRegistry();
 		final JtaPlatform service = serviceRegistry.getService(JtaPlatform.class);
 
