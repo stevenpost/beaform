@@ -301,7 +301,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		 */
 		@Override
 		public void mousePressed(final MouseEvent event) {
-			if(event.getClickCount() == 2) { // NOPMD by steven on 5/16/16 3:59 PM
+			if(event.getClickCount() == 2) {
 				doubleClick();
 			}
 		}
