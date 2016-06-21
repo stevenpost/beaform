@@ -75,7 +75,7 @@ public final class RenderFormulaSearchByTagResult implements Runnable {
 		 * @param pane the target panel
 		 */
 		public AddFormTreeToGui(final List<Formula> searchResult, final SearchGui pane) {
-			this.searchResult = new ArrayList<Formula>(searchResult);
+			this.searchResult = new ArrayList<>(searchResult);
 			this.pane = pane;
 		}
 
