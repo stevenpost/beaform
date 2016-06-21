@@ -1,4 +1,4 @@
-package beaform.gui;
+package beaform.gui.main;
 
 import java.awt.BorderLayout;
 import java.awt.Component;

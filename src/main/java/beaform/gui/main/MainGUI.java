@@ -11,8 +11,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import beaform.gui.MainPanel;
-
 
 /**
  * This class represents the main user interface.

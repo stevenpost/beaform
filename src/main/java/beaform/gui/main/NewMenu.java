@@ -3,7 +3,6 @@ package beaform.gui.main;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import beaform.gui.MainPanel;
 import beaform.gui.NewAddWindowAction;
 import beaform.gui.search.NewSearchWindowAction;
 

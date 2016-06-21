@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import beaform.gui.formulaeditor.FormulaEditor;
+import beaform.gui.main.MainPanel;
 
 /**
  * An action to show a clean formula editor, in order to create a new formula.
