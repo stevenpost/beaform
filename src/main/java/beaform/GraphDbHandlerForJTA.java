@@ -11,8 +11,6 @@ import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.engine.transaction.jta.platform.spi.JtaPlatform;
 import org.hibernate.jpa.HibernateEntityManagerFactory;
 import org.hibernate.service.spi.ServiceRegistryImplementor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A handler for the graph database using JTA.
@@ -119,45 +117,5 @@ public final class GraphDbHandlerForJTA {
 	public static void tryCloseEntityManager(final EntityManager entityManager) {
 		entityManager.flush();
 		entityManager.close();
-	}
-
-	/**
-	 * This class is a shutdown hook to make sure the embedded DB is stopped.
-	 *
-	 * @author Steven Post
-	 *
-	 */
-	private static final class ShutDownHook extends Thread {
-
-		/** A logger */
-		private static final Logger LOG = LoggerFactory.getLogger(ShutDownHook.class);
-
-		/** The entity manager factory */
-		private final EntityManagerFactory entityManagerFact;
-
-		/** The entity manager */
-		private final EntityManager entityManager;
-
-		/**
-		 * Constructor.
-		 * @param entityManager The entity manager.
-		 * @param entityManagerFact The entity manager factory.
-		 */
-		public ShutDownHook(final EntityManager entityManager, final EntityManagerFactory entityManagerFact) {
-			super();
-			this.entityManager = entityManager;
-			this.entityManagerFact = entityManagerFact;
-		}
-
-		/**
-		 * Invoked when the hook executes.
-		 */
-		@Override
-		public void run() {
-			LOG.info("Start DB shutdown");
-			this.entityManager.close();
-			this.entityManagerFact.close();
-			LOG.info("DB shutdown complete");
-		}
 	}
 }
