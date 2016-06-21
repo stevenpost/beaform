@@ -59,7 +59,7 @@ public class About implements Runnable {
 		createAndShowGUI();
 	}
 
-	private void init(){
+	private static void init(){
 
 		//Create pane and add components
 		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
@@ -99,8 +99,7 @@ public class About implements Runnable {
 		//Create and set up the window.
 		frm.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-		final About app = new About();
-		app.init();
+		About.init();
 		final Component contents = pane;
 		frm.getContentPane().add(contents, BorderLayout.CENTER);
 		frm.setLocation(150, 150);
