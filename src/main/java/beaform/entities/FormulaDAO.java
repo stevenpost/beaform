@@ -257,7 +257,6 @@ public final class FormulaDAO {
 	 * @param entityManager the entity manager
 	 * @return the list of formulas found
 	 */
-	@SuppressWarnings("unchecked")
 	private static List<Formula> findByTag(final String tagName, final EntityManager entityManager) {
 		final String queryString = "MATCH (t:FormulaTag { name:{name} })<-[r]-(f:Formula) RETURN f";
 

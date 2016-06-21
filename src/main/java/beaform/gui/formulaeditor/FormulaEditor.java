@@ -215,13 +215,11 @@ public class FormulaEditor extends JPanel {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	private List<Ingredient> getIngredientList() {
 		final Iterator<Ingredient> ingredients = this.ingredientPane.getIngredients();
 		return IteratorUtils.toList(ingredients);
 	}
 
-	@SuppressWarnings("unchecked")
 	private List<FormulaTag> getTagList() {
 		final Iterator<FormulaTag> tags = this.tagPane.getTags();
 		return IteratorUtils.toList(tags);

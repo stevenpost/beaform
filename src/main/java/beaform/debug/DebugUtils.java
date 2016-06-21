@@ -60,7 +60,6 @@ public final class DebugUtils {
 		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
 
 		final Query query = entityManager.createNativeQuery(ALL_FORMULAS, Formula.class);
-		@SuppressWarnings("unchecked")
 		final List<Formula> formulas = query.getResultList();
 
 		if (LOG.isDebugEnabled()) {
