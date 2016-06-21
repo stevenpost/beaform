@@ -29,7 +29,7 @@ public class FormulaTag implements Serializable {
 	 * Constructor.
 	 * @param name The name for this tag.
 	 */
-	public FormulaTag(String name) {
+	public FormulaTag(final String name) {
 		this.name = name;
 	}
 

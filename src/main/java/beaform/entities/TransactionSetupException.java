@@ -23,7 +23,7 @@ public class TransactionSetupException extends Exception {
 	 * Constructor.
 	 * @param message the message for this exception.
 	 */
-	public TransactionSetupException(String message) {
+	public TransactionSetupException(final String message) {
 		super(message);
 	}
 
@@ -32,7 +32,7 @@ public class TransactionSetupException extends Exception {
 	 * @param message the message for this exception
 	 * @param cause the cause of this exception
 	 */
-	public TransactionSetupException(String message, Throwable cause) {
+	public TransactionSetupException(final String message, final Throwable cause) {
 		super(message, cause);
 	}
 
