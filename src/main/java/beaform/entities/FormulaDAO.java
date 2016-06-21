@@ -300,8 +300,7 @@ public final class FormulaDAO {
 			transactionMgr.commit();
 		}
 		catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
-						| HeuristicRollbackException | SystemException e1)
-		{
+						| HeuristicRollbackException | SystemException e1) {
 			LOG.error(e1.getMessage(), e1);
 			return false;
 		}
