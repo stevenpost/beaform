@@ -4,7 +4,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import beaform.gui.debug.ClearDbEvent;
-import beaform.gui.debug.DrawAllPanelBordersAction;
 import beaform.gui.debug.FillDbEvent;
 import beaform.gui.debug.ListFormulasEvent;
 

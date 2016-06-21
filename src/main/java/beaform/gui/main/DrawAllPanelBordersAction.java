@@ -1,9 +1,7 @@
-package beaform.gui.debug;
+package beaform.gui.main;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import beaform.gui.main.MainPanel;
 
 /**
  * An action that draws all borders on the MainPanel.
