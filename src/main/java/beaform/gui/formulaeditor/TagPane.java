@@ -29,6 +29,30 @@ public final class TagPane extends JPanel {
 	/** What text should be in the text field after adding the tag */
 	private static final String AFTER_ADD = "";
 
+	/** width for the name field */
+	private static final int NAME_WIDTH = 100;
+
+	/** height for the name field */
+	private static final int NAME_HEIGHT = 30;
+
+	/** width for the list */
+	private static final int LIST_WIDTH = 200;
+
+	/** height for the list */
+	private static final int LIST_HEIGHT = 90;
+
+	/** default weigthx for the constraints */
+	private static final double DEFAULT_X_WEIGTH = 0.1;
+
+	/** default weigthy for the constraints */
+	private static final double DEFAULT_Y_WEIGTH = 0.1;
+
+	/** number of columns for the tag label */
+	private static final int TAGLABEL_COLS = 2;
+
+	/** number of rows for the list of tags */
+	private static final int TAGLIST_ROWS = 3;
+
 	/** A list of formula tags */
 	private final List<FormulaTag> tags = new ArrayList<>();
 
@@ -55,14 +79,14 @@ public final class TagPane extends JPanel {
 	}
 
 	private void init() {
-		final Dimension nameSize = new Dimension(100, 30);
-		final Dimension listSize = new Dimension(200, 90);
+		final Dimension nameSize = new Dimension(NAME_WIDTH, NAME_HEIGHT);
+		final Dimension listSize = new Dimension(LIST_WIDTH, LIST_HEIGHT);
 		final JLabel tagLabel = new JLabel("Tags", SwingConstants.CENTER);
 
 		final GridBagConstraints constraints = new GridBagConstraints();
 		constraints.fill = GridBagConstraints.HORIZONTAL;
-		constraints.weightx = 0.1;
-		constraints.weighty = 0.1;
+		constraints.weightx = DEFAULT_X_WEIGTH;
+		constraints.weighty = DEFAULT_Y_WEIGTH;
 
 		int gridy = 0;
 		final JButton btnAddTag = new JButton("Add Tag");
@@ -70,7 +94,7 @@ public final class TagPane extends JPanel {
 
 		constraints.gridx = 0;
 		constraints.gridy = gridy;
-		constraints.gridwidth = 2;
+		constraints.gridwidth = TAGLABEL_COLS;
 		Utilities.setBoldFont(tagLabel);
 		this.add(tagLabel, constraints);
 		constraints.gridwidth = 1;
@@ -78,7 +102,7 @@ public final class TagPane extends JPanel {
 		gridy++;
 		constraints.gridx = 0;
 		constraints.gridy = gridy;
-		constraints.gridheight = 3;
+		constraints.gridheight = TAGLIST_ROWS;
 		constraints.fill = GridBagConstraints.BOTH;
 		this.lstTags.setMinimumSize(listSize);
 		this.lstTags.setPreferredSize(listSize);
