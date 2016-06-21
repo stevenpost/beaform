@@ -31,9 +31,7 @@ public class TreeViewFormulaTest extends TestCase {
 	@Override
 	@Before
 	public void setUp() {
-		this.form = new Formula();
-		this.form.setName(NAME);
-		this.form.setDescription("Test formula");
+		this.form = new Formula(NAME, "Test formula", "0%");
 	}
 
 	/**

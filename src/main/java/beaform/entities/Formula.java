@@ -40,6 +40,18 @@ public class Formula {
 	private final List<FormulaTag> tags = new ArrayList<>();
 
 	/**
+	 * Constructor.
+	 * @param name The name for this formula
+	 * @param description A description for this formula
+	 * @param totalAmount the total amount
+	 */
+	public Formula(String name, String description, String totalAmount) {
+		this.name = name;
+		this.description = description;
+		this.totalAmount = totalAmount;
+	}
+
+	/**
 	 * @return the name
 	 */
 	public String getName() {

@@ -186,9 +186,7 @@ public final class DebugUtils {
 	 * @return the created formula
 	 */
 	private static Formula createFormula(final EntityManager entityManager, final String name, final String description, final FormulaTag... tags) {
-		final Formula formula = new Formula();
-		formula.setName(name);
-		formula.setDescription(description);
+		final Formula formula = new Formula(name, description, "0%");
 		for (final FormulaTag tag : tags) {
 			formula.addTag(tag);
 		}
