@@ -143,10 +143,10 @@ public final class IngredientPane extends JPanel {
 	/**
 	 * Add multiple ingredients to the list of ingredients.
 	 *
-	 * @param ingredients A list of ingredient to add
+	 * @param ingredientList A list of ingredient to add
 	 */
-	public void addIngredients(final List<Ingredient> ingredients) {
-		for (final Ingredient ingredient : ingredients) {
+	public void addIngredients(final List<Ingredient> ingredientList) {
+		for (final Ingredient ingredient : ingredientList) {
 			this.ingredients.addElement(ingredient);
 		}
 	}
@@ -156,12 +156,12 @@ public final class IngredientPane extends JPanel {
 	 * @return all the ingredients
 	 */
 	public Iterator<Ingredient> getIngredients() {
-		final List<Ingredient> ingredients = new ArrayList<>();
+		final List<Ingredient> returnIngredients = new ArrayList<>();
 		final int nrOfIngredients = this.ingredients.getSize();
 		for (int i = 0; i < nrOfIngredients; i++) {
-			ingredients.add(this.ingredients.getElementAt(i));
+			returnIngredients.add(this.ingredients.getElementAt(i));
 		}
-		return ingredients.iterator();
+		return returnIngredients.iterator();
 	}
 
 	/**

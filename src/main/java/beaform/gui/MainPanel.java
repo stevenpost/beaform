@@ -51,8 +51,7 @@ public final class MainPanel extends JPanel {
 	 * It draws borders on all descendant JPanel objects.
 	 */
 	public void enableDebugBorders() {
-		final JPanel panel = this.panel;
-		DebugUtilities.drawBorders(panel);
+		DebugUtilities.drawBorders(this.panel);
 	}
 
 }
