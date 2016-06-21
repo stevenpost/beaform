@@ -142,8 +142,8 @@ public class FormulaEditor extends JPanel {
 		parent.add(panel);
 	}
 
-	private void createTotalAmountComponents(final JPanel parent, final JTextField totalAmount, final Dimension textFieldSize,
-	                                         final Dimension textFieldMaxSize) {
+	private static void createTotalAmountComponents(final JPanel parent, final JTextField totalAmount, final Dimension textFieldSize,
+	                                                final Dimension textFieldMaxSize) {
 		final JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
@@ -175,7 +175,7 @@ public class FormulaEditor extends JPanel {
 		parent.add(panel);
 	}
 
-	private void createDescriptionComponents(final JPanel parent, final JTextArea description) {
+	private static void createDescriptionComponents(final JPanel parent, final JTextArea description) {
 		final Dimension textAreaSize = new Dimension(100, 90);
 		final JLabel descriptionLabel = new JLabel("Description");
 		final JPanel panel = new JPanel();
