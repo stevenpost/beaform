@@ -1,5 +1,6 @@
 package beaform.gui.search;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -74,7 +75,7 @@ public final class RenderFormulaSearchByTagResult implements Runnable {
 		 * @param pane the target panel
 		 */
 		public AddFormTreeToGui(final List<Formula> searchResult, final SearchGui pane) {
-			this.searchResult = searchResult;
+			this.searchResult = new ArrayList<Formula>(searchResult);
 			this.pane = pane;
 		}
 
