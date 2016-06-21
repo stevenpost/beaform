@@ -41,7 +41,7 @@ public class FormulaDAO {
 	 *         and nested transactions are not supported.
 	 * @throws SystemException If the transaction service fails in an unexpected way.
 	 */
-	public List<Ingredient> getIngredients(final Formula formula) throws NotSupportedException, SystemException {
+	public static List<Ingredient> getIngredients(final Formula formula) throws NotSupportedException, SystemException {
 
 		final boolean hasTransaction = setupTransaction();
 
@@ -72,7 +72,7 @@ public class FormulaDAO {
 	 *         and nested transactions are not supported.
 	 * @throws SystemException If the transaction service fails in an unexpected way.
 	 */
-	public void updateExisting(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<FormulaTag> tags) throws SystemException, NotSupportedException {
+	public static void updateExisting(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<FormulaTag> tags) throws SystemException, NotSupportedException {
 		final boolean hasTransaction = setupTransaction();
 
 		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
@@ -100,7 +100,7 @@ public class FormulaDAO {
 	 * @param formula the formula
 	 * @param ingredients a list of ingredients to add
 	 */
-	private void addIngredientsToFormula(final Formula formula, final List<Ingredient> ingredients) {
+	private static void addIngredientsToFormula(final Formula formula, final List<Ingredient> ingredients) {
 		for (final Ingredient ingredient : ingredients) {
 			// We should only be holding existing Formulas at this point
 			formula.addIngredient(ingredient.getFormula(), ingredient.getAmount());
@@ -121,7 +121,7 @@ public class FormulaDAO {
 	 *         and nested transactions are not supported.
 	 * @throws SystemException If the transaction service fails in an unexpected way.
 	 */
-	public void addFormula(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<FormulaTag> tags) throws SystemException, NotSupportedException {
+	public static void addFormula(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<FormulaTag> tags) throws SystemException, NotSupportedException {
 		final boolean hasTransaction = setupTransaction();
 
 		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
@@ -149,7 +149,7 @@ public class FormulaDAO {
 	 * @param description The description of the formula.
 	 * @param totalAmount The total amount in this formula.
 	 */
-	private void setFormulaProperties(final Formula formula, final String description, final String totalAmount) {
+	private static void setFormulaProperties(final Formula formula, final String description, final String totalAmount) {
 		formula.setDescription(description);
 		formula.setTotalAmount(totalAmount);
 	}
@@ -161,7 +161,7 @@ public class FormulaDAO {
 	 * @param description The description of the formula.
 	 * @param totalAmount The total amount in this formula.
 	 */
-	private void setFormulaProperties(final Formula formula, final String name, final String description, final String totalAmount) {
+	private static void setFormulaProperties(final Formula formula, final String name, final String description, final String totalAmount) {
 		formula.setName(name);
 		formula.setDescription(description);
 		formula.setTotalAmount(totalAmount);
@@ -179,7 +179,7 @@ public class FormulaDAO {
 	 *         and nested transactions are not supported.
 	 * @throws SystemException If the transaction service fails in an unexpected way.
 	 */
-	private void addTags(final List<FormulaTag> tags, final EntityManager entityManager, final Formula formula) throws SystemException, NotSupportedException {
+	private static void addTags(final List<FormulaTag> tags, final EntityManager entityManager, final Formula formula) throws SystemException, NotSupportedException {
 		final FormulaTagDAO formulaTagDAO = new FormulaTagDAO();
 
 		for (final FormulaTag tag : tags) {
@@ -197,8 +197,8 @@ public class FormulaDAO {
 	 * @param formulaTagDAO the DAO for internal lookups
 	 * @param tag the tag to add
 	 */
-	private void addTagToFormula(final EntityManager entityManager, final Formula formula,
-	                             final FormulaTagDAO formulaTagDAO, final FormulaTag tag) {
+	private static void addTagToFormula(final EntityManager entityManager, final Formula formula,
+	                                    final FormulaTagDAO formulaTagDAO, final FormulaTag tag) {
 		// See if the tag exist in the DB, if so, use it.
 		FormulaTag tagToAdd;
 		try {
@@ -227,7 +227,7 @@ public class FormulaDAO {
 	 * @throws NotSupportedException
 	 * @throws SystemException
 	 */
-	public Formula findFormulaByName(final String name) throws SystemException, NotSupportedException {
+	public static Formula findFormulaByName(final String name) throws SystemException, NotSupportedException {
 
 		final boolean hasTransaction = setupTransaction();
 
@@ -255,7 +255,7 @@ public class FormulaDAO {
 	 * @throws NotSupportedException
 	 * @throws SystemException
 	 */
-	public List<Formula> findFormulasByTag(final String tagName) throws SystemException, NotSupportedException {
+	public static List<Formula> findFormulasByTag(final String tagName) throws SystemException, NotSupportedException {
 		final boolean hasTransaction = setupTransaction();
 
 		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
@@ -281,21 +281,21 @@ public class FormulaDAO {
 	 * @return the list of formulas found
 	 */
 	@SuppressWarnings("unchecked")
-	private List<Formula> findByTag(final String tagName, final EntityManager entityManager) {
+	private static List<Formula> findByTag(final String tagName, final EntityManager entityManager) {
 		final String queryString = "MATCH (t:FormulaTag { name:'" + tagName + "' })<-[r]-(f:Formula) RETURN f";
 
 		final Query query = entityManager.createNativeQuery(queryString, Formula.class);
 		return query.getResultList();
 	}
 
-	private Formula findByName(final String name, final EntityManager entityManager) {
+	private static Formula findByName(final String name, final EntityManager entityManager) {
 		final String queryString = "match (n:Formula { name:'" + name + "' }) return n";
 		final Query query = entityManager.createNativeQuery(queryString, Formula.class);
 
 		return (Formula) query.getSingleResult();
 	}
 
-	private boolean setupTransaction() throws SystemException, NotSupportedException {
+	private static boolean setupTransaction() throws SystemException, NotSupportedException {
 		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getTransactionManager();
 		if (GraphDbHandlerForJTA.getTransactionManagerStatus() == Status.STATUS_NO_TRANSACTION) {
 			transactionMgr.begin();
@@ -304,7 +304,7 @@ public class FormulaDAO {
 		return false;
 	}
 
-	private boolean commitTransation() {
+	private static boolean commitTransation() {
 		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getTransactionManager();
 		try {
 			transactionMgr.commit();
@@ -318,7 +318,7 @@ public class FormulaDAO {
 		return true;
 	}
 
-	private void clearFormulaRelations(final Formula formula) {
+	private static void clearFormulaRelations(final Formula formula) {
 		formula.clearIngredients();
 		formula.clearTags();
 	}
