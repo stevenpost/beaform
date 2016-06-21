@@ -77,8 +77,7 @@ public final class DebugUtils {
 			transactionMgr.commit();
 		}
 		catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
-						| HeuristicRollbackException | SystemException e1)
-		{
+						| HeuristicRollbackException | SystemException e1) {
 			LOG.error(e1.getMessage(), e1);
 		}
 
@@ -159,8 +158,7 @@ public final class DebugUtils {
 			LOG.info(logMessage);
 		}
 		catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
-						| HeuristicRollbackException | SystemException e1)
-		{
+						| HeuristicRollbackException | SystemException e1) {
 			LOG.error("Error on commit", e1);
 		}
 	}
