@@ -53,8 +53,9 @@ public class FormulaTagDAO {
 	 * @return the tag found
 	 */
 	private static FormulaTag findByName(final String name, final EntityManager entityManager) {
-		final String queryString = "match (n:FormulaTag { name:'" + name + "' }) return n";
+		final String queryString = "match (n:FormulaTag { name:{name} }) return n";
 		final Query query = entityManager.createNativeQuery(queryString, FormulaTag.class);
+		query.setParameter("name", name);
 		return (FormulaTag) query.getSingleResult();
 	}
 
