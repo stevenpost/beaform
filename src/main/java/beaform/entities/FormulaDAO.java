@@ -40,12 +40,9 @@ public final class FormulaDAO {
 	 *
 	 * @param formula
 	 * @return a list of {@link Ingredient} objects
-	 * @throws NotSupportedException If the calling thread is already
-	 *         associated with a transaction,
-	 *         and nested transactions are not supported.
-	 * @throws SystemException If the transaction service fails in an unexpected way.
+	 * @throws TransactionSetupException if the transaction cannot be set up
 	 */
-	public static List<Ingredient> getIngredients(final Formula formula) throws NotSupportedException, SystemException {
+	public static List<Ingredient> getIngredients(final Formula formula) throws TransactionSetupException {
 
 		final boolean hasTransaction = setupTransaction();
 
@@ -71,12 +68,9 @@ public final class FormulaDAO {
 	 * @param ingredients a list of ingredients
 	 * @param tags a list of tags
 	 *
-	 * @throws NotSupportedException If the calling thread is already
-	 *         associated with a transaction,
-	 *         and nested transactions are not supported.
-	 * @throws SystemException If the transaction service fails in an unexpected way.
+	 * @throws TransactionSetupException if the transaction cannot be set up
 	 */
-	public static void updateExisting(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<FormulaTag> tags) throws SystemException, NotSupportedException {
+	public static void updateExisting(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<FormulaTag> tags) throws TransactionSetupException {
 		final boolean hasTransaction = setupTransaction();
 
 		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
@@ -120,12 +114,9 @@ public final class FormulaDAO {
 	 * @param ingredients a list of ingredients
 	 * @param tags a list of tags
 	 *
-	 * @throws NotSupportedException If the calling thread is already
-	 *         associated with a transaction,
-	 *         and nested transactions are not supported.
-	 * @throws SystemException If the transaction service fails in an unexpected way.
+	 * @throws TransactionSetupException if the transaction cannot be set up
 	 */
-	public static void addFormula(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<FormulaTag> tags) throws SystemException, NotSupportedException {
+	public static void addFormula(final String name, final String description, final String totalAmount, final List<Ingredient> ingredients, final List<FormulaTag> tags) throws TransactionSetupException {
 		final boolean hasTransaction = setupTransaction();
 
 		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
@@ -169,7 +160,7 @@ public final class FormulaDAO {
 	 *         and nested transactions are not supported.
 	 * @throws SystemException If the transaction service fails in an unexpected way.
 	 */
-	private static void addTags(final List<FormulaTag> tags, final EntityManager entityManager, final Formula formula) throws SystemException, NotSupportedException {
+	private static void addTags(final List<FormulaTag> tags, final EntityManager entityManager, final Formula formula) {
 
 		for (final FormulaTag tag : tags) {
 			addTagToFormula(entityManager, formula, tag);
@@ -212,10 +203,9 @@ public final class FormulaDAO {
 	 *
 	 * @param name the name of the formula to look for
 	 * @return the found {@link Formula} or null if none was found.
-	 * @throws NotSupportedException
-	 * @throws SystemException
+	 * @throws TransactionSetupException if the transaction cannot be set up
 	 */
-	public static Formula findFormulaByName(final String name) throws SystemException, NotSupportedException {
+	public static Formula findFormulaByName(final String name) throws TransactionSetupException {
 
 		final boolean hasTransaction = setupTransaction();
 
@@ -240,10 +230,9 @@ public final class FormulaDAO {
 	 *
 	 * @param tagName The name of the tag.
 	 * @return a list of matching formulas
-	 * @throws NotSupportedException
-	 * @throws SystemException
+	 * @throws TransactionSetupException
 	 */
-	public static List<Formula> findFormulasByTag(final String tagName) throws SystemException, NotSupportedException {
+	public static List<Formula> findFormulasByTag(final String tagName) throws TransactionSetupException {
 		final boolean hasTransaction = setupTransaction();
 
 		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
@@ -285,11 +274,16 @@ public final class FormulaDAO {
 		return (Formula) query.getSingleResult();
 	}
 
-	private static boolean setupTransaction() throws SystemException, NotSupportedException {
+	private static boolean setupTransaction() throws TransactionSetupException {
 		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getTransactionManager();
-		if (GraphDbHandlerForJTA.getTransactionManagerStatus() == Status.STATUS_NO_TRANSACTION) {
-			transactionMgr.begin();
-			return true;
+		try {
+			if (GraphDbHandlerForJTA.getTransactionManagerStatus() == Status.STATUS_NO_TRANSACTION) {
+				transactionMgr.begin();
+				return true;
+			}
+		}
+		catch (SystemException | NotSupportedException e) {
+			throw new TransactionSetupException("Something went wrong setting up the transaction", e);
 		}
 		return false;
 	}
