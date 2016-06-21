@@ -16,10 +16,14 @@ import beaform.GraphDbHandlerForJTA;
  * @author Steven Post
  *
  */
-public class FormulaTagDAO {
+public final class FormulaTagDAO {
 
 	/** logger */
 	private static final Logger LOG = LoggerFactory.getLogger(FormulaTagDAO.class);
+
+	private FormulaTagDAO() {
+		// Utility classes should not have a public constructor.
+	}
 
 	/**
 	 * Find a tag by its name.
