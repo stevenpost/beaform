@@ -6,9 +6,11 @@ import javax.persistence.Persistence;
 import javax.transaction.SystemException;
 import javax.transaction.TransactionManager;
 
+import org.hibernate.SessionFactory;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.engine.transaction.jta.platform.spi.JtaPlatform;
 import org.hibernate.jpa.HibernateEntityManagerFactory;
+import org.hibernate.service.spi.ServiceRegistryImplementor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,9 +39,12 @@ public final class GraphDbHandlerForJTA {
 		this.entityManagerFact = Persistence.createEntityManagerFactory("ogm-jpa-tutorial");
 
 		//accessing JBoss's Transaction can be done differently but this one works nicely
-		final SessionFactoryImplementor sessionFactory =
-						(SessionFactoryImplementor) ( (HibernateEntityManagerFactory) this.entityManagerFact ).getSessionFactory();
-		this.transactionMgr = sessionFactory.getServiceRegistry().getService( JtaPlatform.class ).retrieveTransactionManager();
+		final SessionFactory hibernateSessionFactory = ( (HibernateEntityManagerFactory) this.entityManagerFact ).getSessionFactory();
+		final SessionFactoryImplementor sessionFactory = (SessionFactoryImplementor) hibernateSessionFactory;
+		final ServiceRegistryImplementor serviceRegistry = sessionFactory.getServiceRegistry();
+		final JtaPlatform service = serviceRegistry.getService(JtaPlatform.class);
+
+		this.transactionMgr = service.retrieveTransactionManager();
 
 		// Initialize the main entity manager
 		this.entityManager = this.entityManagerFact.createEntityManager();
