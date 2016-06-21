@@ -91,7 +91,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	 * @param parent The node that will get additional descendants.
 	 * @param formula The formula for the direct child.
 	 */
-	private void addDescendantNodes(final DefaultMutableTreeNode parent, final Formula formula) {
+	private static void addDescendantNodes(final DefaultMutableTreeNode parent, final Formula formula) {
 		final DefaultMutableTreeNode node = new DefaultMutableTreeNode(new TreeViewFormula(formula));
 		parent.add(node);
 		createNodes(node);
@@ -134,7 +134,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		add(splitPane);
 	}
 
-	private void createNodes(final DefaultMutableTreeNode parent) {
+	private static void createNodes(final DefaultMutableTreeNode parent) {
 		final TreeViewFormula formula = (TreeViewFormula) parent.getUserObject();
 		final List<Ingredient> ingredients = getIngredientsFromFormula(formula);
 		for (final Ingredient ingredient : ingredients) {
@@ -142,7 +142,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		}
 	}
 
-	private List<Ingredient> getIngredientsFromFormula(final TreeViewFormula formula) {
+	private static List<Ingredient> getIngredientsFromFormula(final TreeViewFormula formula) {
 
 		try {
 			return FormulaDAO.getIngredients(formula.getFormula());
@@ -218,7 +218,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	 * @param formula
 	 * @param description
 	 */
-	private void appendTags(final TreeViewFormula formula, final StringBuilder description) {
+	private static void appendTags(final TreeViewFormula formula, final StringBuilder description) {
 		final String tagsAsString = String.join(",", formula.getTagsAsStrings());
 		description.append("\n\nTags: \n").append(tagsAsString);
 	}
@@ -227,7 +227,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	 * @param formula
 	 * @param description
 	 */
-	private void appendDescription(final TreeViewFormula formula, final StringBuilder description) {
+	private static void appendDescription(final TreeViewFormula formula, final StringBuilder description) {
 		final String formDescription = formula.getDescription();
 		description.append("Descrtiption:\n").append(formDescription);
 	}
@@ -236,7 +236,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	 * @param formula
 	 * @param description
 	 */
-	private void appendTotalAmount(final TreeViewFormula formula, final StringBuilder description) {
+	private static void appendTotalAmount(final TreeViewFormula formula, final StringBuilder description) {
 		final String amount = formula.getTotalAmount();
 		description.append("Total amount: ").append(amount).append("\n\n");
 	}
@@ -245,7 +245,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	 * @param formula
 	 * @param description
 	 */
-	private void appendAmount(final TreeViewFormula formula, final StringBuilder description) {
+	private static void appendAmount(final TreeViewFormula formula, final StringBuilder description) {
 		final String amount = formula.getAmount();
 		description.append("Amount: ").append(amount).append("\n\n");
 	}
@@ -273,7 +273,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	/**
 	 * @param form
 	 */
-	private void launchFormulaEditor(final TreeViewFormula form) {
+	private static void launchFormulaEditor(final TreeViewFormula form) {
 		MainGUI.getInstance().replaceWindow(new FormulaEditor(form.getFormula()));
 	}
 
@@ -281,7 +281,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	 * @param node
 	 * @return
 	 */
-	private TreeViewFormula extractFormula(final DefaultMutableTreeNode node) {
+	private static TreeViewFormula extractFormula(final DefaultMutableTreeNode node) {
 		return (TreeViewFormula)node.getUserObject();
 	}
 
