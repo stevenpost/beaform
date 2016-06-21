@@ -24,7 +24,7 @@ public class TagComparator implements Comparator<FormulaTag>, Serializable {
 		return compareNames(firstTag.getName(), secondTag.getName());
 	}
 
-	private int compareNames(final String firstString, final String secondString) {
+	private static int compareNames(final String firstString, final String secondString) {
 		return firstString.compareTo(secondString);
 	}
 
