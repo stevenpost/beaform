@@ -24,9 +24,9 @@ import beaform.dao.FormulaDAO;
 import beaform.entities.Formula;
 import beaform.entities.Ingredient;
 import beaform.entities.TransactionSetupException;
+import beaform.gui.GuiUtilities;
 import beaform.gui.TreeViewFormula;
 import beaform.gui.formulaeditor.FormulaEditor;
-import beaform.gui.main.MainGUI;
 
 /**
  * This class implements a panel to show a tree view of formulas.
@@ -286,7 +286,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	 * @param form
 	 */
 	private static void launchFormulaEditor(final TreeViewFormula form) {
-		MainGUI.getInstance().replaceWindow(new FormulaEditor(form.getFormula()));
+		GuiUtilities.replaceWindow(new FormulaEditor(form.getFormula()));
 	}
 
 	/**
