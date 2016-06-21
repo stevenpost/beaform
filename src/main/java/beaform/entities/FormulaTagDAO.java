@@ -32,7 +32,7 @@ public class FormulaTagDAO {
 	 *         and nested transactions are not supported.
 	 * @throws SystemException If the transaction service fails in an unexpected way.
 	 */
-	public FormulaTag findByName(final String name) throws NotSupportedException, SystemException {
+	public static FormulaTag findByName(final String name) throws NotSupportedException, SystemException {
 
 		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
 
@@ -52,7 +52,7 @@ public class FormulaTagDAO {
 	 * @param entityManager the entity manager
 	 * @return the tag found
 	 */
-	private FormulaTag findByName(final String name, final EntityManager entityManager) {
+	private static FormulaTag findByName(final String name, final EntityManager entityManager) {
 		final String queryString = "match (n:FormulaTag { name:'" + name + "' }) return n";
 		final Query query = entityManager.createNativeQuery(queryString, FormulaTag.class);
 		return (FormulaTag) query.getSingleResult();
@@ -69,7 +69,7 @@ public class FormulaTagDAO {
 	 *         and nested transactions are not supported.
 	 * @throws SystemException If the transaction service fails in an unexpected way.
 	 */
-	public FormulaTag findByObject(final FormulaTag tag) throws NotSupportedException, SystemException {
+	public static FormulaTag findByObject(final FormulaTag tag) throws NotSupportedException, SystemException {
 
 		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
 

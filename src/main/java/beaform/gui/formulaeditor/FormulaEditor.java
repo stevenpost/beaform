@@ -99,7 +99,7 @@ public class FormulaEditor extends JPanel {
 		this.txtTotalAmount.setText(formula.getTotalAmount());
 
 		try {
-			final List<Ingredient> ingredientList = new FormulaDAO().getIngredients(formula);
+			final List<Ingredient> ingredientList = FormulaDAO.getIngredients(formula);
 			this.ingredientPane.addIngredients(ingredientList);
 
 			// Add tags to the list
@@ -208,7 +208,7 @@ public class FormulaEditor extends JPanel {
 		final List<FormulaTag> tags = getTagList();
 
 		try {
-			new FormulaDAO().addFormula(name, description, totalAmount, ingredients, tags);
+			FormulaDAO.addFormula(name, description, totalAmount, ingredients, tags);
 		}
 		catch (SystemException | NotSupportedException e1) {
 			LOG.error("Something wen wrong adding the new formula", e1);
@@ -245,7 +245,7 @@ public class FormulaEditor extends JPanel {
 			final String name = this.formula.getName();
 			final String description = this.txtDescription.getText();
 			final String totalAmount = this.txtTotalAmount.getText();
-			new FormulaDAO().updateExisting(name, description, totalAmount, ingredients, tags);
+			FormulaDAO.updateExisting(name, description, totalAmount, ingredients, tags);
 		}
 		catch (SystemException | NotSupportedException e1) {
 			LOG.error("Something went wrong updating the formula", e1);

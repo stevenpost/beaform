@@ -180,10 +180,8 @@ public class IngredientPane extends JPanel {
 			throw new UnsupportedOperationException("No amount entered");
 		}
 
-		final FormulaDAO formulaDAO = new FormulaDAO();
-
 		try {
-			final Formula form = formulaDAO.findFormulaByName(ingredient);
+			final Formula form = FormulaDAO.findFormulaByName(ingredient);
 			this.ingredients.addElement(new Ingredient(form, amount));
 		}
 		catch (SystemException | NotSupportedException e1) {

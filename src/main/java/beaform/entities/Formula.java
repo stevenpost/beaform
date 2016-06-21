@@ -106,7 +106,7 @@ public class Formula {
 		return ingredients;
 	}
 
-	private Ingredient createIngredient(final String amount, final Formula formula) {
+	private static Ingredient createIngredient(final String amount, final Formula formula) {
 		final String tmpAmount = amount.substring(amount.indexOf('|') + 1);
 
 		return new Ingredient(formula, tmpAmount);

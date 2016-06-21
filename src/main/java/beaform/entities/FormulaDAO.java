@@ -180,10 +180,9 @@ public class FormulaDAO {
 	 * @throws SystemException If the transaction service fails in an unexpected way.
 	 */
 	private static void addTags(final List<FormulaTag> tags, final EntityManager entityManager, final Formula formula) throws SystemException, NotSupportedException {
-		final FormulaTagDAO formulaTagDAO = new FormulaTagDAO();
 
 		for (final FormulaTag tag : tags) {
-			addTagToFormula(entityManager, formula, formulaTagDAO, tag);
+			addTagToFormula(entityManager, formula, tag);
 		}
 	}
 
@@ -194,15 +193,14 @@ public class FormulaDAO {
 	 *
 	 * @param entityManager the entity manager to use
 	 * @param formula the formula to add the tag to
-	 * @param formulaTagDAO the DAO for internal lookups
 	 * @param tag the tag to add
 	 */
 	private static void addTagToFormula(final EntityManager entityManager, final Formula formula,
-	                                    final FormulaTagDAO formulaTagDAO, final FormulaTag tag) {
+	                                    final FormulaTag tag) {
 		// See if the tag exist in the DB, if so, use it.
 		FormulaTag tagToAdd;
 		try {
-			tagToAdd = formulaTagDAO.findByObject(tag);
+			tagToAdd = FormulaTagDAO.findByObject(tag);
 		}
 		catch (NotSupportedException | SystemException e1) {
 			LOG.error("Failed to find the tag", e1);

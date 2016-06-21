@@ -143,10 +143,9 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	}
 
 	private List<Ingredient> getIngredientsFromFormula(final TreeViewFormula formula) {
-		final FormulaDAO formulaDAO = new FormulaDAO();
 
 		try {
-			return formulaDAO.getIngredients(formula.getFormula());
+			return FormulaDAO.getIngredients(formula.getFormula());
 		}
 		catch (NotSupportedException e) {
 			LOG.error("There is already a transaction going on in this thread", e);
