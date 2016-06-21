@@ -41,6 +41,21 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	/** A logger */
 	private static final Logger LOG = LoggerFactory.getLogger(FormulaTree.class);
 
+	/** Minimum width for the components */
+	private static final int MIN_WIDTH = 100;
+
+	/** Minimum height for the components */
+	private static final int MIN_HEIGHT = 50;
+
+	/** Preferred width for the components */
+	private static final int PREF_WIDTH = 500;
+
+	/** Preferred height for the components */
+	private static final int PREF_HEIGHT = 300;
+
+	/** Divider location of the split pane */
+	private static final int DIVIDER_LOCATION = 100;
+
 	/** The visual Tree object */
 	private final JTree tree;
 
@@ -123,11 +138,11 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		splitPane.setTopComponent(treeView);
 		splitPane.setBottomComponent(htmlView);
 
-		final Dimension minimumSize = new Dimension(100, 50);
+		final Dimension minimumSize = new Dimension(MIN_WIDTH, MIN_HEIGHT);
 		htmlView.setMinimumSize(minimumSize);
 		treeView.setMinimumSize(minimumSize);
-		splitPane.setDividerLocation(100);
-		splitPane.setPreferredSize(new Dimension(500, 300));
+		splitPane.setDividerLocation(DIVIDER_LOCATION);
+		splitPane.setPreferredSize(new Dimension(PREF_WIDTH, PREF_HEIGHT));
 
 		//Add the split pane to this panel.
 		add(splitPane);
