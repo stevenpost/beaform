@@ -14,7 +14,7 @@ import beaform.gui.debug.DebugUtilities;
  * @author Steven Post
  *
  */
-public class MainPanel extends JPanel {
+public final class MainPanel extends JPanel {
 
 	/** A serial */
 	private static final long serialVersionUID = 1207348877338520359L;
