@@ -162,12 +162,13 @@ public final class DebugUtils {
 		}
 	}
 
-	private static void handlePersitenceException(final TransactionManager transactionMgr,final PersistenceException persistenceException) {
-		if (persistenceException.getCause() instanceof EntityAlreadyExistsException) {
-			LOG.error("Entity already exists (executing this twice?)", persistenceException);
+	private static void handlePersitenceException(final TransactionManager transactionMgr,
+	                                              final PersistenceException persistenceEx) {
+		if (persistenceEx.getCause() instanceof EntityAlreadyExistsException) {
+			LOG.error("Entity already exists (executing this twice?)", persistenceEx);
 		}
 		else {
-			LOG.error("Error persisting data", persistenceException);
+			LOG.error("Error persisting data", persistenceEx);
 		}
 		try {
 			transactionMgr.rollback();
@@ -184,7 +185,10 @@ public final class DebugUtils {
 	 * @param tags any tags to be associated with the formula
 	 * @return the created formula
 	 */
-	private static Formula createFormula(final EntityManager entityManager, final String name, final String description, final FormulaTag... tags) {
+	private static Formula createFormula(final EntityManager entityManager,
+	                                     final String name,
+	                                     final String description,
+	                                     final FormulaTag... tags) {
 		final Formula formula = new Formula(name, description, "0%");
 		for (final FormulaTag tag : tags) {
 			formula.addTag(tag);
