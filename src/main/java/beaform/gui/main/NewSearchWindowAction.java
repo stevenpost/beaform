@@ -1,18 +1,17 @@
-package beaform.gui;
+package beaform.gui.main;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import beaform.gui.formulaeditor.FormulaEditor;
-import beaform.gui.main.MainPanel;
+import beaform.gui.search.SearchGui;
 
 /**
- * An action to show a clean formula editor, in order to create a new formula.
+ * This action opens up a new search.
  *
  * @author Steven Post
  *
  */
-public class NewAddWindowAction implements ActionListener {
+public class NewSearchWindowAction implements ActionListener {
 
 	/** Panel for the new content */
 	private final MainPanel panel;
@@ -22,7 +21,7 @@ public class NewAddWindowAction implements ActionListener {
 	 *
 	 * @param panel the target panel
 	 */
-	public NewAddWindowAction(final MainPanel panel) {
+	public NewSearchWindowAction(final MainPanel panel) {
 		this.panel = panel;
 	}
 
@@ -33,7 +32,7 @@ public class NewAddWindowAction implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(final ActionEvent event) {
-		this.panel.replaceWindow(new FormulaEditor());
+		this.panel.replaceWindow(new SearchGui());
 	}
 
 }
