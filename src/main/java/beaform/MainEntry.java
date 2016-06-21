@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import beaform.dao.GraphDbHandlerForJTA;
 import beaform.gui.main.MainGUI;
 
 /**

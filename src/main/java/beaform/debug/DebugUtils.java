@@ -17,7 +17,7 @@ import org.hibernate.ogm.exception.EntityAlreadyExistsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import beaform.GraphDbHandlerForJTA;
+import beaform.dao.GraphDbHandlerForJTA;
 import beaform.entities.Formula;
 import beaform.entities.FormulaTag;
 import beaform.entities.Ingredient;

@@ -3,8 +3,8 @@ package beaform;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import beaform.dao.FormulaDAO;
 import beaform.entities.Formula;
-import beaform.entities.FormulaDAO;
 import beaform.entities.TransactionSetupException;
 
 /**

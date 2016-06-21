@@ -1,4 +1,4 @@
-package beaform.entities;
+package beaform.dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -6,7 +6,7 @@ import javax.persistence.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import beaform.GraphDbHandlerForJTA;
+import beaform.entities.FormulaTag;
 
 /**
  * This class handles all DB access for tags.

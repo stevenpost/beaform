@@ -1,4 +1,4 @@
-package beaform;
+package beaform.dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

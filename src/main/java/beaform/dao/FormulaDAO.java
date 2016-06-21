@@ -1,4 +1,4 @@
-package beaform.entities;
+package beaform.dao;
 
 import java.util.List;
 
@@ -16,7 +16,10 @@ import javax.transaction.TransactionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import beaform.GraphDbHandlerForJTA;
+import beaform.entities.Formula;
+import beaform.entities.FormulaTag;
+import beaform.entities.Ingredient;
+import beaform.entities.TransactionSetupException;
 
 /**
  * This class handles all DB access for formulas.
