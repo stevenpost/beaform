@@ -53,6 +53,18 @@ public final class IngredientPane extends JPanel {
 	/** height for the name field */
 	private static final int NAME_HEIGHT = 30;
 
+	/** default weigthx for the constraints */
+	private static final double DEFAULT_X_WEIGTH = 0.1;
+
+	/** default weigthy for the constraints */
+	private static final double DEFAULT_Y_WEIGTH = 0.1;
+
+	/** number of columns for the ingredient label */
+	private static final int FORMULALBL_COLS = 3;
+
+	/** number of rows for the list of ingredients */
+	private static final int FORMULALIST_ROWS = 4;
+
 	/** A list model to get the list of formulas to the screen */
 	private final DefaultListModel<Ingredient> ingredients = new DefaultListModel<>();
 
@@ -89,23 +101,24 @@ public final class IngredientPane extends JPanel {
 		final JLabel nameLabel = new JLabel("Name");
 
 		final GridBagConstraints constraints = new GridBagConstraints();
-		constraints.weightx = 0.1;
-		constraints.weighty = 0.1;
+		constraints.weightx = DEFAULT_X_WEIGTH;
+		constraints.weighty = DEFAULT_Y_WEIGTH;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 
+		int gridx = 0;
 		int gridy = 0;
 
-		constraints.gridx = 0;
+		constraints.gridx = gridx;
 		constraints.gridy = gridy;
-		constraints.gridwidth = 3;
+		constraints.gridwidth = FORMULALBL_COLS;
 		Utilities.setBoldFont(ingredientsLabel);
 		this.add(ingredientsLabel, constraints);
 		constraints.gridwidth = 1;
 
 		gridy++;
-		constraints.gridx = 0;
+		constraints.gridx = gridx;
 		constraints.gridy = gridy;
-		constraints.gridheight = 4;
+		constraints.gridheight = FORMULALIST_ROWS;
 		constraints.fill = GridBagConstraints.BOTH;
 		this.lstFormulas.setMinimumSize(listMinSize);
 		this.lstFormulas.setPreferredSize(listMinSize);
@@ -113,37 +126,42 @@ public final class IngredientPane extends JPanel {
 		constraints.gridheight = 1;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 
-		constraints.gridx = 1;
+		gridx++;
+		constraints.gridx = gridx;
 		constraints.gridy = gridy;
 		this.add(nameLabel, constraints);
 
-		constraints.gridx = 2;
+		gridx++;
+		constraints.gridx = gridx;
 		constraints.gridy = gridy;
 		this.add(amountLabel, constraints);
 
+		gridx = 1;
 		gridy++;
-		constraints.gridx = 1;
+		constraints.gridx = gridx;
 		constraints.gridy = gridy;
 		this.txtName.setMinimumSize(nameSize);
 		this.txtName.setPreferredSize(nameSize);
 		this.txtName.setMaximumSize(nameSize);
 		this.add(this.txtName, constraints);
 
-		constraints.gridx = 2;
+		gridx++;
+		constraints.gridx = gridx;
 		constraints.gridy = gridy;
 		this.txtAmount.setMinimumSize(amountSize);
 		this.txtAmount.setPreferredSize(amountSize);
 		this.txtAmount.setMaximumSize(amountSize);
 		this.add(this.txtAmount, constraints);
 
+		gridx = 1;
 		gridy++;
-		constraints.gridx = 1;
+		constraints.gridx = gridx;
 		constraints.gridy = gridy;
 		this.btnAddIngredient.addActionListener(event -> addNewIngredient());
 		this.add(this.btnAddIngredient, constraints);
 
 		gridy++;
-		constraints.gridx = 1;
+		constraints.gridx = gridx;
 		constraints.gridy = gridy;
 		this.btnDelIngredient.addActionListener(event -> removeSelectedIngredients());
 		this.add(this.btnDelIngredient, constraints);
