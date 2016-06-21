@@ -25,7 +25,7 @@ public final class MainGUI {
 	private static final Logger LOG = LoggerFactory.getLogger(MainGUI.class);
 
 	/** The main instance of the GUI */
-	private static MainGUI instance;
+	private static volatile MainGUI instance;
 
 	/** The main frame (or window) */
 	private static JFrame frm = new JFrame("BeaForm");
