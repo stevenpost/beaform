@@ -123,7 +123,7 @@ public final class TagPane extends JPanel {
 	 * should the list model and the backing list be out of sync,
 	 * this method will synchronize them.
 	 */
-	private final void sortTags() {
+	private void sortTags() {
 		this.tags.sort(new TagComparator());
 
 		this.lstTagModel.clear();
