@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import beaform.entities.Formula;
-import beaform.gui.FormulaTree;
 
 /**
  * This class is used to render the result of a formula search in the GUI.
@@ -53,37 +52,4 @@ public final class RenderFormulaSearchResult implements Runnable {
 		}
 	}
 
-	/**
-	 * A task to do the actual rendering.
-	 *
-	 * @author Steven Post
-	 *
-	 */
-	private static final class AddFormTreeToGui implements Runnable {
-
-		/** The result of the search */
-		private final Formula searchResult;
-
-		/** The target panel */
-		private final SearchGui pane;
-
-		/**
-		 * Constructor.
-		 * @param searchResult the result of the search
-		 * @param pane the target panel
-		 */
-		public AddFormTreeToGui(final Formula searchResult, final SearchGui pane) {
-			this.searchResult = searchResult;
-			this.pane = pane;
-		}
-
-		/**
-		 * Invoked when the action occurs.
-		 */
-		@Override
-		public void run() {
-			final FormulaTree formulaTree = new FormulaTree(this.searchResult);
-			this.pane.setSearchResults(formulaTree);
-		}
-	}
 }
