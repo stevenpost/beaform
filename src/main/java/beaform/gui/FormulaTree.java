@@ -289,6 +289,9 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	 */
 	public class DoubleClickListener extends MouseAdapter {
 
+		/** The number of clicks to register a double click on the mouse */
+		private static final int DOUBLE_CLICK = 2;
+
 		/**
 		 * This method fires when the mouse is clicked,
 		 * but only does something on double click events.
@@ -297,7 +300,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		 */
 		@Override
 		public void mousePressed(final MouseEvent event) {
-			if(event.getClickCount() == 2) {
+			if(event.getClickCount() == DOUBLE_CLICK) {
 				doubleClick();
 			}
 		}
