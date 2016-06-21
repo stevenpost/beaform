@@ -195,10 +195,6 @@ public final class FormulaDAO {
 		try {
 			tagToAdd = FormulaTagDAO.findByObject(tag);
 		}
-		catch (NotSupportedException | SystemException e1) {
-			LOG.error("Failed to find the tag", e1);
-			return;
-		}
 		catch (NoResultException e1) {
 			if (LOG.isDebugEnabled()) {
 				LOG.debug("No tag with name " + tag.getName() + " found: " + e1.getMessage(), e1);

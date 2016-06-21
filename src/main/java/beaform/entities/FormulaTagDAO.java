@@ -2,8 +2,6 @@ package beaform.entities;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.transaction.NotSupportedException;
-import javax.transaction.SystemException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,12 +29,8 @@ public final class FormulaTagDAO {
 	 *
 	 * @param name the name of the tag
 	 * @return the tag that was found, null if no tag was found
-	 * @throws NotSupportedException If the calling thread is already
-	 *         associated with a transaction,
-	 *         and nested transactions are not supported.
-	 * @throws SystemException If the transaction service fails in an unexpected way.
 	 */
-	public static FormulaTag findByName(final String name) throws NotSupportedException, SystemException {
+	public static FormulaTag findByName(final String name) {
 
 		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
 
@@ -69,12 +63,8 @@ public final class FormulaTagDAO {
 	 *
 	 * @param tag The tag to find
 	 * @return the tag that was found, null if no tag was found
-	 * @throws NotSupportedException If the calling thread is already
-	 *         associated with a transaction,
-	 *         and nested transactions are not supported.
-	 * @throws SystemException If the transaction service fails in an unexpected way.
 	 */
-	public static FormulaTag findByObject(final FormulaTag tag) throws NotSupportedException, SystemException {
+	public static FormulaTag findByObject(final FormulaTag tag) {
 
 		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
 
