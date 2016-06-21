@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
  * @author Steven Post
  *
  */
-public class GraphDbHandlerForJTA {
+public final class GraphDbHandlerForJTA {
 
 	/** The instance of this singleton */
 	private static final GraphDbHandlerForJTA INSTANCE = new GraphDbHandlerForJTA();
