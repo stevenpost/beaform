@@ -40,8 +40,7 @@ public final class SearchFormulasByTagTask implements Callable<List<Formula>> {
 	public List<Formula> call() throws NotSupportedException, SystemException {
 		final String name = this.tagName;
 
-		final FormulaDAO formulaDAO = new FormulaDAO();
-		return formulaDAO.findFormulasByTag(name);
+		return FormulaDAO.findFormulasByTag(name);
 
 	}
 }
