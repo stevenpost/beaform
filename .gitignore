@@ -2,3 +2,4 @@
 /target/
 /neo4j/db
 /reports/
+neo4j_test/

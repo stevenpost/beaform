@@ -42,15 +42,39 @@ public class Debug extends TestCase {
 	@Override
 	@Before
 	public void setUp() {
-		DebugUtils.fillDb();
+		GraphDbHandlerForJTA.initInstance("test");
+		DebugUtils.clearDb();
 	}
 
 	/**
 	 * Test a simple cleanup.
 	 */
 	@Test
-	public static void testCleanupSimple() {
+	public void testCleanupSimple() {
+		DebugUtils.fillDb();
 		DebugUtils.clearDb();
+		assertEquals("Collection is not empty", 0, countFormulasInDb());
+	}
+
+	/**
+	 * Test for filling the DB.
+	 */
+	@Test
+	public void testFill() {
+		DebugUtils.fillDb();
+		assertEquals("Collection doesn't contain the expected amount of formulas", 4, countFormulasInDb());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@After
+	public void tearDown() {
+		DebugUtils.clearDb();
+	}
+
+	private int countFormulasInDb() {
 		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getTransactionManager();
 
 		try {
@@ -58,7 +82,7 @@ public class Debug extends TestCase {
 		}
 		catch (NotSupportedException | SystemException e1) {
 			LOG.error(e1.getMessage(), e1);
-			return;
+			throw new IllegalStateException(e1);
 		}
 
 		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
@@ -78,13 +102,7 @@ public class Debug extends TestCase {
 		}
 
 		LOG.debug(ALL_FORMULAS);
-		assertEquals("Collection is not empty", 0, formulas.size());
-	}
-
-	@Override
-	@After
-	public void tearDown() {
-
+		return formulas.size();
 	}
 
 }

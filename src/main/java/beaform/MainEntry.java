@@ -39,6 +39,7 @@ public final class MainEntry {
 		}
 
 		LOG.debug("Initializing DB...");
+		GraphDbHandlerForJTA.initInstance("production");
 		GraphDbHandlerForJTA.getInstance();
 
 		LOG.debug("Done");

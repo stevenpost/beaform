@@ -21,7 +21,10 @@ import org.hibernate.service.spi.ServiceRegistryImplementor;
 public final class GraphDbHandlerForJTA {
 
 	/** The instance of this singleton */
-	private static final GraphDbHandlerForJTA INSTANCE = new GraphDbHandlerForJTA();
+	private static GraphDbHandlerForJTA instance;
+
+	/** A lock for accessing the instance */
+	private static final Object INSTANCELOCK = new Object();
 
 	/** The {@link EntityManagerFactory} */
 	private final EntityManagerFactory entityManagerFact;
@@ -32,9 +35,9 @@ public final class GraphDbHandlerForJTA {
 	/** The {@link TransactionManager} */
 	private final TransactionManager transactionMgr;
 
-	private GraphDbHandlerForJTA() {
+	private GraphDbHandlerForJTA(final String persistenceUnit) {
 		//build the EntityManagerFactory as you would build in in Hibernate ORM
-		this.entityManagerFact = Persistence.createEntityManagerFactory("ogm-jpa-tutorial");
+		this.entityManagerFact = Persistence.createEntityManagerFactory(persistenceUnit);
 
 		//accessing JBoss's Transaction can be done differently but this one works nicely
 		final HibernateEntityManagerFactory hibernateEMF = (HibernateEntityManagerFactory) this.entityManagerFact;
@@ -54,10 +57,27 @@ public final class GraphDbHandlerForJTA {
 
 	/**
 	 * Get the instance of this handler.
+	 * @param persistenceUnit the persistence unit to use
+	 */
+	public static void initInstance(final String persistenceUnit) {
+		synchronized (INSTANCELOCK) {
+			if (instance == null) {
+				instance = new GraphDbHandlerForJTA(persistenceUnit);
+			}
+		}
+	}
+
+	/**
+	 * Get the instance of this handler.
 	 * @return the instance
 	 */
 	public static GraphDbHandlerForJTA getInstance() {
-		return INSTANCE;
+		synchronized (INSTANCELOCK) {
+			if (instance == null) {
+				throw new IllegalStateException("The instance is not yet initialised");
+			}
+			return instance;
+		}
 	}
 
 	/**
@@ -66,7 +86,7 @@ public final class GraphDbHandlerForJTA {
 	 * @throws SystemException If the transaction service fails in an unexpected way.
 	 */
 	public static int getTransactionManagerStatus() throws SystemException {
-		return INSTANCE.transactionMgr.getStatus();
+		return instance.transactionMgr.getStatus();
 	}
 
 	/**
@@ -74,7 +94,7 @@ public final class GraphDbHandlerForJTA {
 	 * @return the {@link TransactionManager}
 	 */
 	public static TransactionManager getTransactionManager() {
-		return INSTANCE.transactionMgr;
+		return instance.transactionMgr;
 	}
 
 	/**
@@ -82,7 +102,7 @@ public final class GraphDbHandlerForJTA {
 	 * @return the factory
 	 */
 	public static EntityManagerFactory getEntityManagerFactory() {
-		return INSTANCE.entityManagerFact;
+		return instance.entityManagerFact;
 	}
 
 	/**
@@ -98,7 +118,7 @@ public final class GraphDbHandlerForJTA {
 	 * @return the new manager
 	 */
 	public static EntityManager getNewEntityManager() {
-		return INSTANCE.createNewEntityManager();
+		return instance.createNewEntityManager();
 	}
 
 	/**
