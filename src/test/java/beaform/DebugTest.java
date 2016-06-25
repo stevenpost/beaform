@@ -28,7 +28,7 @@ import junit.framework.TestCase;
  * @author Steven Post
  *
  */
-public class Debug extends TestCase {
+public class DebugTest extends TestCase {
 
 	/** a logger */
 	private static final Logger LOG = LoggerFactory.getLogger(DebugUtils.class);
