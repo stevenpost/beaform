@@ -26,6 +26,13 @@ public class FormulaTag implements Serializable {
 	private String name;
 
 	/**
+	 * Default constructor for Hibernate.
+	 */
+	public FormulaTag() {
+		// Default constructor for Hibernate.
+	}
+
+	/**
 	 * Constructor.
 	 * @param name The name for this tag.
 	 */

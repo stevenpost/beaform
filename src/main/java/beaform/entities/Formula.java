@@ -40,6 +40,13 @@ public class Formula {
 	private final List<FormulaTag> tags = new ArrayList<>();
 
 	/**
+	 * Default constructor, needed by hibernate.
+	 */
+	public Formula() {
+		// Default constructor for hibernate.
+	}
+
+	/**
 	 * Constructor.
 	 * @param name The name for this formula
 	 * @param description A description for this formula
