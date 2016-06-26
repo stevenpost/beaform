@@ -1,5 +1,7 @@
 package beaform.entities;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 /**
  * This class represents an ingredient
  *
@@ -52,6 +54,33 @@ public class Ingredient {
 	@Override
 	public String toString() {
 		return this.formula.getName() + " [" + this.amount + "]";
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj instanceof Ingredient) {
+			final Ingredient testIngredient = (Ingredient) obj;
+			return this.amount.equals(testIngredient.amount)
+							&& this.formula.equals(testIngredient.formula);
+		}
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().
+						append(this.amount).
+						append(this.formula).
+						toHashCode();
 	}
 
 }

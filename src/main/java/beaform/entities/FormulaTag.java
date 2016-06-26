@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 /**
  * This class represents a tag.
  *
@@ -61,4 +63,31 @@ public class FormulaTag implements Serializable {
 	public String toString() {
 		return this.name;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj instanceof FormulaTag) {
+			final FormulaTag testTag = (FormulaTag) obj;
+			return this.name.equals(testTag.name);
+		}
+
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().
+						append(this.name).
+						toHashCode();
+	}
+
 }

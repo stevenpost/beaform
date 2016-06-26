@@ -12,6 +12,8 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 /**
  * An aroma formula, the core of the whole application.
  *
@@ -23,13 +25,13 @@ public class Formula {
 
 	/** The name of this formula */
 	@Id
-	private String name;
+	private String name = "";
 
 	/** The description of this formula */
-	private String description;
+	private String description = "";
 
 	/** The total amount of this formula */
-	private String totalAmount;
+	private String totalAmount = "";
 
 	/** All ingredients that make up this formula */
 	@OneToMany
@@ -40,10 +42,10 @@ public class Formula {
 	private List<FormulaTag> tags = new ArrayList<>();
 
 	/**
-	 * Default constructor, needed by hibernate.
+	 * Default constructor, needed by Hibernate.
 	 */
 	public Formula() {
-		// Default constructor for hibernate.
+		// Default constructor for Hibernate.
 	}
 
 	/**
@@ -184,6 +186,36 @@ public class Formula {
 
 		return builder.toString();
 
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj instanceof Formula) {
+			final Formula testForm = (Formula) obj;
+			return this.name.equals(testForm.name)
+							&& this.description.equals(testForm.description)
+							&& this.totalAmount.equals(testForm.totalAmount)
+							&& this.tags.equals(testForm.tags)
+							&& this.ingredients.equals(testForm.ingredients);
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().
+						append(this.name).
+						append(this.description).
+						append(this.totalAmount).
+						append(this.tags).
+						append(this.ingredients).
+						toHashCode();
 	}
 
 }

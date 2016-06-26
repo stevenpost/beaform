@@ -93,4 +93,26 @@ public class FormulaTest extends TestCase {
 		assertEquals("This isn't the expected amount of tags.", expectedString, actualString);
 	}
 
+	/**
+	 * Test for the equals method.
+	 */
+	@Test
+	public void testEquals() {
+		final Formula form1 = new Formula("testform", "Desc", "100g");
+		final Formula form2 = new Formula("testform", "Desc", "100g");
+
+		assertEquals("Both formulas aren't equal", form1, form2);
+	}
+
+	/**
+	 * Test for the equals method.
+	 */
+	@Test
+	public void testNotEquals() {
+		final Formula form1 = new Formula("testform", "Description", "100g");
+		final Formula form2 = new Formula("testform2", "Description", "100g");
+
+		assertNotSame("Both formulas are equal", form1, form2);
+	}
+
 }
