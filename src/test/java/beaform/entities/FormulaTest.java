@@ -44,6 +44,15 @@ public class FormulaTest extends TestCase {
 	}
 
 	/**
+	 * Check the adding Ingredients.
+	 */
+	@Test
+	public void testAddIngredients() {
+		this.formula.addIngredient(new Formula(), "10%");
+		assertFalse("The list of ingredients is empty", this.formula.getIngredients().isEmpty());
+	}
+
+	/**
 	 * Check the total amount.
 	 */
 	@Test
