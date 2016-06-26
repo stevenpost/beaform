@@ -22,6 +22,24 @@ public class IngredientTest extends TestCase {
 	}
 
 	/**
+	 * Test equals on the same object.
+	 */
+	@Test
+	public void testEqualsSameObject() {
+		final Ingredient ingr = new Ingredient(new Formula(), "40%");
+		assertEquals("The ingredients are not equal", ingr, ingr);
+	}
+
+	/**
+	 * Test equals on different types.
+	 */
+	@Test
+	public void testEqualsDifferentType() {
+		final Ingredient ingr = new Ingredient(new Formula(), "50%");
+		assertEquals("The ingredients are not equal", ingr, new Object());
+	}
+
+	/**
 	 * Test not equals.
 	 */
 	@Test
