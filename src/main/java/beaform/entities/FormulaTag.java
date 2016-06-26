@@ -69,10 +69,15 @@ public class FormulaTag implements Serializable {
 	 */
 	@Override
 	public boolean equals(final Object obj) {
+		if (obj == null) {
+			return false;
+		}
+
 		if (this == obj) {
 			return true;
 		}
-		if (obj instanceof FormulaTag) {
+
+		if (this.getClass() == obj.getClass()) {
 			final FormulaTag testTag = (FormulaTag) obj;
 			return this.name.equals(testTag.name);
 		}

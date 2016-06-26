@@ -193,10 +193,15 @@ public class Formula {
 	 */
 	@Override
 	public boolean equals(final Object obj) {
+		if (obj == null) {
+			return false;
+		}
+
 		if (this == obj) {
 			return true;
 		}
-		if (obj instanceof Formula) {
+
+		if (this.getClass() == obj.getClass()) {
 			final Formula testForm = (Formula) obj;
 			return this.name.equals(testForm.name)
 							&& this.description.equals(testForm.description)
