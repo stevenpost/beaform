@@ -51,4 +51,13 @@ public class IngredientTest extends TestCase {
 		assertNotSame("The ingredients are equal", tag1.hashCode(), tag2.hashCode());
 	}
 
+	/**
+	 * Test toString.
+	 */
+	@Test
+	public void testToString() {
+		final Ingredient tag = new Ingredient(new Formula("testform", "long description", "100g"), "30%");
+		assertEquals("Not the expected result for toString()", "testform [30%]", tag.toString());
+	}
+
 }
