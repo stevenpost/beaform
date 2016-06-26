@@ -30,4 +30,13 @@ public class TransactionExceptionTest extends TestCase {
 		assertEquals("This isn't the expected cause", "This is the cause", testException.getCause().getMessage());
 	}
 
+	/**
+	 * Check raw exception.
+	 */
+	@Test
+	public void testPure() {
+		final Throwable testException = new TransactionSetupException();
+		assertNotNull("The created object is null.", testException);
+	}
+
 }
