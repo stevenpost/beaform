@@ -36,7 +36,7 @@ public class IngredientTest extends TestCase {
 	@Test
 	public void testEqualsDifferentType() {
 		final Ingredient ingr = new Ingredient(new Formula(), "50%");
-		assertEquals("The ingredients are not equal", ingr, new Object());
+		assertNotSame("The ingredients are the same", ingr, new Object());
 	}
 
 	/**
