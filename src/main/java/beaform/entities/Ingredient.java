@@ -61,13 +61,10 @@ public class Ingredient {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
 		if (this == obj) {
 			return true;
 		}
-		if (this.getClass() == obj.getClass()) {
+		if (obj != null && this.getClass() == obj.getClass()) {
 			final Ingredient testIngredient = (Ingredient) obj;
 			return this.amount.equals(testIngredient.amount)
 							&& this.formula.equals(testIngredient.formula);
