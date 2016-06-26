@@ -34,7 +34,15 @@ public class FormlaDAOTest extends TestCase {
 	public void testAddFormula() throws TransactionSetupException {
 		FormulaDAO.addFormula("Testform", "Description", "100g", ListUtils.EMPTY_LIST, ListUtils.EMPTY_LIST);
 		assertEquals("This isn't the expected formula", null,  null);
+	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@After
+	public void tearDown() {
+		DebugUtils.clearDb();
 	}
 
 }
