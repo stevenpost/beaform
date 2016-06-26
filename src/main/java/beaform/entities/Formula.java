@@ -33,11 +33,11 @@ public class Formula {
 
 	/** All ingredients that make up this formula */
 	@OneToMany
-	private final Map<String, Formula> ingredients = new ConcurrentHashMap<>();
+	private Map<String, Formula> ingredients = new ConcurrentHashMap<>();
 
 	/** All tags associated with this formula */
 	@OneToMany(fetch=FetchType.EAGER)
-	private final List<FormulaTag> tags = new ArrayList<>();
+	private List<FormulaTag> tags = new ArrayList<>();
 
 	/**
 	 * Default constructor, needed by hibernate.
