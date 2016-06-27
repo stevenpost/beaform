@@ -18,6 +18,8 @@ public final class GraphDbHandler {
 	/** A lock for accessing the instance */
 	private static final Object INSTANCELOCK = new Object();
 
+	private static boolean hasShutdownHook;
+
 	/** The global {@link EntityManager} */
 	private final EntityManager entityManager;
 
@@ -29,8 +31,13 @@ public final class GraphDbHandler {
 
 		this.entityManager = this.entityManagerFact.createEntityManager();
 
-		final ShutDownHook shutdownHook = new ShutDownHook(this.entityManager, this.entityManagerFact);
-		Runtime.getRuntime().addShutdownHook(shutdownHook);
+		synchronized (GraphDbHandler.class) {
+			if (!hasShutdownHook) {
+				final ShutDownHook shutdownHook = new ShutDownHook(this.entityManager, this.entityManagerFact);
+				Runtime.getRuntime().addShutdownHook(shutdownHook);
+				hasShutdownHook = true;
+			}
+		}
 	}
 
 	/**
