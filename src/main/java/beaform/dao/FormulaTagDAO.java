@@ -35,14 +35,12 @@ public final class FormulaTagDAO {
 	 */
 	public static FormulaTag findByName(final String name) {
 
-		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
+		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
 
 		final FormulaTag result = findByName(name, entityManager);
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Found: " + result);
 		}
-
-		GraphDbHandlerForJTA.tryCloseEntityManager(entityManager);
 
 		return result;
 	}
@@ -68,14 +66,12 @@ public final class FormulaTagDAO {
 	 */
 	public static FormulaTag findByObject(final FormulaTag tag) {
 
-		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
+		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
 
 		final FormulaTag result = findByName(tag.getName(), entityManager);
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Found: " + result);
 		}
-
-		GraphDbHandlerForJTA.tryCloseEntityManager(entityManager);
 
 		return result;
 	}

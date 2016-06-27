@@ -5,7 +5,7 @@
 	version="2.0">
 
 	<persistence-unit name="production"
-		transaction-type="JTA">
+		transaction-type="RESOURCE_LOCAL">
 		<!-- Use Hibernate OGM provider: configuration will be transparent -->
 		<provider>org.hibernate.ogm.jpa.HibernateOgmPersistence</provider>
 		<properties>
@@ -23,7 +23,7 @@
 		</properties>
 	</persistence-unit>
 	<persistence-unit name="test"
-		transaction-type="JTA">
+		transaction-type="RESOURCE_LOCAL">
 		<!-- Use Hibernate OGM provider: configuration will be transparent -->
 		<provider>org.hibernate.ogm.jpa.HibernateOgmPersistence</provider>
 		<properties>

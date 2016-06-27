@@ -5,13 +5,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.Status;
 import javax.transaction.SystemException;
-import javax.transaction.TransactionManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,17 +48,16 @@ public final class FormulaDAO {
 	 */
 	public static List<Ingredient> getIngredients(final Formula formula) throws TransactionSetupException {
 
-		final boolean hasTransaction = setupTransaction();
-
-		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
+		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
+		entityManager.getTransaction().begin();
 		final Formula retrievedFormula = findByName(formula.getName(), entityManager);
 		final List<Ingredient> retList = retrievedFormula.getIngredients();
 
-		GraphDbHandlerForJTA.tryCloseEntityManager(entityManager);
+		GraphDbHandler.tryCloseEntityManager(entityManager);
 
-		if (hasTransaction) {
-			commitTransation();
-		}
+		entityManager.getTransaction().commit();
+
+
 
 		return retList;
 	}
@@ -86,9 +80,8 @@ public final class FormulaDAO {
 	                                  final List<FormulaTag> tags)
 	                                				  throws TransactionSetupException {
 
-		final boolean hasTransaction = setupTransaction();
-
-		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
+		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
+		entityManager.getTransaction().begin();
 
 		final Formula formula = findByName(name, entityManager);
 
@@ -101,11 +94,7 @@ public final class FormulaDAO {
 
 		entityManager.persist(formula);
 
-		GraphDbHandlerForJTA.tryCloseEntityManager(entityManager);
-
-		if (hasTransaction) {
-			commitTransation();
-		}
+		entityManager.getTransaction().commit();
 	}
 
 	/**
@@ -138,9 +127,8 @@ public final class FormulaDAO {
 	                              final List<FormulaTag> tags)
 	                            				  throws TransactionSetupException {
 
-		final boolean hasTransaction = setupTransaction();
-
-		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
+		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
+		entityManager.getTransaction().begin();
 
 		final Formula formula = new Formula(name, description, totalAmount);
 
@@ -150,11 +138,8 @@ public final class FormulaDAO {
 
 		entityManager.persist(formula);
 
-		GraphDbHandlerForJTA.tryCloseEntityManager(entityManager);
+		entityManager.getTransaction().commit();
 
-		if (hasTransaction) {
-			commitTransation();
-		}
 	}
 
 	/**
@@ -224,20 +209,15 @@ public final class FormulaDAO {
 	 */
 	public static Formula findFormulaByName(final String name) throws TransactionSetupException {
 
-		final boolean hasTransaction = setupTransaction();
-
-		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
+		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
+		entityManager.getTransaction().begin();
 
 		final Formula result = findByName(name, entityManager);
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Found: " + result);
 		}
 
-		GraphDbHandlerForJTA.tryCloseEntityManager(entityManager);
-
-		if (hasTransaction) {
-			commitTransation();
-		}
+		entityManager.getTransaction().commit();
 
 		return result;
 	}
@@ -250,20 +230,16 @@ public final class FormulaDAO {
 	 * @throws TransactionSetupException
 	 */
 	public static List<Formula> findFormulasByTag(final String tagName) throws TransactionSetupException {
-		final boolean hasTransaction = setupTransaction();
 
-		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
+		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
+		entityManager.getTransaction().begin();
 
 		final List<Formula> result = findByTag(tagName, entityManager);
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Found: " + result);
 		}
 
-		GraphDbHandlerForJTA.tryCloseEntityManager(entityManager);
-
-		if (hasTransaction) {
-			commitTransation();
-		}
+		entityManager.getTransaction().commit();
 
 		return result;
 	}
@@ -285,33 +261,6 @@ public final class FormulaDAO {
 		query.setParameter("name", name);
 
 		return (Formula) query.getSingleResult();
-	}
-
-	private static boolean setupTransaction() throws TransactionSetupException {
-		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getTransactionManager();
-		try {
-			if (GraphDbHandlerForJTA.getTransactionManagerStatus() == Status.STATUS_NO_TRANSACTION) {
-				transactionMgr.begin();
-				return true;
-			}
-		}
-		catch (SystemException | NotSupportedException e) {
-			throw new TransactionSetupException("Something went wrong setting up the transaction", e);
-		}
-		return false;
-	}
-
-	private static boolean commitTransation() {
-		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getTransactionManager();
-		try {
-			transactionMgr.commit();
-		}
-		catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
-						| HeuristicRollbackException | SystemException e1) {
-			LOG.error(e1.getMessage(), e1);
-			return false;
-		}
-		return true;
 	}
 
 	private static void clearFormulaRelations(final Formula formula) {

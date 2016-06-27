@@ -4,12 +4,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
-import javax.transaction.TransactionManager;
 
 import org.junit.After;
 import org.junit.Before;
@@ -17,7 +11,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import beaform.dao.GraphDbHandlerForJTA;
+import beaform.dao.GraphDbHandler;
 import beaform.debug.DebugUtils;
 import beaform.entities.Formula;
 import junit.framework.TestCase;
@@ -42,7 +36,7 @@ public class DebugTest extends TestCase {
 	@Override
 	@Before
 	public void setUp() {
-		GraphDbHandlerForJTA.initInstance("test");
+		GraphDbHandler.initInstance("test");
 		DebugUtils.clearDb();
 	}
 
@@ -62,6 +56,7 @@ public class DebugTest extends TestCase {
 	@Test
 	public void testFill() {
 		DebugUtils.fillDb();
+		DebugUtils.listAllFormulas();
 		assertEquals("Collection doesn't contain the expected amount of formulas", 4, countFormulasInDb());
 	}
 
@@ -72,34 +67,18 @@ public class DebugTest extends TestCase {
 	@After
 	public void tearDown() {
 		DebugUtils.clearDb();
+		GraphDbHandler.clearInstance();
 	}
 
-	private int countFormulasInDb() {
-		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getTransactionManager();
-
-		try {
-			transactionMgr.begin();
-		}
-		catch (NotSupportedException | SystemException e1) {
-			LOG.error(e1.getMessage(), e1);
-			throw new IllegalStateException(e1);
-		}
-
-		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
+	private static int countFormulasInDb() {
+		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
+		entityManager.getTransaction().begin();
 
 		final Query query = entityManager.createNativeQuery(ALL_FORMULAS, Formula.class);
 		final List<Formula> formulas = query.getResultList();
 
 
-		GraphDbHandlerForJTA.tryCloseEntityManager(entityManager);
-
-		try {
-			transactionMgr.commit();
-		}
-		catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
-						| HeuristicRollbackException | SystemException e1) {
-			LOG.error(e1.getMessage(), e1);
-		}
+		entityManager.getTransaction().commit();
 
 		LOG.debug(ALL_FORMULAS);
 		return formulas.size();

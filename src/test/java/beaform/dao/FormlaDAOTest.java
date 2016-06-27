@@ -1,11 +1,15 @@
 package beaform.dao;
 
+import java.util.concurrent.Callable;
+
 import org.apache.commons.collections.ListUtils;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import beaform.debug.DebugUtils;
-import beaform.entities.TransactionSetupException;
+import beaform.entities.Formula;
+import beaform.search.SearchFormulaTask;
 import junit.framework.TestCase;
 
 /**
@@ -22,18 +26,21 @@ public class FormlaDAOTest extends TestCase {
 	@Override
 	@Before
 	public void setUp() {
-		GraphDbHandlerForJTA.initInstance("test");
+		GraphDbHandler.initInstance("test");
 		DebugUtils.clearDb();
 	}
 
 	/**
 	 * Test for adding a new formula.
-	 * @throws TransactionSetupException
+	 * @throws Exception
 	 */
 	@Test
-	public void testAddFormula() throws TransactionSetupException {
+	public void testAddFormula() throws Exception {
+		final Formula testForm = new Formula("Testform", "Description", "100g");
 		FormulaDAO.addFormula("Testform", "Description", "100g", ListUtils.EMPTY_LIST, ListUtils.EMPTY_LIST);
-		assertEquals("This isn't the expected formula", null,  null);
+		final Callable<Formula> task = new SearchFormulaTask("Testform");
+		final Formula result = task.call();
+		assertEquals("This isn't the expected formula", testForm,  result);
 	}
 
 	/**
@@ -43,6 +50,7 @@ public class FormlaDAOTest extends TestCase {
 	@After
 	public void tearDown() {
 		DebugUtils.clearDb();
+		GraphDbHandler.clearInstance();
 	}
 
 }

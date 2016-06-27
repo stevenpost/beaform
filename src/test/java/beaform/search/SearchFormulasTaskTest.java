@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import beaform.dao.GraphDbHandlerForJTA;
+import beaform.dao.GraphDbHandler;
 import beaform.debug.DebugUtils;
 import beaform.entities.Formula;
 import junit.framework.TestCase;
@@ -25,7 +25,7 @@ public class SearchFormulasTaskTest extends TestCase {
 	@Override
 	@Before
 	public void setUp() {
-		GraphDbHandlerForJTA.initInstance("test");
+		GraphDbHandler.initInstance("test");
 		DebugUtils.clearDb();
 		DebugUtils.fillDb();
 	}
@@ -48,6 +48,7 @@ public class SearchFormulasTaskTest extends TestCase {
 	@After
 	public void tearDown() {
 		DebugUtils.clearDb();
+		GraphDbHandler.clearInstance();
 	}
 
 }

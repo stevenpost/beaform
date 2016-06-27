@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import beaform.dao.GraphDbHandlerForJTA;
+import beaform.dao.GraphDbHandler;
 import beaform.gui.main.MainGUI;
 
 /**
@@ -39,8 +39,8 @@ public final class MainEntry {
 		}
 
 		LOG.debug("Initializing DB...");
-		GraphDbHandlerForJTA.initInstance("production");
-		GraphDbHandlerForJTA.getInstance();
+		GraphDbHandler.initInstance("production");
+		GraphDbHandler.getInstance();
 
 		LOG.debug("Done");
 

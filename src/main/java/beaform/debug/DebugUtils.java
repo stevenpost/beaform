@@ -6,18 +6,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
-import javax.transaction.TransactionManager;
 
-import org.hibernate.ogm.exception.EntityAlreadyExistsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import beaform.dao.GraphDbHandlerForJTA;
+import beaform.dao.GraphDbHandler;
 import beaform.entities.Formula;
 import beaform.entities.FormulaTag;
 import beaform.entities.Ingredient;
@@ -47,17 +40,9 @@ public final class DebugUtils {
 	 * List all formulas in the DB.
 	 */
 	public static void listAllFormulas() {
-		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getTransactionManager();
 
-		try {
-			transactionMgr.begin();
-		}
-		catch (NotSupportedException | SystemException e1) {
-			LOG.error(e1.getMessage(), e1);
-			return;
-		}
-
-		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
+		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
+		entityManager.getTransaction().begin();
 
 		final Query query = entityManager.createNativeQuery(ALL_FORMULAS, Formula.class);
 		final List<Formula> formulas = query.getResultList();
@@ -70,15 +55,7 @@ public final class DebugUtils {
 			LOG.debug(formula.toString());
 		}
 
-		GraphDbHandlerForJTA.tryCloseEntityManager(entityManager);
-
-		try {
-			transactionMgr.commit();
-		}
-		catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
-						| HeuristicRollbackException | SystemException e1) {
-			LOG.error(e1.getMessage(), e1);
-		}
+		entityManager.getTransaction().commit();
 
 		LOG.debug(ALL_FORMULAS);
 	}
@@ -87,17 +64,8 @@ public final class DebugUtils {
 	 * Delete everything in the DB.
 	 */
 	public static void clearDb() {
-		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getTransactionManager();
-
-		try {
-			transactionMgr.begin();
-		}
-		catch (NotSupportedException | SystemException e1) {
-			LOG.error("Error starting the transaction", e1);
-			return;
-		}
-
-		final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
+		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
+		entityManager.getTransaction().begin();
 
 		try {
 			final Query query = entityManager.createNativeQuery(DELETE_QUERY);
@@ -108,27 +76,19 @@ public final class DebugUtils {
 			LOG.trace("No result found, which is good", nre);
 		}
 
-		GraphDbHandlerForJTA.tryCloseEntityManager(entityManager);
+		entityManager.getTransaction().commit();
+		LOG.info("DB cleared");
 
-		commitTransaction(transactionMgr, "Cleared DB");
 	}
 
 	/**
 	 * Fills the database with some test values.
 	 */
 	public static void fillDb() {
-		final TransactionManager transactionMgr = GraphDbHandlerForJTA.getTransactionManager();
+		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
+		entityManager.getTransaction().begin();
 
 		try {
-			transactionMgr.begin();
-		}
-		catch (NotSupportedException | SystemException e1) {
-			LOG.error("Error starting the transaction", e1);
-			return;
-		}
-
-		try {
-			final EntityManager entityManager = GraphDbHandlerForJTA.getNewEntityManager();
 
 			final FormulaTag firstTag = createTag(entityManager, "First");
 			final FormulaTag secondTag = createTag(entityManager, "Second");
@@ -147,40 +107,11 @@ public final class DebugUtils {
 			                                                       new Ingredient(form1, "50%")};
 			addIngredientsToFormula(form2, form2Ingredients);
 
-			GraphDbHandlerForJTA.tryCloseEntityManager(entityManager);
-
-			commitTransaction(transactionMgr, "Stored");
+			entityManager.getTransaction().commit();
 		}
-		catch(PersistenceException pe) {
-			handlePersitenceException(transactionMgr, pe);
-		}
-	}
-
-	private static void commitTransaction(final TransactionManager transactionMgr, final String logMessage) {
-		try {
-			transactionMgr.commit();
-			LOG.info(logMessage);
-		}
-		catch (SecurityException | IllegalStateException | RollbackException | HeuristicMixedException
-						| HeuristicRollbackException | SystemException e1) {
-			LOG.error("Error on commit", e1);
-		}
-	}
-
-	private static void handlePersitenceException(final TransactionManager transactionMgr,
-	                                              final PersistenceException persistenceEx) {
-		if (persistenceEx.getCause() instanceof EntityAlreadyExistsException) {
-			LOG.error("Entity already exists (executing this twice?)", persistenceEx);
-		}
-		else {
-			LOG.error("Error persisting data", persistenceEx);
-		}
-		try {
-			transactionMgr.rollback();
-			LOG.error("Transaction rolled back");
-		}
-		catch (IllegalStateException | SecurityException | SystemException e) {
-			LOG.error("Error on rollback", e);
+		catch (PersistenceException pe) {
+			entityManager.getTransaction().rollback();
+			throw pe;
 		}
 	}
 
