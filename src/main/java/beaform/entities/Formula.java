@@ -209,6 +209,9 @@ public class Formula {
 		return false;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder().
