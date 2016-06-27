@@ -24,13 +24,16 @@ public final class GraphDbHandler {
 	/** The global EntityManager factory */
 	private final EntityManagerFactory entityManagerFact;
 
+	/** The shutdown hook */
+	private final ShutDownHook shutdownHook;
+
 	private GraphDbHandler(final String persistenceUnit) {
 		this.entityManagerFact = Persistence.createEntityManagerFactory(persistenceUnit);
 
 		this.entityManager = this.entityManagerFact.createEntityManager();
 
-		final ShutDownHook shutdownHook = new ShutDownHook(this.entityManager, this.entityManagerFact);
-		Runtime.getRuntime().addShutdownHook(shutdownHook);
+		this.shutdownHook = new ShutDownHook(this.entityManager, this.entityManagerFact);
+		Runtime.getRuntime().addShutdownHook(this.shutdownHook);
 	}
 
 	/**
@@ -68,6 +71,7 @@ public final class GraphDbHandler {
 			}
 			instance.entityManager.close();
 			instance.entityManagerFact.close();
+			Runtime.getRuntime().removeShutdownHook(instance.shutdownHook);
 			instance = null;
 		}
 	}
