@@ -40,8 +40,12 @@ final class ShutDownHook extends Thread {
 	@Override
 	public void run() {
 		LOG.info("Start DB shutdown");
-		this.entityManager.close();
-		this.entityManagerFact.close();
+		if (this.entityManager.isOpen()) {
+			this.entityManager.close();
+		}
+		if (this.entityManagerFact.isOpen()) {
+			this.entityManagerFact.close();
+		}
 		LOG.info("DB shutdown complete");
 	}
 }
