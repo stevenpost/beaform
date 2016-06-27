@@ -81,13 +81,4 @@ public final class GraphDbHandler {
 		return this.entityManager;
 	}
 
-	/**
-	 * Try to close the entity manager.
-	 * This method will flush the manager first.
-	 * @param entityManager the manager to close.
-	 */
-	public static void tryCloseEntityManager(final EntityManager entityManager) {
-		entityManager.flush();
-		entityManager.close();
-	}
 }

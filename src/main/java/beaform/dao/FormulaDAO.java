@@ -53,11 +53,7 @@ public final class FormulaDAO {
 		final Formula retrievedFormula = findByName(formula.getName(), entityManager);
 		final List<Ingredient> retList = retrievedFormula.getIngredients();
 
-		GraphDbHandler.tryCloseEntityManager(entityManager);
-
 		entityManager.getTransaction().commit();
-
-
 
 		return retList;
 	}
