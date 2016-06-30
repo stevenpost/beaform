@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JEditorPane;
@@ -17,13 +16,9 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import beaform.dao.FormulaDAO;
 import beaform.entities.Formula;
 import beaform.entities.Ingredient;
-import beaform.entities.TransactionSetupException;
 import beaform.gui.TreeViewFormula;
 import beaform.gui.formulaeditor.FormulaEditor;
 import beaform.gui.main.MainGUI;
@@ -37,8 +32,6 @@ import beaform.gui.main.MainGUI;
 public class FormulaTree extends JPanel implements TreeSelectionListener {
 
 	private static final long serialVersionUID = 2506532995127262817L;
-	private static final Logger LOG = LoggerFactory.getLogger(FormulaTree.class);
-
 	private static final int MIN_WIDTH = 100;
 	private static final int MIN_HEIGHT = 50;
 	private static final int PREF_WIDTH = 500;
@@ -120,22 +113,10 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 
 	private static void createNodes(final DefaultMutableTreeNode parent) {
 		final TreeViewFormula formula = (TreeViewFormula) parent.getUserObject();
-		final List<Ingredient> ingredients = getIngredientsFromFormula(formula);
+		final List<Ingredient> ingredients = FormulaDAO.getIngredients(formula.getFormula());
 		for (final Ingredient ingredient : ingredients) {
 			addIngredientNode(parent, ingredient);
 		}
-	}
-
-	private static List<Ingredient> getIngredientsFromFormula(final TreeViewFormula formula) {
-
-		try {
-			return FormulaDAO.getIngredients(formula.getFormula());
-		}
-		catch (TransactionSetupException e) {
-			LOG.error("There was a problem setting up the transaction", e);
-		}
-
-		return Collections.emptyList();
 	}
 
 	private static void addIngredientNode(final DefaultMutableTreeNode parent, final Ingredient ingredient) {

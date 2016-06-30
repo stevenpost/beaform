@@ -19,7 +19,6 @@ import javax.swing.SwingConstants;
 import beaform.dao.FormulaDAO;
 import beaform.entities.Formula;
 import beaform.entities.Ingredient;
-import beaform.entities.TransactionSetupException;
 import beaform.gui.Utilities;
 
 /**
@@ -174,9 +173,6 @@ public final class IngredientPane extends JPanel {
 		}
 		catch (NoResultException e) {
 			throw new UnsupportedOperationException("The entered formula doesn't exist", e);
-		}
-		catch (TransactionSetupException e) {
-			throw new IllegalStateException("Something went wrong when getting the existing formula", e);
 		}
 
 

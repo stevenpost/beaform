@@ -21,7 +21,6 @@ import beaform.dao.FormulaDAO;
 import beaform.entities.Formula;
 import beaform.entities.FormulaTag;
 import beaform.entities.Ingredient;
-import beaform.entities.TransactionSetupException;
 
 /**
  * This class represents a GUI for editing formulas.
@@ -80,17 +79,12 @@ public class FormulaEditor extends JPanel {
 		this.txtDescription.setText(newFormula.getDescription());
 		this.txtTotalAmount.setText(newFormula.getTotalAmount());
 
-		try {
-			final List<Ingredient> ingredientList = FormulaDAO.getIngredients(newFormula);
-			this.ingredientPane.addIngredients(ingredientList);
+		final List<Ingredient> ingredientList = FormulaDAO.getIngredients(newFormula);
+		this.ingredientPane.addIngredients(ingredientList);
 
-			// Add tags to the list
-			final Iterator<FormulaTag> tagIterator = newFormula.getTags();
-			this.tagPane.addMultipleTags(tagIterator);
-		}
-		catch (TransactionSetupException e) {
-			LOG.error("Failed to add all tags and ingredients", e);
-		}
+		// Add tags to the list
+		final Iterator<FormulaTag> tagIterator = newFormula.getTags();
+		this.tagPane.addMultipleTags(tagIterator);
 	}
 
 	/**
@@ -189,12 +183,7 @@ public class FormulaEditor extends JPanel {
 		final List<Ingredient> ingredients = getIngredientList();
 		final List<FormulaTag> tags = getTagList();
 
-		try {
-			FormulaDAO.addFormula(name, description, totalAmount, ingredients, tags);
-		}
-		catch (TransactionSetupException e1) {
-			LOG.error("Something wen wrong adding the new formula", e1);
-		}
+		FormulaDAO.addFormula(name, description, totalAmount, ingredients, tags);
 
 	}
 
@@ -218,15 +207,10 @@ public class FormulaEditor extends JPanel {
 		final List<Ingredient> ingredients = getIngredientList();
 		final List<FormulaTag> tags = getTagList();
 
-		try {
-			final String name = this.formula.getName();
-			final String description = this.txtDescription.getText();
-			final String totalAmount = this.txtTotalAmount.getText();
-			FormulaDAO.updateExisting(name, description, totalAmount, ingredients, tags);
-		}
-		catch (TransactionSetupException e1) {
-			LOG.error("Something went wrong updating the formula", e1);
-		}
+		final String name = this.formula.getName();
+		final String description = this.txtDescription.getText();
+		final String totalAmount = this.txtTotalAmount.getText();
+		FormulaDAO.updateExisting(name, description, totalAmount, ingredients, tags);
 
 	}
 

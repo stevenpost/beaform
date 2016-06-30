@@ -5,7 +5,6 @@ import java.util.concurrent.Callable;
 
 import beaform.dao.FormulaDAO;
 import beaform.entities.Formula;
-import beaform.entities.TransactionSetupException;
 
 /**
  * A search task to find formulas, based on tags assigned to them.
@@ -22,7 +21,7 @@ public final class SearchFormulasByTagTask implements Callable<List<Formula>> {
 	}
 
 	@Override
-	public List<Formula> call() throws TransactionSetupException {
+	public List<Formula> call() {
 		final String name = this.tagName;
 
 		return FormulaDAO.findFormulasByTag(name);

@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import beaform.entities.Formula;
 import beaform.entities.FormulaTag;
 import beaform.entities.Ingredient;
-import beaform.entities.TransactionSetupException;
 
 /**
  * This class handles all DB access for formulas.
@@ -41,9 +40,8 @@ public final class FormulaDAO {
 	 *
 	 * @param formula
 	 * @return a list of {@link Ingredient} objects
-	 * @throws TransactionSetupException if the transaction cannot be set up
 	 */
-	public static List<Ingredient> getIngredients(final Formula formula) throws TransactionSetupException {
+	public static List<Ingredient> getIngredients(final Formula formula) {
 
 		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
 		entityManager.getTransaction().begin();
@@ -63,15 +61,12 @@ public final class FormulaDAO {
 	 * @param totalAmount the total amount for the formula
 	 * @param ingredients a list of ingredients
 	 * @param tags a list of tags
-	 *
-	 * @throws TransactionSetupException if the transaction cannot be set up
 	 */
 	public static void updateExisting(final String name,
 	                                  final String description,
 	                                  final String totalAmount,
 	                                  final List<Ingredient> ingredients,
-	                                  final List<FormulaTag> tags)
-	                                				  throws TransactionSetupException {
+	                                  final List<FormulaTag> tags) {
 
 		LOG.debug("Start update");
 
@@ -113,15 +108,12 @@ public final class FormulaDAO {
 	 * @param totalAmount the total amount for the formula
 	 * @param ingredients a list of ingredients
 	 * @param tags a list of tags
-	 *
-	 * @throws TransactionSetupException if the transaction cannot be set up
 	 */
 	public static void addFormula(final String name,
 	                              final String description,
 	                              final String totalAmount,
 	                              final List<Ingredient> ingredients,
-	                              final List<FormulaTag> tags)
-	                            				  throws TransactionSetupException {
+	                              final List<FormulaTag> tags) {
 
 		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
 		entityManager.getTransaction().begin();
@@ -198,9 +190,8 @@ public final class FormulaDAO {
 	 *
 	 * @param name the name of the formula to look for
 	 * @return the found {@link Formula} or null if none was found.
-	 * @throws TransactionSetupException if the transaction cannot be set up
 	 */
-	public static Formula findFormulaByName(final String name) throws TransactionSetupException {
+	public static Formula findFormulaByName(final String name) {
 
 		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
 		entityManager.getTransaction().begin();
@@ -222,7 +213,7 @@ public final class FormulaDAO {
 	 * @return a list of matching formulas
 	 * @throws TransactionSetupException
 	 */
-	public static List<Formula> findFormulasByTag(final String tagName) throws TransactionSetupException {
+	public static List<Formula> findFormulasByTag(final String tagName) {
 
 		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
 		entityManager.getTransaction().begin();
