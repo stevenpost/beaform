@@ -29,9 +29,6 @@ public final class FormulaDAO {
 	 */
 	private static final Logger LOG = LoggerFactory.getLogger(FormulaDAO.class);
 
-	/** Query to search for a formula by name */
-	private static final String FORMULA_BY_NAME = "match (n:Formula { name:{name} }) return n";
-
 	/** Query to search for a formula by tag */
 	private static final String FORMULA_BY_TAG = "MATCH (t:FormulaTag { name:{name} })<-[r]-(f:Formula) RETURN f";
 
@@ -50,7 +47,7 @@ public final class FormulaDAO {
 
 		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
 		entityManager.getTransaction().begin();
-		final Formula retrievedFormula = findByName(formula.getName(), entityManager);
+		final Formula retrievedFormula = entityManager.find(Formula.class, formula.getName());
 		final List<Ingredient> retList = retrievedFormula.getIngredients();
 
 		entityManager.getTransaction().commit();
@@ -76,21 +73,24 @@ public final class FormulaDAO {
 	                                  final List<FormulaTag> tags)
 	                                				  throws TransactionSetupException {
 
+		LOG.debug("Start update");
+
 		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
 		entityManager.getTransaction().begin();
 
-		final Formula formula = findByName(name, entityManager);
+		final Formula formula = entityManager.find(Formula.class, name);
 
 		setFormulaProperties(formula, description, totalAmount);
 
 		clearFormulaRelations(formula);
 
-		addTags(tags, entityManager, formula);
+		addTags(tags, formula);
 		addIngredientsToFormula(formula, ingredients);
 
-		entityManager.persist(formula);
-
+		LOG.debug("Start commit");
 		entityManager.getTransaction().commit();
+
+		LOG.debug("End update");
 	}
 
 	/**
@@ -128,7 +128,7 @@ public final class FormulaDAO {
 
 		final Formula formula = new Formula(name, description, totalAmount);
 
-		addTags(tags, entityManager, formula);
+		addTags(tags, formula);
 
 		addIngredientsToFormula(formula, ingredients);
 
@@ -162,10 +162,10 @@ public final class FormulaDAO {
 	 *         and nested transactions are not supported.
 	 * @throws SystemException If the transaction service fails in an unexpected way.
 	 */
-	private static void addTags(final List<FormulaTag> tags, final EntityManager entityManager, final Formula formula) {
+	private static void addTags(final List<FormulaTag> tags, final Formula formula) {
 
 		for (final FormulaTag tag : tags) {
-			addTagToFormula(entityManager, formula, tag);
+			addTagToFormula(formula, tag);
 		}
 	}
 
@@ -174,12 +174,10 @@ public final class FormulaDAO {
 	 *
 	 * If the tag does not yet exist in the DB it will be added.
 	 *
-	 * @param entityManager the entity manager to use
 	 * @param formula the formula to add the tag to
 	 * @param tag the tag to add
 	 */
-	private static void addTagToFormula(final EntityManager entityManager, final Formula formula,
-	                                    final FormulaTag tag) {
+	private static void addTagToFormula(final Formula formula, final FormulaTag tag) {
 		// See if the tag exist in the DB, if so, use it.
 		FormulaTag tagToAdd;
 		try {
@@ -189,7 +187,6 @@ public final class FormulaDAO {
 			if (LOG.isDebugEnabled()) {
 				LOG.debug("No tag with name " + tag.getName() + " found: " + e1.getMessage(), e1);
 			}
-			entityManager.persist(tag);
 			tagToAdd = tag;
 		}
 		formula.addTag(tagToAdd);
@@ -208,7 +205,7 @@ public final class FormulaDAO {
 		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
 		entityManager.getTransaction().begin();
 
-		final Formula result = findByName(name, entityManager);
+		final Formula result = entityManager.find(Formula.class, name);
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Found: " + result);
 		}
@@ -250,13 +247,6 @@ public final class FormulaDAO {
 		final Query query = entityManager.createNativeQuery(FORMULA_BY_TAG, Formula.class);
 		query.setParameter("name", tagName);
 		return query.getResultList();
-	}
-
-	private static Formula findByName(final String name, final EntityManager entityManager) {
-		final Query query = entityManager.createNativeQuery(FORMULA_BY_NAME, Formula.class);
-		query.setParameter("name", name);
-
-		return (Formula) query.getSingleResult();
 	}
 
 	private static void clearFormulaRelations(final Formula formula) {
