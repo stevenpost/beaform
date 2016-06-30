@@ -15,28 +15,13 @@ import beaform.gui.debug.ListFormulasEvent;
  */
 class DebugMenu extends JMenu {
 
-	/** A serial */
 	private static final long serialVersionUID = 7646144696014243808L;
-
-	/** List all the formulas */
 	private final JMenuItem dbgAllFormulas = new JMenuItem("List all formulas");
-
-	/** Fill the DB with dummy data */
 	private final JMenuItem dbgFill = new JMenuItem("Fill DB");
-
-	/** Clear the DB */
 	private final JMenuItem dbgClear = new JMenuItem("Clear DB");
-
-	/** Draw all JPanel borders */
 	private final JMenuItem dbgBorders = new JMenuItem("Draw borders");
-
-	/** The main panel */
 	private final MainPanel panel;
 
-	/**
-	 * Creates a new instance.
-	 * @param panel the main panel
-	 */
 	public DebugMenu(final MainPanel panel) {
 		super("Debug");
 		this.panel = panel;

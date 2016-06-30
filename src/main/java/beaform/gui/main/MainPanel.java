@@ -16,18 +16,12 @@ import beaform.gui.debug.DebugUtilities;
  */
 public final class MainPanel extends JPanel {
 
-	/** A serial */
 	private static final long serialVersionUID = 1207348877338520359L;
 
 	/** An inner panel for the actual content */
 	private final JPanel panel = new JPanel(new BorderLayout());
-
-	/** A scroll panel */
 	private final JScrollPane scrollPane = new JScrollPane(this.panel);
 
-	/**
-	 * Constructor
-	 */
 	public MainPanel() {
 		super(new BorderLayout());
 		this.add(this.scrollPane);
@@ -46,10 +40,6 @@ public final class MainPanel extends JPanel {
 		this.panel.revalidate();
 	}
 
-	/**
-	 * A method to assist in debugging.
-	 * It draws borders on all descendant JPanel objects.
-	 */
 	public void enableDebugBorders() {
 		DebugUtilities.drawBorders(this.panel);
 	}

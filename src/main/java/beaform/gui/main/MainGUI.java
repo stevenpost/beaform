@@ -14,27 +14,17 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This class represents the main user interface.
- * @author Steven
+ * @author Steven Post
  *
  */
 public final class MainGUI {
 
-	/** A logger */
 	private static final Logger LOG = LoggerFactory.getLogger(MainGUI.class);
 
-	/** Window width */
 	private static final int WINDOW_WIDTH = 700;
-
-	/** Window height */
 	private static final int WINDOW_HEIGHT= 500;
-
-	/** Window X location */
 	private static final int WINDOW_X_LOCATION = 150;
-
-	/** Window Y location */
 	private static final int WINDOW_Y_LOCATION = 150;
-
-	/** The main instance of the GUI */
 	private static volatile MainGUI instance;
 
 	/** The main frame (or window) */
@@ -76,10 +66,6 @@ public final class MainGUI {
 		return menu;
 	}
 
-	/**
-	 * Gets the (current) instance.
-	 * @return the instance of this window
-	 */
 	public static MainGUI getInstance() {
 		if (instance == null) {
 			throw new IllegalStateException("The MainGUI should be initialized before trying to get the instance");
@@ -87,9 +73,6 @@ public final class MainGUI {
 		return instance;
 	}
 
-	/**
-	 * Create and show the frame.
-	 */
 	public static void createAndShowGUI() {
 		//Set the look and feel.
 		try{

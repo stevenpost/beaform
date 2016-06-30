@@ -13,11 +13,6 @@ import beaform.gui.About;
  */
 final class AboutLaunchAction implements ActionListener {
 
-	/**
-	 * Invoked when the action is triggered.
-	 *
-	 * @param event the event object
-	 */
 	@Override
 	public void actionPerformed(final ActionEvent event){
 		javax.swing.SwingUtilities.invokeLater(new About());

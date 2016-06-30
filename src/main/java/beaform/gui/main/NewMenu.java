@@ -14,18 +14,13 @@ import beaform.gui.search.SearchGui;
  */
 class NewMenu extends JMenu {
 
-	/** A serial */
 	private static final long serialVersionUID = -6144314332877169796L;
 
-	/** The search item */
 	private final JMenuItem search = new JMenuItem("Search");
 
 	/** The add item, which opens up the formula editor */
 	private final JMenuItem add = new JMenuItem("Add");
 
-	/**
-	 * Creates a new instance.
-	 */
 	public NewMenu() {
 		super("New...");
 		init();
