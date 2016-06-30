@@ -16,18 +16,12 @@ import beaform.gui.main.MainGUI;
  */
 public final class MainEntry {
 
-	/** a logger */
 	private static final Logger LOG = LoggerFactory.getLogger(MainEntry.class);
 
 	private MainEntry() {
 		// A utility class doesn't need a public constructor.
 	}
 
-	/**
-	 * The main method of the program.
-	 *
-	 * @param args
-	 */
 	public static void main(final String[] args) {
 		LOG.debug("Starting GUI...");
 
