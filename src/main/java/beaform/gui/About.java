@@ -25,47 +25,21 @@ import org.slf4j.LoggerFactory;
  */
 public class About implements Runnable {
 
-	/** Logger */
 	private static final Logger LOG = LoggerFactory.getLogger(About.class);
 
-	/** License text */
 	private static final String LICENSE = "This program is distributed under the MIT License.\n" +
 					"You can re-distribute, and/or modify the program under the conditions of the MIT License.";
-
-	/** Border size */
 	private static final int BORDERSIZE = 20;
-
-	/** Window width */
 	private static final int WINDOW_WIDTH = 200;
-
-	/** Window height */
 	private static final int WINDOW_HEIGHT= 100;
-
-	/** Window X location */
 	private static final int WINDOW_X_LOCATION = 150;
-
-	/** Window Y location */
 	private static final int WINDOW_Y_LOCATION = 150;
+	private static final JFrame mainFrame = new JFrame("About...");
+	private static final JPanel mainPanel = new JPanel();
+	private static final JLabel lblTitle = new JLabel();
+	private static final JLabel lblAuthor = new JLabel();
+	private static final JTextArea txtLicense = new JTextArea();
 
-	/** The main frame of this dialog */
-	private static JFrame frm = new JFrame("About...");
-
-	/** The main content panel of this dialog */
-	private static JPanel pane = new JPanel();
-
-	/** The title label */
-	private static JLabel lblTitle = new JLabel();
-
-	/** The author label */
-	private static JLabel lblAuthor = new JLabel();
-
-	/** The area in which to display the license text */
-	private static JTextArea txtLicense = new JTextArea();
-
-	/**
-	 * Runs the body of this task.
-	 * This should not be invoked directly.
-	 */
 	@Override
 	public void run() {
 		createAndShowGUI();
@@ -74,25 +48,22 @@ public class About implements Runnable {
 	private static void init(){
 
 		//Create pane and add components
-		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
 		lblTitle.setText("BeaForm");
-		pane.add(lblTitle);
+		mainPanel.add(lblTitle);
 
 		lblAuthor.setText("By Steven Post");
-		pane.add(lblAuthor);
+		mainPanel.add(lblAuthor);
 
 		txtLicense.setText(LICENSE);
 		txtLicense.setEditable(false);
-		pane.add(txtLicense);
+		mainPanel.add(txtLicense);
 
-		pane.setBorder(BorderFactory.createEmptyBorder(BORDERSIZE, BORDERSIZE, BORDERSIZE, BORDERSIZE));
+		mainPanel.setBorder(BorderFactory.createEmptyBorder(BORDERSIZE, BORDERSIZE, BORDERSIZE, BORDERSIZE));
 
 	}
 
-	/**
-	 * Create and show the about box.
-	 */
 	public static void createAndShowGUI() {
 		//Set the look and feel.
 		try {
@@ -109,16 +80,16 @@ public class About implements Runnable {
 		JFrame.setDefaultLookAndFeelDecorated(true);
 
 		//Create and set up the window.
-		frm.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		mainFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
 		About.init();
-		final Component contents = pane;
-		frm.getContentPane().add(contents, BorderLayout.CENTER);
-		frm.setLocation(WINDOW_X_LOCATION, WINDOW_Y_LOCATION);
+		final Component contents = mainPanel;
+		mainFrame.getContentPane().add(contents, BorderLayout.CENTER);
+		mainFrame.setLocation(WINDOW_X_LOCATION, WINDOW_Y_LOCATION);
 
 		//Display the window.
-		frm.setMinimumSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
-		frm.pack();
-		frm.setVisible(true);
+		mainFrame.setMinimumSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+		mainFrame.pack();
+		mainFrame.setVisible(true);
 	}
 }
