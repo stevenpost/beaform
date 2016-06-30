@@ -23,9 +23,6 @@ import beaform.entities.Ingredient;
  */
 public final class FormulaDAO {
 
-	/**
-	 * The logger.
-	 */
 	private static final Logger LOG = LoggerFactory.getLogger(FormulaDAO.class);
 
 	/** Query to search for a formula by tag */
@@ -35,12 +32,6 @@ public final class FormulaDAO {
 		// private constructor, because this is a utility class.
 	}
 
-	/**
-	 * Get the ingredients of a formula.
-	 *
-	 * @param formula
-	 * @return a list of {@link Ingredient} objects
-	 */
 	public static List<Ingredient> getIngredients(final Formula formula) {
 
 		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
@@ -53,15 +44,6 @@ public final class FormulaDAO {
 		return retList;
 	}
 
-	/**
-	 * Update an existing formula.
-	 *
-	 * @param name the name of the formula
-	 * @param description the description for the formula
-	 * @param totalAmount the total amount for the formula
-	 * @param ingredients a list of ingredients
-	 * @param tags a list of tags
-	 */
 	public static void updateExisting(final String name,
 	                                  final String description,
 	                                  final String totalAmount,
@@ -88,11 +70,6 @@ public final class FormulaDAO {
 		LOG.debug("End update");
 	}
 
-	/**
-	 * This method adds ingredients to a formula.
-	 * @param formula the formula
-	 * @param ingredients a list of ingredients to add
-	 */
 	private static void addIngredientsToFormula(final Formula formula, final List<Ingredient> ingredients) {
 		for (final Ingredient ingredient : ingredients) {
 			// We should only be holding existing Formulas at this point
@@ -100,15 +77,6 @@ public final class FormulaDAO {
 		}
 	}
 
-	/**
-	 * Add a new formula.
-	 *
-	 * @param name the name of the formula
-	 * @param description the description for the formula
-	 * @param totalAmount the total amount for the formula
-	 * @param ingredients a list of ingredients
-	 * @param tags a list of tags
-	 */
 	public static void addFormula(final String name,
 	                              final String description,
 	                              final String totalAmount,
@@ -130,13 +98,6 @@ public final class FormulaDAO {
 
 	}
 
-	/**
-	 * This method sets the different properties of a formula.
-	 * @param formula The formula to change.
-	 * @param name The name of the formula.
-	 * @param description The description of the formula.
-	 * @param totalAmount The total amount in this formula.
-	 */
 	private static void setFormulaProperties(final Formula formula, final String description, final String totalAmount) {
 		formula.setDescription(description);
 		formula.setTotalAmount(totalAmount);
@@ -161,14 +122,6 @@ public final class FormulaDAO {
 		}
 	}
 
-	/**
-	 * Add a tag to a formula.
-	 *
-	 * If the tag does not yet exist in the DB it will be added.
-	 *
-	 * @param formula the formula to add the tag to
-	 * @param tag the tag to add
-	 */
 	private static void addTagToFormula(final Formula formula, final FormulaTag tag) {
 		// See if the tag exist in the DB, if so, use it.
 		FormulaTag tagToAdd;
@@ -206,13 +159,6 @@ public final class FormulaDAO {
 		return result;
 	}
 
-	/**
-	 * Find formulas based on a tag.
-	 *
-	 * @param tagName The name of the tag.
-	 * @return a list of matching formulas
-	 * @throws TransactionSetupException
-	 */
 	public static List<Formula> findFormulasByTag(final String tagName) {
 
 		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
@@ -228,12 +174,6 @@ public final class FormulaDAO {
 		return result;
 	}
 
-	/**
-	 * Find formulas that are tagged by a specific tag.
-	 * @param tagName the tag
-	 * @param entityManager the entity manager
-	 * @return the list of formulas found
-	 */
 	private static List<Formula> findByTag(final String tagName, final EntityManager entityManager) {
 		final Query query = entityManager.createNativeQuery(FORMULA_BY_TAG, Formula.class);
 		query.setParameter("name", tagName);

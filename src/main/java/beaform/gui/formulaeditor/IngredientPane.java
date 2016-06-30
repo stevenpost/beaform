@@ -49,9 +49,6 @@ public final class IngredientPane extends JPanel {
 	private final JButton btnAddIngredient = new JButton("Add ingedrient");
 	private final JButton btnDelIngredient = new JButton("Del ingedrient");
 
-	/**
-	 * Constructor
-	 */
 	public IngredientPane() {
 		super(new GridBagLayout());
 		init();
@@ -152,9 +149,6 @@ public final class IngredientPane extends JPanel {
 		return returnIngredients.iterator();
 	}
 
-	/**
-	 * Add a new ingredient to the list, based on the user input.
-	 */
 	public void addNewIngredient() {
 
 		final String ingredient = this.txtName.getText();
