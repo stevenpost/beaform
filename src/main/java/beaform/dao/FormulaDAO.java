@@ -250,8 +250,8 @@ public final class FormulaDAO {
 	}
 
 	private static void clearFormulaRelations(final Formula formula) {
-		formula.clearIngredients();
-		formula.clearTags();
+		formula.deleteAllIngredients();
+		formula.deleteAllTags();
 	}
 
 }

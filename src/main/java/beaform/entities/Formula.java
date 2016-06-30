@@ -90,7 +90,7 @@ public class Formula {
 		return new Ingredient(formula, tmpAmount);
 	}
 
-	public void clearIngredients() {
+	public void deleteAllIngredients() {
 		this.ingredients.clear();
 	}
 
@@ -102,7 +102,7 @@ public class Formula {
 		return this.tags.iterator();
 	}
 
-	public void clearTags() {
+	public void deleteAllTags() {
 		this.tags.clear();
 	}
 
