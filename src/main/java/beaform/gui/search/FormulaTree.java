@@ -46,12 +46,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	private static final int DIVIDER_LOCATION = 100;
 
 	private final JTree tree;
-
-	/**
-	 * A description pane to show a more detailed
-	 * description of the selected object
-	 */
-	private final JEditorPane htmlPane;
+	private final JEditorPane descriptionPanel;
 
 	public FormulaTree(final Formula formula) {
 		super(new GridLayout(1,0));
@@ -59,7 +54,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		final DefaultMutableTreeNode top = new DefaultMutableTreeNode(new TreeViewFormula(formula));
 		createNodes(top);
 
-		this.htmlPane = new JEditorPane();
+		this.descriptionPanel = new JEditorPane();
 		this.tree = new JTree(top);
 		init();
 	}
@@ -72,7 +67,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 			addDescendantNodes(top, formula);
 		}
 
-		this.htmlPane = new JEditorPane();
+		this.descriptionPanel = new JEditorPane();
 		this.tree = new JTree(top);
 		init();
 	}
@@ -105,8 +100,8 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		final JScrollPane treeView = new JScrollPane(this.tree);
 
 		//Create the HTML viewing pane.
-		this.htmlPane.setEditable(false);
-		final JScrollPane htmlView = new JScrollPane(this.htmlPane);
+		this.descriptionPanel.setEditable(false);
+		final JScrollPane htmlView = new JScrollPane(this.descriptionPanel);
 
 		//Add the scroll panes to a split pane.
 		final JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
@@ -176,7 +171,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	private void fillDescription(final DefaultMutableTreeNode node) {
 		if (node.getUserObject() instanceof String) {
 			// The root node is selected, reflect that in the description field.
-			this.htmlPane.setText((String) node.getUserObject());
+			this.descriptionPanel.setText((String) node.getUserObject());
 			return;
 		}
 
@@ -192,7 +187,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 
 		appendDescription(formula, description);
 		appendTags(formula, description);
-		this.htmlPane.setText(description.toString());
+		this.descriptionPanel.setText(description.toString());
 	}
 
 	private static void appendTags(final TreeViewFormula formula, final StringBuilder description) {

@@ -21,20 +21,18 @@ public final class RenderFormulaSearchByTagResult implements Runnable {
 
 	private static final Logger LOG = LoggerFactory.getLogger(RenderFormulaSearchByTagResult.class);
 	private final Future<List<Formula>> searchresult;
-
-	/** The target panel */
-	private final SearchGui pane;
+	private final SearchGui targetPanel;
 
 	public RenderFormulaSearchByTagResult(final Future<List<Formula>> searchresult, final SearchGui pane) {
 		this.searchresult = searchresult;
-		this.pane = pane;
+		this.targetPanel = pane;
 	}
 
 	@Override
 	public void run() {
 		try {
 			final List<Formula> searchResult = this.searchresult.get();
-			SwingUtilities.invokeLater(new AddFormTreeToGui(searchResult, this.pane));
+			SwingUtilities.invokeLater(new AddFormTreeToGui(searchResult, this.targetPanel));
 		}
 		catch (InterruptedException | ExecutionException e1) {
 			LOG.error("An error happened getting the result from the search.", e1);

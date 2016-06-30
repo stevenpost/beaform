@@ -10,15 +10,14 @@ public enum SearchType {
 	TAG("Tag"),
 	FORMULA("Formula");
 
-	/** A display string. */
-	private final String display;
+	private final String displayName;
 
-	private SearchType(final String display) {
-		this.display = display;
+	private SearchType(final String displayName) {
+		this.displayName = displayName;
 	}
 
 	@Override
 	public String toString() {
-		return this.display;
+		return this.displayName;
 	}
 }
