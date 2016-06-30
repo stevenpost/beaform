@@ -2,8 +2,6 @@ package beaform.gui.formulaeditor;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.List;
 
@@ -39,10 +37,7 @@ public class FormulaEditor extends JPanel {
 	private final JTextField txtName = new JTextField();
 	private final JTextArea txtDescription = new JTextArea();
 	private final JTextField txtTotalAmount = new JTextField();
-
-	/** The 'save' button */
-	private final JButton btnSubmit = new JButton("Submit");
-
+	private final JButton btnSave = new JButton("Save");
 	private final TagPane tagPane = new TagPane();
 	private final IngredientPane ingredientPane = new IngredientPane();
 
@@ -57,7 +52,7 @@ public class FormulaEditor extends JPanel {
 		super();
 		init();
 
-		this.btnSubmit.addActionListener(new AddNewFormulaTrigger());
+		this.btnSave.addActionListener(event -> addNewFormula());
 	}
 
 	/**
@@ -75,7 +70,7 @@ public class FormulaEditor extends JPanel {
 
 		fillEditorFromFormula(formula);
 
-		this.btnSubmit.addActionListener(new UpdateFormulaTrigger());
+		this.btnSave.addActionListener(event -> updateFormula());
 
 	}
 
@@ -102,7 +97,7 @@ public class FormulaEditor extends JPanel {
 	 * Initialize the formula editor.
 	 *
 	 * Note that this will <strong>not</strong> add the needed behaviour
-	 * to the submit button.
+	 * to the save button.
 	 */
 	private void init() {
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -111,7 +106,7 @@ public class FormulaEditor extends JPanel {
 
 		this.add(this.ingredientPane);
 		this.add(this.tagPane);
-		this.add(this.btnSubmit);
+		this.add(this.btnSave);
 	}
 
 	private void addGeneralComponentsToPanel(final JPanel parent) {
@@ -233,40 +228,6 @@ public class FormulaEditor extends JPanel {
 			LOG.error("Something went wrong updating the formula", e1);
 		}
 
-	}
-
-	/**
-	 * An trigger for updating an existing formula.
-	 *
-	 * @author Steven Post
-	 *
-	 */
-	final class UpdateFormulaTrigger implements ActionListener {
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public void actionPerformed(final ActionEvent event) {
-			updateFormula();
-		}
-	}
-
-	/**
-	 * An trigger for adding of a new formula.
-	 *
-	 * @author Steven Post
-	 *
-	 */
-	final class AddNewFormulaTrigger implements ActionListener {
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public void actionPerformed(final ActionEvent event) {
-			addNewFormula();
-		}
 	}
 
 }
