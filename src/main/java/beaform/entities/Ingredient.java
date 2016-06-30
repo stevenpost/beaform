@@ -10,37 +10,18 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  */
 public class Ingredient {
 
-	/**
-	 * The formula of this ingredient
-	 */
 	private final Formula formula;
-	/**
-	 * The amount of this ingredient
-	 */
 	private final String amount;
 
-	/**
-	 * Constructor
-	 * @param formula The formula of this ingredient
-	 * @param amount the amount of this ingredient
-	 */
 	public Ingredient(final Formula formula, final String amount) {
 		this.formula = formula;
 		this.amount = amount;
 	}
 
-	/**
-	 * Gets the formula
-	 * @return the formula
-	 */
 	public Formula getFormula() {
 		return this.formula;
 	}
 
-	/**
-	 * Gets the amount
-	 * @return the amount
-	 */
 	public String getAmount() {
 		return this.amount;
 	}
@@ -56,9 +37,6 @@ public class Ingredient {
 		return this.formula.getName() + " [" + this.amount + "]";
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj) {
@@ -72,9 +50,6 @@ public class Ingredient {
 		return false;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder().
