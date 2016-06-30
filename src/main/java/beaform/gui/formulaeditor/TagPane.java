@@ -26,53 +26,28 @@ import beaform.gui.Utilities;
  */
 public final class TagPane extends JPanel {
 
+	private static final long serialVersionUID = -6447838745127288741L;
+
 	/** What text should be in the text field after adding the tag */
 	private static final String AFTER_ADD = "";
-
-	/** width for the name field */
 	private static final int NAME_WIDTH = 100;
-
-	/** height for the name field */
 	private static final int NAME_HEIGHT = 30;
-
-	/** width for the list */
 	private static final int LIST_WIDTH = 200;
-
-	/** height for the list */
 	private static final int LIST_HEIGHT = 90;
-
-	/** default weigthx for the constraints */
 	private static final double DEFAULT_X_WEIGTH = 0.1;
-
-	/** default weigthy for the constraints */
 	private static final double DEFAULT_Y_WEIGTH = 0.1;
-
-	/** number of columns for the tag label */
 	private static final int TAGLABEL_COLS = 2;
-
-	/** number of rows for the list of tags */
 	private static final int TAGLIST_ROWS = 3;
 
-	/** A list of formula tags */
 	private final List<FormulaTag> tags = new ArrayList<>();
 
 	/** A list model to get the list of tags to the screen */
 	private final DefaultListModel<FormulaTag> lstTagModel = new DefaultListModel<>();
 
-	/** The graphical list of tags */
 	private final JList<FormulaTag> lstTags = new JList<>(this.lstTagModel);
-
-	/** A field for the name of the new tag */
 	private final JTextField txtNewTag = new JTextField();
 
-	/**
-	 * Serial
-	 */
-	private static final long serialVersionUID = -6447838745127288741L;
 
-	/**
-	 * Creates a tag panel.
-	 */
 	public TagPane() {
 		super(new GridBagLayout());
 		init();
@@ -131,10 +106,6 @@ public final class TagPane extends JPanel {
 		this.add(btnDelTag, constraints);
 	}
 
-	/**
-	 * This method adds multiple tags to the list of tags.
-	 * @param tagList the tags to add
-	 */
 	public void addMultipleTags(final Iterator<FormulaTag> tagList) {
 		while (tagList.hasNext()) {
 			this.tags.add(tagList.next());
@@ -161,18 +132,10 @@ public final class TagPane extends JPanel {
 		this.lstTagModel.remove(index);
 	}
 
-	/**
-	 * Get all the tags from this pane.
-	 *
-	 * @return a list of tags
-	 */
 	public Iterator<FormulaTag> getTags() {
 		return this.tags.iterator();
 	}
 
-	/**
-	 * Remove the selected tags from the formula.
-	 */
 	public void removeSelectedTags() {
 		while (!this.lstTags.isSelectionEmpty()) {
 			final int selected = this.lstTags.getSelectedIndex();

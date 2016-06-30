@@ -8,17 +8,13 @@ import beaform.entities.FormulaTag;
 /**
  * This class can compare Tag objects.
  *
- * @author steven
+ * @author Steven Post
  *
  */
 public class TagComparator implements Comparator<FormulaTag>, Serializable {
 
-	/** A serial */
 	private static final long serialVersionUID = 6949518937805857985L;
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int compare(final FormulaTag firstTag, final FormulaTag secondTag) {
 		return compareNames(firstTag.getName(), secondTag.getName());

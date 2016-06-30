@@ -30,57 +30,24 @@ import beaform.gui.Utilities;
  */
 public final class IngredientPane extends JPanel {
 
-	/**
-	 * a serial
-	 */
 	private static final long serialVersionUID = 2342490028064073798L;
 
-	/** width for the amount field */
 	private static final int AMOUNT_WIDTH = 60;
-
-	/** height for the amount field */
 	private static final int AMOUNT_HEIGHT = 30;
-
-	/** minimum width for the list */
 	private static final int MIN_LIST_WIDTH = 200;
-
-	/** minimum height for the list */
 	private static final int MIN_LIST_HEIGHT = 100;
-
-	/** width for the name field */
 	private static final int NAME_WIDTH = 100;
-
-	/** height for the name field */
 	private static final int NAME_HEIGHT = 30;
-
-	/** default weigthx for the constraints */
 	private static final double DEFAULT_X_WEIGTH = 0.1;
-
-	/** default weigthy for the constraints */
 	private static final double DEFAULT_Y_WEIGTH = 0.1;
-
-	/** number of columns for the ingredient label */
 	private static final int FORMULALBL_COLS = 3;
-
-	/** number of rows for the list of ingredients */
 	private static final int FORMULALIST_ROWS = 4;
 
-	/** A list model to get the list of formulas to the screen */
 	private final DefaultListModel<Ingredient> ingredients = new DefaultListModel<>();
-
-	/** The graphical list ofr ingredients */
 	private final JList<Ingredient> lstFormulas = new JList<>(this.ingredients);
-
-	/** A text field for the name of the ingredient */
 	private final JTextField txtName = new JTextField();
-
-	/** A text field to enter the amount of the ingredient that goes into the formula */
 	private final JTextField txtAmount = new JTextField();
-
-	/** A button to add an ingredient */
 	private final JButton btnAddIngredient = new JButton("Add ingedrient");
-
-	/** A button to remove an ingredient */
 	private final JButton btnDelIngredient = new JButton("Del ingedrient");
 
 	/**
@@ -167,30 +134,16 @@ public final class IngredientPane extends JPanel {
 		this.add(this.btnDelIngredient, constraints);
 	}
 
-	/**
-	 * Add an ingredient to the list of ingredients.
-	 *
-	 * @param ingredient The ingredient to add
-	 */
 	public void addIngredient(final Ingredient ingredient) {
 		this.ingredients.addElement(ingredient);
 	}
 
-	/**
-	 * Add multiple ingredients to the list of ingredients.
-	 *
-	 * @param ingredientList A list of ingredient to add
-	 */
 	public void addIngredients(final List<Ingredient> ingredientList) {
 		for (final Ingredient ingredient : ingredientList) {
 			this.ingredients.addElement(ingredient);
 		}
 	}
 
-	/**
-	 * Gets all the ingredients.
-	 * @return all the ingredients
-	 */
 	public Iterator<Ingredient> getIngredients() {
 		final List<Ingredient> returnIngredients = new ArrayList<>();
 		final int nrOfIngredients = this.ingredients.getSize();
@@ -231,9 +184,6 @@ public final class IngredientPane extends JPanel {
 		this.txtAmount.setText("");
 	}
 
-	/**
-	 * Removes the selected ingredients from the view.
-	 */
 	public void removeSelectedIngredients() {
 		while (!this.lstFormulas.isSelectionEmpty()) {
 			final int selected = this.lstFormulas.getSelectedIndex();
