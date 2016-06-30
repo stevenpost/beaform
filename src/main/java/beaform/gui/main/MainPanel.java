@@ -27,12 +27,7 @@ public final class MainPanel extends JPanel {
 		this.add(this.scrollPane);
 	}
 
-	/**
-	 * This method will replace the current active window.
-	 *
-	 * @param comp The new window to display
-	 */
-	public void replaceWindow(final Component comp) {
+	public void replaceActiveWindow(final Component comp) {
 		if (this.panel.getComponentCount() > 0) {
 			this.panel.remove(0);
 		}

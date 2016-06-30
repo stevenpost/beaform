@@ -286,7 +286,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	 * @param form
 	 */
 	private static void launchFormulaEditor(final TreeViewFormula form) {
-		MainGUI.getInstance().replaceWindow(new FormulaEditor(form.getFormula()));
+		MainGUI.getInstance().replaceActiveWindow(new FormulaEditor(form.getFormula()));
 	}
 
 	/**

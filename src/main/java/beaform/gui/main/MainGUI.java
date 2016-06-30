@@ -26,12 +26,8 @@ public final class MainGUI {
 	private static final int WINDOW_X_LOCATION = 150;
 	private static final int WINDOW_Y_LOCATION = 150;
 	private static volatile MainGUI instance;
-
-	/** The main frame (or window) */
-	private static JFrame frm = new JFrame("BeaForm");
-
-	/** The panel containing all content of this window */
-	private final MainPanel panel = new MainPanel();
+	private static JFrame mainFrame = new JFrame("BeaForm");
+	private final MainPanel contentPanel = new MainPanel();
 
 	private MainGUI() {
 		init();
@@ -39,29 +35,24 @@ public final class MainGUI {
 
 	private void init(){
 		final JMenuBar menu = createMenu();
-		frm.setJMenuBar(menu);
+		mainFrame.setJMenuBar(menu);
 
 		LOG.debug("end init");
 	}
 
-	/**
-	 * This method will replace the current active window.
-	 *
-	 * @param comp The new window to display
-	 */
-	public void replaceWindow(final Component comp) {
-		this.panel.replaceWindow(comp);
+	public void replaceActiveWindow(final Component comp) {
+		this.contentPanel.replaceActiveWindow(comp);
 	}
 
 	private JPanel getPanel() {
-		return this.panel;
+		return this.contentPanel;
 	}
 
 	private JMenuBar createMenu() {
 		final JMenuBar menu = new JMenuBar();
 		menu.add(new NewMenu());
 		menu.add(new HelpMenu());
-		menu.add(new DebugMenu(this.panel));
+		menu.add(new DebugMenu(this.contentPanel));
 
 		return menu;
 	}
@@ -97,15 +88,15 @@ public final class MainGUI {
 		JFrame.setDefaultLookAndFeelDecorated(true);
 
 		//Create and set up the window.
-		frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		final MainGUI app = new MainGUI();
-		frm.add(app.getPanel());
-		frm.setLocation(WINDOW_X_LOCATION, WINDOW_Y_LOCATION);
+		mainFrame.add(app.getPanel());
+		mainFrame.setLocation(WINDOW_X_LOCATION, WINDOW_Y_LOCATION);
 
 		//Display the window.
-		frm.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-		frm.setVisible(true);
+		mainFrame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+		mainFrame.setVisible(true);
 
 		instance = app;
 	}

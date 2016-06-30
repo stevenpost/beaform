@@ -28,10 +28,10 @@ class NewMenu extends JMenu {
 
 	private void init() {
 		this.add(this.search);
-		this.search.addActionListener(event -> MainGUI.getInstance().replaceWindow(new SearchGui()));
+		this.search.addActionListener(event -> MainGUI.getInstance().replaceActiveWindow(new SearchGui()));
 
 		this.add(this.add);
-		this.add.addActionListener(event -> MainGUI.getInstance().replaceWindow(new FormulaEditor()));
+		this.add.addActionListener(event -> MainGUI.getInstance().replaceActiveWindow(new FormulaEditor()));
 	}
 
 }
