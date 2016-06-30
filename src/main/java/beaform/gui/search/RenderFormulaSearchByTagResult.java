@@ -19,28 +19,17 @@ import beaform.entities.Formula;
  */
 public final class RenderFormulaSearchByTagResult implements Runnable {
 
-	/** A logger */
 	private static final Logger LOG = LoggerFactory.getLogger(RenderFormulaSearchByTagResult.class);
-
-	/** The task with the search result */
 	private final Future<List<Formula>> searchresult;
 
 	/** The target panel */
 	private final SearchGui pane;
 
-	/**
-	 * Constructor.
-	 * @param searchresult The task for the search.
-	 * @param pane The target panel.
-	 */
 	public RenderFormulaSearchByTagResult(final Future<List<Formula>> searchresult, final SearchGui pane) {
 		this.searchresult = searchresult;
 		this.pane = pane;
 	}
 
-	/**
-	 * Invoked when the action occurs.
-	 */
 	@Override
 	public void run() {
 		try {

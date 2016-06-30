@@ -15,26 +15,12 @@ import beaform.entities.TransactionSetupException;
  */
 public final class SearchFormulasByTagTask implements Callable<List<Formula>> {
 
-	/**
-	 * The tag to search for
-	 */
 	private final String tagName;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param tagName the tag
-	 */
 	public SearchFormulasByTagTask(final String tagName) {
 		this.tagName = tagName;
 	}
 
-	/**
-	 * Called when the task is executed.
-	 *
-	 * @return the found formula, or null if none was found
-	 * @throws TransactionSetupException
-	 */
 	@Override
 	public List<Formula> call() throws TransactionSetupException {
 		final String name = this.tagName;

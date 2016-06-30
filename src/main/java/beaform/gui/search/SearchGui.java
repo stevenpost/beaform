@@ -29,24 +29,15 @@ import beaform.search.SearchFormulasByTagTask;
  */
 public final class SearchGui extends JPanel {
 
-	/** A serial. */
 	private static final long serialVersionUID = 2557014310487638917L;
-
-	/** A logger */
 	private static final Logger LOG = LoggerFactory.getLogger(SearchGui.class);
 
-	/** The field to type in the search */
 	private final JTextField txtSearch = new JTextField();
-
-	/** The model for the combo box. */
 	private final DefaultComboBoxModel<SearchType> comboBoxModel = new DefaultComboBoxModel<>(SearchType.values());
 
 	/** The index of the formula tree on the target panel */
 	private static final int FORMULA_TREE_LOC = 3;
 
-	/**
-	 * Constructor.
-	 */
 	public SearchGui() {
 		super(new BorderLayout());
 
@@ -83,9 +74,6 @@ public final class SearchGui extends JPanel {
 		return searchPanel;
 	}
 
-	/**
-	 * Kickoff the search.
-	 */
 	public void search() {
 		final SearchType searchType = (SearchType) this.comboBoxModel.getSelectedItem();
 

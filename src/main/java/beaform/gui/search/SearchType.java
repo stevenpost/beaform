@@ -7,9 +7,7 @@ package beaform.gui.search;
  *
  */
 public enum SearchType {
-	/** Tag */
 	TAG("Tag"),
-	/** Formula */
 	FORMULA("Formula");
 
 	/** A display string. */
@@ -19,9 +17,6 @@ public enum SearchType {
 		this.display = display;
 	}
 
-	/**
-	 * @return the display name
-	 */
 	@Override
 	public String toString() {
 		return this.display;

@@ -19,30 +19,17 @@ final class AddFormTreeToGui implements Runnable {
 	/** The target panel */
 	private final SearchGui pane;
 
-	/**
-	 * Constructor.
-	 * @param searchResult the result of the search
-	 * @param pane the target panel
-	 */
 	public AddFormTreeToGui(final List<Formula> searchResult, final SearchGui pane) {
 		this.searchResult = new ArrayList<>(searchResult);
 		this.pane = pane;
 	}
 
-	/**
-	 * Constructor.
-	 * @param searchResult the result of the search
-	 * @param pane the target panel
-	 */
 	public AddFormTreeToGui(final Formula searchResult, final SearchGui pane) {
 		this.searchResult = new ArrayList<>(1);
 		this.searchResult.add(searchResult);
 		this.pane = pane;
 	}
 
-	/**
-	 * Invoked when the action occurs.
-	 */
 	@Override
 	public void run() {
 		final FormulaTree formulaTree = new FormulaTree(this.searchResult);

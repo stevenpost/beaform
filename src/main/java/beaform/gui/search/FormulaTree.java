@@ -36,28 +36,15 @@ import beaform.gui.main.MainGUI;
  */
 public class FormulaTree extends JPanel implements TreeSelectionListener {
 
-	/** A serial used for serialization */
 	private static final long serialVersionUID = 2506532995127262817L;
-
-	/** A logger */
 	private static final Logger LOG = LoggerFactory.getLogger(FormulaTree.class);
 
-	/** Minimum width for the components */
 	private static final int MIN_WIDTH = 100;
-
-	/** Minimum height for the components */
 	private static final int MIN_HEIGHT = 50;
-
-	/** Preferred width for the components */
 	private static final int PREF_WIDTH = 500;
-
-	/** Preferred height for the components */
 	private static final int PREF_HEIGHT = 300;
-
-	/** Divider location of the split pane */
 	private static final int DIVIDER_LOCATION = 100;
 
-	/** The visual Tree object */
 	private final JTree tree;
 
 	/**
@@ -66,11 +53,6 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	 */
 	private final JEditorPane htmlPane;
 
-	/**
-	 * Constructor for the tree view.
-	 *
-	 * @param formula The formula that is the starting point of the tree
-	 */
 	public FormulaTree(final Formula formula) {
 		super(new GridLayout(1,0));
 
@@ -82,11 +64,6 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		init();
 	}
 
-	/**
-	 * Constructor for the tree view.
-	 *
-	 * @param formulas The formula that is the starting point of the tree
-	 */
 	public FormulaTree(final List<Formula> formulas) {
 		super(new GridLayout(1,0));
 
@@ -112,9 +89,6 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		createNodes(node);
 	}
 
-	/**
-	 * Initializes the tree view GUI.
-	 */
 	private void init() {
 		//Create a tree that allows one selection at a time.
 		this.tree.setToggleClickCount(0);
@@ -169,11 +143,6 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		return Collections.emptyList();
 	}
 
-	/**
-	 * Adds an ingredient node to a tree node.
-	 * @param parent the node to attach to
-	 * @param ingredient the ingredient to add as a child node
-	 */
 	private static void addIngredientNode(final DefaultMutableTreeNode parent, final Ingredient ingredient) {
 		final TreeViewFormula formula = new TreeViewFormula(ingredient);
 		final DefaultMutableTreeNode node = new DefaultMutableTreeNode(formula);
@@ -226,37 +195,21 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		this.htmlPane.setText(description.toString());
 	}
 
-	/**
-	 * @param formula
-	 * @param description
-	 */
 	private static void appendTags(final TreeViewFormula formula, final StringBuilder description) {
 		final String tagsAsString = String.join(",", formula.getTagsAsStrings());
 		description.append("\n\nTags: \n").append(tagsAsString);
 	}
 
-	/**
-	 * @param formula
-	 * @param description
-	 */
 	private static void appendDescription(final TreeViewFormula formula, final StringBuilder description) {
 		final String formDescription = formula.getDescription();
 		description.append("Descrtiption:\n").append(formDescription);
 	}
 
-	/**
-	 * @param formula
-	 * @param description
-	 */
 	private static void appendTotalAmount(final TreeViewFormula formula, final StringBuilder description) {
 		final String amount = formula.getTotalAmount();
 		description.append("Total amount: ").append(amount).append("\n\n");
 	}
 
-	/**
-	 * @param formula
-	 * @param description
-	 */
 	private static void appendAmount(final TreeViewFormula formula, final StringBuilder description) {
 		final String amount = formula.getAmount();
 		description.append("Amount: ").append(amount).append("\n\n");
@@ -282,17 +235,10 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		launchFormulaEditor(form);
 	}
 
-	/**
-	 * @param form
-	 */
 	private static void launchFormulaEditor(final TreeViewFormula form) {
 		MainGUI.getInstance().replaceActiveWindow(new FormulaEditor(form.getFormula()));
 	}
 
-	/**
-	 * @param node
-	 * @return
-	 */
 	private static TreeViewFormula extractFormula(final DefaultMutableTreeNode node) {
 		return (TreeViewFormula)node.getUserObject();
 	}

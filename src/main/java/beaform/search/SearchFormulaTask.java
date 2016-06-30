@@ -17,26 +17,12 @@ import beaform.entities.TransactionSetupException;
  */
 public final class SearchFormulaTask implements Callable<Formula> {
 
-	/**
-	 * The name of the formula to search for
-	 */
 	private final String name;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param searchForName the name of the formula to search for
-	 */
 	public SearchFormulaTask(final String searchForName) {
 		this.name = searchForName;
 	}
 
-	/**
-	 * Called when the task is executed.
-	 *
-	 * @return the found formula, or null if none was found
-	 * @throws TransactionSetupException
-	 */
 	@Override
 	public Formula call() throws NotSupportedException, SystemException, TransactionSetupException {
 
