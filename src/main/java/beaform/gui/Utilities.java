@@ -15,21 +15,12 @@ public final class Utilities {
 		// Utility classes don't need public constructors.
 	}
 
-	/**
-	 * Set a bold font on the component.
-	 * @param comp The component to set the font of.
-	 */
 	public static void setBoldFont(final Component comp) {
 		final Font font = comp.getFont();
 		final Font boldFont = createBoldFont(font);
 		comp.setFont(boldFont);
 	}
 
-	/**
-	 * Create a bold variant on a font.
-	 * @param font the original font
-	 * @return the bold variant
-	 */
 	public static Font createBoldFont(final Font font) {
 		return new Font(font.getName(), Font.BOLD, font.getSize());
 	}

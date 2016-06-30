@@ -14,11 +14,6 @@ import beaform.debug.ListFormulasTask;
  */
 public class ListFormulasEvent implements ActionListener {
 
-	/**
-	 * Invoked when the action occurs.
-	 *
-	 * @param event the event object
-	 */
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 

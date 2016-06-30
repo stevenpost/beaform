@@ -33,31 +33,19 @@ import beaform.entities.TransactionSetupException;
  */
 public class FormulaEditor extends JPanel {
 
-	/** A serial */
 	private static final long serialVersionUID = 2557014310487638917L;
-
-	/** A logger */
 	private static final Logger LOG = LoggerFactory.getLogger(FormulaEditor.class);
 
-	/** A text field for the name of the formula */
 	private final JTextField txtName = new JTextField();
-
-	/** A text field for the description of a formula */
 	private final JTextArea txtDescription = new JTextArea();
-
-	/** A text field for the total amount of a formula */
 	private final JTextField txtTotalAmount = new JTextField();
 
 	/** The 'save' button */
 	private final JButton btnSubmit = new JButton("Submit");
 
-	/** The panel with all the tag components */
 	private final TagPane tagPane = new TagPane();
-
-	/** The panel with all the ingredient components */
 	private final IngredientPane ingredientPane = new IngredientPane();
 
-	/** The formula that needs editing */
 	private transient Formula formula;
 
 	/**
@@ -194,10 +182,6 @@ public class FormulaEditor extends JPanel {
 		parent.add(panel);
 	}
 
-	/**
-	 * Invoked when the action occurs.
-	 *
-	 */
 	public void addNewFormula() {
 		final String name = this.txtName.getText();
 		final String description = this.txtDescription.getText();
@@ -229,9 +213,6 @@ public class FormulaEditor extends JPanel {
 		return IteratorUtils.toList(tags);
 	}
 
-	/**
-	 * Updates an existing formula.
-	 */
 	public void updateFormula() {
 		if (LOG.isInfoEnabled()) {
 			final String name = this.formula.getName();

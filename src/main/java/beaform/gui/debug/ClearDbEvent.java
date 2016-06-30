@@ -14,11 +14,6 @@ import beaform.debug.ClearDbTask;
  */
 public class ClearDbEvent implements ActionListener {
 
-	/**
-	 * Invoked when the action occurs.
-	 *
-	 * @param event the event object
-	 */
 	@Override
 	public void actionPerformed(final ActionEvent event) {
 		DbTaskHandler.addTask(new ClearDbTask());
