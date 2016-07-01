@@ -50,8 +50,6 @@ public final class FormulaDAO {
 	                                  final List<Ingredient> ingredients,
 	                                  final List<FormulaTag> tags) {
 
-		LOG.debug("Start update");
-
 		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
 		entityManager.getTransaction().begin();
 
@@ -64,10 +62,9 @@ public final class FormulaDAO {
 		addTags(tags, formula);
 		addIngredientsToFormula(formula, ingredients);
 
-		LOG.debug("Start commit");
 		entityManager.getTransaction().commit();
 
-		LOG.debug("End update");
+		entityManager.detach(formula);
 	}
 
 	private static void addIngredientsToFormula(final Formula formula, final List<Ingredient> ingredients) {
@@ -95,6 +92,8 @@ public final class FormulaDAO {
 		entityManager.persist(formula);
 
 		entityManager.getTransaction().commit();
+
+		entityManager.detach(formula);
 
 	}
 
@@ -155,6 +154,7 @@ public final class FormulaDAO {
 		}
 
 		entityManager.getTransaction().commit();
+		entityManager.detach(result);
 
 		return result;
 	}
@@ -170,6 +170,10 @@ public final class FormulaDAO {
 		}
 
 		entityManager.getTransaction().commit();
+
+		for (final Formula formula : result) {
+			entityManager.detach(formula);
+		}
 
 		return result;
 	}

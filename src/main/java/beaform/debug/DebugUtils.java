@@ -108,6 +108,12 @@ public final class DebugUtils {
 			addIngredientsToFormula(form2, form2Ingredients);
 
 			entityManager.getTransaction().commit();
+			entityManager.detach(form1);
+			entityManager.detach(form2);
+			entityManager.detach(form3);
+			entityManager.detach(form4);
+			entityManager.detach(firstTag);
+			entityManager.detach(secondTag);
 		}
 		catch (PersistenceException pe) {
 			entityManager.getTransaction().rollback();
