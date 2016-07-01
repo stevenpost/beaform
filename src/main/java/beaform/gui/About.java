@@ -34,11 +34,11 @@ public class About implements Runnable {
 	private static final int WINDOW_HEIGHT= 100;
 	private static final int WINDOW_X_LOCATION = 150;
 	private static final int WINDOW_Y_LOCATION = 150;
-	private static final JFrame mainFrame = new JFrame("About...");
-	private static final JPanel mainPanel = new JPanel();
-	private static final JLabel lblTitle = new JLabel();
-	private static final JLabel lblAuthor = new JLabel();
-	private static final JTextArea txtLicense = new JTextArea();
+	private static final JFrame MAIN_FRAME = new JFrame("About...");
+	private static final JPanel MAIN_PANEL = new JPanel();
+	private static final JLabel TITLE = new JLabel("BeaForm");
+	private static final JLabel AUTHOR = new JLabel("By Steven Post");
+	private static final JTextArea LICENCE_FIELD = new JTextArea(LICENSE);
 
 	@Override
 	public void run() {
@@ -48,19 +48,15 @@ public class About implements Runnable {
 	private static void init(){
 
 		//Create pane and add components
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+		MAIN_PANEL.setLayout(new BoxLayout(MAIN_PANEL, BoxLayout.Y_AXIS));
 
-		lblTitle.setText("BeaForm");
-		mainPanel.add(lblTitle);
+		MAIN_PANEL.add(TITLE);
+		MAIN_PANEL.add(AUTHOR);
 
-		lblAuthor.setText("By Steven Post");
-		mainPanel.add(lblAuthor);
+		LICENCE_FIELD.setEditable(false);
+		MAIN_PANEL.add(LICENCE_FIELD);
 
-		txtLicense.setText(LICENSE);
-		txtLicense.setEditable(false);
-		mainPanel.add(txtLicense);
-
-		mainPanel.setBorder(BorderFactory.createEmptyBorder(BORDERSIZE, BORDERSIZE, BORDERSIZE, BORDERSIZE));
+		MAIN_PANEL.setBorder(BorderFactory.createEmptyBorder(BORDERSIZE, BORDERSIZE, BORDERSIZE, BORDERSIZE));
 
 	}
 
@@ -80,16 +76,16 @@ public class About implements Runnable {
 		JFrame.setDefaultLookAndFeelDecorated(true);
 
 		//Create and set up the window.
-		mainFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		MAIN_FRAME.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
 		About.init();
-		final Component contents = mainPanel;
-		mainFrame.getContentPane().add(contents, BorderLayout.CENTER);
-		mainFrame.setLocation(WINDOW_X_LOCATION, WINDOW_Y_LOCATION);
+		final Component contents = MAIN_PANEL;
+		MAIN_FRAME.getContentPane().add(contents, BorderLayout.CENTER);
+		MAIN_FRAME.setLocation(WINDOW_X_LOCATION, WINDOW_Y_LOCATION);
 
 		//Display the window.
-		mainFrame.setMinimumSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
-		mainFrame.pack();
-		mainFrame.setVisible(true);
+		MAIN_FRAME.setMinimumSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+		MAIN_FRAME.pack();
+		MAIN_FRAME.setVisible(true);
 	}
 }
