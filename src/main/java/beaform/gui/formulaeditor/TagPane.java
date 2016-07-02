@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 
 import beaform.entities.FormulaTag;
 import beaform.gui.Utilities;
+import beaform.utilities.TagComparator;
 
 /**
  * Represents the GUI panel inside the editor to manage the tags.

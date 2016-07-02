@@ -1,4 +1,4 @@
-package beaform.gui.formulaeditor;
+package beaform.utilities;
 
 import java.io.Serializable;
 import java.util.Comparator;
