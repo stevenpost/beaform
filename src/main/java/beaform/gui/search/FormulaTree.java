@@ -191,12 +191,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		description.append("Amount: ").append(amount).append("\n\n");
 	}
 
-	/**
-	 * This method is executed when double clicking on a node.
-	 *
-	 * It opens the formula editor with the formula of the node.
-	 */
-	public void doubleClick() {
+	public void editSelectedFormula() {
 		//Returns the last path element of the selection.
 		//This method is useful only when the selection model allows a single selection.
 		final DefaultMutableTreeNode node = (DefaultMutableTreeNode)
@@ -239,7 +234,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		@Override
 		public void mousePressed(final MouseEvent event) {
 			if(event.getClickCount() == DOUBLE_CLICK) {
-				doubleClick();
+				editSelectedFormula();
 			}
 		}
 	}
