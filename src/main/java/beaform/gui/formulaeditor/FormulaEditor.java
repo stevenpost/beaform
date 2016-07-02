@@ -171,7 +171,7 @@ public class FormulaEditor extends JPanel {
 		parent.add(panel);
 	}
 
-	public void addNewFormula() {
+	private void addNewFormula() {
 		final String name = this.txtName.getText();
 		final String description = this.txtDescription.getText();
 		final String totalAmount = this.txtTotalAmount.getText();
@@ -197,7 +197,7 @@ public class FormulaEditor extends JPanel {
 		return IteratorUtils.toList(tags);
 	}
 
-	public void updateFormula() {
+	private void updateFormula() {
 		if (LOG.isInfoEnabled()) {
 			final String name = this.formula.getName();
 			final String description = this.txtDescription.getText();
