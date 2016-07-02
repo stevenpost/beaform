@@ -3,9 +3,10 @@ package beaform.gui.main;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import beaform.gui.debug.ClearDbEvent;
-import beaform.gui.debug.FillDbEvent;
-import beaform.gui.debug.ListFormulasEvent;
+import beaform.dao.DbTaskHandler;
+import beaform.debug.ClearDbTask;
+import beaform.debug.FillDbTask;
+import beaform.debug.ListFormulasTask;
 
 /**
  * The debug menu for the main menu.
@@ -30,16 +31,16 @@ class DebugMenu extends JMenu {
 
 	private void init() {
 		this.add(this.dbgAllFormulas);
-		this.dbgAllFormulas.addActionListener(new ListFormulasEvent());
+		this.dbgAllFormulas.addActionListener(event -> DbTaskHandler.addTask(new ListFormulasTask()));
 
 		this.add(this.dbgFill);
-		this.dbgFill.addActionListener(new FillDbEvent());
+		this.dbgFill.addActionListener(event -> DbTaskHandler.addTask(new FillDbTask()));
 
 		this.add(this.dbgClear);
-		this.dbgClear.addActionListener(new ClearDbEvent());
+		this.dbgClear.addActionListener(event -> DbTaskHandler.addTask(new ClearDbTask()));
 
 		this.add(this.dbgBorders);
-		this.dbgBorders.addActionListener(new DrawAllPanelBordersAction(this.panel));
+		this.dbgBorders.addActionListener(event -> this.panel.enableDebugBorders());
 
 	}
 }
