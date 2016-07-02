@@ -11,9 +11,6 @@ import junit.framework.TestCase;
  */
 public class FormulaTagTest extends TestCase {
 
-	/**
-	 * Test equals.
-	 */
 	@Test
 	public static void testEquals() {
 		final FormulaTag tag1 = new FormulaTag("test");
@@ -21,9 +18,6 @@ public class FormulaTagTest extends TestCase {
 		assertEquals("The tags are not equal", tag1, tag2);
 	}
 
-	/**
-	 * Test not equals.
-	 */
 	@Test
 	public static void testNotEqual() {
 		final FormulaTag tag1 = new FormulaTag("test1");
