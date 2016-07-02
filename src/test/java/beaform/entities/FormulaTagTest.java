@@ -15,7 +15,7 @@ public class FormulaTagTest extends TestCase {
 	 * Test equals.
 	 */
 	@Test
-	public void testEquals() {
+	public static void testEquals() {
 		final FormulaTag tag1 = new FormulaTag("test");
 		final FormulaTag tag2 = new FormulaTag("test");
 		assertEquals("The tags are not equal", tag1, tag2);
@@ -25,7 +25,7 @@ public class FormulaTagTest extends TestCase {
 	 * Test not equals.
 	 */
 	@Test
-	public void testNotEqual() {
+	public static void testNotEqual() {
 		final FormulaTag tag1 = new FormulaTag("test1");
 		final FormulaTag tag2 = new FormulaTag("test2");
 		assertFalse("The tags are equal", tag1.equals(tag2));
@@ -35,7 +35,7 @@ public class FormulaTagTest extends TestCase {
 	 * Test hash.
 	 */
 	@Test
-	public void testEqualsHash() {
+	public static void testEqualsHash() {
 		final FormulaTag tag1 = new FormulaTag("test");
 		final FormulaTag tag2 = new FormulaTag("test");
 		assertEquals("The tags are not equal", tag1.hashCode(), tag2.hashCode());
@@ -45,7 +45,7 @@ public class FormulaTagTest extends TestCase {
 	 * Test not equals.
 	 */
 	@Test
-	public void testNotEqualsHash() {
+	public static void testNotEqualsHash() {
 		final FormulaTag tag1 = new FormulaTag("test1");
 		final FormulaTag tag2 = new FormulaTag("test2");
 		assertFalse("The tags are equal", tag1.hashCode() == tag2.hashCode());
