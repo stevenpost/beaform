@@ -42,6 +42,14 @@ public class FormlaDAOTest extends TestCase {
 		FormulaDAO.addFormula("Testform", "Description", "100g", ListUtils.EMPTY_LIST, ListUtils.EMPTY_LIST);
 		final Callable<Formula> task = new SearchFormulaTask("Testform");
 		final Formula result = task.call();
+		assertNotNull("No result found", result);
+	}
+
+	@Test
+	public void testAddFormulaWithContent() throws Exception {
+		FormulaDAO.addFormula("Testform", "Description", "100g", ListUtils.EMPTY_LIST, ListUtils.EMPTY_LIST);
+		final Callable<Formula> task = new SearchFormulaTask("Testform");
+		final Formula result = task.call();
 		assertNotNull(result);
 	}
 
