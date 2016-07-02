@@ -29,7 +29,7 @@ public class Formula {
 	private String description = "";
 	private String totalAmount = "";
 
-	@OneToMany
+	@OneToMany(cascade=CascadeType.PERSIST)
 	private Map<String, Formula> ingredients = new ConcurrentHashMap<>();
 
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)

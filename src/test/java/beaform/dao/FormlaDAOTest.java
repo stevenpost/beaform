@@ -1,5 +1,6 @@
 package beaform.dao;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -11,6 +12,7 @@ import org.junit.Test;
 
 import beaform.debug.DebugUtils;
 import beaform.entities.Formula;
+import beaform.entities.FormulaTag;
 import beaform.entities.Ingredient;
 import beaform.search.SearchFormulaTask;
 import junit.framework.TestCase;
@@ -47,7 +49,11 @@ public class FormlaDAOTest extends TestCase {
 
 	@Test
 	public void testAddFormulaWithContent() throws Exception {
-		FormulaDAO.addFormula("Testform", "Description", "100g", ListUtils.EMPTY_LIST, ListUtils.EMPTY_LIST);
+		final List<FormulaTag> tags = new ArrayList<>();
+		tags.add(new FormulaTag("testtag"));
+		final List<Ingredient> ingredients = new ArrayList<>();
+		ingredients.add(new Ingredient(new Formula("TestForm", "Some desc", "100%"), "100%"));
+		FormulaDAO.addFormula("Testform", "Description", "100g", ingredients, tags);
 		final Callable<Formula> task = new SearchFormulaTask("Testform");
 		final Formula result = task.call();
 		assertNotNull(result);
@@ -73,8 +79,8 @@ public class FormlaDAOTest extends TestCase {
 	@Test
 	public void testFindFormulaByName() throws Exception {
 		DebugUtils.fillDb();
-		GraphDbHandler.getInstance().getEntityManager().clear();
 		final Formula formula = FormulaDAO.findFormulaByName("Form1");
+		assertNotNull("The formula wasn't found", formula);
 		assertEquals("This isn't the expected formula", "Form1", formula.getName());
 	}
 
