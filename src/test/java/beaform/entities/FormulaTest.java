@@ -106,7 +106,7 @@ public class FormulaTest extends TestCase {
 	 * Test for the equals method.
 	 */
 	@Test
-	public void testEquals() {
+	public static void testEquals() {
 		final Formula form1 = new Formula("testform", "Desc", "100g");
 		final Formula form2 = new Formula("testform", "Desc", "100g");
 
@@ -117,7 +117,7 @@ public class FormulaTest extends TestCase {
 	 * Test for the equals method.
 	 */
 	@Test
-	public void testNotEquals() {
+	public static void testNotEquals() {
 		final Formula form1 = new Formula("testform", "Description", "100g");
 		final Formula form2 = new Formula("testform2", "Description", "100g");
 
