@@ -19,9 +19,22 @@ public class FormulaTagTest extends TestCase {
 	}
 
 	@Test
+	public static void testEqualsSameObject() {
+		final FormulaTag tag1 = new FormulaTag("test");
+		assertTrue("The tags are not equal", tag1.equals(tag1));
+	}
+
+	@Test
 	public static void testNotEqual() {
 		final FormulaTag tag1 = new FormulaTag("test1");
 		final FormulaTag tag2 = new FormulaTag("test2");
+		assertFalse("The tags are equal", tag1.equals(tag2));
+	}
+
+	@Test
+	public static void testNotEqualDifferentType() {
+		final FormulaTag tag1 = new FormulaTag("test1");
+		final Object tag2 = new Object();
 		assertFalse("The tags are equal", tag1.equals(tag2));
 	}
 
