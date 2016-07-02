@@ -63,7 +63,6 @@ public final class FormulaDAO {
 		addIngredientsToFormula(formula, ingredients);
 
 		entityManager.getTransaction().commit();
-
 		entityManager.detach(formula);
 	}
 
@@ -86,13 +85,10 @@ public final class FormulaDAO {
 		final Formula formula = new Formula(name, description, totalAmount);
 
 		addTags(tags, formula);
-
 		addIngredientsToFormula(formula, ingredients);
 
 		entityManager.persist(formula);
-
 		entityManager.getTransaction().commit();
-
 		entityManager.detach(formula);
 
 	}
@@ -115,7 +111,6 @@ public final class FormulaDAO {
 	 * @throws SystemException If the transaction service fails in an unexpected way.
 	 */
 	private static void addTags(final List<FormulaTag> tags, final Formula formula) {
-
 		for (final FormulaTag tag : tags) {
 			addTagToFormula(formula, tag);
 		}
