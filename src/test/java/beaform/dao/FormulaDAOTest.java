@@ -23,7 +23,7 @@ import junit.framework.TestCase;
  * @author Steven Post
  *
  */
-public class FormlaDAOTest extends TestCase {
+public class FormulaDAOTest extends TestCase {
 
 	/**
 	 * {@inheritDoc}
