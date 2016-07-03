@@ -33,10 +33,6 @@ public class FormulaDAOTest {
 		DebugUtils.clearDb();
 	}
 
-	/**
-	 * Test for adding a new formula.
-	 * @throws Exception
-	 */
 	@Test
 	public void testAddFormula() throws Exception {
 		FormulaDAO.addFormula("Testform", "Description", "100g", ListUtils.EMPTY_LIST, ListUtils.EMPTY_LIST);
@@ -57,10 +53,6 @@ public class FormulaDAOTest {
 		assertNotNull(result);
 	}
 
-	/**
-	 * Test retrieving ingredients
-	 * @throws Exception
-	 */
 	@Test
 	public void testGetIngredients() throws Exception {
 		DebugUtils.fillDb();
@@ -70,10 +62,6 @@ public class FormulaDAOTest {
 		assertEquals("The ingredient list isn't the expected size", 1, ingredients.size());
 	}
 
-	/**
-	 * Test finding a formula by name
-	 * @throws Exception
-	 */
 	@Test
 	public void testFindFormulaByName() throws Exception {
 		DebugUtils.fillDb();
@@ -82,10 +70,6 @@ public class FormulaDAOTest {
 		assertEquals("This isn't the expected formula", "Form1", formula.getName());
 	}
 
-	/**
-	 * Test finding formulas by tag
-	 * @throws Exception
-	 */
 	@Test
 	public void testFindFormulasByTag() throws Exception {
 		DebugUtils.fillDb();
@@ -93,10 +77,6 @@ public class FormulaDAOTest {
 		assertEquals("This isn't the number of found formulas", 2, formulas.size());
 	}
 
-	/**
-	 * Test updating an existing formula
-	 * @throws Exception
-	 */
 	@Test
 	public void testUpdateExisting() throws Exception {
 		DebugUtils.fillDb();

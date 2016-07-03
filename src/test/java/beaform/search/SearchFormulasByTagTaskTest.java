@@ -28,10 +28,6 @@ public class SearchFormulasByTagTaskTest {
 		DebugUtils.fillDb();
 	}
 
-	/**
-	 * Test the search method.
-	 * @throws Exception
-	 */
 	@Test
 	public void testSearch() throws Exception {
 		final Callable<List<Formula>> task = new SearchFormulasByTagTask("First");

@@ -40,9 +40,6 @@ public class FormulaTagTest {
 		assertFalse("The tags are equal", tag1.equals(tag2));
 	}
 
-	/**
-	 * Test hash.
-	 */
 	@Test
 	public void testEqualsHash() {
 		final FormulaTag tag1 = new FormulaTag("test");
@@ -50,9 +47,6 @@ public class FormulaTagTest {
 		assertEquals("The tags are not equal", tag1.hashCode(), tag2.hashCode());
 	}
 
-	/**
-	 * Test not equals.
-	 */
 	@Test
 	public void testNotEqualsHash() {
 		final FormulaTag tag1 = new FormulaTag("test1");

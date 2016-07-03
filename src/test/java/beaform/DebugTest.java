@@ -25,10 +25,8 @@ import beaform.entities.Formula;
  */
 public class DebugTest {
 
-	/** a logger */
 	private static final Logger LOG = LoggerFactory.getLogger(DebugUtils.class);
 
-	/** The query to list all formulas */
 	private static final String ALL_FORMULAS = "match (n:Formula) return n";
 
 	@Before
@@ -37,9 +35,6 @@ public class DebugTest {
 		DebugUtils.clearDb();
 	}
 
-	/**
-	 * Test a simple cleanup.
-	 */
 	@Test
 	public void testCleanupSimple() {
 		DebugUtils.fillDb();
@@ -47,9 +42,6 @@ public class DebugTest {
 		assertEquals("Collection is not empty", 0, countFormulasInDb());
 	}
 
-	/**
-	 * Test for filling the DB.
-	 */
 	@Test
 	public void testFill() {
 		DebugUtils.fillDb();
