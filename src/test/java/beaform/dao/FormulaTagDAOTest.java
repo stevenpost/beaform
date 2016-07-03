@@ -1,5 +1,8 @@
 package beaform.dao;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
@@ -7,12 +10,9 @@ import javax.persistence.PersistenceException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import beaform.debug.DebugUtils;
 import beaform.entities.FormulaTag;
-import junit.framework.TestCase;
 
 /**
  * Test for the tag DAO.
@@ -20,14 +20,8 @@ import junit.framework.TestCase;
  * @author Steven Post
  *
  */
-public class FormulaTagDAOTest extends TestCase {
+public class FormulaTagDAOTest {
 
-	private static final Logger LOG = LoggerFactory.getLogger(FormulaTagDAOTest.class);
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	@Before
 	public void setUp() {
 		GraphDbHandler.initInstance("test");
@@ -53,21 +47,20 @@ public class FormulaTagDAOTest extends TestCase {
 		DebugUtils.fillDb();
 		final EntityManager entitymanager = GraphDbHandler.getInstance().getEntityManager();
 		try {
-		entitymanager.getTransaction().begin();
+			entitymanager.getTransaction().begin();
 
-		FormulaTagDAO.findByObject(new FormulaTag("Form1"));
+			FormulaTagDAO.findByObject(new FormulaTag("Form1"));
 
-		entitymanager.getTransaction().commit();
+			entitymanager.getTransaction().commit();
 		}
 		catch (PersistenceException pe) {
 			if (entitymanager.getTransaction().isActive()) {
 				entitymanager.getTransaction().rollback();
 			}
-			LOG.debug("Something went wrong", pe);
+			throw pe;
 		}
 	}
 
-	@Override
 	@After
 	public void tearDown() {
 		DebugUtils.clearDb();

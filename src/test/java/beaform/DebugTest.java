@@ -1,5 +1,7 @@
 package beaform;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -14,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import beaform.dao.GraphDbHandler;
 import beaform.debug.DebugUtils;
 import beaform.entities.Formula;
-import junit.framework.TestCase;
 
 /**
  * Test some debugging utilities
@@ -22,7 +23,7 @@ import junit.framework.TestCase;
  * @author Steven Post
  *
  */
-public class DebugTest extends TestCase {
+public class DebugTest {
 
 	/** a logger */
 	private static final Logger LOG = LoggerFactory.getLogger(DebugUtils.class);
@@ -30,10 +31,6 @@ public class DebugTest extends TestCase {
 	/** The query to list all formulas */
 	private static final String ALL_FORMULAS = "match (n:Formula) return n";
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	@Before
 	public void setUp() {
 		GraphDbHandler.initInstance("test");
@@ -60,10 +57,6 @@ public class DebugTest extends TestCase {
 		assertEquals("Collection doesn't contain the expected amount of formulas", 4, countFormulasInDb());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	@After
 	public void tearDown() {
 		DebugUtils.clearDb();

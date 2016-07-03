@@ -1,12 +1,13 @@
 package beaform;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import beaform.entities.Formula;
 import beaform.entities.Ingredient;
 import beaform.gui.TreeViewFormula;
-import junit.framework.TestCase;
 
 /**
  * A testing class for the {@link TreeViewFormula}
@@ -14,7 +15,7 @@ import junit.framework.TestCase;
  * @author Steven Post
  *
  */
-public class TreeViewFormulaTest extends TestCase {
+public class TreeViewFormulaTest {
 
 	/** An arbitrary test amount */
 	private static final String AMOUNT = "50%";
@@ -25,10 +26,6 @@ public class TreeViewFormulaTest extends TestCase {
 	/** The formula is initialized during test setup */
 	private Formula form;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	@Before
 	public void setUp() {
 		this.form = new Formula(NAME, "Test formula", "0%");

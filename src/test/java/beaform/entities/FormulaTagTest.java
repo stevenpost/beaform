@@ -1,38 +1,40 @@
 package beaform.entities;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  * Test for the formula tag.
  * @author Steven Post
  *
  */
-public class FormulaTagTest extends TestCase {
+public class FormulaTagTest {
 
 	@Test
-	public static void testEquals() {
+	public void testEquals() {
 		final FormulaTag tag1 = new FormulaTag("test");
 		final FormulaTag tag2 = new FormulaTag("test");
 		assertEquals("The tags are not equal", tag1, tag2);
 	}
 
 	@Test
-	public static void testEqualsSameObject() {
+	public void testEqualsSameObject() {
 		final FormulaTag tag1 = new FormulaTag("test");
 		assertTrue("The tags are not equal", tag1.equals(tag1));
 	}
 
 	@Test
-	public static void testNotEqual() {
+	public void testNotEqual() {
 		final FormulaTag tag1 = new FormulaTag("test1");
 		final FormulaTag tag2 = new FormulaTag("test2");
 		assertFalse("The tags are equal", tag1.equals(tag2));
 	}
 
 	@Test
-	public static void testNotEqualDifferentType() {
+	public void testNotEqualDifferentType() {
 		final FormulaTag tag1 = new FormulaTag("test1");
 		final Object tag2 = new Object();
 		assertFalse("The tags are equal", tag1.equals(tag2));
@@ -42,7 +44,7 @@ public class FormulaTagTest extends TestCase {
 	 * Test hash.
 	 */
 	@Test
-	public static void testEqualsHash() {
+	public void testEqualsHash() {
 		final FormulaTag tag1 = new FormulaTag("test");
 		final FormulaTag tag2 = new FormulaTag("test");
 		assertEquals("The tags are not equal", tag1.hashCode(), tag2.hashCode());
@@ -52,7 +54,7 @@ public class FormulaTagTest extends TestCase {
 	 * Test not equals.
 	 */
 	@Test
-	public static void testNotEqualsHash() {
+	public void testNotEqualsHash() {
 		final FormulaTag tag1 = new FormulaTag("test1");
 		final FormulaTag tag2 = new FormulaTag("test2");
 		assertFalse("The tags are equal", tag1.hashCode() == tag2.hashCode());

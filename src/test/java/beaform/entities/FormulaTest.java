@@ -1,27 +1,24 @@
 package beaform.entities;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
 import java.util.List;
 
 import org.apache.commons.collections.IteratorUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import junit.framework.TestCase;
-
 /**
  * Test the formula entity.
  * @author Steven Post
  *
  */
-public class FormulaTest extends TestCase {
+public class FormulaTest {
 
 	/** The formula to check. */
 	private Formula formula;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	@Before
 	public void setUp() {
 		this.formula = new Formula("name", "Description is long", "100g");
@@ -106,7 +103,7 @@ public class FormulaTest extends TestCase {
 	 * Test for the equals method.
 	 */
 	@Test
-	public static void testEquals() {
+	public void testEquals() {
 		final Formula form1 = new Formula("testform", "Desc", "100g");
 		final Formula form2 = new Formula("testform", "Desc", "100g");
 
@@ -117,7 +114,7 @@ public class FormulaTest extends TestCase {
 	 * Test for the equals method.
 	 */
 	@Test
-	public static void testNotEquals() {
+	public void testNotEquals() {
 		final Formula form1 = new Formula("testform", "Description", "100g");
 		final Formula form2 = new Formula("testform2", "Description", "100g");
 

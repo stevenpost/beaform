@@ -1,5 +1,8 @@
 package beaform.dao;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,7 +18,6 @@ import beaform.entities.Formula;
 import beaform.entities.FormulaTag;
 import beaform.entities.Ingredient;
 import beaform.search.SearchFormulaTask;
-import junit.framework.TestCase;
 
 /**
  * Test for the formula DAO.
@@ -23,12 +25,8 @@ import junit.framework.TestCase;
  * @author Steven Post
  *
  */
-public class FormulaDAOTest extends TestCase {
+public class FormulaDAOTest {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	@Before
 	public void setUp() {
 		GraphDbHandler.initInstance("test");
@@ -108,10 +106,6 @@ public class FormulaDAOTest extends TestCase {
 		assertEquals("This isn't the expected description", "New description", result.getDescription());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	@After
 	public void tearDown() {
 		DebugUtils.clearDb();
