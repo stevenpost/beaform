@@ -43,7 +43,7 @@ public final class FormulaTagDAO {
 	 * This method assumes we are already in a transaction.
 	 *
 	 * @param tag The tag to find
-	 * @return the tag that was found, null if no tag was found
+	 * @return the tag that was found
 	 */
 	public static FormulaTag findByObject(final FormulaTag tag) {
 
