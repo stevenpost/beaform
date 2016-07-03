@@ -121,7 +121,7 @@ public class FormulaTest extends TestCase {
 		final Formula form1 = new Formula("testform", "Description", "100g");
 		final Formula form2 = new Formula("testform2", "Description", "100g");
 
-		assertNotSame("Both formulas are equal", form1, form2);
+		assertFalse("Both formulas are equal", form1.equals(form2));
 	}
 
 }
