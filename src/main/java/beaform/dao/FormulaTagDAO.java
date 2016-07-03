@@ -27,25 +27,6 @@ public final class FormulaTagDAO {
 	}
 
 	/**
-	 * Find a tag by its name.
-	 * This method assumes we are already in a transaction.
-	 *
-	 * @param name the name of the tag
-	 * @return the tag that was found, null if no tag was found
-	 */
-	public static FormulaTag findByName(final String name) {
-
-		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
-
-		final FormulaTag result = findByName(name, entityManager);
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("Found: " + result);
-		}
-
-		return result;
-	}
-
-	/**
 	 * Find a tag in the DB by its name.
 	 * @param name the name of the tag to look for
 	 * @param entityManager the entity manager
