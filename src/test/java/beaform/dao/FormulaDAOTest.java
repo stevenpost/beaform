@@ -18,7 +18,7 @@ import beaform.search.SearchFormulaTask;
 import junit.framework.TestCase;
 
 /**
- * Test for the formula DA.
+ * Test for the formula DAO.
  *
  * @author Steven Post
  *
