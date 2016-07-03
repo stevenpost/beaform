@@ -123,8 +123,8 @@ public final class FormulaDAO {
 			tagToAdd = FormulaTagDAO.findByObject(tag);
 		}
 		catch (NoResultException e1) {
-			if (LOG.isDebugEnabled()) {
-				LOG.debug("No tag with name " + tag.getName() + " found: " + e1.getMessage(), e1);
+			if (LOG.isTraceEnabled()) {
+				LOG.trace("No tag with name " + tag.getName() + " found: " + e1.getMessage(), e1);
 			}
 			tagToAdd = tag;
 		}
