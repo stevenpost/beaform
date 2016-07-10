@@ -51,7 +51,7 @@ public class FormulaDAOTest {
 		FormulaDAO.addFormula("Testform", "Description", "100g", ingredients, tags);
 		final Callable<Formula> task = new SearchFormulaTask("Testform");
 		final Formula result = task.call();
-		assertNotNull(result);
+		assertNotNull("Unable to find the newly created formula", result);
 	}
 
 	@Test
