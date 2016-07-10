@@ -1,4 +1,4 @@
-package beaform.gui;
+package beaform.gui.search;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -11,12 +11,12 @@ import java.util.concurrent.Future;
  * @author Steven Post
  *
  */
-public final class VariousTaskHandler {
+public final class SearchTaskHandler {
 
 	/** An executor service for handling DB tasks */
 	private static final ExecutorService EXEC_SERVICE = Executors.newSingleThreadExecutor();
 
-	private VariousTaskHandler() {
+	private SearchTaskHandler() {
 		// Utility classes don't have constructors.
 	}
 
