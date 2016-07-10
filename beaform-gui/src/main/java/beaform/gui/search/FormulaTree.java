@@ -19,7 +19,6 @@ import javax.swing.tree.TreeSelectionModel;
 import beaform.dao.FormulaDAO;
 import beaform.entities.Formula;
 import beaform.entities.Ingredient;
-import beaform.gui.TreeViewFormula;
 import beaform.gui.formulaeditor.FormulaEditor;
 import beaform.gui.main.MainGUI;
 

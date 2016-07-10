@@ -1,4 +1,4 @@
-package beaform.gui;
+package beaform.gui.search;
 
 import java.util.List;
 
