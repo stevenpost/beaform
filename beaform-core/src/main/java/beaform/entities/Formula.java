@@ -134,13 +134,21 @@ public class Formula {
 
 		if (obj != null && this.getClass() == obj.getClass()) {
 			final Formula testForm = (Formula) obj;
-			return this.name.equals(testForm.name)
-							&& this.description.equals(testForm.description)
-							&& this.totalAmount.equals(testForm.totalAmount)
-							&& this.tags.equals(testForm.tags)
-							&& this.ingredients.equals(testForm.ingredients);
+			return areSimpleMembersEqual(testForm)
+							&& areTagsAndIngredientsEquals(testForm);
 		}
 		return false;
+	}
+
+	private boolean areSimpleMembersEqual(Formula testForm) {
+		return this.name.equals(testForm.name)
+						&& this.totalAmount.equals(testForm.totalAmount)
+						&& this.description.equals(testForm.description);
+	}
+
+	private boolean areTagsAndIngredientsEquals(Formula testForm) {
+		return this.tags.equals(testForm.tags)
+						&& this.ingredients.equals(testForm.ingredients);
 	}
 
 	@Override
