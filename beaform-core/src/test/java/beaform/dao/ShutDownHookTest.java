@@ -15,10 +15,36 @@ public class ShutDownHookTest {
 
 	@Test
 	public void testHook() throws InterruptedException {
-		EntityManagerFactory entityManagerFact = Persistence.createEntityManagerFactory("test");
-		EntityManager entityManager = entityManagerFact.createEntityManager();
-		ShutDownHook hook = new ShutDownHook(entityManager, entityManagerFact);
-		CountDownLatch latch = new CountDownLatch(1);
+		final EntityManagerFactory entityManagerFact = Persistence.createEntityManagerFactory("test");
+		final EntityManager entityManager = entityManagerFact.createEntityManager();
+		final ShutDownHook hook = new ShutDownHook(entityManager, entityManagerFact);
+		final CountDownLatch latch = new CountDownLatch(1);
+
+		Runnable withsync = new Runnable() {
+
+			@Override
+			public void run() {
+				hook.run();
+				latch.countDown();
+			}
+		};
+		Thread thread = new Thread(withsync);
+		thread.start();
+		latch.await();
+		assertFalse("Entity manager isn't closed", entityManager.isOpen());
+		assertFalse("Entity manager factory isn't closed", entityManagerFact.isOpen());
+	}
+
+	@Test
+	public void testHookAlreadyClosed() throws InterruptedException {
+		final EntityManagerFactory entityManagerFact = Persistence.createEntityManagerFactory("test");
+		final EntityManager entityManager = entityManagerFact.createEntityManager();
+		final ShutDownHook hook = new ShutDownHook(entityManager, entityManagerFact);
+
+		entityManager.close();
+		entityManagerFact.close();
+
+		final CountDownLatch latch = new CountDownLatch(1);
 
 		Runnable withsync = new Runnable() {
 
