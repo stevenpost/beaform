@@ -50,9 +50,15 @@ public final class MainGUI {
 
 	private JMenuBar createMenu() {
 		final JMenuBar menu = new JMenuBar();
-		menu.add(new NewMenu());
-		menu.add(new HelpMenu());
-		menu.add(new DebugMenu(this.contentPanel));
+
+		SubMenu newmenu = new NewMenu();
+		newmenu.attachToMenuBar(menu);
+
+		SubMenu helpmenu = new HelpMenu();
+		helpmenu.attachToMenuBar(menu);
+
+		SubMenu debugMenu = new DebugMenu(this.contentPanel);
+		debugMenu.attachToMenuBar(menu);
 
 		return menu;
 	}

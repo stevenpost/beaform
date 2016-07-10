@@ -1,6 +1,7 @@
 package beaform.gui.main;
 
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 /**
@@ -9,20 +10,23 @@ import javax.swing.JMenuItem;
  * @author Steven Post
  *
  */
-class HelpMenu extends JMenu {
+class HelpMenu implements SubMenu {
 
-	private static final long serialVersionUID = -3648158434819085351L;
-
+	private final JMenu menu = new JMenu("Help");
 	private final JMenuItem about = new JMenuItem("About...");
 
 	public HelpMenu() {
-		super("Help");
 		init();
 	}
 
 	private void init() {
-		this.add(this.about);
+		this.menu.add(this.about);
 		this.about.addActionListener(new AboutLaunchAction());
+	}
+
+	@Override
+	public void attachToMenuBar(final JMenuBar menuBar) {
+		menuBar.add(this.menu);
 	}
 
 }

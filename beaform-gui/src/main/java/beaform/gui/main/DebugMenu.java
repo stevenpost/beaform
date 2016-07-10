@@ -1,6 +1,7 @@
 package beaform.gui.main;
 
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import beaform.debug.AsyncDebugUtils;
@@ -11,9 +12,9 @@ import beaform.debug.AsyncDebugUtils;
  * @author Steven Post
  *
  */
-class DebugMenu extends JMenu {
+class DebugMenu implements SubMenu {
 
-	private static final long serialVersionUID = 7646144696014243808L;
+	private final JMenu menu = new JMenu("Debug");
 	private final JMenuItem dbgAllFormulas = new JMenuItem("List all formulas");
 	private final JMenuItem dbgFill = new JMenuItem("Fill DB");
 	private final JMenuItem dbgClear = new JMenuItem("Clear DB");
@@ -21,23 +22,26 @@ class DebugMenu extends JMenu {
 	private final MainPanel panel;
 
 	public DebugMenu(final MainPanel panel) {
-		super("Debug");
 		this.panel = panel;
 		init();
 	}
 
 	private void init() {
-		this.add(this.dbgAllFormulas);
+		this.menu.add(this.dbgAllFormulas);
 		this.dbgAllFormulas.addActionListener(event -> AsyncDebugUtils.listAllFormulas());
 
-		this.add(this.dbgFill);
+		this.menu.add(this.dbgFill);
 		this.dbgFill.addActionListener(event -> AsyncDebugUtils.fillDb());
 
-		this.add(this.dbgClear);
+		this.menu.add(this.dbgClear);
 		this.dbgClear.addActionListener(event -> AsyncDebugUtils.clearDb());
 
-		this.add(this.dbgBorders);
+		this.menu.add(this.dbgBorders);
 		this.dbgBorders.addActionListener(event -> this.panel.enableDebugBorders());
+	}
 
+	@Override
+	public void attachToMenuBar(JMenuBar menuBar) {
+		menuBar.add(this.menu);
 	}
 }
