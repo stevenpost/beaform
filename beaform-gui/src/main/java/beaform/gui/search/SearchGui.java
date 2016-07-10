@@ -113,7 +113,7 @@ public final class SearchGui extends JPanel {
 		if (this.getComponentCount() > FORMULA_TREE_LOC) {
 			this.remove(FORMULA_TREE_LOC);
 		}
-		this.add(formulaTree, BorderLayout.CENTER);
+		formulaTree.addToPanel(this, BorderLayout.CENTER);
 		this.revalidate();
 	}
 

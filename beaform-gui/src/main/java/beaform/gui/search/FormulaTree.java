@@ -28,21 +28,19 @@ import beaform.gui.main.MainGUI;
  * @author Steven Post
  *
  */
-public class FormulaTree extends JPanel implements TreeSelectionListener {
+public class FormulaTree implements TreeSelectionListener {
 
-	private static final long serialVersionUID = 2506532995127262817L;
 	private static final int MIN_WIDTH = 100;
 	private static final int MIN_HEIGHT = 50;
 	private static final int PREF_WIDTH = 500;
 	private static final int PREF_HEIGHT = 300;
 	private static final int DIVIDER_LOCATION = 100;
 
+	private final JPanel panel = new JPanel(new GridLayout(1,0));
 	private final JTree tree;
 	private final JEditorPane descriptionPanel;
 
 	public FormulaTree(final Formula formula) {
-		super(new GridLayout(1,0));
-
 		final DefaultMutableTreeNode top = new DefaultMutableTreeNode(new TreeViewFormula(formula));
 		createNodes(top);
 
@@ -52,7 +50,6 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 	}
 
 	public FormulaTree(final List<Formula> formulas) {
-		super(new GridLayout(1,0));
 
 		final DefaultMutableTreeNode top = new DefaultMutableTreeNode("Search results");
 		for (final Formula formula : formulas) {
@@ -62,6 +59,10 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		this.descriptionPanel = new JEditorPane();
 		this.tree = new JTree(top);
 		init();
+	}
+
+	public void addToPanel(final JPanel panelToAttachTo, final Object constraints) {
+		panelToAttachTo.add(this.panel, constraints);
 	}
 
 	/**
@@ -107,7 +108,7 @@ public class FormulaTree extends JPanel implements TreeSelectionListener {
 		splitPane.setPreferredSize(new Dimension(PREF_WIDTH, PREF_HEIGHT));
 
 		//Add the split pane to this panel.
-		add(splitPane);
+		this.panel.add(splitPane);
 	}
 
 	private static void createNodes(final DefaultMutableTreeNode parent) {
