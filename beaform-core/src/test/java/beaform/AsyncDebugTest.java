@@ -3,6 +3,7 @@ package beaform;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -14,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import beaform.dao.GraphDbHandler;
+import beaform.debug.AsyncDebugUtils;
 import beaform.debug.DebugUtils;
 import beaform.entities.Formula;
 
@@ -24,9 +26,9 @@ import beaform.entities.Formula;
  *
  */
 @SuppressWarnings("static-method")
-public class DebugTest {
+public class AsyncDebugTest {
 
-	private static final Logger LOG = LoggerFactory.getLogger(DebugTest.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AsyncDebugTest.class);
 
 	private static final String ALL_FORMULAS = "match (n:Formula) return n";
 
@@ -37,16 +39,16 @@ public class DebugTest {
 	}
 
 	@Test
-	public void testCleanupSimple() {
-		DebugUtils.fillDb();
-		DebugUtils.clearDb();
+	public void testCleanupSimple() throws InterruptedException, ExecutionException {
+		AsyncDebugUtils.fillDb().get();
+		AsyncDebugUtils.clearDb().get();
 		assertEquals("Collection is not empty", 0, countFormulasInDb());
 	}
 
 	@Test
-	public void testFill() {
-		DebugUtils.fillDb();
-		DebugUtils.listAllFormulas();
+	public void testFill() throws InterruptedException, ExecutionException {
+		AsyncDebugUtils.fillDb().get();
+		AsyncDebugUtils.listAllFormulas().get();
 		assertEquals("Collection doesn't contain the expected amount of formulas", 4, countFormulasInDb());
 	}
 
