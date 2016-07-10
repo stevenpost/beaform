@@ -23,6 +23,7 @@ import beaform.entities.Formula;
  * @author Steven Post
  *
  */
+@SuppressWarnings("static-method")
 public class DebugTest {
 
 	private static final Logger LOG = LoggerFactory.getLogger(DebugUtils.class);

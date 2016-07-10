@@ -25,6 +25,7 @@ import beaform.search.SearchFormulaTask;
  * @author Steven Post
  *
  */
+@SuppressWarnings("static-method")
 public class FormulaDAOTest {
 
 	@Before
@@ -63,7 +64,7 @@ public class FormulaDAOTest {
 	}
 
 	@Test
-	public void testFindFormulaByName() throws Exception {
+	public void testFindFormulaByName() {
 		DebugUtils.fillDb();
 		final Formula formula = FormulaDAO.findFormulaByName("Form1");
 		assertNotNull("The formula wasn't found", formula);
@@ -71,7 +72,7 @@ public class FormulaDAOTest {
 	}
 
 	@Test
-	public void testFindFormulasByTag() throws Exception {
+	public void testFindFormulasByTag() {
 		DebugUtils.fillDb();
 		final List<Formula> formulas = FormulaDAO.findFormulasByTag("First");
 		assertEquals("This isn't the number of found formulas", 2, formulas.size());
