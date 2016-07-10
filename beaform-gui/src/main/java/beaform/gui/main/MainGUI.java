@@ -11,13 +11,15 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import beaform.gui.InterchangableWindowDisplayer;
+
 
 /**
  * This class represents the main user interface.
  * @author Steven Post
  *
  */
-public final class MainGUI {
+public final class MainGUI implements InterchangableWindowDisplayer {
 
 	private static final Logger LOG = LoggerFactory.getLogger(MainGUI.class);
 
@@ -40,6 +42,7 @@ public final class MainGUI {
 		LOG.debug("end init");
 	}
 
+	@Override
 	public void replaceActiveWindow(final Component comp) {
 		this.contentPanel.replaceActiveWindow(comp);
 	}
