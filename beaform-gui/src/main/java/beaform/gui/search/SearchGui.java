@@ -15,7 +15,6 @@ import javax.swing.JTextField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import beaform.dao.DbTaskHandler;
 import beaform.entities.Formula;
 import beaform.gui.VariousTaskHandler;
 import beaform.search.SearchFormulaTask;
@@ -95,14 +94,14 @@ public final class SearchGui extends JPanel {
 	private void searchTag() {
 		final String searchText = this.txtSearch.getText();
 		final SearchFormulasByTagTask task = new SearchFormulasByTagTask(searchText);
-		final Future<List<Formula>> searchresult = DbTaskHandler.addTask(task);
+		final Future<List<Formula>> searchresult = VariousTaskHandler.addTask(task);
 		VariousTaskHandler.addTask(new RenderFormulaSearchByTagResult(searchresult, this));
 	}
 
 	private void searchFormula() {
 		final String searchText = this.txtSearch.getText();
 		final SearchFormulaTask task = new SearchFormulaTask(searchText);
-		final Future<Formula> searchresult = DbTaskHandler.addTask(task);
+		final Future<Formula> searchresult = VariousTaskHandler.addTask(task);
 		VariousTaskHandler.addTask(new RenderFormulaSearchResult(searchresult, this));
 	}
 
