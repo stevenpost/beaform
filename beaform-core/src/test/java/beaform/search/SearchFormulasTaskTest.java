@@ -17,6 +17,7 @@ import junit.framework.TestCase;
  * @author Steven Post
  *
  */
+@SuppressWarnings("static-method")
 public class SearchFormulasTaskTest extends TestCase {
 
 	/**

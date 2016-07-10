@@ -10,6 +10,7 @@ import org.junit.Test;
  * @author Steven Post
  *
  */
+@SuppressWarnings("static-method")
 public class GraphDbHandlerTest {
 
 	@Test(expected=IllegalStateException.class)

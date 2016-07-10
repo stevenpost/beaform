@@ -19,6 +19,7 @@ import beaform.entities.Formula;
  * @author Steven Post
  *
  */
+@SuppressWarnings("static-method")
 public class SearchFormulasByTagTaskTest {
 
 	@Before

@@ -14,6 +14,7 @@ import org.junit.Test;
  * @author Steven Post
  *
  */
+@SuppressWarnings("static-method")
 public class FormulaTest {
 
 	private Formula formula;

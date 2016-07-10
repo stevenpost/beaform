@@ -11,6 +11,7 @@ import org.junit.Test;
  * @author Steven Post
  *
  */
+@SuppressWarnings("static-method")
 public class FormulaTagTest {
 
 	@Test

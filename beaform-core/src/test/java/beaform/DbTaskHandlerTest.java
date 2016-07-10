@@ -18,6 +18,7 @@ import beaform.dao.DbTaskHandler;
  * @author Steven Post
  *
  */
+@SuppressWarnings("static-method")
 public class DbTaskHandlerTest {
 
 	static final Logger LOG = LoggerFactory.getLogger(DbTaskHandlerTest.class);

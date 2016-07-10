@@ -11,6 +11,7 @@ import beaform.entities.FormulaTag;
  * @author Steven Post
  *
  */
+@SuppressWarnings("static-method")
 public class TagComparatorTest {
 
 	@Test
