@@ -30,10 +30,10 @@ public class Formula {
 	private String totalAmount = "";
 
 	@OneToMany(cascade=CascadeType.PERSIST)
-	private Map<String, Formula> ingredients = new ConcurrentHashMap<>();
+	private final Map<String, Formula> ingredients = new ConcurrentHashMap<>();
 
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
-	private List<FormulaTag> tags = new ArrayList<>();
+	@OneToMany(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
+	private final List<FormulaTag> tags = new ArrayList<>();
 
 	public Formula() {
 		// Default constructor for Hibernate.
