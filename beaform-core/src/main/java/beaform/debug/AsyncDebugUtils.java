@@ -7,15 +7,15 @@ import java.util.concurrent.Future;
 public class AsyncDebugUtils {
 	private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
 
-	public static Future<?> clearDb() {
-		return EXECUTOR.submit(new ClearDbTask());
+	public static Future<String> clearDb() {
+		return EXECUTOR.submit(new ClearDbTask(), "Done");
 	}
 
-	public static Future<?> listAllFormulas() {
-		return EXECUTOR.submit(new ListFormulasTask());
+	public static Future<String> listAllFormulas() {
+		return EXECUTOR.submit(new ListFormulasTask(), "Done");
 	}
 
-	public static Future<?> fillDb() {
-		return EXECUTOR.submit(new FillDbTask());
+	public static Future<String> fillDb() {
+		return EXECUTOR.submit(new FillDbTask(), "Done");
 	}
 }
