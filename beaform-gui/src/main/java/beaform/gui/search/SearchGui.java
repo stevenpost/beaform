@@ -15,9 +15,9 @@ import javax.swing.JTextField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import beaform.VariousTaskHandler;
 import beaform.dao.DbTaskHandler;
 import beaform.entities.Formula;
+import beaform.gui.VariousTaskHandler;
 import beaform.search.SearchFormulaTask;
 import beaform.search.SearchFormulasByTagTask;
 

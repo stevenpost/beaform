@@ -1,4 +1,4 @@
-package beaform;
+package beaform.gui;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
