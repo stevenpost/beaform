@@ -1,4 +1,4 @@
-package beaform;
+package beaform.gui;
 
 import java.lang.reflect.InvocationTargetException;
 
