@@ -4,9 +4,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import beaform.gui.formulaeditor.FormulaEditor;
-import beaform.gui.search.SearchGui;
-
 /**
  * The new menu for the application.
  *
@@ -27,10 +24,10 @@ class NewMenu implements SubMenu {
 
 	private void init() {
 		this.menu.add(this.search);
-		this.search.addActionListener(event -> new SearchGui(MainGUI.getInstance()));
+		this.search.addActionListener(new SearchGuiLaunchAction(MainGUI.getInstance()));
 
 		this.menu.add(this.add);
-		this.add.addActionListener(event -> new FormulaEditor(MainGUI.getInstance()));
+		this.add.addActionListener(new FormulaEditorLaunchAction(MainGUI.getInstance()));
 	}
 
 	@Override

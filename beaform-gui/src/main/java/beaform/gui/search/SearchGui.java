@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 
 import beaform.entities.Formula;
 import beaform.gui.InterchangableWindow;
-import beaform.gui.InterchangableWindowDisplayer;
 import beaform.gui.formulaeditor.FormulaEditor;
 import beaform.gui.search.tree.FormulaTree;
 import beaform.search.SearchFormulaTask;
@@ -23,20 +22,17 @@ import beaform.search.SearchFormulasByTagTask;
  * @author Steven Post
  *
  */
-public final class SearchGui implements InterchangableWindow, Observer {
+public final class SearchGui extends Observable implements InterchangableWindow, Observer {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SearchGui.class);
 
-	private final InterchangableWindowDisplayer icwd;
 	private final SearchGuiUI searchguiUI;
 
 	/** The index of the formula tree on the target panel */
 	private static final int FORMULA_TREE_LOC = 3;
 
-	public SearchGui(InterchangableWindowDisplayer icwd) {
-		this.icwd = icwd;
+	public SearchGui() {
 		this.searchguiUI = new SearchGuiUI(this);
-		this.replace();
 	}
 
 	public void search() {
@@ -86,14 +82,15 @@ public final class SearchGui implements InterchangableWindow, Observer {
 
 	@Override
 	public void replace() {
-		this.icwd.replaceActiveWindow(this.searchguiUI.getPanel());
+		this.notifyObservers(this.searchguiUI.getPanel());
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		if (o instanceof FormulaTree && arg instanceof Formula) {
 			Formula form = (Formula) arg;
-			new FormulaEditor(this.icwd, form);
+			FormulaEditor editor = new FormulaEditor(form);
+			this.notifyObservers(editor);
 		}
 	}
 

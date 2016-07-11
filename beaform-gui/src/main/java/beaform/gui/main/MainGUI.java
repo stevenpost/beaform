@@ -1,6 +1,7 @@
 package beaform.gui.main;
 
 import java.awt.Component;
+import java.util.Observable;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
@@ -11,6 +12,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import beaform.gui.InterchangableWindow;
 import beaform.gui.InterchangableWindowDisplayer;
 
 
@@ -108,6 +110,17 @@ public final class MainGUI implements InterchangableWindowDisplayer {
 		mainFrame.setVisible(true);
 
 		instance = app;
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		if (arg instanceof Component) {
+			replaceActiveWindow((Component) arg);
+		}
+		else if (arg instanceof InterchangableWindow) {
+			InterchangableWindow icw = (InterchangableWindow) arg;
+			icw.replace();
+		}
 	}
 
 }

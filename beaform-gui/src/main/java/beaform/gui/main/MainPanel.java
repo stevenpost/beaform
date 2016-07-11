@@ -2,6 +2,7 @@ package beaform.gui.main;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.util.Observable;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -39,6 +40,13 @@ public final class MainPanel extends JPanel implements InterchangableWindowDispl
 
 	public void enableDebugBorders() {
 		DebugUtilities.drawBorders(this.panel);
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		if (arg instanceof Component) {
+			replaceActiveWindow((Component) arg);
+		}
 	}
 
 }

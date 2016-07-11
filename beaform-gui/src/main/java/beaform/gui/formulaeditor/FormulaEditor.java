@@ -1,6 +1,7 @@
 package beaform.gui.formulaeditor;
 
 import java.util.List;
+import java.util.Observable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +11,6 @@ import beaform.entities.Formula;
 import beaform.entities.FormulaTag;
 import beaform.entities.Ingredient;
 import beaform.gui.InterchangableWindow;
-import beaform.gui.InterchangableWindowDisplayer;
 
 /**
  * This class represents a GUI for editing formulas.
@@ -18,35 +18,28 @@ import beaform.gui.InterchangableWindowDisplayer;
  * @author Steven Post
  *
  */
-public final class FormulaEditor implements InterchangableWindow {
+public final class FormulaEditor extends Observable implements InterchangableWindow {
 
 	private static final Logger LOG = LoggerFactory.getLogger(FormulaEditor.class);
 
-	private final InterchangableWindowDisplayer icwd;
 	private final FormulaEditorUI editorUI;
 
 	/**
 	 * Main constructor for this editor to add a new formula.
 	 * If you want to edit an existing one,
 	 * use the overridden constructor that takes a formula as argument.
-	 * @param icwd the window displayer that controls this editor
 	 */
-	public FormulaEditor(final InterchangableWindowDisplayer icwd) {
-		this.icwd = icwd;
+	public FormulaEditor() {
 		this.editorUI = new FormulaEditorUI(this);
-		this.replace();
 	}
 
 	/**
 	 * Constructor that makes this an editor for existing formulas.
 	 *
-	 * @param icwd the window displayer that controls this editor
 	 * @param formula The formula that needs editing.
 	 */
-	public FormulaEditor(final InterchangableWindowDisplayer icwd, final Formula formula) {
-		this.icwd = icwd;
+	public FormulaEditor(final Formula formula) {
 		this.editorUI = new FormulaEditorUI(this, formula);
-		this.replace();
 	}
 
 	public void addNewFormula() {
@@ -84,7 +77,7 @@ public final class FormulaEditor implements InterchangableWindow {
 
 	@Override
 	public void replace() {
-		this.icwd.replaceActiveWindow(this.editorUI.getPanel());
+		this.notifyObservers(this.editorUI.getPanel());
 	}
 
 }
