@@ -26,7 +26,9 @@ public final class RenderFormulaSearchByTagResult implements Runnable {
 	private final Future<List<Formula>> searchresult;
 	private final SearchGui targetPanel;
 
-	public RenderFormulaSearchByTagResult(final Future<List<Formula>> searchresult, final SearchGui pane, final InterchangableWindowDisplayer icwd) {
+	public RenderFormulaSearchByTagResult(final Future<List<Formula>> searchresult,
+	                                      final SearchGui pane,
+	                                      final InterchangableWindowDisplayer icwd) {
 		this.icwd = icwd;
 		this.searchresult = searchresult;
 		this.targetPanel = pane;

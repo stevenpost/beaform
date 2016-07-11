@@ -25,7 +25,9 @@ public final class RenderFormulaSearchResult implements Runnable {
 	private final Future<Formula> searchresult;
 	private final SearchGui targetPanel;
 
-	public RenderFormulaSearchResult(final Future<Formula> searchresult, final SearchGui pane, final InterchangableWindowDisplayer icwd) {
+	public RenderFormulaSearchResult(final Future<Formula> searchresult,
+	                                 final SearchGui pane,
+	                                 final InterchangableWindowDisplayer icwd) {
 		this.icwd = icwd;
 		this.searchresult = searchresult;
 		this.targetPanel = pane;
