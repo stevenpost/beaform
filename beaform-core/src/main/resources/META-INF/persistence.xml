@@ -20,6 +20,7 @@
 			<property name="hibernate.transaction.jta.platform"
 				value="org.hibernate.service.jta.platform.internal.JBossStandAloneJtaPlatform" />
 			-->
+			<property name="hibernate.search.lucene_version" value="LUCENE_CURRENT"/>
 		</properties>
 	</persistence-unit>
 	<persistence-unit name="test"
@@ -38,6 +39,7 @@
 			<property name="hibernate.transaction.jta.platform"
 				value="org.hibernate.service.jta.platform.internal.JBossStandAloneJtaPlatform" />
 			-->
+			<property name="hibernate.search.lucene_version" value="LUCENE_CURRENT"/>
 		</properties>
 	</persistence-unit>
 </persistence>
