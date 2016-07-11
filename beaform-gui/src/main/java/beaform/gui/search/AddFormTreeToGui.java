@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import beaform.entities.Formula;
-import beaform.gui.InterchangableWindowDisplayer;
 import beaform.gui.search.tree.FormulaTree;
 
 /**
@@ -15,31 +14,27 @@ import beaform.gui.search.tree.FormulaTree;
  */
 final class AddFormTreeToGui implements Runnable {
 
-	private final InterchangableWindowDisplayer icwd;
 	private final List<Formula> searchResult;
 	private final SearchGui targetPanel;
 
 	public AddFormTreeToGui(final List<Formula> searchResult,
-	                        final SearchGui pane,
-	                        final InterchangableWindowDisplayer icwd) {
+	                        final SearchGui pane) {
 
 		this.searchResult = new ArrayList<>(searchResult);
 		this.targetPanel = pane;
-		this.icwd = icwd;
 	}
 
 	public AddFormTreeToGui(final Formula searchResult,
-	                        final SearchGui pane,
-	                        final InterchangableWindowDisplayer icwd) {
+	                        final SearchGui pane) {
 		this.searchResult = new ArrayList<>(1);
 		this.searchResult.add(searchResult);
 		this.targetPanel = pane;
-		this.icwd = icwd;
 	}
 
 	@Override
 	public void run() {
-		final FormulaTree formulaTree = new FormulaTree(this.icwd, this.searchResult);
+		final FormulaTree formulaTree = new FormulaTree(this.searchResult);
+		formulaTree.addObserver(this.targetPanel);
 		this.targetPanel.setSearchResults(formulaTree);
 	}
 
