@@ -3,7 +3,6 @@ package beaform.gui.main;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import beaform.gui.InterchangableWindowDisplayer;
 import beaform.gui.formulaeditor.FormulaEditor;
 
 public class FormulaEditorLaunchAction implements ActionListener {

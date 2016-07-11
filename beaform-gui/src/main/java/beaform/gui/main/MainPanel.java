@@ -7,7 +7,6 @@ import java.util.Observable;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import beaform.gui.InterchangableWindowDisplayer;
 import beaform.gui.debug.DebugUtilities;
 
 /**
