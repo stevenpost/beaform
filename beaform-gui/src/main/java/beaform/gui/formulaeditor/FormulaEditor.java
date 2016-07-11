@@ -43,7 +43,7 @@ public class FormulaEditor implements InterchangableWindow {
 	private final TagPane tagPane = new TagPane();
 	private final IngredientPane ingredientPane = new IngredientPane();
 
-	private transient Formula formula;
+	private Formula formula;
 
 	/**
 	 * Main constructor for this editor to add a new formula.
