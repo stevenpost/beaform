@@ -18,13 +18,18 @@ final class AddFormTreeToGui implements Runnable {
 	private final List<Formula> searchResult;
 	private final SearchGui targetPanel;
 
-	public AddFormTreeToGui(final List<Formula> searchResult, final SearchGui pane, final InterchangableWindowDisplayer icwd) {
+	public AddFormTreeToGui(final List<Formula> searchResult,
+	                        final SearchGui pane,
+	                        final InterchangableWindowDisplayer icwd) {
+
 		this.searchResult = new ArrayList<>(searchResult);
 		this.targetPanel = pane;
 		this.icwd = icwd;
 	}
 
-	public AddFormTreeToGui(final Formula searchResult, final SearchGui pane, final InterchangableWindowDisplayer icwd) {
+	public AddFormTreeToGui(final Formula searchResult,
+	                        final SearchGui pane,
+	                        final InterchangableWindowDisplayer icwd) {
 		this.searchResult = new ArrayList<>(1);
 		this.searchResult.add(searchResult);
 		this.targetPanel = pane;
