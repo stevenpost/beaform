@@ -19,7 +19,6 @@ import javax.swing.SwingConstants;
 import beaform.dao.FormulaDAO;
 import beaform.entities.Formula;
 import beaform.entities.Ingredient;
-import beaform.gui.Utilities;
 
 /**
  * This class houses all the components for the Ingredients in the formula editor.
