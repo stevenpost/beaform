@@ -30,7 +30,7 @@ import beaform.gui.InterchangableWindowDisplayer;
  * @author Steven Post
  *
  */
-public class FormulaEditor implements InterchangableWindow {
+public final class FormulaEditor implements InterchangableWindow {
 
 	private static final Logger LOG = LoggerFactory.getLogger(FormulaEditor.class);
 
