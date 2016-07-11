@@ -5,6 +5,7 @@ import java.util.List;
 
 import beaform.entities.Formula;
 import beaform.gui.InterchangableWindowDisplayer;
+import beaform.gui.search.tree.FormulaTree;
 
 /**
  * A task to to the actual rendering.

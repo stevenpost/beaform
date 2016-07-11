@@ -1,9 +1,7 @@
-package beaform.gui.search;
+package beaform.gui.search.tree;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JEditorPane;
@@ -11,16 +9,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
 import beaform.dao.FormulaDAO;
 import beaform.entities.Formula;
 import beaform.entities.Ingredient;
-import beaform.gui.InterchangableWindowDisplayer;
-import beaform.gui.formulaeditor.FormulaEditor;
+import beaform.gui.search.TreeViewFormula;
 
 /**
  * This class implements a panel to show a tree view of formulas.
@@ -28,7 +23,7 @@ import beaform.gui.formulaeditor.FormulaEditor;
  * @author Steven Post
  *
  */
-public class FormulaTree implements TreeSelectionListener {
+public class FormulaTreeUI {
 
 	private static final int MIN_WIDTH = 100;
 	private static final int MIN_HEIGHT = 50;
@@ -36,13 +31,13 @@ public class FormulaTree implements TreeSelectionListener {
 	private static final int PREF_HEIGHT = 300;
 	private static final int DIVIDER_LOCATION = 100;
 
-	private final InterchangableWindowDisplayer icwd;
+	private final FormulaTree formulatree;
 	private final JPanel panel = new JPanel(new GridLayout(1,0));
 	private final JTree tree;
 	private final JEditorPane descriptionPanel;
 
-	public FormulaTree(final InterchangableWindowDisplayer icwd, final Formula formula) {
-		this.icwd = icwd;
+	public FormulaTreeUI(final FormulaTree formulatree, final Formula formula) {
+		this.formulatree = formulatree;
 		final DefaultMutableTreeNode top = new DefaultMutableTreeNode(new TreeViewFormula(formula));
 		createNodes(top);
 
@@ -51,8 +46,8 @@ public class FormulaTree implements TreeSelectionListener {
 		init();
 	}
 
-	public FormulaTree(final InterchangableWindowDisplayer icwd, final List<Formula> formulas) {
-		this.icwd = icwd;
+	public FormulaTreeUI(final FormulaTree formulatree, final List<Formula> formulas) {
+		this.formulatree = formulatree;
 		final DefaultMutableTreeNode top = new DefaultMutableTreeNode("Search results");
 		for (final Formula formula : formulas) {
 			addDescendantNodes(top, formula);
@@ -61,10 +56,6 @@ public class FormulaTree implements TreeSelectionListener {
 		this.descriptionPanel = new JEditorPane();
 		this.tree = new JTree(top);
 		init();
-	}
-
-	public void addToPanel(final JPanel panelToAttachTo, final Object constraints) {
-		panelToAttachTo.add(this.panel, constraints);
 	}
 
 	/**
@@ -86,10 +77,10 @@ public class FormulaTree implements TreeSelectionListener {
 		(TreeSelectionModel.SINGLE_TREE_SELECTION);
 
 		//Listen for when the selection changes.
-		this.tree.addTreeSelectionListener(this);
+		this.tree.addTreeSelectionListener(new SelectedItemChangedAction(this));
 
 		//Listen for double click events.
-		this.tree.addMouseListener(new DoubleClickListener());
+		this.tree.addMouseListener(new DoubleClickListener(this.formulatree));
 
 		//Create the scroll pane and add the tree to it.
 		final JScrollPane treeView = new JScrollPane(this.tree);
@@ -128,30 +119,11 @@ public class FormulaTree implements TreeSelectionListener {
 	}
 
 	/**
-	 * Called when the selection in the tree view changes.
-	 * It will display the details of the selected node.
-	 */
-	@Override
-	public void valueChanged(final TreeSelectionEvent event) {
-		//Returns the last path element of the selection.
-		//This method is useful only when the selection model allows a single selection.
-		final DefaultMutableTreeNode node = (DefaultMutableTreeNode)
-						this.tree.getLastSelectedPathComponent();
-
-		if (node == null) {
-			//Nothing is selected.
-			return;
-		}
-
-		fillDescription(node);
-	}
-
-	/**
 	 * Fill in the description field based on the currently selected node.
 	 *
 	 * @param node The currently selected node.
 	 */
-	private void fillDescription(final DefaultMutableTreeNode node) {
+	public void fillDescription(final DefaultMutableTreeNode node) {
 		if (node.getUserObject() instanceof String) {
 			// The root node is selected, reflect that in the description field.
 			this.descriptionPanel.setText((String) node.getUserObject());
@@ -193,53 +165,37 @@ public class FormulaTree implements TreeSelectionListener {
 		description.append("Amount: ").append(amount).append("\n\n");
 	}
 
-	public void editSelectedFormula() {
-		//Returns the last path element of the selection.
-		//This method is useful only when the selection model allows a single selection.
-		final DefaultMutableTreeNode node = (DefaultMutableTreeNode)
-						this.tree.getLastSelectedPathComponent();
+	/**
+	 *
+	 * @return null if nothing was selected
+	 */
+	public TreeViewFormula getSelectedFormula() {
+		final DefaultMutableTreeNode node = getSelectedNode();
 
 		if (node == null) {
 			//Nothing is selected.
-			return;
+			return null;
 		}
 
-		final TreeViewFormula form = extractFormula(node);
-		launchFormulaEditor(form);
+		return extractFormula(node);
 	}
 
-	@SuppressWarnings("unused")
-	private void launchFormulaEditor(final TreeViewFormula form) {
-		new FormulaEditor(this.icwd, form.getFormula());
+	/**
+	 *
+	 * @return null if nothing was selected
+	 */
+	public DefaultMutableTreeNode getSelectedNode() {
+		//Returns the last path element of the selection.
+		//This method is useful only when the selection model allows a single selection.
+		return (DefaultMutableTreeNode) this.tree.getLastSelectedPathComponent();
 	}
 
 	private static TreeViewFormula extractFormula(final DefaultMutableTreeNode node) {
 		return (TreeViewFormula)node.getUserObject();
 	}
 
-	/**
-	 * A listener that activates on double clicks.
-	 *
-	 * @author Steven Post
-	 *
-	 */
-	public class DoubleClickListener extends MouseAdapter {
-
-		/** The number of clicks to register a double click on the mouse */
-		private static final int DOUBLE_CLICK = 2;
-
-		/**
-		 * This method fires when the mouse is clicked,
-		 * but only does something on double click events.
-		 *
-		 * @param event The event passed to this method when clicks are seen.
-		 */
-		@Override
-		public void mousePressed(final MouseEvent event) {
-			if(event.getClickCount() == DOUBLE_CLICK) {
-				editSelectedFormula();
-			}
-		}
+	public JPanel getPanel() {
+		return this.panel;
 	}
 
 }
