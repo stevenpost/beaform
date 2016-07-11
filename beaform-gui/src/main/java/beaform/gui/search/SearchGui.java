@@ -16,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import beaform.entities.Formula;
+import beaform.gui.InterchangableWindow;
+import beaform.gui.InterchangableWindowDisplayer;
 import beaform.search.SearchFormulaTask;
 import beaform.search.SearchFormulasByTagTask;
 
@@ -25,23 +27,23 @@ import beaform.search.SearchFormulasByTagTask;
  * @author Steven Post
  *
  */
-public final class SearchGui extends JPanel {
+public final class SearchGui implements InterchangableWindow {
 
-	private static final long serialVersionUID = 2557014310487638917L;
 	private static final Logger LOG = LoggerFactory.getLogger(SearchGui.class);
 
+	private final InterchangableWindowDisplayer icwd;
+	private final JPanel panel = new JPanel(new BorderLayout());
 	private final JTextField txtSearch = new JTextField();
 	private final DefaultComboBoxModel<SearchType> comboBoxModel = new DefaultComboBoxModel<>(SearchType.values());
 
 	/** The index of the formula tree on the target panel */
 	private static final int FORMULA_TREE_LOC = 3;
 
-	public SearchGui() {
-		super(new BorderLayout());
-
+	public SearchGui(InterchangableWindowDisplayer icwd) {
+		this.icwd = icwd;
 		final JPanel searchPanel =  createSearchPanel();
-		this.add(searchPanel, BorderLayout.PAGE_START);
-
+		this.panel.add(searchPanel, BorderLayout.PAGE_START);
+		this.replace();
 	}
 
 	private JPanel createSearchPanel() {
@@ -110,11 +112,16 @@ public final class SearchGui extends JPanel {
 	 * @param formulaTree the search results
 	 */
 	public void setSearchResults(final FormulaTree formulaTree) {
-		if (this.getComponentCount() > FORMULA_TREE_LOC) {
-			this.remove(FORMULA_TREE_LOC);
+		if (this.panel.getComponentCount() > FORMULA_TREE_LOC) {
+			this.panel.remove(FORMULA_TREE_LOC);
 		}
-		formulaTree.addToPanel(this, BorderLayout.CENTER);
-		this.revalidate();
+		formulaTree.addToPanel(this.panel, BorderLayout.CENTER);
+		this.panel.revalidate();
+	}
+
+	@Override
+	public final void replace() {
+		this.icwd.replaceActiveWindow(this.panel);
 	}
 
 }
