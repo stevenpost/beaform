@@ -21,6 +21,8 @@ import beaform.dao.FormulaDAO;
 import beaform.entities.Formula;
 import beaform.entities.FormulaTag;
 import beaform.entities.Ingredient;
+import beaform.gui.InterchangableWindow;
+import beaform.gui.InterchangableWindowDisplayer;
 
 /**
  * This class represents a GUI for editing formulas.
@@ -28,11 +30,12 @@ import beaform.entities.Ingredient;
  * @author Steven Post
  *
  */
-public class FormulaEditor extends JPanel {
+public class FormulaEditor implements InterchangableWindow {
 
-	private static final long serialVersionUID = 2557014310487638917L;
 	private static final Logger LOG = LoggerFactory.getLogger(FormulaEditor.class);
 
+	private final InterchangableWindowDisplayer icwd;
+	private final JPanel panel = new JPanel();
 	private final JTextField txtName = new JTextField();
 	private final JTextArea txtDescription = new JTextArea();
 	private final JTextField txtTotalAmount = new JTextField();
@@ -46,21 +49,24 @@ public class FormulaEditor extends JPanel {
 	 * Main constructor for this editor to add a new formula.
 	 * If you want to edit an existing one,
 	 * use the overridden constructor that takes a formula as argument.
+	 * @param icwd the window displayer that controls this editor
 	 */
-	public FormulaEditor() {
-		super();
+	public FormulaEditor(final InterchangableWindowDisplayer icwd) {
+		this.icwd = icwd;
 		init();
 
 		this.btnSave.addActionListener(event -> addNewFormula());
+		this.replace();
 	}
 
 	/**
 	 * Constructor that makes this an editor for existing formulas.
 	 *
+	 * @param icwd the window displayer that controls this editor
 	 * @param formula The formula that needs editing.
 	 */
-	public FormulaEditor(final Formula formula) {
-		super();
+	public FormulaEditor(final InterchangableWindowDisplayer icwd, final Formula formula) {
+		this.icwd = icwd;
 		init();
 
 		// Don't allow editing the name of a formula since this
@@ -70,7 +76,7 @@ public class FormulaEditor extends JPanel {
 		fillEditorFromFormula(formula);
 
 		this.btnSave.addActionListener(event -> updateFormula());
-
+		this.replace();
 	}
 
 	private void fillEditorFromFormula(final Formula newFormula) {
@@ -94,28 +100,28 @@ public class FormulaEditor extends JPanel {
 	 * to the save button.
 	 */
 	private void init() {
-		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.PAGE_AXIS));
 
-		addGeneralComponentsToPanel(this);
+		addGeneralComponentsToPanel(this.panel);
 
-		this.add(this.ingredientPane);
-		this.add(this.tagPane);
-		this.add(this.btnSave);
+		this.panel.add(this.ingredientPane);
+		this.panel.add(this.tagPane);
+		this.panel.add(this.btnSave);
 	}
 
 	private void addGeneralComponentsToPanel(final JPanel parent) {
-		final JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+		final JPanel genralComponents = new JPanel();
+		genralComponents.setLayout(new BoxLayout(genralComponents, BoxLayout.X_AXIS));
 		final Dimension textFieldSize = new Dimension(100, 30);
 		final Dimension textFieldMaxSize = new Dimension(200, 30);
 		final JTextField totalAmount = this.txtTotalAmount;
 		final JTextArea description = this.txtDescription;
 
-		createNameComponents(panel, textFieldSize, textFieldMaxSize);
-		createTotalAmountComponents(panel, totalAmount, textFieldSize, textFieldMaxSize);
-		createDescriptionComponents(panel, description);
+		createNameComponents(genralComponents, textFieldSize, textFieldMaxSize);
+		createTotalAmountComponents(genralComponents, totalAmount, textFieldSize, textFieldMaxSize);
+		createDescriptionComponents(genralComponents, description);
 
-		parent.add(panel);
+		parent.add(genralComponents);
 	}
 
 	private static void createTotalAmountComponents(final JPanel parent,
@@ -140,19 +146,19 @@ public class FormulaEditor extends JPanel {
 	private void createNameComponents(final JPanel parent,
 	                                  final Dimension textFieldSize,
 	                                  final Dimension textFieldMaxSize) {
-		final JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		final JPanel nameComponents = new JPanel();
+		nameComponents.setLayout(new BoxLayout(nameComponents, BoxLayout.Y_AXIS));
 
 		final JLabel nameLabel = new JLabel("Name");
-		panel.add(nameLabel);
+		nameComponents.add(nameLabel);
 
 		final JTextField name = this.txtName;
 		name.setMinimumSize(textFieldSize);
 		name.setPreferredSize(textFieldSize);
 		name.setMaximumSize(textFieldMaxSize);
-		panel.add(name);
+		nameComponents.add(name);
 
-		parent.add(panel);
+		parent.add(nameComponents);
 	}
 
 	private static void createDescriptionComponents(final JPanel parent, final JTextArea description) {
@@ -212,6 +218,11 @@ public class FormulaEditor extends JPanel {
 		final String totalAmount = this.txtTotalAmount.getText();
 		FormulaDAO.updateExisting(name, description, totalAmount, ingredients, tags);
 
+	}
+
+	@Override
+	public void replace() {
+		this.icwd.replaceActiveWindow(this.panel);
 	}
 
 }

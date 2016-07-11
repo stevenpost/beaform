@@ -19,8 +19,8 @@ import javax.swing.tree.TreeSelectionModel;
 import beaform.dao.FormulaDAO;
 import beaform.entities.Formula;
 import beaform.entities.Ingredient;
+import beaform.gui.InterchangableWindowDisplayer;
 import beaform.gui.formulaeditor.FormulaEditor;
-import beaform.gui.main.MainGUI;
 
 /**
  * This class implements a panel to show a tree view of formulas.
@@ -36,11 +36,13 @@ public class FormulaTree implements TreeSelectionListener {
 	private static final int PREF_HEIGHT = 300;
 	private static final int DIVIDER_LOCATION = 100;
 
+	private final InterchangableWindowDisplayer icwd;
 	private final JPanel panel = new JPanel(new GridLayout(1,0));
 	private final JTree tree;
 	private final JEditorPane descriptionPanel;
 
-	public FormulaTree(final Formula formula) {
+	public FormulaTree(final InterchangableWindowDisplayer icwd, final Formula formula) {
+		this.icwd = icwd;
 		final DefaultMutableTreeNode top = new DefaultMutableTreeNode(new TreeViewFormula(formula));
 		createNodes(top);
 
@@ -49,8 +51,8 @@ public class FormulaTree implements TreeSelectionListener {
 		init();
 	}
 
-	public FormulaTree(final List<Formula> formulas) {
-
+	public FormulaTree(final InterchangableWindowDisplayer icwd, final List<Formula> formulas) {
+		this.icwd = icwd;
 		final DefaultMutableTreeNode top = new DefaultMutableTreeNode("Search results");
 		for (final Formula formula : formulas) {
 			addDescendantNodes(top, formula);
@@ -206,8 +208,9 @@ public class FormulaTree implements TreeSelectionListener {
 		launchFormulaEditor(form);
 	}
 
-	private static void launchFormulaEditor(final TreeViewFormula form) {
-		MainGUI.getInstance().replaceActiveWindow(new FormulaEditor(form.getFormula()));
+	@SuppressWarnings("unused")
+	private void launchFormulaEditor(final TreeViewFormula form) {
+		new FormulaEditor(this.icwd, form.getFormula());
 	}
 
 	private static TreeViewFormula extractFormula(final DefaultMutableTreeNode node) {

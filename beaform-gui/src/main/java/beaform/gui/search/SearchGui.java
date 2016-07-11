@@ -96,14 +96,14 @@ public final class SearchGui implements InterchangableWindow {
 		final String searchText = this.txtSearch.getText();
 		final SearchFormulasByTagTask task = new SearchFormulasByTagTask(searchText);
 		final Future<List<Formula>> searchresult = SearchTaskHandler.addTask(task);
-		SearchTaskHandler.addTask(new RenderFormulaSearchByTagResult(searchresult, this));
+		SearchTaskHandler.addTask(new RenderFormulaSearchByTagResult(searchresult, this, this.icwd));
 	}
 
 	private void searchFormula() {
 		final String searchText = this.txtSearch.getText();
 		final SearchFormulaTask task = new SearchFormulaTask(searchText);
 		final Future<Formula> searchresult = SearchTaskHandler.addTask(task);
-		SearchTaskHandler.addTask(new RenderFormulaSearchResult(searchresult, this));
+		SearchTaskHandler.addTask(new RenderFormulaSearchResult(searchresult, this, this.icwd));
 	}
 
 	/**
