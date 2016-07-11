@@ -120,7 +120,7 @@ public final class SearchGui implements InterchangableWindow {
 	}
 
 	@Override
-	public final void replace() {
+	public void replace() {
 		this.icwd.replaceActiveWindow(this.panel);
 	}
 
