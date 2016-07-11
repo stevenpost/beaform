@@ -6,6 +6,7 @@ import java.awt.Component;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import beaform.gui.InterchangableWindowDisplayer;
 import beaform.gui.debug.DebugUtilities;
 
 /**
@@ -14,7 +15,7 @@ import beaform.gui.debug.DebugUtilities;
  * @author Steven Post
  *
  */
-public final class MainPanel extends JPanel {
+public final class MainPanel extends JPanel implements InterchangableWindowDisplayer {
 
 	private static final long serialVersionUID = 1207348877338520359L;
 
@@ -27,6 +28,7 @@ public final class MainPanel extends JPanel {
 		this.add(this.scrollPane);
 	}
 
+	@Override
 	public void replaceActiveWindow(final Component comp) {
 		if (this.panel.getComponentCount() > 0) {
 			this.panel.remove(0);
