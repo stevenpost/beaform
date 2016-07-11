@@ -8,6 +8,9 @@
 		transaction-type="RESOURCE_LOCAL">
 		<!-- Use Hibernate OGM provider: configuration will be transparent -->
 		<provider>org.hibernate.ogm.jpa.HibernateOgmPersistence</provider>
+		<!-- This is required to be spec compliant, classes outside the main jar file are not scanned in Java SE. -->
+		<class>beaform.entities.Formula</class>
+		<class>beaform.entities.FormulaTag</class>
 		<properties>
 			<!-- property is optional if you want to use Infinispan, otherwise adjust 
 				to your favorite NoSQL Datastore provider. -->
@@ -26,6 +29,9 @@
 		transaction-type="RESOURCE_LOCAL">
 		<!-- Use Hibernate OGM provider: configuration will be transparent -->
 		<provider>org.hibernate.ogm.jpa.HibernateOgmPersistence</provider>
+		<!-- This is required to be spec compliant, classes outside the main jar file are not scanned in Java SE. -->
+		<class>beaform.entities.Formula</class>
+		<class>beaform.entities.FormulaTag</class>
 		<properties>
 			<!-- property is optional if you want to use Infinispan, otherwise adjust 
 				to your favorite NoSQL Datastore provider. -->
