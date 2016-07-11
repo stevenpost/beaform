@@ -1,4 +1,4 @@
-package beaform.gui;
+package beaform.gui.subwindows;
 
 @FunctionalInterface
 public interface InterchangableWindow {

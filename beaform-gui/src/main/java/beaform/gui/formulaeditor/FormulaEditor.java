@@ -10,7 +10,7 @@ import beaform.dao.FormulaDAO;
 import beaform.entities.Formula;
 import beaform.entities.FormulaTag;
 import beaform.entities.Ingredient;
-import beaform.gui.InterchangableWindow;
+import beaform.gui.subwindows.InterchangableWindow;
 
 /**
  * This class represents a GUI for editing formulas.

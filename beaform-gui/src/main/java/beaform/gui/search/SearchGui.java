@@ -10,9 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import beaform.entities.Formula;
-import beaform.gui.InterchangableWindow;
 import beaform.gui.formulaeditor.FormulaEditor;
 import beaform.gui.search.tree.FormulaTree;
+import beaform.gui.subwindows.InterchangableWindow;
 import beaform.search.SearchFormulaTask;
 import beaform.search.SearchFormulasByTagTask;
 
