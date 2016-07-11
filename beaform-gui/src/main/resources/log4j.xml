@@ -11,7 +11,7 @@
 	</appender>
 	
 	<logger name="beaform">
-		<level value="INFO" />
+		<level value="DEBUG" />
 	</logger>
 
 	<root>
