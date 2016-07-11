@@ -21,7 +21,7 @@ class HelpMenu implements SubMenu {
 
 	private void init() {
 		this.menu.add(this.about);
-		this.about.addActionListener(new AboutLaunchAction());
+		this.about.addActionListener(event -> javax.swing.SwingUtilities.invokeLater(new About()));
 	}
 
 	@Override
