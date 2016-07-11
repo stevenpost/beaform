@@ -11,17 +11,17 @@ import java.awt.event.MouseEvent;
  */
 public class DoubleClickListener extends MouseAdapter {
 
+	/** The number of clicks to register a double click on the mouse */
+	private static final int DOUBLE_CLICK = 2;
+
 	private final FormulaTree formulaTree;
 
 	/**
 	 * @param formulaTree
 	 */
-	DoubleClickListener(FormulaTree formulaTree) {
+	public DoubleClickListener(FormulaTree formulaTree) {
 		this.formulaTree = formulaTree;
 	}
-
-	/** The number of clicks to register a double click on the mouse */
-	private static final int DOUBLE_CLICK = 2;
 
 	/**
 	 * This method fires when the mouse is clicked,
