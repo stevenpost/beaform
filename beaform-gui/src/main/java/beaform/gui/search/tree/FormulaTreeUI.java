@@ -15,7 +15,6 @@ import javax.swing.tree.TreeSelectionModel;
 import beaform.dao.FormulaDAO;
 import beaform.entities.Formula;
 import beaform.entities.Ingredient;
-import beaform.gui.search.TreeViewFormula;
 
 /**
  * This class implements a panel to show a tree view of formulas.

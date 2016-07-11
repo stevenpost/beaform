@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import beaform.entities.Formula;
 import beaform.entities.Ingredient;
-import beaform.gui.search.TreeViewFormula;
+import beaform.gui.search.tree.TreeViewFormula;
 
 /**
  * A testing class for the {@link TreeViewFormula}

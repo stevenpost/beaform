@@ -91,9 +91,9 @@ public final class SearchGui implements InterchangableWindow, Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		if (o instanceof FormulaTree && arg instanceof TreeViewFormula) {
-			TreeViewFormula form = (TreeViewFormula) arg;
-			new FormulaEditor(this.icwd, form.getFormula());
+		if (o instanceof FormulaTree && arg instanceof Formula) {
+			Formula form = (Formula) arg;
+			new FormulaEditor(this.icwd, form);
 		}
 	}
 

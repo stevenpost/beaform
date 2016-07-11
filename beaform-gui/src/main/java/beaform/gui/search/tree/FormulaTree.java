@@ -6,7 +6,6 @@ import java.util.Observable;
 import javax.swing.JPanel;
 
 import beaform.entities.Formula;
-import beaform.gui.search.TreeViewFormula;
 
 /**
  * This class implements a panel to show a tree view of formulas.
@@ -32,7 +31,7 @@ public class FormulaTree extends Observable {
 
 	public void editSelectedFormula() {
 		final TreeViewFormula form = this.treeUi.getSelectedFormula();
-		this.notifyObservers(form);
+		this.notifyObservers(form.getFormula());
 	}
 
 }
