@@ -77,6 +77,7 @@ public final class FormulaEditor extends Observable implements InterchangableWin
 
 	@Override
 	public void replace() {
+		this.setChanged();
 		this.notifyObservers(this.editorUI.getPanel());
 	}
 

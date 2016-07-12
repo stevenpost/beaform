@@ -31,6 +31,7 @@ public class FormulaTree extends Observable {
 
 	public void editSelectedFormula() {
 		final TreeViewFormula form = this.treeUi.getSelectedFormula();
+		this.setChanged();
 		this.notifyObservers(form.getFormula());
 	}
 

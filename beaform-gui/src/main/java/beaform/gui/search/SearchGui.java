@@ -82,6 +82,7 @@ public final class SearchGui extends Observable implements InterchangableWindow,
 
 	@Override
 	public void replace() {
+		this.setChanged();
 		this.notifyObservers(this.searchguiUI.getPanel());
 	}
 
@@ -90,6 +91,7 @@ public final class SearchGui extends Observable implements InterchangableWindow,
 		if (o instanceof FormulaTree && arg instanceof Formula) {
 			Formula form = (Formula) arg;
 			FormulaEditor editor = new FormulaEditor(form);
+			this.setChanged();
 			this.notifyObservers(editor);
 		}
 	}
