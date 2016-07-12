@@ -26,6 +26,7 @@ public final class MainEntry {
 		LOG.debug("Starting GUI...");
 
 		try {
+			javax.swing.SwingUtilities.invokeLater(new LookAndFeelInitiator());
 			javax.swing.SwingUtilities.invokeAndWait(() -> MainGUI.createAndShowGUI());
 		}
 		catch (InvocationTargetException | InterruptedException e) {

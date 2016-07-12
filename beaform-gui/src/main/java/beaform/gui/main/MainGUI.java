@@ -6,8 +6,6 @@ import java.util.Observable;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,27 +73,6 @@ public final class MainGUI implements InterchangableWindowDisplayer {
 	}
 
 	public static void createAndShowGUI() {
-		//Set the look and feel.
-		try{
-			// Using OpenJDK, there is a bug that causes the
-			// application to freeze when using a GTK look and feel.
-			final boolean crossplatform = Boolean.getBoolean("beaform.useCrossPlatformLookAndFeel");
-			if (crossplatform) {
-				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-			}
-			else {
-				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			}
-		}
-		catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-						| UnsupportedLookAndFeelException e) {
-			if (LOG.isErrorEnabled()) {
-				LOG.error("Setting look and feel failed", e);
-			}
-		}
-
-		//Make sure we have nice window decorations.
-		JFrame.setDefaultLookAndFeelDecorated(true);
 
 		//Create and set up the window.
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
