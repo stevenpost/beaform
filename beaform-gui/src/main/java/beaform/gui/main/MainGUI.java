@@ -5,7 +5,6 @@ import java.util.Observable;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
-import javax.swing.JPanel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,8 +25,12 @@ public final class MainGUI implements InterchangableWindowDisplayer {
 	private static final int WINDOW_HEIGHT= 500;
 	private static final int WINDOW_X_LOCATION = 150;
 	private static final int WINDOW_Y_LOCATION = 150;
+
+	/** A lock for accessing the instance */
+	private static final Object INSTANCELOCK = new Object();
+
 	private static volatile MainGUI instance;
-	private static JFrame mainFrame = new JFrame("BeaForm");
+	private final JFrame mainFrame = new JFrame("BeaForm");
 	private final MainPanel contentPanel = new MainPanel();
 
 	private MainGUI() {
@@ -35,8 +38,18 @@ public final class MainGUI implements InterchangableWindowDisplayer {
 	}
 
 	private void init(){
+		//Create and set up the window.
+		this.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		this.mainFrame.add(this.contentPanel);
+		this.mainFrame.setLocation(WINDOW_X_LOCATION, WINDOW_Y_LOCATION);
+
+		//Display the window.
+		this.mainFrame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+		this.mainFrame.setVisible(true);
+
 		final JMenuBar menu = createMenu();
-		mainFrame.setJMenuBar(menu);
+		this.mainFrame.setJMenuBar(menu);
 
 		LOG.debug("end init");
 	}
@@ -44,10 +57,6 @@ public final class MainGUI implements InterchangableWindowDisplayer {
 	@Override
 	public void replaceActiveWindow(final Component comp) {
 		this.contentPanel.replaceActiveWindow(comp);
-	}
-
-	private JPanel getPanel() {
-		return this.contentPanel;
 	}
 
 	private JMenuBar createMenu() {
@@ -66,26 +75,12 @@ public final class MainGUI implements InterchangableWindowDisplayer {
 	}
 
 	public static MainGUI getInstance() {
-		if (instance == null) {
-			throw new IllegalStateException("The MainGUI should be initialized before trying to get the instance");
+		synchronized (INSTANCELOCK) {
+			if (instance == null) {
+				instance = new MainGUI();
+			}
+			return instance;
 		}
-		return instance;
-	}
-
-	public static void createAndShowGUI() {
-
-		//Create and set up the window.
-		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		final MainGUI app = new MainGUI();
-		mainFrame.add(app.getPanel());
-		mainFrame.setLocation(WINDOW_X_LOCATION, WINDOW_Y_LOCATION);
-
-		//Display the window.
-		mainFrame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-		mainFrame.setVisible(true);
-
-		instance = app;
 	}
 
 	@Override

@@ -27,7 +27,7 @@ public final class MainEntry {
 
 		try {
 			javax.swing.SwingUtilities.invokeLater(new LookAndFeelInitiator());
-			javax.swing.SwingUtilities.invokeAndWait(() -> MainGUI.createAndShowGUI());
+			javax.swing.SwingUtilities.invokeAndWait(() -> MainGUI.getInstance());
 		}
 		catch (InvocationTargetException | InterruptedException e) {
 			LOG.error(e.getMessage(), e);
