@@ -101,8 +101,8 @@ public final class FormulaEditorUI {
 	private void addGeneralComponentsToPanel(final JPanel parent) {
 		final JPanel genralComponents = new JPanel();
 		genralComponents.setLayout(new BoxLayout(genralComponents, BoxLayout.X_AXIS));
-		final Dimension textFieldSize = new Dimension(100, 30);
-		final Dimension textFieldMaxSize = new Dimension(200, 30);
+		final Dimension textFieldSize = new Dimension(100, 35);
+		final Dimension textFieldMaxSize = new Dimension(200, 35);
 		final JTextField totalAmount = this.txtTotalAmount;
 		final JTextArea description = this.txtDescription;
 

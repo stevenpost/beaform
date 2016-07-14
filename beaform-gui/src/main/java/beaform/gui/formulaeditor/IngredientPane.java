@@ -31,11 +31,11 @@ public final class IngredientPane extends JPanel {
 	private static final long serialVersionUID = 2342490028064073798L;
 
 	private static final int AMOUNT_WIDTH = 60;
-	private static final int AMOUNT_HEIGHT = 30;
+	private static final int AMOUNT_HEIGHT = 35;
 	private static final int MIN_LIST_WIDTH = 200;
 	private static final int MIN_LIST_HEIGHT = 100;
 	private static final int NAME_WIDTH = 100;
-	private static final int NAME_HEIGHT = 30;
+	private static final int NAME_HEIGHT = 35;
 	private static final double DEFAULT_X_WEIGTH = 0.1;
 	private static final double DEFAULT_Y_WEIGTH = 0.1;
 	private static final int FORMULALBL_COLS = 3;

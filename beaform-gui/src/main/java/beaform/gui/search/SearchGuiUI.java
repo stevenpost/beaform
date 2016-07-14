@@ -30,8 +30,8 @@ public final class SearchGuiUI {
 	}
 
 	private JPanel createSearchPanel() {
-		final Dimension textFieldSize = new Dimension(100, 30);
-		final Dimension textFieldMaxSize = new Dimension(300, 30);
+		final Dimension textFieldSize = new Dimension(100, 35);
+		final Dimension textFieldMaxSize = new Dimension(300, 35);
 
 		final JPanel searchPanel = new JPanel();
 		searchPanel.setLayout(new BoxLayout(searchPanel, BoxLayout.LINE_AXIS));

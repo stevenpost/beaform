@@ -31,7 +31,7 @@ public final class TagPane extends JPanel {
 	/** What text should be in the text field after adding the tag */
 	private static final String AFTER_ADD = "";
 	private static final int NAME_WIDTH = 100;
-	private static final int NAME_HEIGHT = 30;
+	private static final int NAME_HEIGHT = 35;
 	private static final int LIST_WIDTH = 200;
 	private static final int LIST_HEIGHT = 90;
 	private static final double DEFAULT_X_WEIGTH = 0.1;
