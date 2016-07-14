@@ -9,6 +9,8 @@ import javax.swing.JMenuBar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import beaform.gui.config.Config;
+import beaform.gui.config.ConfigurationException;
 import beaform.gui.subwindows.InterchangableWindow;
 
 
@@ -21,8 +23,6 @@ public final class MainGUI implements InterchangableWindowDisplayer {
 
 	private static final Logger LOG = LoggerFactory.getLogger(MainGUI.class);
 
-	private static final int WINDOW_WIDTH = 700;
-	private static final int WINDOW_HEIGHT= 500;
 	private static final int WINDOW_X_LOCATION = 150;
 	private static final int WINDOW_Y_LOCATION = 150;
 
@@ -32,8 +32,28 @@ public final class MainGUI implements InterchangableWindowDisplayer {
 	private static volatile MainGUI instance;
 	private final JFrame mainFrame = new JFrame("BeaForm");
 	private final MainPanel contentPanel = new MainPanel();
+	private final Config config;
 
 	private MainGUI() {
+		Config configuration = null;
+		try {
+			configuration = new Config("beaform.conf");
+		}
+		catch (ConfigurationException e) {
+			LOG.warn("Unable to read config, using default config.");
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("Unable to read config, using default config", e);
+			}
+			try {
+				configuration = new Config();
+			}
+			catch (ConfigurationException e1) {
+				LOG.error("Unable to read default config file", e1);
+				assert false;
+			}
+		}
+		this.config = configuration;
+
 		init();
 	}
 
@@ -45,7 +65,9 @@ public final class MainGUI implements InterchangableWindowDisplayer {
 		this.mainFrame.setLocation(WINDOW_X_LOCATION, WINDOW_Y_LOCATION);
 
 		//Display the window.
-		this.mainFrame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+		final int window_width = this.config.getIntProperty(Config.WINDOW_WIDTH);
+		final int window_height = this.config.getIntProperty(Config.WINDOW_HEIGHT);
+		this.mainFrame.setSize(window_width, window_height);
 		this.mainFrame.setVisible(true);
 
 		final JMenuBar menu = createMenu();
