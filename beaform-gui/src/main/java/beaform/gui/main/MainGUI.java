@@ -65,9 +65,9 @@ public final class MainGUI implements InterchangableWindowDisplayer {
 		this.mainFrame.setLocation(WINDOW_X_LOCATION, WINDOW_Y_LOCATION);
 
 		//Display the window.
-		final int window_width = this.config.getIntProperty(Config.WINDOW_WIDTH);
-		final int window_height = this.config.getIntProperty(Config.WINDOW_HEIGHT);
-		this.mainFrame.setSize(window_width, window_height);
+		final int windowWidth = this.config.getIntProperty(Config.WINDOW_WIDTH);
+		final int windowHeight = this.config.getIntProperty(Config.WINDOW_HEIGHT);
+		this.mainFrame.setSize(windowWidth, windowHeight);
 		this.mainFrame.setVisible(true);
 
 		final JMenuBar menu = createMenu();
