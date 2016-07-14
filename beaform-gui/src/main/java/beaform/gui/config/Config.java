@@ -3,8 +3,10 @@ package beaform.gui.config;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -45,7 +47,9 @@ public class Config {
 	private Properties readConfigFromJar(final String filename) throws ConfigurationException {
 		Properties readingProperties = new Properties();
 
-		try(final Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(filename), StandardCharsets.UTF_8))) {
+		final Charset utf8 = StandardCharsets.UTF_8;
+		final InputStream fileStream = getClass().getResourceAsStream(filename);
+		try(final Reader reader = new BufferedReader(new InputStreamReader(fileStream, utf8))) {
 			readingProperties.load(reader);
 		}
 		catch (IOException e) {
