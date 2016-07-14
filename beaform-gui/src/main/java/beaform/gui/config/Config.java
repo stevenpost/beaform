@@ -25,7 +25,7 @@ public class Config {
 		this.properties = readConfigFromFileSystem(filename);
 	}
 
-	private Properties readConfigFromFileSystem(final String filename) throws ConfigurationException {
+	private static Properties readConfigFromFileSystem(final String filename) throws ConfigurationException {
 		Properties readingProperties = new Properties();
 
 		final File configFile = new File(filename);
