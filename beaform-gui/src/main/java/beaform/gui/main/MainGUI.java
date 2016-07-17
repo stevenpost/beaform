@@ -111,6 +111,7 @@ public final class MainGUI implements InterchangableWindowDisplayer {
 		}
 		else if (arg instanceof InterchangableWindow) {
 			InterchangableWindow icw = (InterchangableWindow) arg;
+			icw.addObserver(this);
 			icw.replace();
 		}
 	}

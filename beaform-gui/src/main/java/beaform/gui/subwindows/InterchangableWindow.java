@@ -1,8 +1,11 @@
 package beaform.gui.subwindows;
 
-@FunctionalInterface
+import java.util.Observer;
+
 public interface InterchangableWindow {
 
 	void replace();
+
+	void addObserver(final Observer o);
 
 }
