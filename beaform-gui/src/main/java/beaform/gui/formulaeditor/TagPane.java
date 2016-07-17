@@ -15,6 +15,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import beaform.entities.FormulaTag;
 import beaform.utilities.TagComparator;
 
@@ -27,6 +30,7 @@ import beaform.utilities.TagComparator;
 public final class TagPane extends JPanel {
 
 	private static final long serialVersionUID = -6447838745127288741L;
+	private static final Logger LOG = LoggerFactory.getLogger(TagPane.class);
 
 	/** What text should be in the text field after adding the tag */
 	private static final String AFTER_ADD = "";
@@ -152,8 +156,13 @@ public final class TagPane extends JPanel {
 		if (!AFTER_ADD.equals(strTag) && !this.txtNewTag.getText().isEmpty()) {
 			this.txtNewTag.setText(AFTER_ADD);
 			final FormulaTag tag = new FormulaTag(strTag);
-			this.tags.add(tag);
-			sortTags();
+			if (!this.tags.contains(tag)) {
+				this.tags.add(tag);
+				sortTags();
+			}
+			else {
+				LOG.warn("Avoiding duplicate tag " + strTag);
+			}
 		}
 	}
 
