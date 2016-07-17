@@ -77,6 +77,7 @@ public final class DebugUtils {
 		}
 
 		entityManager.getTransaction().commit();
+		entityManager.clear();
 		LOG.info("DB cleared");
 
 	}
