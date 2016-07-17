@@ -23,9 +23,6 @@ public final class MainGUI implements InterchangableWindowDisplayer {
 
 	private static final Logger LOG = LoggerFactory.getLogger(MainGUI.class);
 
-	private static final int WINDOW_X_LOCATION = 150;
-	private static final int WINDOW_Y_LOCATION = 150;
-
 	/** A lock for accessing the instance */
 	private static final Object INSTANCELOCK = new Object();
 
@@ -62,7 +59,9 @@ public final class MainGUI implements InterchangableWindowDisplayer {
 		this.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		this.mainFrame.add(this.contentPanel);
-		this.mainFrame.setLocation(WINDOW_X_LOCATION, WINDOW_Y_LOCATION);
+		final int windowLocationX = this.config.getIntProperty(Config.WINDOW_LOCATION_X);
+		final int windowLocationY = this.config.getIntProperty(Config.WINDOW_LOCATION_Y);
+		this.mainFrame.setLocation(windowLocationX, windowLocationY);
 
 		//Display the window.
 		final int windowWidth = this.config.getIntProperty(Config.WINDOW_WIDTH);

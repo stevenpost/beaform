@@ -16,6 +16,8 @@ public class Config {
 
 	public static final String WINDOW_WIDTH = "main.window.width";
 	public static final String WINDOW_HEIGHT= "main.window.height";
+	public static final String WINDOW_LOCATION_X = "main.window.location.x";
+	public static final String WINDOW_LOCATION_Y = "main.window.location.y";
 
 	private static final String DEFAULT_CONF_LOCATION = "/beaform.conf";
 
