@@ -148,10 +148,6 @@ public class ImporterHandler extends DefaultHandler {
 			}
 		}
 
-		if (this.inIngredient) {
-
-		}
-
 	}
 
 }
