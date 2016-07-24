@@ -51,7 +51,7 @@ public class IngredientTest {
 	public void testNotEqualsHash() {
 		final Ingredient tag1 = new Ingredient(new Formula(), "30%");
 		final Ingredient tag2 = new Ingredient(new Formula("testform", "long description", "100g"), "30%");
-		assertNotSame("The ingredients are equal", tag1.hashCode(), tag2.hashCode());
+		assertNotSame("The ingredients are equal", Integer.valueOf(tag1.hashCode()), Integer.valueOf(tag2.hashCode()));
 	}
 
 	@Test
