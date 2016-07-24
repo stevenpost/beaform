@@ -41,6 +41,12 @@ public class FormulaTest {
 	}
 
 	@Test
+	public void testAddIngredientObject() {
+		this.formula.addIngredient(new Ingredient(new Formula(), "10%"));
+		assertFalse("The list of ingredients is empty", this.formula.getIngredients().isEmpty());
+	}
+
+	@Test
 	public void testTotalAmount() {
 		assertEquals("This isn't the expected amount", "100g", this.formula.getTotalAmount());
 	}

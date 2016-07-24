@@ -73,6 +73,10 @@ public class Formula {
 		this.ingredients.put(ingredient.getName() + "|" + amount, ingredient);
 	}
 
+	public void addIngredient(final Ingredient ingredient) {
+		this.addIngredient(ingredient.getFormula(), ingredient.getAmount());
+	}
+
 	public List<Ingredient> getIngredients() {
 		final ArrayList<Ingredient> returnIngredients = new ArrayList<>();
 
