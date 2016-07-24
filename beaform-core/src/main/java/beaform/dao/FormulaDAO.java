@@ -149,7 +149,9 @@ public final class FormulaDAO {
 		}
 
 		entityManager.getTransaction().commit();
-		entityManager.detach(result);
+		if (result != null) {
+			entityManager.detach(result);
+		}
 
 		return result;
 	}
