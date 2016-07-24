@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beaform xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="file:///home/steven/development/beaform/beaform-core/xml-schemas/input.xsd">
+	<formulas>
+		<formula name="testForm1">
+			<description>Some long description</description>
+			<totalAmount>200g</totalAmount>
+			<tags>
+				<tag>first</tag>
+				<tag>second</tag>
+			</tags>
+			<ingredients>
+				<ingredient name="testForm2" amount="50g" />
+				<ingredient name="testForm3" amount="150g" />
+			</ingredients>
+		</formula>
+		<formula name="testForm2">
+			<description>second test formula</description>
+			<totalAmount>300g</totalAmount>
+			<tags>
+				<tag>second</tag>
+			</tags>
+		</formula>
+		<formula name="testForm3">
+			<description>third test formula</description>
+			<totalAmount>10g</totalAmount>
+			<tags>
+				<tag>second</tag>
+			</tags>
+		</formula>
+		<formula name="testForm4">
+			<description>fourth test formula</description>
+			<totalAmount>60g</totalAmount>
+			<ingredients>
+				<ingredient name="testForm1" amount="60g" />
+			</ingredients>
+		</formula>
+	</formulas>
+</beaform>
