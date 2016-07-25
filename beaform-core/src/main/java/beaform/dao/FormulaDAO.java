@@ -40,6 +40,7 @@ public final class FormulaDAO {
 		final List<Ingredient> retList = retrievedFormula.getIngredients();
 
 		entityManager.getTransaction().commit();
+		entityManager.clear();
 
 		return retList;
 	}
@@ -68,8 +69,16 @@ public final class FormulaDAO {
 
 	private static void addIngredientsToFormula(final Formula formula, final List<Ingredient> ingredients) {
 		for (final Ingredient ingredient : ingredients) {
-			// We should only be holding existing Formulas at this point
-			formula.addIngredient(ingredient.getFormula(), ingredient.getAmount());
+			final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
+			final Formula dbVersion = entityManager.find(Formula.class, ingredient.getFormula().getName());
+			final Formula toAdd;
+			if (dbVersion != null) {
+				toAdd = dbVersion;
+			}
+			else {
+				toAdd = ingredient.getFormula();
+			}
+			formula.addIngredient(toAdd, ingredient.getAmount());
 		}
 	}
 
@@ -90,6 +99,7 @@ public final class FormulaDAO {
 		entityManager.persist(formula);
 		entityManager.getTransaction().commit();
 		entityManager.detach(formula);
+		entityManager.clear();
 
 	}
 
