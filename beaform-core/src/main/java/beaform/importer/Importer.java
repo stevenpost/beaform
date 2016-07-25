@@ -8,15 +8,16 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
-public class Importer {
+public final class Importer {
 
-	@SuppressWarnings("static-method")
-	public void importFromFile(final File input) throws ImporterException {
+	private Importer() {
+		// A utility class doesn't need a public constructor.
+	}
+
+	public static boolean importFromFile(final File input) throws ImporterException {
 		final SAXParserFactory factory = SAXParserFactory.newInstance();
 		final SAXParser parser;
-		final DefaultHandler handler = new ImporterHandler();
 		try {
 			parser = factory.newSAXParser();
 		}
@@ -24,12 +25,18 @@ public class Importer {
 			throw new ImporterException("There was a problem setting up the parser", e);
 		}
 
+		final ImporterHandler handler = new ImporterHandler();
 		try {
 			parser.parse(input, handler);
 		}
 		catch (SAXException | IOException e) {
 			throw new ImporterException("There was a problem parsing the input file", e);
 		}
+
+		// The map should be empty now.
+		final boolean noPendingIngredients = handler.getPendingIngredients() == 0;
+		assert noPendingIngredients;
+		return noPendingIngredients;
 	}
 
 }
