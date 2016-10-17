@@ -34,7 +34,7 @@ public final class MainEntry {
 		}
 
 		LOG.debug("Initializing DB...");
-		GraphDbHandler.initInstance("production");
+		GraphDbHandler.initInstance("production_db");
 		GraphDbHandler.getInstance();
 
 		LOG.debug("Done");

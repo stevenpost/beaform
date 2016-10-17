@@ -24,7 +24,7 @@ public class SearchFormulasByTagTaskTest {
 
 	@Before
 	public void setUp() {
-		GraphDbHandler.initInstance("test");
+		GraphDbHandler.initInstance("neo4j_test/db");
 		DebugUtils.clearDb();
 		DebugUtils.fillDb();
 	}
@@ -41,7 +41,6 @@ public class SearchFormulasByTagTaskTest {
 	@After
 	public void tearDown() {
 		DebugUtils.clearDb();
-		GraphDbHandler.clearInstance();
 	}
 
 }

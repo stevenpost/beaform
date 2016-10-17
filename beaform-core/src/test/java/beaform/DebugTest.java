@@ -2,20 +2,19 @@ package beaform;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Label;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.ResourceIterator;
+import org.neo4j.graphdb.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import beaform.dao.GraphDbHandler;
 import beaform.debug.DebugUtils;
-import beaform.entities.Formula;
 
 /**
  * Test some debugging utilities
@@ -32,7 +31,7 @@ public class DebugTest {
 
 	@Before
 	public void setUp() {
-		GraphDbHandler.initInstance("test");
+		GraphDbHandler.initInstance("neo4j_test/db");
 		DebugUtils.clearDb();
 	}
 
@@ -53,21 +52,24 @@ public class DebugTest {
 	@After
 	public void tearDown() {
 		DebugUtils.clearDb();
-		GraphDbHandler.clearInstance();
 	}
 
 	private static int countFormulasInDb() {
-		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
-		entityManager.getTransaction().begin();
-
-		final Query query = entityManager.createNativeQuery(ALL_FORMULAS, Formula.class);
-		final List<Formula> formulas = query.getResultList();
-
-
-		entityManager.getTransaction().commit();
+		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		Label label = Label.label("Formula");
+		int formCount = 0;
+		try ( Transaction tx = graphDb.beginTx() ) {
+			try ( ResourceIterator<Node> formulas = graphDb.findNodes(label)) {
+				while ( formulas.hasNext()) {
+					formulas.next();
+					formCount++;
+				}
+			}
+			tx.success();
+		}
 
 		LOG.debug(ALL_FORMULAS);
-		return formulas.size();
+		return formCount;
 	}
 
 }

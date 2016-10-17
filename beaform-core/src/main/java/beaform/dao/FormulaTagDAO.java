@@ -1,10 +1,9 @@
 package beaform.dao;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Label;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Transaction;
 
 import beaform.entities.FormulaTag;
 
@@ -16,45 +15,59 @@ import beaform.entities.FormulaTag;
  */
 public final class FormulaTagDAO {
 
-	/** logger */
-	private static final Logger LOG = LoggerFactory.getLogger(FormulaTagDAO.class);
-
-	/** The query to search a tag by name */
-	private static final String QRY_TAG_BY_NAME = "match (n:FormulaTag { name:{name} }) return n";
+	private static final Label LABEL = Label.label("FormulaTag");
 
 	private FormulaTagDAO() {
 		// Utility classes should not have a public constructor.
 	}
 
-	/**
-	 * Find a tag in the DB by its name.
-	 * @param name the name of the tag to look for
-	 * @param entityManager the entity manager
-	 * @return the tag found
-	 */
-	private static FormulaTag findByName(final String name, final EntityManager entityManager) {
-		final Query query = entityManager.createNativeQuery(QRY_TAG_BY_NAME, FormulaTag.class);
-		query.setParameter("name", name);
-		return (FormulaTag) query.getSingleResult();
+	public static Node findOrCreate(String tag) {
+		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		Node tagNode;
+		try (Transaction tx = graphDb.beginTx()) {
+
+			// See if the tag exist in the DB, if so, use it, otherwise create it
+			tagNode = graphDb.findNode(LABEL, "name", tag);
+			if (tagNode == null) {
+				tagNode = graphDb.createNode(LABEL);
+				tagNode.setProperty("name", tag);
+			}
+			tx.success();
+		}
+		return tagNode;
 	}
 
-	/**
-	 * Find a tag by using a tag object.
-	 * This method assumes we are already in a transaction.
-	 *
-	 * @param tag The tag to find
-	 * @return the tag that was found
-	 */
-	public static FormulaTag findByObject(final FormulaTag tag) {
+	public static Node findOrCreate(FormulaTag tag) {
+		return findOrCreate(tag.getName());
+	}
 
-		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
+	public static Node findByName(String name) {
+		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		Node tagNode;
+		try (Transaction tx = graphDb.beginTx()) {
+			tagNode = graphDb.findNode(LABEL, "name", name);
+			tx.success();
+		}
+		return tagNode;
+	}
 
-		final FormulaTag result = findByName(tag.getName(), entityManager);
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("Found: " + result);
+	public static FormulaTag nodeToTag(Node node) {
+		final Iterable<Label> labelIt = node.getLabels();
+		boolean hasCorrectLabel = false;
+		for (Label label : labelIt) {
+			if (label.name().equals(LABEL.name())) {
+				hasCorrectLabel = true;
+				break;
+			}
 		}
 
-		return result;
+		if (!hasCorrectLabel) {
+			throw new InvalidFormulaException();
+		}
+
+		String name = (String) node.getProperty("name");
+
+		return new FormulaTag(name);
 	}
 
 }

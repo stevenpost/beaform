@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import beaform.dao.FormulaDAO;
+import beaform.dao.NoSuchFormulaException;
 import beaform.entities.Formula;
 import beaform.entities.FormulaTag;
 import beaform.entities.Ingredient;
@@ -71,7 +72,12 @@ public final class FormulaEditor extends Observable implements InterchangableWin
 		final String name = this.editorUI.getName();
 		final String description = this.editorUI.getDescription();
 		final String totalAmount = this.editorUI.getTotalAmount();
-		FormulaDAO.updateExisting(name, description, totalAmount, ingredients, tags);
+		try {
+			FormulaDAO.updateExisting(name, description, totalAmount, ingredients, tags);
+		}
+		catch (NoSuchFormulaException e) {
+			LOG.error("Unable to update the formula, it doesn't appear to exist", e);
+		}
 
 	}
 

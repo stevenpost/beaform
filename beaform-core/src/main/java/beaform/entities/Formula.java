@@ -7,12 +7,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
@@ -21,18 +15,14 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * @author Steven Post
  *
  */
-@Entity
 public class Formula {
 
-	@Id
 	private String name = "";
 	private String description = "";
 	private String totalAmount = "";
 
-	@OneToMany(cascade=CascadeType.PERSIST)
-	private final Map<String, Formula> ingredients = new ConcurrentHashMap<>();
+	private final Map<Formula, String> ingredients = new ConcurrentHashMap<>();
 
-	@OneToMany(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
 	private final List<FormulaTag> tags = new ArrayList<>();
 
 	public Formula() {
@@ -70,7 +60,7 @@ public class Formula {
 	}
 
 	public void addIngredient(final Formula ingredient, final String amount) {
-		this.ingredients.put(ingredient.getName() + "|" + amount, ingredient);
+		this.ingredients.put(ingredient, amount);
 	}
 
 	public void addIngredient(final Ingredient ingredient) {
@@ -80,18 +70,12 @@ public class Formula {
 	public List<Ingredient> getIngredients() {
 		final ArrayList<Ingredient> returnIngredients = new ArrayList<>();
 
-		for (final Entry<String, Formula> entry : this.ingredients.entrySet()) {
-			final Ingredient ingredient = createIngredient(entry.getKey(), entry.getValue());
+		for (final Entry<Formula, String> entry : this.ingredients.entrySet()) {
+			final Ingredient ingredient = new Ingredient(entry.getKey(), entry.getValue());
 			returnIngredients.add(ingredient);
 		}
 
 		return returnIngredients;
-	}
-
-	private static Ingredient createIngredient(final String amount, final Formula formula) {
-		final String tmpAmount = amount.substring(amount.indexOf('|') + 1);
-
-		return new Ingredient(formula, tmpAmount);
 	}
 
 	public void deleteAllIngredients() {

@@ -1,13 +1,21 @@
 package beaform.dao;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
-import javax.transaction.NotSupportedException;
-import javax.transaction.SystemException;
-
+import org.apache.commons.collections.IteratorUtils;
+import org.neo4j.graphdb.Direction;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Label;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.ResourceIterator;
+import org.neo4j.graphdb.Result;
+import org.neo4j.graphdb.Transaction;
+import org.omg.CORBA.SystemException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,22 +33,41 @@ public final class FormulaDAO {
 
 	private static final Logger LOG = LoggerFactory.getLogger(FormulaDAO.class);
 
+	private static final Label LABEL = Label.label("Formula");
+
 	/** Query to search for a formula by tag */
 	private static final String FORMULA_BY_TAG = "MATCH (t:FormulaTag { name:{name} })<-[r]-(f:Formula) RETURN f";
+
+	private static final String LIST_INGREDIENTS = "MATCH (i:Formula)<-[r:" + RelTypes.HASINGREDIENT + "]-(f:Formula { name:{name} }) RETURN i,r";
 
 	private FormulaDAO() {
 		// private constructor, because this is a utility class.
 	}
 
 	public static List<Ingredient> getIngredients(final Formula formula) {
+		final List<Ingredient> retList = new ArrayList<>();
 
-		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
-		entityManager.getTransaction().begin();
-		final Formula retrievedFormula = entityManager.find(Formula.class, formula.getName());
-		final List<Ingredient> retList = retrievedFormula.getIngredients();
+		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
 
-		entityManager.getTransaction().commit();
-		entityManager.clear();
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("name", formula.getName());
+		try ( Transaction tx = graphDb.beginTx(); Result result = graphDb.execute(LIST_INGREDIENTS, parameters); ) {
+
+			while (result.hasNext()) {
+				Map<String,Object> row = result.next();
+				Formula ingredientCore = null;
+				String amount = null;
+				ingredientCore = nodeToFormula((Node) row.get("i"));
+
+				Relationship rel = (Relationship) row.get("r");
+				amount = (String) rel.getProperty("amount");
+
+				Ingredient ingredient = new Ingredient(ingredientCore, amount);
+				retList.add(ingredient);
+			}
+
+			tx.success();
+		}
 
 		return retList;
 	}
@@ -49,63 +76,112 @@ public final class FormulaDAO {
 	                                  final String description,
 	                                  final String totalAmount,
 	                                  final List<Ingredient> ingredients,
-	                                  final List<FormulaTag> tags) {
+	                                  final List<FormulaTag> tags) throws NoSuchFormulaException {
 
-		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
-		entityManager.getTransaction().begin();
+		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
 
-		final Formula formula = entityManager.find(Formula.class, name);
+		try ( Transaction tx = graphDb.beginTx() ) {
 
-		setFormulaProperties(formula, description, totalAmount);
+			Node formNode = graphDb.findNode(LABEL, "name", name);
+			if (formNode == null) {
+				throw new NoSuchFormulaException("A Formula with the name '" + name + "' does not exist");
+			}
+			formNode.setProperty("description", description);
+			formNode.setProperty("totalAmount", totalAmount);
 
-		clearFormulaRelations(formula);
+			Iterator<Relationship> itRel = formNode.getRelationships(Direction.OUTGOING, RelTypes.HASINGREDIENT).iterator();
+			while (itRel.hasNext()) {
+				Relationship relation = itRel.next();
+				relation.delete();
+			}
 
-		addTags(tags, formula);
-		addIngredientsToFormula(formula, ingredients);
+			addTags(tags, formNode);
 
-		entityManager.getTransaction().commit();
-		entityManager.detach(formula);
+			final Formula formula = new Formula(name, description, totalAmount);
+			addIngredientsToFormulaNode(formNode, ingredients);
+			addIngredientsToFormula(formula, ingredients);
+			tx.success();
+		}
+	}
+
+	private static void addIngredientsToFormulaNode(final Node formula, final List<Ingredient> ingredients) {
+		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+
+		try ( Transaction tx = graphDb.beginTx() ) {
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("Adding " + ingredients.size() + " ingredient(s) to " + (String) formula.getProperty("name"));
+			}
+
+			for (final Ingredient ingredient : ingredients) {
+				Node ingredientNode = graphDb.findNode(LABEL, "name", ingredient.getFormula().getName());
+				Formula ingredientFormula = ingredient.getFormula();
+				if (ingredientNode == null) {
+					ingredientNode = addFormula(ingredientFormula);
+				}
+				Relationship relation = formula.createRelationshipTo(ingredientNode, RelTypes.HASINGREDIENT);
+				relation.setProperty("amount", ingredient.getAmount());
+			}
+
+			tx.success();
+		}
 	}
 
 	private static void addIngredientsToFormula(final Formula formula, final List<Ingredient> ingredients) {
 		for (final Ingredient ingredient : ingredients) {
-			final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
-			final Formula dbVersion = entityManager.find(Formula.class, ingredient.getFormula().getName());
-			final Formula toAdd;
-			if (dbVersion != null) {
-				toAdd = dbVersion;
-			}
-			else {
-				toAdd = ingredient.getFormula();
-			}
-			formula.addIngredient(toAdd, ingredient.getAmount());
+			Formula ingredientFormula = ingredient.getFormula();
+			formula.addIngredient(ingredientFormula, ingredient.getAmount());
 		}
 	}
 
-	public static void addFormula(final String name,
+	public static Node addFormula(final String name,
 	                              final String description,
 	                              final String totalAmount,
 	                              final List<Ingredient> ingredients,
 	                              final List<FormulaTag> tags) {
 
-		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
-		entityManager.getTransaction().begin();
+		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		final Node formNode;
 
-		final Formula formula = new Formula(name, description, totalAmount);
+		try ( Transaction tx = graphDb.beginTx() ) {
 
-		addTags(tags, formula);
-		addIngredientsToFormula(formula, ingredients);
+			final Formula formula = new Formula(name, description, totalAmount);
 
-		entityManager.persist(formula);
-		entityManager.getTransaction().commit();
-		entityManager.detach(formula);
-		entityManager.clear();
+			formNode = graphDb.createNode(LABEL);
+			formNode.setProperty("name", name);
+			formNode.setProperty("description", description);
+			formNode.setProperty("totalAmount", totalAmount);
+
+			addTags(tags, formNode);
+			addIngredientsToFormulaNode(formNode, ingredients);
+			addIngredientsToFormula(formula, ingredients);
+			tx.success();
+		}
+
+		return formNode;
 
 	}
 
-	private static void setFormulaProperties(final Formula formula, final String description, final String totalAmount) {
-		formula.setDescription(description);
-		formula.setTotalAmount(totalAmount);
+	public static Node addFormula(final Formula formula) {
+
+		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		final Node formNode;
+
+		try ( Transaction tx = graphDb.beginTx() ) {
+
+			formNode = graphDb.createNode(LABEL);
+			formNode.setProperty("name", formula.getName());
+			formNode.setProperty("description", formula.getDescription());
+			formNode.setProperty("totalAmount", formula.getTotalAmount());
+
+
+			addTags(IteratorUtils.toList(formula.getTags()), formNode);
+			addIngredientsToFormulaNode(formNode, formula.getIngredients());
+
+			tx.success();
+		}
+
+		return formNode;
+
 	}
 
 	/**
@@ -120,25 +196,27 @@ public final class FormulaDAO {
 	 *         and nested transactions are not supported.
 	 * @throws SystemException If the transaction service fails in an unexpected way.
 	 */
-	private static void addTags(final List<FormulaTag> tags, final Formula formula) {
+	private static void addTags(final List<FormulaTag> tags, final Node formula) {
 		for (final FormulaTag tag : tags) {
 			addTagToFormula(formula, tag);
 		}
 	}
 
-	private static void addTagToFormula(final Formula formula, final FormulaTag tag) {
-		// See if the tag exist in the DB, if so, use it.
-		FormulaTag tagToAdd;
-		try {
-			tagToAdd = FormulaTagDAO.findByObject(tag);
-		}
-		catch (NoResultException e1) {
-			if (LOG.isTraceEnabled()) {
-				LOG.trace("No tag with name " + tag.getName() + " found: " + e1.getMessage(), e1);
+	private static void addTagToFormula(final Node formula, final FormulaTag tag) {
+		Node tagNode = FormulaTagDAO.findOrCreate(tag);
+
+		Iterable<Relationship> relations = formula.getRelationships(Direction.OUTGOING, RelTypes.HASTAG);
+		boolean found = false;
+		for (Relationship relation : relations) {
+			String name = (String) relation.getEndNode().getProperty("name");
+			if (tag.getName().equals(name)) {
+				found = true;
+				break;
 			}
-			tagToAdd = tag;
 		}
-		formula.addTag(tagToAdd);
+		if (!found) {
+			formula.createRelationshipTo(tagNode, RelTypes.HASTAG);
+		}
 	}
 
 	/**
@@ -150,50 +228,87 @@ public final class FormulaDAO {
 	 */
 	public static Formula findFormulaByName(final String name) {
 
-		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
-		entityManager.getTransaction().begin();
+		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		Formula formula;
 
-		final Formula result = entityManager.find(Formula.class, name);
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("Found: " + result);
+		try ( Transaction tx = graphDb.beginTx() ) {
+
+			Node node = graphDb.findNode(LABEL, "name", name);
+			if (node == null) {
+				return null;
+			}
+			formula = nodeToFormula(node);
+			fillTagsForFormula(formula, node);
+
+			tx.success();
 		}
 
-		entityManager.getTransaction().commit();
-		if (result != null) {
-			entityManager.detach(result);
-		}
-
-		return result;
+		return formula;
 	}
 
 	public static List<Formula> findFormulasByTag(final String tagName) {
 
-		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
-		entityManager.getTransaction().begin();
+		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		List<Formula> formulas = new ArrayList<>();
 
-		final List<Formula> result = findByTag(tagName, entityManager);
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("Found: " + result);
+		try ( Transaction tx = graphDb.beginTx() ) {
+
+			Map<String, Object> parameters = new HashMap<>();
+			parameters.put("name", tagName);
+			try (ResourceIterator<Node> resultIterator = graphDb.execute(FORMULA_BY_TAG, parameters).columnAs("f")) {
+				if (LOG.isDebugEnabled()) {
+					LOG.debug("Got a result");
+				}
+				while (resultIterator.hasNext()) {
+					Node formulaNode = resultIterator.next();
+					Formula form = nodeToFormula(formulaNode);
+					fillTagsForFormula(form, formulaNode);
+					formulas.add(form);
+					if (LOG.isDebugEnabled()) {
+						LOG.debug("found a mathing formula");
+					}
+				}
+			}
+
+			tx.success();
 		}
 
-		entityManager.getTransaction().commit();
+		return formulas;
+	}
 
-		for (final Formula formula : result) {
-			entityManager.detach(formula);
+	private static void fillTagsForFormula(Formula formula, Node formulaNode) {
+		Iterable<Relationship> relations = formulaNode.getRelationships(Direction.OUTGOING, RelTypes.HASTAG);
+		int i = 0;
+		for (Relationship relation : relations) {
+			Node tagNode = relation.getEndNode();
+			FormulaTag tag = FormulaTagDAO.nodeToTag(tagNode);
+			formula.addTag(tag);
+			i++;
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("found tag number " + i + ": " + tag.toString());
+			}
+		}
+	}
+
+	public static Formula nodeToFormula(Node node) {
+		final Iterable<Label> labelIt = node.getLabels();
+		boolean hasCorrectLabel = false;
+		for (Label label : labelIt) {
+			if (label.name().equals(LABEL.name())) {
+				hasCorrectLabel = true;
+				break;
+			}
 		}
 
-		return result;
-	}
+		if (!hasCorrectLabel) {
+			throw new InvalidFormulaException();
+		}
 
-	private static List<Formula> findByTag(final String tagName, final EntityManager entityManager) {
-		final Query query = entityManager.createNativeQuery(FORMULA_BY_TAG, Formula.class);
-		query.setParameter("name", tagName);
-		return query.getResultList();
-	}
+		String name = (String) node.getProperty("name");
+		String description = (String) node.getProperty("description");
+		String totalAmount = (String) node.getProperty("totalAmount");
 
-	private static void clearFormulaRelations(final Formula formula) {
-		formula.deleteAllIngredients();
-		formula.deleteAllTags();
+		return new Formula(name, description, totalAmount);
 	}
 
 }

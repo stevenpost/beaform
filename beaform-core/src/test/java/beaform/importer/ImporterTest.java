@@ -10,12 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.ResourceIterator;
+import org.neo4j.graphdb.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,13 +29,13 @@ import beaform.entities.Ingredient;
 public class ImporterTest {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ImporterTest.class);
-	private static final String ALL_FORMULAS = "match (n:Formula) return count(n)";
+	private static final String ALL_FORMULAS = "match (n:Formula) return count(n) as i";
 
 	private final String importFilePath = "src/test/resources/importer/input.xml";
 
 	@Before
 	public void setUp() {
-		GraphDbHandler.initInstance("test");
+		GraphDbHandler.initInstance("neo4j_test/db");
 		DebugUtils.clearDb();
 	}
 
@@ -62,18 +62,18 @@ public class ImporterTest {
 	@After
 	public void tearDown() {
 		DebugUtils.clearDb();
-		GraphDbHandler.clearInstance();
 	}
 
 	private static long countFormulasInDb() {
-		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
-		entityManager.getTransaction().begin();
+		long formulaCount;
+		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
 
-		final Query query = entityManager.createNativeQuery(ALL_FORMULAS);
-		final long formulaCount = ((Long) query.getSingleResult()).longValue();
+		try ( Transaction tx = graphDb.beginTx(); ResourceIterator<Long> result = graphDb.execute(ALL_FORMULAS).columnAs("i"); ) {
 
+			formulaCount = result.next().longValue();
 
-		entityManager.getTransaction().commit();
+			tx.success();
+		}
 
 		LOG.debug(ALL_FORMULAS);
 		return formulaCount;
@@ -85,14 +85,14 @@ public class ImporterTest {
 		List<String> tagsFromForm = form.getTagsAsStrings();
 
 		for (String tag : tags) {
-			assertTrue("The tag " + tag + "couldn't be found", tagsFromForm.contains(tag));
+			assertTrue("The tag " + tag + " couldn't be found", tagsFromForm.contains(tag));
 		}
 		assertEquals("This isn't the expected number of tags", tags.size(), tagsFromForm.size());
 
 		List<Ingredient> ingredientsFromForm = FormulaDAO.getIngredients(form);
 		for (Ingredient ingredient : ingredientsFromForm) {
 			final String ingredientName = ingredient.getFormula().getName();
-			assertTrue("The ingredient " + ingredientName + "couldn't be found", ingredients.containsKey(ingredientName));
+			assertTrue("The ingredient " + ingredientName + " couldn't be found", ingredients.containsKey(ingredientName));
 			assertEquals("The ingredient doesn't have the expected amount", ingredients.get(ingredientName), ingredient.getAmount());
 		}
 		assertEquals("This isn't the expected number of ingredients", ingredients.size(), ingredientsFromForm.size());

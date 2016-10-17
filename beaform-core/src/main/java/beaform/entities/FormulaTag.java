@@ -2,9 +2,6 @@ package beaform.entities;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
@@ -13,12 +10,10 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * @author steven
  *
  */
-@Entity
 public class FormulaTag implements Serializable {
 
 	private static final long serialVersionUID = 8568943568088422588L;
 
-	@Id
 	private String name;
 
 	public FormulaTag() {

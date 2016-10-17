@@ -3,13 +3,12 @@ package beaform.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceException;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Transaction;
 
 import beaform.debug.DebugUtils;
 import beaform.entities.FormulaTag;
@@ -25,47 +24,29 @@ public class FormulaTagDAOTest {
 
 	@Before
 	public void setUp() {
-		GraphDbHandler.initInstance("test");
+		GraphDbHandler.initInstance("neo4j_test/db");
 		DebugUtils.clearDb();
 	}
 
 	@Test
-	public void testFindTagByName() {
+	public void testFindOrCreate() {
+		String name;
+
 		DebugUtils.fillDb();
-		final EntityManager entitymanager = GraphDbHandler.getInstance().getEntityManager();
-		entitymanager.getTransaction().begin();
-
-		final FormulaTag tag = FormulaTagDAO.findByObject(new FormulaTag("First"));
-
-		entitymanager.getTransaction().commit();
-
-		assertNotNull("The tag wasn't found", tag);
-		assertEquals("This isn't the expected formula", "First", tag.getName());
-	}
-
-	@Test(expected=NoResultException.class)
-	public void testFindTagByNameNoResult() {
-		DebugUtils.fillDb();
-		final EntityManager entitymanager = GraphDbHandler.getInstance().getEntityManager();
-		try {
-			entitymanager.getTransaction().begin();
-
-			FormulaTagDAO.findByObject(new FormulaTag("Form1"));
-
-			entitymanager.getTransaction().commit();
+		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		try (Transaction tx = graphDb.beginTx()) {
+			Node tag = FormulaTagDAO.findOrCreate(new FormulaTag("First"));
+			name = (String) tag.getProperty("name");
+			tx.success();
 		}
-		catch (PersistenceException pe) {
-			if (entitymanager.getTransaction().isActive()) {
-				entitymanager.getTransaction().rollback();
-			}
-			throw pe;
-		}
+
+		assertNotNull("The tag wasn't found", name);
+		assertEquals("This isn't the expected formula", "First", name);
 	}
 
 	@After
 	public void tearDown() {
 		DebugUtils.clearDb();
-		GraphDbHandler.clearInstance();
 	}
 
 }

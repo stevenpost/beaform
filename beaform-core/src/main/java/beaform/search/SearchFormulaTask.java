@@ -2,9 +2,6 @@ package beaform.search;
 
 import java.util.concurrent.Callable;
 
-import javax.transaction.NotSupportedException;
-import javax.transaction.SystemException;
-
 import beaform.dao.FormulaDAO;
 import beaform.entities.Formula;
 
@@ -23,7 +20,7 @@ public final class SearchFormulaTask implements Callable<Formula> {
 	}
 
 	@Override
-	public Formula call() throws NotSupportedException, SystemException {
+	public Formula call() {
 		return FormulaDAO.findFormulaByName(this.name);
 	}
 

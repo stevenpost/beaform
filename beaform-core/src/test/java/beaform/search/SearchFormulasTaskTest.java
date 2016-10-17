@@ -26,7 +26,7 @@ public class SearchFormulasTaskTest extends TestCase {
 	@Override
 	@Before
 	public void setUp() {
-		GraphDbHandler.initInstance("test");
+		GraphDbHandler.initInstance("neo4j_test/db");
 		DebugUtils.clearDb();
 		DebugUtils.fillDb();
 	}
@@ -49,7 +49,6 @@ public class SearchFormulasTaskTest extends TestCase {
 	@After
 	public void tearDown() {
 		DebugUtils.clearDb();
-		GraphDbHandler.clearInstance();
 	}
 
 }

@@ -12,6 +12,8 @@ import org.apache.commons.collections.ListUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import beaform.debug.DebugUtils;
 import beaform.entities.Formula;
@@ -28,9 +30,11 @@ import beaform.search.SearchFormulaTask;
 @SuppressWarnings("static-method")
 public class FormulaDAOTest {
 
+	private static final Logger LOG = LoggerFactory.getLogger(FormulaDAOTest.class);
+
 	@Before
 	public void setUp() {
-		GraphDbHandler.initInstance("test");
+		GraphDbHandler.initInstance("neo4j_test/db");
 		DebugUtils.clearDb();
 	}
 
@@ -60,6 +64,9 @@ public class FormulaDAOTest {
 		final Callable<Formula> task = new SearchFormulaTask("Form1");
 		final Formula result = task.call();
 		final List<Ingredient> ingredients = FormulaDAO.getIngredients(result);
+		for (Ingredient ingredient : ingredients) {
+			LOG.debug("Ingredient: " + ingredient.toString());
+		}
 		assertEquals("The ingredient list isn't the expected size", 1, ingredients.size());
 	}
 
@@ -90,7 +97,6 @@ public class FormulaDAOTest {
 	@After
 	public void tearDown() {
 		DebugUtils.clearDb();
-		GraphDbHandler.clearInstance();
 	}
 
 }

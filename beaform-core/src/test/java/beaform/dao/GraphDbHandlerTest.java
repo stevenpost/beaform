@@ -13,24 +13,12 @@ import org.junit.Test;
 @SuppressWarnings("static-method")
 public class GraphDbHandlerTest {
 
-	@Test(expected=IllegalStateException.class)
-	public void testClearInstanceException() {
-		GraphDbHandler.clearInstance();
-	}
-
-	@Test(expected=IllegalStateException.class)
-	public void testGetInstanceException() {
-		GraphDbHandler.getInstance();
-	}
-
 	@Test
 	public void testGetInstance() {
-		GraphDbHandler.initInstance("test");
+		GraphDbHandler.initInstance("neo4j_test/db");
 		final GraphDbHandler handler = GraphDbHandler.getInstance();
 
 		assertNotNull("The handler is null", handler);
-
-		GraphDbHandler.clearInstance();
 	}
 
 }

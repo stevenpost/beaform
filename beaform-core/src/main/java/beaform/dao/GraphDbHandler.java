@@ -1,8 +1,9 @@
 package beaform.dao;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import java.io.File;
+
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 
 /**
  * A handler for the graph database using JTA.
@@ -18,22 +19,29 @@ public final class GraphDbHandler {
 	/** A lock for accessing the instance */
 	private static final Object INSTANCELOCK = new Object();
 
-	/** The global {@link EntityManager} */
-	private final EntityManager entityManager;
+	/** The DB service */
+	private final GraphDatabaseService graphDb;
 
-	/** The global EntityManager factory */
-	private final EntityManagerFactory entityManagerFact;
+	private GraphDbHandler(final String dbPath) {
+		this.graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(new File(dbPath));
+		registerShutdownHook(this.graphDb);
+	}
 
-	/** The shutdown hook */
-	private final ShutDownHook shutdownHook;
+	private static void registerShutdownHook( final GraphDatabaseService graphDb ) {
+		// Registers a shutdown hook for the Neo4j instance so that it
+		// shuts down nicely when the VM exits (even if you "Ctrl-C" the
+		// running application).
+		Runtime.getRuntime().addShutdownHook( new Thread() {
+			@Override
+			public void run()
+			{
+				graphDb.shutdown();
+			}
+		} );
+	}
 
-	private GraphDbHandler(final String persistenceUnit) {
-		this.entityManagerFact = Persistence.createEntityManagerFactory(persistenceUnit);
-
-		this.entityManager = this.entityManagerFact.createEntityManager();
-
-		this.shutdownHook = new ShutDownHook(this.entityManager, this.entityManagerFact);
-		Runtime.getRuntime().addShutdownHook(this.shutdownHook);
+	public GraphDatabaseService getService() {
+		return this.graphDb;
 	}
 
 	/**
@@ -59,30 +67,6 @@ public final class GraphDbHandler {
 			}
 			return instance;
 		}
-	}
-
-	/**
-	 * Get the instance of this handler.
-	 */
-	public static void clearInstance() {
-		synchronized (INSTANCELOCK) {
-			if (instance == null) {
-				throw new IllegalStateException("The instance is not yet initialised");
-			}
-			instance.entityManager.close();
-			instance.entityManagerFact.close();
-			Runtime.getRuntime().removeShutdownHook(instance.shutdownHook);
-			instance = null;
-		}
-	}
-
-	/**
-	 * Getter for the entity manager.
-	 *
-	 * @return the entity manager
-	 */
-	public EntityManager getEntityManager() {
-		return this.entityManager;
 	}
 
 }

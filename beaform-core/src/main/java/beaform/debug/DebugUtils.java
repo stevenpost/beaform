@@ -1,19 +1,24 @@
 package beaform.debug;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceException;
-import javax.persistence.Query;
-
+import org.apache.commons.collections.ListUtils;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Label;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.ResourceIterator;
+import org.neo4j.graphdb.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import beaform.dao.FormulaDAO;
+import beaform.dao.FormulaTagDAO;
 import beaform.dao.GraphDbHandler;
+import beaform.dao.RelTypes;
 import beaform.entities.Formula;
 import beaform.entities.FormulaTag;
-import beaform.entities.Ingredient;
 
 /**
  * This class bundles some debug utilities.
@@ -29,8 +34,10 @@ public final class DebugUtils {
 	/** The query to list all formulas */
 	private static final String ALL_FORMULAS = "match (n:Formula) return n";
 
+	private static final String ALL_TAGS = "match (n:FormulaTag) return n";
+
 	/** Query to clear everything */
-	private static final String DELETE_QUERY = "MATCH n OPTIONAL MATCH (n)-[r]-() DELETE n,r";
+	private static final String DELETE_QUERY = "MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r";
 
 	private DebugUtils() {
 		// Utility class.
@@ -41,43 +48,72 @@ public final class DebugUtils {
 	 */
 	public static void listAllFormulas() {
 
-		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
-		entityManager.getTransaction().begin();
+		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
 
-		final Query query = entityManager.createNativeQuery(ALL_FORMULAS, Formula.class);
-		final List<Formula> formulas = query.getResultList();
+		Label label = Label.label("Formula");
+		try ( Transaction tx = graphDb.beginTx() ) {
+			try ( ResourceIterator<Node> formulas = graphDb.findNodes(label)) {
+				ArrayList<Node> formulaNodes = new ArrayList<>();
+				while ( formulas.hasNext()) {
+					formulaNodes.add(formulas.next());
+				}
 
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("Number of formulas: " + formulas.size());
+				if (LOG.isDebugEnabled()) {
+					LOG.debug("Number of formulas: " + formulaNodes.size());
+				}
+
+				for (Node node : formulaNodes) {
+					Formula form = FormulaDAO.nodeToFormula(node);
+					LOG.info(form.toString());
+				}
+			}
+			tx.success();
 		}
-
-		for (final Formula formula : formulas) {
-			LOG.debug(formula.toString());
-		}
-
-		entityManager.getTransaction().commit();
 
 		LOG.debug(ALL_FORMULAS);
+	}
+
+	/**
+	 * List all formulas in the DB.
+	 */
+	public static void listAllTags() {
+
+		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+
+		Label label = Label.label("FormulaTag");
+		try ( Transaction tx = graphDb.beginTx() ) {
+			try ( ResourceIterator<Node> formulas = graphDb.findNodes(label)) {
+				ArrayList<Node> tagNodes = new ArrayList<>();
+				while ( formulas.hasNext()) {
+					tagNodes.add(formulas.next());
+				}
+
+				if (LOG.isDebugEnabled()) {
+					LOG.debug("Number of tags: " + tagNodes.size());
+				}
+
+				for (Node node : tagNodes) {
+					FormulaTag form = FormulaTagDAO.nodeToTag(node);
+					LOG.info(form.toString());
+				}
+			}
+			tx.success();
+		}
+
+		LOG.debug(ALL_TAGS);
 	}
 
 	/**
 	 * Delete everything in the DB.
 	 */
 	public static void clearDb() {
-		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
-		entityManager.getTransaction().begin();
 
-		try {
-			final Query query = entityManager.createNativeQuery(DELETE_QUERY);
-			query.getSingleResult();
-		}
-		catch (NoResultException nre) {
-			// We delete everything, there won't be a result.
-			LOG.trace("No result found, which is good", nre);
+		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		try ( Transaction tx = graphDb.beginTx() ) {
+			graphDb.execute(DELETE_QUERY);
+			tx.success();
 		}
 
-		entityManager.getTransaction().commit();
-		entityManager.clear();
 		LOG.info("DB cleared");
 
 	}
@@ -86,39 +122,30 @@ public final class DebugUtils {
 	 * Fills the database with some test values.
 	 */
 	public static void fillDb() {
-		final EntityManager entityManager = GraphDbHandler.getInstance().getEntityManager();
-		entityManager.getTransaction().begin();
+		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
 
-		try {
+		try ( Transaction tx = graphDb.beginTx() ) {
 
-			final FormulaTag firstTag = createTag(entityManager, "First");
-			final FormulaTag secondTag = createTag(entityManager, "Second");
+			final FormulaTag firstTag = FormulaTagDAO.nodeToTag(FormulaTagDAO.findOrCreate("First"));
+			final FormulaTag secondTag = FormulaTagDAO.nodeToTag(FormulaTagDAO.findOrCreate("Second"));
 
 			final FormulaTag[] form1Tags = new FormulaTag[]{firstTag, secondTag};
-			final Formula form1 = createFormula(entityManager, "Form1", "First test formula", form1Tags);
+			final Node form1 = createFormula("Form1", "First test formula", form1Tags);
 			final FormulaTag[] form2Tags = new FormulaTag[]{firstTag};
-			final Formula form2 = createFormula(entityManager, "Form2", "Second test formula", form2Tags);
-			final Formula form3 = createFormula(entityManager, "Form3", "Third test formula");
-			final Formula form4 = createFormula(entityManager, "Form4", "Fourth test formula");
+			final Node form2 = createFormula("Form2", "Second test formula", form2Tags);
+			final Node form3 = createFormula("Form3", "Third test formula");
+			final Node form4 = createFormula("Form4", "Fourth test formula");
 
 			// Add relationships
-			addIngredientsToFormula(form1, new Ingredient[]{new Ingredient(form3, "50%")});
-			final Ingredient[] form2Ingredients = new Ingredient[]{
-			                                                       new Ingredient(form4, "10%"),
-			                                                       new Ingredient(form1, "50%")};
-			addIngredientsToFormula(form2, form2Ingredients);
+			Relationship rel1 = form1.createRelationshipTo(form3, RelTypes.HASINGREDIENT);
+			rel1.setProperty("amount", "50%");
 
-			entityManager.getTransaction().commit();
-			entityManager.detach(form1);
-			entityManager.detach(form2);
-			entityManager.detach(form3);
-			entityManager.detach(form4);
-			entityManager.detach(firstTag);
-			entityManager.detach(secondTag);
-		}
-		catch (PersistenceException pe) {
-			entityManager.getTransaction().rollback();
-			throw pe;
+			Relationship rel2 = form2.createRelationshipTo(form4, RelTypes.HASINGREDIENT);
+			rel2.setProperty("amount", "10%");
+			Relationship rel3 = form2.createRelationshipTo(form1, RelTypes.HASINGREDIENT);
+			rel3.setProperty("amount", "50%");
+
+			tx.success();
 		}
 	}
 
@@ -127,10 +154,9 @@ public final class DebugUtils {
 	 * @param entityManager the entity manager that is to be used
 	 * @return the created formula
 	 */
-	private static Formula createFormula(final EntityManager entityManager,
-	                                     final String name,
-	                                     final String description) {
-		return createFormula(entityManager, name, description, null);
+	private static Node createFormula(final String name,
+	                                  final String description) {
+		return FormulaDAO.addFormula(name, description, "", ListUtils.EMPTY_LIST, ListUtils.EMPTY_LIST);
 	}
 
 	/**
@@ -139,45 +165,11 @@ public final class DebugUtils {
 	 * @param tags any tags to be associated with the formula
 	 * @return the created formula
 	 */
-	private static Formula createFormula(final EntityManager entityManager,
-	                                     final String name,
-	                                     final String description,
-	                                     final FormulaTag[] tags) {
+	private static Node createFormula(final String name,
+	                                  final String description,
+	                                  final FormulaTag[] tags) {
 
-		final Formula formula = new Formula(name, description, "0%");
-		if (tags != null) {
-			for (final FormulaTag tag : tags) {
-				formula.addTag(tag);
-			}
-		}
-
-		entityManager.persist(formula);
-		return formula;
-	}
-
-	/**
-	 * Create a tag.
-	 * @param entityManager The entity manager to use.
-	 * @param name the name for the new tag
-	 * @return the new tag
-	 */
-	private static FormulaTag createTag(final EntityManager entityManager, final String name) {
-		final FormulaTag tag = new FormulaTag(name);
-		entityManager.persist(tag);
-
-		return tag;
-	}
-
-	/**
-	 * Add ingredients to a formula.
-	 *
-	 * @param formula The formula to add the ingredients to
-	 * @param ingredients The ingredients to add.
-	 */
-	private static void addIngredientsToFormula(final Formula formula, final Ingredient[] ingredients){
-		for (final Ingredient ingredient : ingredients) {
-			formula.addIngredient(ingredient.getFormula(), ingredient.getAmount());
-		}
+		return FormulaDAO.addFormula(name, description, "", ListUtils.EMPTY_LIST, Arrays.asList(tags));
 	}
 
 }

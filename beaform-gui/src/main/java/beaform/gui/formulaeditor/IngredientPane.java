@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.persistence.NoResultException;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -160,13 +159,8 @@ public final class IngredientPane extends JPanel {
 			throw new UnsupportedOperationException("No amount entered");
 		}
 
-		try {
-			final Formula form = FormulaDAO.findFormulaByName(ingredient);
-			this.ingredients.addElement(new Ingredient(form, amount));
-		}
-		catch (NoResultException e) {
-			throw new UnsupportedOperationException("The entered formula doesn't exist", e);
-		}
+		final Formula form = FormulaDAO.findFormulaByName(ingredient);
+		this.ingredients.addElement(new Ingredient(form, amount));
 
 
 		this.txtName.setText("");
