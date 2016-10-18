@@ -130,11 +130,11 @@ public final class DebugUtils {
 			final FormulaTag secondTag = FormulaTagDAO.nodeToTag(FormulaTagDAO.findOrCreate("Second"));
 
 			final FormulaTag[] form1Tags = new FormulaTag[]{firstTag, secondTag};
-			final Node form1 = createFormula("Form1", "First test formula", form1Tags);
+			final Node form1 = createFormula("Form1", "First test formula", "5g", form1Tags);
 			final FormulaTag[] form2Tags = new FormulaTag[]{firstTag};
-			final Node form2 = createFormula("Form2", "Second test formula", form2Tags);
-			final Node form3 = createFormula("Form3", "Third test formula");
-			final Node form4 = createFormula("Form4", "Fourth test formula");
+			final Node form2 = createFormula("Form2", "Second test formula", "10g", form2Tags);
+			final Node form3 = createFormula("Form3", "Third test formula", "1g");
+			final Node form4 = createFormula("Form4", "Fourth test formula", "2g");
 
 			// Add relationships
 			Relationship rel1 = form1.createRelationshipTo(form3, RelTypes.HASINGREDIENT);
@@ -155,8 +155,9 @@ public final class DebugUtils {
 	 * @return the created formula
 	 */
 	private static Node createFormula(final String name,
-	                                  final String description) {
-		Formula formula = new Formula(name, description, null);
+	                                  final String description,
+	                                  final String totalAmount) {
+		Formula formula = new Formula(name, description, totalAmount);
 		return FormulaDAO.addFormula(formula);
 	}
 
@@ -168,8 +169,9 @@ public final class DebugUtils {
 	 */
 	private static Node createFormula(final String name,
 	                                  final String description,
+	                                  final String totalAmount,
 	                                  final FormulaTag[] tags) {
-		Formula formula = new Formula(name, description, null);
+		Formula formula = new Formula(name, description, totalAmount);
 		for (FormulaTag tag : tags) {
 			formula.addTag(tag);
 		}
