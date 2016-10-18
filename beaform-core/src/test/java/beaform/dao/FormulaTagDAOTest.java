@@ -7,6 +7,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 
@@ -76,10 +77,20 @@ public class FormulaTagDAOTest {
 	}
 
 	@Test(expected=InvalidFormulaException.class)
-	public void testNodeToTagWithInvalid() {
+	public void testNodeToTagWithoutLabel() {
 		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
 		try (Transaction tx = graphDb.beginTx()) {
 			Node node = graphDb.createNode();
+			FormulaTagDAO.nodeToTag(node);
+			tx.success();
+		}
+	}
+
+	@Test(expected=InvalidFormulaException.class)
+	public void testNodeToTagWithInvalidLabel() {
+		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		try (Transaction tx = graphDb.beginTx()) {
+			Node node = graphDb.createNode(Label.label("dummylabel"));
 			FormulaTagDAO.nodeToTag(node);
 			tx.success();
 		}
