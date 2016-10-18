@@ -94,6 +94,14 @@ public class FormulaDAOTest {
 		assertEquals("This isn't the expected description", "New description", result.getDescription());
 	}
 
+	@Test(expected=NoSuchFormulaException.class)
+	public void testUpdateExistingNotFound() throws Exception {
+		FormulaDAO.updateExisting("Form1", "New description", "100g", Collections.emptyList(), Collections.emptyList());
+		final Callable<Formula> task = new SearchFormulaTask("Form1");
+		final Formula result = task.call();
+		assertEquals("This isn't the expected description", "New description", result.getDescription());
+	}
+
 	@After
 	public void tearDown() {
 		DebugUtils.clearDb();
