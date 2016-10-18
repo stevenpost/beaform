@@ -38,7 +38,8 @@ public final class FormulaDAO {
 	/** Query to search for a formula by tag */
 	private static final String FORMULA_BY_TAG = "MATCH (t:FormulaTag { name:{name} })<-[r]-(f:Formula) RETURN f";
 
-	private static final String LIST_INGREDIENTS = "MATCH (i:Formula)<-[r:" + RelTypes.HASINGREDIENT + "]-(f:Formula { name:{name} }) RETURN i,r";
+	private static final String LIST_INGREDIENTS = "MATCH (i:Formula)<-[r:" + RelTypes.HASINGREDIENT +
+					"]-(f:Formula { name:{name} }) RETURN i,r";
 
 	private FormulaDAO() {
 		// private constructor, because this is a utility class.
