@@ -39,6 +39,8 @@ public final class DebugUtils {
 	/** Query to clear everything */
 	private static final String DELETE_QUERY = "MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r";
 
+	private static final String RELATION_AMOUNT = "amount";
+
 	private DebugUtils() {
 		// Utility class.
 	}
@@ -138,12 +140,12 @@ public final class DebugUtils {
 
 			// Add relationships
 			Relationship rel1 = form1.createRelationshipTo(form3, RelTypes.HASINGREDIENT);
-			rel1.setProperty("amount", "50%");
+			rel1.setProperty(RELATION_AMOUNT, "50%");
 
 			Relationship rel2 = form2.createRelationshipTo(form4, RelTypes.HASINGREDIENT);
-			rel2.setProperty("amount", "10%");
+			rel2.setProperty(RELATION_AMOUNT, "10%");
 			Relationship rel3 = form2.createRelationshipTo(form1, RelTypes.HASINGREDIENT);
-			rel3.setProperty("amount", "50%");
+			rel3.setProperty(RELATION_AMOUNT, "50%");
 
 			tx.success();
 		}
