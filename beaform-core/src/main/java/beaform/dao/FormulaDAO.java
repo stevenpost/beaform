@@ -34,9 +34,14 @@ public final class FormulaDAO {
 	private static final Logger LOG = LoggerFactory.getLogger(FormulaDAO.class);
 
 	private static final Label LABEL = Label.label("Formula");
+	private static final String NAME = "name";
+	private static final String DESCRIPTION = "description";
+	private static final String TOTAL_AMOUNT = "totalAmount";
+	private static final String RELATION_AMOUNT = "amount";
 
 	/** Query to search for a formula by tag */
-	private static final String FORMULA_BY_TAG = "MATCH (t:FormulaTag { name:{name} })<-[r]-(f:Formula) RETURN f";
+	private static final String FORMULA_BY_TAG = "MATCH (t:FormulaTag { name:{" + FormulaTagDAO.NAME +
+					"} })<-[r]-(f:Formula) RETURN f";
 
 	private static final String LIST_INGREDIENTS = "MATCH (i:Formula)<-[r:" + RelTypes.HASINGREDIENT +
 					"]-(f:Formula { name:{name} }) RETURN i,r";
@@ -51,7 +56,7 @@ public final class FormulaDAO {
 		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
 
 		Map<String, Object> parameters = new HashMap<>();
-		parameters.put("name", formula.getName());
+		parameters.put(NAME, formula.getName());
 		try ( Transaction tx = graphDb.beginTx(); Result result = graphDb.execute(LIST_INGREDIENTS, parameters); ) {
 
 			while (result.hasNext()) {
@@ -59,7 +64,7 @@ public final class FormulaDAO {
 
 				final Formula ingredientCore = nodeToFormula((Node) row.get("i"));
 				final Relationship rel = (Relationship) row.get("r");
-				final String amount = (String) rel.getProperty("amount");
+				final String amount = (String) rel.getProperty(RELATION_AMOUNT);
 				final Ingredient ingredient = new Ingredient(ingredientCore, amount);
 				retList.add(ingredient);
 			}
@@ -80,12 +85,12 @@ public final class FormulaDAO {
 
 		try ( Transaction tx = graphDb.beginTx() ) {
 
-			Node formNode = graphDb.findNode(LABEL, "name", name);
+			Node formNode = graphDb.findNode(LABEL, NAME, name);
 			if (formNode == null) {
 				throw new NoSuchFormulaException("A Formula with the name '" + name + "' does not exist");
 			}
-			formNode.setProperty("description", description);
-			formNode.setProperty("totalAmount", totalAmount);
+			formNode.setProperty(DESCRIPTION, description);
+			formNode.setProperty(TOTAL_AMOUNT, totalAmount);
 
 			Iterator<Relationship> itRel = formNode.getRelationships(Direction.OUTGOING, RelTypes.HASINGREDIENT).iterator();
 			while (itRel.hasNext()) {
@@ -107,17 +112,17 @@ public final class FormulaDAO {
 
 		try ( Transaction tx = graphDb.beginTx() ) {
 			if (LOG.isDebugEnabled()) {
-				LOG.debug("Adding " + ingredients.size() + " ingredient(s) to " + (String) formula.getProperty("name"));
+				LOG.debug("Adding " + ingredients.size() + " ingredient(s) to " + (String) formula.getProperty(NAME));
 			}
 
 			for (final Ingredient ingredient : ingredients) {
-				Node ingredientNode = graphDb.findNode(LABEL, "name", ingredient.getFormula().getName());
+				Node ingredientNode = graphDb.findNode(LABEL, NAME, ingredient.getFormula().getName());
 				Formula ingredientFormula = ingredient.getFormula();
 				if (ingredientNode == null) {
 					ingredientNode = addFormula(ingredientFormula);
 				}
 				Relationship relation = formula.createRelationshipTo(ingredientNode, RelTypes.HASINGREDIENT);
-				relation.setProperty("amount", ingredient.getAmount());
+				relation.setProperty(RELATION_AMOUNT, ingredient.getAmount());
 			}
 
 			tx.success();
@@ -137,25 +142,13 @@ public final class FormulaDAO {
 	                              final List<Ingredient> ingredients,
 	                              final List<FormulaTag> tags) {
 
-		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
-		final Node formNode;
-
-		try ( Transaction tx = graphDb.beginTx() ) {
-
-			final Formula formula = new Formula(name, description, totalAmount);
-
-			formNode = graphDb.createNode(LABEL);
-			formNode.setProperty("name", name);
-			formNode.setProperty("description", description);
-			formNode.setProperty("totalAmount", totalAmount);
-
-			addTags(tags, formNode);
-			addIngredientsToFormulaNode(formNode, ingredients);
-			addIngredientsToFormula(formula, ingredients);
-			tx.success();
+		final Formula formula = new Formula(name, description, totalAmount);
+		addIngredientsToFormula(formula, ingredients);
+		for (FormulaTag tag : tags) {
+			formula.addTag(tag);
 		}
 
-		return formNode;
+		return addFormula(formula);
 
 	}
 
@@ -167,10 +160,9 @@ public final class FormulaDAO {
 		try ( Transaction tx = graphDb.beginTx() ) {
 
 			formNode = graphDb.createNode(LABEL);
-			formNode.setProperty("name", formula.getName());
-			formNode.setProperty("description", formula.getDescription());
-			formNode.setProperty("totalAmount", formula.getTotalAmount());
-
+			formNode.setProperty(NAME, formula.getName());
+			formNode.setProperty(DESCRIPTION, formula.getDescription());
+			formNode.setProperty(TOTAL_AMOUNT, formula.getTotalAmount());
 
 			addTags(IteratorUtils.toList(formula.getTags()), formNode);
 			addIngredientsToFormulaNode(formNode, formula.getIngredients());
@@ -206,7 +198,7 @@ public final class FormulaDAO {
 		Iterable<Relationship> relations = formula.getRelationships(Direction.OUTGOING, RelTypes.HASTAG);
 		boolean found = false;
 		for (Relationship relation : relations) {
-			String name = (String) relation.getEndNode().getProperty("name");
+			String name = (String) relation.getEndNode().getProperty(FormulaTagDAO.NAME);
 			if (tag.getName().equals(name)) {
 				found = true;
 				break;
@@ -231,7 +223,7 @@ public final class FormulaDAO {
 
 		try ( Transaction tx = graphDb.beginTx() ) {
 
-			Node node = graphDb.findNode(LABEL, "name", name);
+			Node node = graphDb.findNode(LABEL, NAME, name);
 			if (node == null) {
 				return null;
 			}
@@ -252,7 +244,7 @@ public final class FormulaDAO {
 		try ( Transaction tx = graphDb.beginTx() ) {
 
 			Map<String, Object> parameters = new HashMap<>();
-			parameters.put("name", tagName);
+			parameters.put(FormulaTagDAO.NAME, tagName);
 			try (ResourceIterator<Node> resultIterator = graphDb.execute(FORMULA_BY_TAG, parameters).columnAs("f")) {
 				if (LOG.isDebugEnabled()) {
 					LOG.debug("Got a result");
@@ -302,9 +294,9 @@ public final class FormulaDAO {
 			throw new InvalidFormulaException();
 		}
 
-		String name = (String) node.getProperty("name");
-		String description = (String) node.getProperty("description");
-		String totalAmount = (String) node.getProperty("totalAmount");
+		String name = (String) node.getProperty(NAME);
+		String description = (String) node.getProperty(DESCRIPTION);
+		String totalAmount = (String) node.getProperty(TOTAL_AMOUNT);
 
 		return new Formula(name, description, totalAmount);
 	}

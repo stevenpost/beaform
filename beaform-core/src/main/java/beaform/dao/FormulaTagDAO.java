@@ -15,6 +15,8 @@ import beaform.entities.FormulaTag;
  */
 public final class FormulaTagDAO {
 
+	public static final String NAME = "name";
+
 	private static final Label LABEL = Label.label("FormulaTag");
 
 	private FormulaTagDAO() {
@@ -27,10 +29,10 @@ public final class FormulaTagDAO {
 		try (Transaction tx = graphDb.beginTx()) {
 
 			// See if the tag exist in the DB, if so, use it, otherwise create it
-			tagNode = graphDb.findNode(LABEL, "name", tag);
+			tagNode = graphDb.findNode(LABEL, NAME, tag);
 			if (tagNode == null) {
 				tagNode = graphDb.createNode(LABEL);
-				tagNode.setProperty("name", tag);
+				tagNode.setProperty(NAME, tag);
 			}
 			tx.success();
 		}
@@ -45,7 +47,7 @@ public final class FormulaTagDAO {
 		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
 		Node tagNode;
 		try (Transaction tx = graphDb.beginTx()) {
-			tagNode = graphDb.findNode(LABEL, "name", name);
+			tagNode = graphDb.findNode(LABEL, NAME, name);
 			tx.success();
 		}
 		return tagNode;
@@ -65,7 +67,7 @@ public final class FormulaTagDAO {
 			throw new InvalidFormulaException();
 		}
 
-		String name = (String) node.getProperty("name");
+		String name = (String) node.getProperty(NAME);
 
 		return new FormulaTag(name);
 	}
