@@ -29,13 +29,44 @@ public class FormulaTagDAOTest {
 	}
 
 	@Test
-	public void testFindOrCreate() {
+	public void testFindOrCreateWithoutData() {
+		String name;
+
+		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		try (Transaction tx = graphDb.beginTx()) {
+			Node tag = FormulaTagDAO.findOrCreate(new FormulaTag("First"));
+			name = (String) tag.getProperty("name");
+			tx.success();
+		}
+
+		assertNotNull("The tag wasn't found", name);
+		assertEquals("This isn't the expected formula", "First", name);
+	}
+
+	@Test
+	public void testFindOrCreateWithData() {
 		String name;
 
 		DebugUtils.fillDb();
 		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
 		try (Transaction tx = graphDb.beginTx()) {
 			Node tag = FormulaTagDAO.findOrCreate(new FormulaTag("First"));
+			name = (String) tag.getProperty("name");
+			tx.success();
+		}
+
+		assertNotNull("The tag wasn't found", name);
+		assertEquals("This isn't the expected formula", "First", name);
+	}
+
+	@Test
+	public void testFindByName() {
+		String name;
+
+		DebugUtils.fillDb();
+		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		try (Transaction tx = graphDb.beginTx()) {
+			Node tag = FormulaTagDAO.findByName("First");
 			name = (String) tag.getProperty("name");
 			tx.success();
 		}
