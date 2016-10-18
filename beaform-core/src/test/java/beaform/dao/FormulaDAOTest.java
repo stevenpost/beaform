@@ -3,12 +3,10 @@ package beaform.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import org.apache.commons.collections.ListUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +19,6 @@ import org.slf4j.LoggerFactory;
 
 import beaform.debug.DebugUtils;
 import beaform.entities.Formula;
-import beaform.entities.FormulaTag;
 import beaform.entities.Ingredient;
 import beaform.search.SearchFormulaTask;
 
@@ -40,26 +37,6 @@ public class FormulaDAOTest {
 	public void setUp() {
 		GraphDbHandler.initInstance("neo4j_test/db");
 		DebugUtils.clearDb();
-	}
-
-	@Test
-	public void testAddFormula() throws Exception {
-		FormulaDAO.addFormula("Testform", "Description", "100g", ListUtils.EMPTY_LIST, ListUtils.EMPTY_LIST);
-		final Callable<Formula> task = new SearchFormulaTask("Testform");
-		final Formula result = task.call();
-		assertNotNull("No result found", result);
-	}
-
-	@Test
-	public void testAddFormulaWithContent() throws Exception {
-		final List<FormulaTag> tags = new ArrayList<>();
-		tags.add(new FormulaTag("testtag"));
-		final List<Ingredient> ingredients = new ArrayList<>();
-		ingredients.add(new Ingredient(new Formula("TestForm", "Some desc", "100%"), "100%"));
-		FormulaDAO.addFormula("Testform", "Description", "100g", ingredients, tags);
-		final Callable<Formula> task = new SearchFormulaTask("Testform");
-		final Formula result = task.call();
-		assertNotNull("Unable to find the newly created formula", result);
 	}
 
 	@Test

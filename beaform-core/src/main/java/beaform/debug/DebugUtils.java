@@ -1,9 +1,7 @@
 package beaform.debug;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import org.apache.commons.collections.ListUtils;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
@@ -158,7 +156,8 @@ public final class DebugUtils {
 	 */
 	private static Node createFormula(final String name,
 	                                  final String description) {
-		return FormulaDAO.addFormula(name, description, "", ListUtils.EMPTY_LIST, ListUtils.EMPTY_LIST);
+		Formula formula = new Formula(name, description, null);
+		return FormulaDAO.addFormula(formula);
 	}
 
 	/**
@@ -170,8 +169,11 @@ public final class DebugUtils {
 	private static Node createFormula(final String name,
 	                                  final String description,
 	                                  final FormulaTag[] tags) {
-
-		return FormulaDAO.addFormula(name, description, "", ListUtils.EMPTY_LIST, Arrays.asList(tags));
+		Formula formula = new Formula(name, description, null);
+		for (FormulaTag tag : tags) {
+			formula.addTag(tag);
+		}
+		return FormulaDAO.addFormula(formula);
 	}
 
 }

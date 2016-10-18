@@ -136,22 +136,6 @@ public final class FormulaDAO {
 		}
 	}
 
-	public static Node addFormula(final String name,
-	                              final String description,
-	                              final String totalAmount,
-	                              final List<Ingredient> ingredients,
-	                              final List<FormulaTag> tags) {
-
-		final Formula formula = new Formula(name, description, totalAmount);
-		addIngredientsToFormula(formula, ingredients);
-		for (FormulaTag tag : tags) {
-			formula.addTag(tag);
-		}
-
-		return addFormula(formula);
-
-	}
-
 	public static Node addFormula(final Formula formula) {
 
 		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();

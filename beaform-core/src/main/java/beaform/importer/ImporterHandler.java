@@ -116,7 +116,7 @@ public class ImporterHandler extends DefaultHandler {
 				break;
 			case "formula":
 				LOG.debug("End a formula");
-				addFormula();
+				FormulaDAO.addFormula(this.formula);
 				addPendingIngredients(this.formula.getName());
 				this.inFormula = false;
 				break;
@@ -167,15 +167,6 @@ public class ImporterHandler extends DefaultHandler {
 			}
 			this.allPendingIngredients.remove(name);
 		}
-	}
-
-	private void addFormula() {
-		final String name = this.formula.getName();
-		final String description = this.formula.getDescription();
-		final String totalAmount = this.formula.getTotalAmount();
-		final List<Ingredient> ingredients = this.formula.getIngredients();
-		final List<FormulaTag> tags = IteratorUtils.toList(this.formula.getTags());
-		FormulaDAO.addFormula(name, description, totalAmount, ingredients, tags);
 	}
 
 	@Override
