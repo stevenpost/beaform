@@ -33,8 +33,7 @@ public final class GraphDbHandler {
 		// running application).
 		Runtime.getRuntime().addShutdownHook( new Thread() {
 			@Override
-			public void run()
-			{
+			public void run() {
 				graphDb.shutdown();
 			}
 		} );
