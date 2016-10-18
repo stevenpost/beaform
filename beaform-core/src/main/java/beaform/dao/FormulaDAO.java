@@ -55,15 +55,12 @@ public final class FormulaDAO {
 		try ( Transaction tx = graphDb.beginTx(); Result result = graphDb.execute(LIST_INGREDIENTS, parameters); ) {
 
 			while (result.hasNext()) {
-				Map<String,Object> row = result.next();
-				Formula ingredientCore = null;
-				String amount = null;
-				ingredientCore = nodeToFormula((Node) row.get("i"));
+				final Map<String,Object> row = result.next();
 
-				Relationship rel = (Relationship) row.get("r");
-				amount = (String) rel.getProperty("amount");
-
-				Ingredient ingredient = new Ingredient(ingredientCore, amount);
+				final Formula ingredientCore = nodeToFormula((Node) row.get("i"));
+				final Relationship rel = (Relationship) row.get("r");
+				final String amount = (String) rel.getProperty("amount");
+				final Ingredient ingredient = new Ingredient(ingredientCore, amount);
 				retList.add(ingredient);
 			}
 
