@@ -12,6 +12,10 @@ import org.apache.commons.collections.ListUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Label;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -100,6 +104,26 @@ public class FormulaDAOTest {
 		final Callable<Formula> task = new SearchFormulaTask("Form1");
 		final Formula result = task.call();
 		assertEquals("This isn't the expected description", "New description", result.getDescription());
+	}
+
+	@Test(expected=InvalidFormulaException.class)
+	public void testNodeToTagWithoutLabel() {
+		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		try (Transaction tx = graphDb.beginTx()) {
+			Node node = graphDb.createNode();
+			FormulaDAO.nodeToFormula(node);
+			tx.success();
+		}
+	}
+
+	@Test(expected=InvalidFormulaException.class)
+	public void testNodeToTagWithInvalidLabel() {
+		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		try (Transaction tx = graphDb.beginTx()) {
+			Node node = graphDb.createNode(Label.label("dummylabel"));
+			FormulaDAO.nodeToFormula(node);
+			tx.success();
+		}
 	}
 
 	@After
