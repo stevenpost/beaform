@@ -75,6 +75,16 @@ public class FormulaTagDAOTest {
 		assertEquals("This isn't the expected formula", "First", name);
 	}
 
+	@Test(expected=InvalidFormulaException.class)
+	public void testNodeToTagWithInvalid() {
+		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		try (Transaction tx = graphDb.beginTx()) {
+			Node node = graphDb.createNode();
+			FormulaTagDAO.nodeToTag(node);
+			tx.success();
+		}
+	}
+
 	@After
 	public void tearDown() {
 		DebugUtils.clearDb();
