@@ -17,7 +17,7 @@ public class InvalidFormulaExceptionTest {
 
 	@Test
 	public void testMessageConstructor() {
-		Exception e = new NoSuchFormulaException("test message");
+		Exception e = new InvalidFormulaException("test message");
 		assertEquals("The message is not the expected one", "test message", e.getMessage());
 	}
 
