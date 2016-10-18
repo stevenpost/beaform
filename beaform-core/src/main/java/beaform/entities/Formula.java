@@ -67,6 +67,12 @@ public class Formula {
 		this.addIngredient(ingredient.getFormula(), ingredient.getAmount());
 	}
 
+	public void addAllIngredients(final List<Ingredient> ingredientsList) {
+		for (Ingredient ingredient : ingredientsList) {
+			this.addIngredient(ingredient.getFormula(), ingredient.getAmount());
+		}
+	}
+
 	public List<Ingredient> getIngredients() {
 		final ArrayList<Ingredient> returnIngredients = new ArrayList<>();
 
@@ -84,6 +90,12 @@ public class Formula {
 
 	public void addTag(final FormulaTag tag) {
 		this.tags.add(tag);
+	}
+
+	public void addAllTags(final List<FormulaTag> tagList) {
+		for (FormulaTag tag : tagList) {
+			this.tags.add(tag);
+		}
 	}
 
 	public Iterator<FormulaTag> getTags() {

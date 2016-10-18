@@ -55,7 +55,10 @@ public final class FormulaEditor extends Observable implements InterchangableWin
 		final List<Ingredient> ingredients = this.editorUI.getIngredientList();
 		final List<FormulaTag> tags = this.editorUI.getTagList();
 
-		FormulaDAO.addFormula(name, description, totalAmount, ingredients, tags);
+		Formula formula = new Formula(name, description, totalAmount);
+		formula.addAllIngredients(ingredients);
+		formula.addAllTags(tags);
+		FormulaDAO.addFormula(formula);
 
 	}
 
