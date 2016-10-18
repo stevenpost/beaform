@@ -246,17 +246,11 @@ public final class FormulaDAO {
 			Map<String, Object> parameters = new HashMap<>();
 			parameters.put(FormulaTagDAO.NAME, tagName);
 			try (ResourceIterator<Node> resultIterator = graphDb.execute(FORMULA_BY_TAG, parameters).columnAs("f")) {
-				if (LOG.isDebugEnabled()) {
-					LOG.debug("Got a result");
-				}
 				while (resultIterator.hasNext()) {
 					Node formulaNode = resultIterator.next();
 					Formula form = nodeToFormula(formulaNode);
 					fillTagsForFormula(form, formulaNode);
 					formulas.add(form);
-					if (LOG.isDebugEnabled()) {
-						LOG.debug("found a mathing formula");
-					}
 				}
 			}
 
