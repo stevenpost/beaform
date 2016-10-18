@@ -17,14 +17,14 @@ public class ImporterExceptionTest {
 	@Test
 	public void testCauseConstructor() {
 		Exception e = new ImporterException(new Exception());
-		assertNotNull(e.getCause());
+		assertNotNull("There is no cause when there shoundl be", e.getCause());
 	}
 
 	@Test
 	public void testMessageAndCauseConstructor() {
 		Exception e = new ImporterException("test message", new Exception());
 		assertEquals("The message is not the expected one", "test message", e.getMessage());
-		assertNotNull(e.getCause());
+		assertNotNull("There is no cause when there shoundl be", e.getCause());
 	}
 
 }

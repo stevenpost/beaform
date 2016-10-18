@@ -11,8 +11,8 @@ public class InvalidFormulaExceptionTest {
 	@Test
 	public void testEmptyConstructor() {
 		Exception e = new InvalidFormulaException();
-		assertNull(e.getCause());
-		assertNull(e.getMessage());
+		assertNull("There is a cause when there shoundln't", e.getCause());
+		assertNull("There is a message when there shoundln't", e.getMessage());
 	}
 
 	@Test
