@@ -46,6 +46,7 @@ public class DebugTest {
 	public void testFill() {
 		DebugUtils.fillDb();
 		DebugUtils.listAllFormulas();
+		DebugUtils.listAllTags();
 		assertEquals("Collection doesn't contain the expected amount of formulas", 4, countFormulasInDb());
 	}
 
