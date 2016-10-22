@@ -43,15 +43,17 @@ public final class FormulaDAO {
 	private static final String FORMULA_BY_TAG = "MATCH (t:FormulaTag { name:{" + FormulaTagDAO.NAME +
 					"} })<-[r]-(f:Formula) RETURN f";
 
+	private static final String INGREDIENTS_COLUMN = "i";
+	private static final String INGREDIENT_RALATION = "r";
 	private static final String LIST_INGREDIENTS = "MATCH (i:Formula)<-[r:" + RelTypes.HASINGREDIENT +
-					"]-(f:Formula { name:{name} }) RETURN i,r";
+					"]-(f:Formula { name:{name} }) RETURN " + INGREDIENTS_COLUMN + "," + INGREDIENT_RALATION;
 
 	private FormulaDAO() {
 		// private constructor, because this is a utility class.
 	}
 
 	public static List<Ingredient> listIngredients(final Formula formula) {
-		final List<Ingredient> retList = new ArrayList<>();
+		final List<Ingredient> retList;
 
 		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
 
@@ -59,20 +61,31 @@ public final class FormulaDAO {
 		parameters.put(NAME, formula.getName());
 		try ( Transaction tx = graphDb.beginTx(); Result result = graphDb.execute(LIST_INGREDIENTS, parameters); ) {
 
-			while (result.hasNext()) {
-				final Map<String,Object> row = result.next();
-
-				final Formula ingredientCore = nodeToFormula((Node) row.get("i"));
-				final Relationship rel = (Relationship) row.get("r");
-				final String amount = (String) rel.getProperty(RELATION_AMOUNT);
-				final Ingredient ingredient = new Ingredient(ingredientCore, amount);
-				retList.add(ingredient);
-			}
+			retList = listIngredientsFromDbResult(result);
 
 			tx.success();
 		}
 
 		return retList;
+	}
+
+	private static List<Ingredient> listIngredientsFromDbResult(Result result) {
+		final List<Ingredient> retList = new ArrayList<>();
+
+		while (result.hasNext()) {
+			final Map<String,Object> row = result.next();
+			final Ingredient ingredient = getIngredientFromDbRow(row);
+			retList.add(ingredient);
+		}
+
+		return retList;
+	}
+
+	private static Ingredient getIngredientFromDbRow(Map<String,Object> row) {
+		final Formula ingredientCore = nodeToFormula((Node) row.get(INGREDIENTS_COLUMN));
+		final Relationship rel = (Relationship) row.get(INGREDIENT_RALATION);
+		final String amount = (String) rel.getProperty(RELATION_AMOUNT);
+		return new Ingredient(ingredientCore, amount);
 	}
 
 	public static void updateExisting(final String name,
