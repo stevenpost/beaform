@@ -50,7 +50,7 @@ public final class FormulaDAO {
 		// private constructor, because this is a utility class.
 	}
 
-	public static List<Ingredient> getIngredients(final Formula formula) {
+	public static List<Ingredient> listIngredients(final Formula formula) {
 		final List<Ingredient> retList = new ArrayList<>();
 
 		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();

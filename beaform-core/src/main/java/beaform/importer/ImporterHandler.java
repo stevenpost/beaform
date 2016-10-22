@@ -155,7 +155,7 @@ public class ImporterHandler extends DefaultHandler {
 				final Formula form = FormulaDAO.findFormulaByName(entry.getKey());
 				final PendingIngredient pending = entry.getValue();
 				final Formula newIngredient = FormulaDAO.findFormulaByName(pending.getName());
-				final List<Ingredient> ingredients = FormulaDAO.getIngredients(form);
+				final List<Ingredient> ingredients = FormulaDAO.listIngredients(form);
 				ingredients.add(new Ingredient(newIngredient, pending.getAmount()));
 				final List<FormulaTag> tags = IteratorUtils.toList(form.getTags());
 				try {

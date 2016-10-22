@@ -105,7 +105,7 @@ public class FormulaTreeUI {
 
 	private static void createNodes(final DefaultMutableTreeNode parent) {
 		final TreeViewFormula formula = (TreeViewFormula) parent.getUserObject();
-		final List<Ingredient> ingredients = FormulaDAO.getIngredients(formula.getFormula());
+		final List<Ingredient> ingredients = FormulaDAO.listIngredients(formula.getFormula());
 		for (final Ingredient ingredient : ingredients) {
 			addIngredientNode(parent, ingredient);
 		}

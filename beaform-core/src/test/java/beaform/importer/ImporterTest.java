@@ -89,7 +89,7 @@ public class ImporterTest {
 		}
 		assertEquals("This isn't the expected number of tags", tags.size(), tagsFromForm.size());
 
-		List<Ingredient> ingredientsFromForm = FormulaDAO.getIngredients(form);
+		List<Ingredient> ingredientsFromForm = FormulaDAO.listIngredients(form);
 		for (Ingredient ingredient : ingredientsFromForm) {
 			final String ingredientName = ingredient.getFormula().getName();
 			assertTrue("The ingredient " + ingredientName + " couldn't be found", ingredients.containsKey(ingredientName));

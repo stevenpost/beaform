@@ -44,7 +44,7 @@ public class FormulaDAOTest {
 		DebugUtils.fillDb();
 		final Callable<Formula> task = new SearchFormulaTask("Form1");
 		final Formula result = task.call();
-		final List<Ingredient> ingredients = FormulaDAO.getIngredients(result);
+		final List<Ingredient> ingredients = FormulaDAO.listIngredients(result);
 		for (Ingredient ingredient : ingredients) {
 			LOG.debug("Ingredient: " + ingredient.toString());
 		}

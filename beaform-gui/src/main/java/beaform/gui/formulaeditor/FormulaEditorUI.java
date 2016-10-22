@@ -74,7 +74,7 @@ public final class FormulaEditorUI {
 		this.txtDescription.setText(newFormula.getDescription());
 		this.txtTotalAmount.setText(newFormula.getTotalAmount());
 
-		final List<Ingredient> ingredientList = FormulaDAO.getIngredients(newFormula);
+		final List<Ingredient> ingredientList = FormulaDAO.listIngredients(newFormula);
 		this.ingredientPane.addIngredients(ingredientList);
 
 		// Add tags to the list
