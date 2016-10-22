@@ -40,8 +40,9 @@ public final class FormulaDAO {
 	private static final String RELATION_AMOUNT = "amount";
 
 	/** Query to search for a formula by tag */
+	private static final String FORMULA_COLUMN = "f";
 	private static final String FORMULA_BY_TAG = "MATCH (t:FormulaTag { name:{" + FormulaTagDAO.NAME +
-					"} })<-[r]-(f:Formula) RETURN f";
+					"} })<-[r]-(f:Formula) RETURN " + FORMULA_COLUMN;
 
 	private static final String INGREDIENTS_COLUMN = "i";
 	private static final String INGREDIENT_RALATION = "r";
@@ -242,7 +243,7 @@ public final class FormulaDAO {
 
 			Map<String, Object> parameters = new HashMap<>();
 			parameters.put(FormulaTagDAO.NAME, tagName);
-			try (ResourceIterator<Node> resultIterator = graphDb.execute(FORMULA_BY_TAG, parameters).columnAs("f")) {
+			try (ResourceIterator<Node> resultIterator = graphDb.execute(FORMULA_BY_TAG, parameters).columnAs(FORMULA_COLUMN)) {
 				while (resultIterator.hasNext()) {
 					Node formulaNode = resultIterator.next();
 					Formula form = nodeToFormula(formulaNode);
