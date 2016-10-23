@@ -198,18 +198,20 @@ public final class FormulaDAO {
 	private static void addTagToFormula(final Node formula, final FormulaTag tag) {
 		Node tagNode = FormulaTagDAO.findOrCreate(tag);
 
+		if (!formulaHasTag(formula, tag)) {
+			formula.createRelationshipTo(tagNode, RelTypes.HASTAG);
+		}
+	}
+
+	private static boolean formulaHasTag(final Node formula, final FormulaTag tag) {
 		Iterable<Relationship> relations = formula.getRelationships(Direction.OUTGOING, RelTypes.HASTAG);
-		boolean found = false;
 		for (Relationship relation : relations) {
 			String name = (String) relation.getEndNode().getProperty(FormulaTagDAO.NAME);
 			if (tag.getName().equals(name)) {
-				found = true;
-				break;
+				return true;
 			}
 		}
-		if (!found) {
-			formula.createRelationshipTo(tagNode, RelTypes.HASTAG);
-		}
+		return false;
 	}
 
 	/**
