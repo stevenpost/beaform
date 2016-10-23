@@ -33,7 +33,7 @@ public class FormulaTagDAOTest {
 	public void testFindOrCreateWithoutData() {
 		String name;
 
-		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 		try (Transaction tx = graphDb.beginTx()) {
 			Node tag = FormulaTagDAO.findOrCreate(new FormulaTag("First"));
 			name = (String) tag.getProperty("name");
@@ -49,7 +49,7 @@ public class FormulaTagDAOTest {
 		String name;
 
 		DebugUtils.fillDb();
-		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 		try (Transaction tx = graphDb.beginTx()) {
 			Node tag = FormulaTagDAO.findOrCreate(new FormulaTag("First"));
 			name = (String) tag.getProperty("name");
@@ -65,7 +65,7 @@ public class FormulaTagDAOTest {
 		String name;
 
 		DebugUtils.fillDb();
-		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 		try (Transaction tx = graphDb.beginTx()) {
 			Node tag = FormulaTagDAO.findByName("First");
 			name = (String) tag.getProperty("name");
@@ -78,7 +78,7 @@ public class FormulaTagDAOTest {
 
 	@Test(expected=InvalidFormulaException.class)
 	public void testNodeToTagWithoutLabel() {
-		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 		try (Transaction tx = graphDb.beginTx()) {
 			Node node = graphDb.createNode();
 			FormulaTagDAO.nodeToTag(node);
@@ -88,7 +88,7 @@ public class FormulaTagDAOTest {
 
 	@Test(expected=InvalidFormulaException.class)
 	public void testNodeToTagWithInvalidLabel() {
-		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 		try (Transaction tx = graphDb.beginTx()) {
 			Node node = graphDb.createNode(Label.label("dummylabel"));
 			FormulaTagDAO.nodeToTag(node);

@@ -50,7 +50,7 @@ public final class GraphDbHandler {
 		} );
 	}
 
-	public GraphDatabaseService getService() {
+	private GraphDatabaseService getService() {
 		return this.graphDb;
 	}
 

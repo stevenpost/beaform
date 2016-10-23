@@ -58,7 +58,7 @@ public class AsyncDebugTest {
 	}
 
 	private static int countFormulasInDb() {
-		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 		Label label = Label.label("Formula");
 		int formCount = 0;
 		try ( Transaction tx = graphDb.beginTx() ) {

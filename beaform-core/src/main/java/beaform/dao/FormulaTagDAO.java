@@ -24,7 +24,7 @@ public final class FormulaTagDAO {
 	}
 
 	public static Node findOrCreate(String tag) {
-		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 		Node tagNode;
 		try (Transaction tx = graphDb.beginTx()) {
 
@@ -44,7 +44,7 @@ public final class FormulaTagDAO {
 	}
 
 	public static Node findByName(String name) {
-		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 		Node tagNode;
 		try (Transaction tx = graphDb.beginTx()) {
 			tagNode = graphDb.findNode(LABEL, NAME, name);

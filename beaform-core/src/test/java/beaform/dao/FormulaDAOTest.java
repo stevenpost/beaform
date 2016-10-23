@@ -85,7 +85,7 @@ public class FormulaDAOTest {
 
 	@Test(expected=InvalidFormulaException.class)
 	public void testNodeToTagWithoutLabel() {
-		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 		try (Transaction tx = graphDb.beginTx()) {
 			Node node = graphDb.createNode();
 			FormulaDAO.nodeToFormula(node);
@@ -95,7 +95,7 @@ public class FormulaDAOTest {
 
 	@Test(expected=InvalidFormulaException.class)
 	public void testNodeToTagWithInvalidLabel() {
-		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 		try (Transaction tx = graphDb.beginTx()) {
 			Node node = graphDb.createNode(Label.label("dummylabel"));
 			FormulaDAO.nodeToFormula(node);

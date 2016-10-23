@@ -48,7 +48,7 @@ public final class DebugUtils {
 	 */
 	public static void listAllFormulas() {
 
-		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 
 		Label label = Label.label("Formula");
 		try ( Transaction tx = graphDb.beginTx() ) {
@@ -78,7 +78,7 @@ public final class DebugUtils {
 	 */
 	public static void listAllTags() {
 
-		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 
 		Label label = Label.label("FormulaTag");
 		try ( Transaction tx = graphDb.beginTx() ) {
@@ -108,7 +108,7 @@ public final class DebugUtils {
 	 */
 	public static void clearDb() {
 
-		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 		try ( Transaction tx = graphDb.beginTx() ) {
 			graphDb.execute(DELETE_QUERY);
 			tx.success();
@@ -122,7 +122,7 @@ public final class DebugUtils {
 	 * Fills the database with some test values.
 	 */
 	public static void fillDb() {
-		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 
 		try ( Transaction tx = graphDb.beginTx() ) {
 

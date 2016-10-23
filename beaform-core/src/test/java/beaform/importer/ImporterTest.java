@@ -66,7 +66,7 @@ public class ImporterTest {
 
 	private static long countFormulasInDb() {
 		long formulaCount;
-		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 
 		try ( Transaction tx = graphDb.beginTx(); ResourceIterator<Long> result = graphDb.execute(ALL_FORMULAS).columnAs("i"); ) {
 

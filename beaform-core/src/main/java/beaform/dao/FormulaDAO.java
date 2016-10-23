@@ -56,7 +56,7 @@ public final class FormulaDAO {
 	public static List<Ingredient> listIngredients(final Formula formula) {
 		final List<Ingredient> retList;
 
-		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 
 		Map<String, Object> parameters = buildQueryParametersFromFormulaName(formula);
 		try ( Transaction tx = graphDb.beginTx(); Result result = graphDb.execute(LIST_INGREDIENTS, parameters); ) {
@@ -98,7 +98,7 @@ public final class FormulaDAO {
 	                                  final List<Ingredient> ingredients,
 	                                  final List<FormulaTag> tags) throws NoSuchFormulaException {
 
-		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 
 		try ( Transaction tx = graphDb.beginTx() ) {
 
@@ -125,7 +125,7 @@ public final class FormulaDAO {
 	}
 
 	private static void addIngredientsToFormulaNode(final Node formula, final List<Ingredient> ingredients) {
-		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 
 		try ( Transaction tx = graphDb.beginTx() ) {
 			if (LOG.isDebugEnabled()) {
@@ -155,7 +155,7 @@ public final class FormulaDAO {
 
 	public static Node addFormula(final Formula formula) {
 
-		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 		final Node formNode;
 
 		try ( Transaction tx = graphDb.beginTx() ) {
@@ -219,7 +219,7 @@ public final class FormulaDAO {
 	 */
 	public static Formula findFormulaByName(final String name) {
 
-		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 		Formula formula;
 
 		try ( Transaction tx = graphDb.beginTx() ) {
@@ -239,7 +239,7 @@ public final class FormulaDAO {
 
 	public static List<Formula> findFormulasByTag(final String tagName) {
 
-		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
+		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 		List<Formula> formulas = new ArrayList<>();
 
 		try ( Transaction tx = graphDb.beginTx() ) {
