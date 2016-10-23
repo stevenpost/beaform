@@ -289,25 +289,27 @@ public final class FormulaDAO {
 		}
 	}
 
-	public static Formula nodeToFormula(Node node) {
-		final Iterable<Label> labelIt = node.getLabels();
-		boolean hasCorrectLabel = false;
-		for (Label label : labelIt) {
-			if (label.name().equals(LABEL.name())) {
-				hasCorrectLabel = true;
-				break;
-			}
-		}
+	public static Formula nodeToFormula(Node formulaNode) {
 
-		if (!hasCorrectLabel) {
+		if (!formulaNodeHasCorrectLabel(formulaNode)) {
 			throw new InvalidFormulaException();
 		}
 
-		String name = (String) node.getProperty(NAME);
-		String description = (String) node.getProperty(DESCRIPTION);
-		String totalAmount = (String) node.getProperty(TOTAL_AMOUNT);
+		String name = (String) formulaNode.getProperty(NAME);
+		String description = (String) formulaNode.getProperty(DESCRIPTION);
+		String totalAmount = (String) formulaNode.getProperty(TOTAL_AMOUNT);
 
 		return new Formula(name, description, totalAmount);
+	}
+
+	private static boolean formulaNodeHasCorrectLabel(Node formulaNode) {
+		final Iterable<Label> labelIt = formulaNode.getLabels();
+		for (Label label : labelIt) {
+			if (label.name().equals(LABEL.name())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
