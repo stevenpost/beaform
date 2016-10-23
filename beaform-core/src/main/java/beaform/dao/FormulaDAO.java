@@ -295,15 +295,10 @@ public final class FormulaDAO {
 
 	private static void fillTagsForFormulaFromDB(Formula formula, Node formulaNode) {
 		Iterable<Relationship> relations = formulaNode.getRelationships(Direction.OUTGOING, RelTypes.HASTAG);
-		int i = 0;
 		for (Relationship relation : relations) {
 			Node tagNode = relation.getEndNode();
 			FormulaTag tag = FormulaTagDAO.nodeToTag(tagNode);
 			formula.addTag(tag);
-			i++;
-			if (LOG.isDebugEnabled()) {
-				LOG.debug("found tag number " + i + ": " + tag.toString());
-			}
 		}
 	}
 
