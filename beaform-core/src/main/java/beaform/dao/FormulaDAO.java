@@ -232,7 +232,7 @@ public final class FormulaDAO {
 				return null;
 			}
 			formula = nodeToFormula(formulaNode);
-			fillTagsForFormula(formula, formulaNode);
+			fillTagsForFormulaFromDB(formula, formulaNode);
 
 			tx.success();
 		}
@@ -243,19 +243,13 @@ public final class FormulaDAO {
 	public static List<Formula> findFormulasByTag(final String tagName) {
 
 		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
-		List<Formula> formulas = new ArrayList<>();
+		final List<Formula> formulas;
 
 		try ( Transaction tx = graphDb.beginTx() ) {
 
-			Map<String, Object> parameters = new HashMap<>();
-			parameters.put(FormulaTagDAO.NAME, tagName);
+			Map<String, Object> parameters = buildQueryParametersFromTagName(tagName);
 			try (ResourceIterator<Node> resultIterator = graphDb.execute(FORMULA_BY_TAG, parameters).columnAs(FORMULA_COLUMN)) {
-				while (resultIterator.hasNext()) {
-					Node formulaNode = resultIterator.next();
-					Formula form = nodeToFormula(formulaNode);
-					fillTagsForFormula(form, formulaNode);
-					formulas.add(form);
-				}
+				formulas = listFormulasFromDbResult(resultIterator);
 			}
 
 			tx.success();
@@ -264,7 +258,24 @@ public final class FormulaDAO {
 		return formulas;
 	}
 
-	private static void fillTagsForFormula(Formula formula, Node formulaNode) {
+	private static List<Formula> listFormulasFromDbResult(ResourceIterator<Node> resultIterator) {
+		List<Formula> formulas = new ArrayList<>();
+		while (resultIterator.hasNext()) {
+			Node formulaNode = resultIterator.next();
+			Formula form = nodeToFormula(formulaNode);
+			fillTagsForFormulaFromDB(form, formulaNode);
+			formulas.add(form);
+		}
+		return formulas;
+	}
+
+	private static Map<String, Object> buildQueryParametersFromTagName(String tag) {
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put(FormulaTagDAO.NAME, tag);
+		return parameters;
+	}
+
+	private static void fillTagsForFormulaFromDB(Formula formula, Node formulaNode) {
 		Iterable<Relationship> relations = formulaNode.getRelationships(Direction.OUTGOING, RelTypes.HASTAG);
 		int i = 0;
 		for (Relationship relation : relations) {
