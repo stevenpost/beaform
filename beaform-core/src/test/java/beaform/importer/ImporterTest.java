@@ -32,6 +32,7 @@ public class ImporterTest {
 	private static final String ALL_FORMULAS = "match (n:Formula) return count(n) as i";
 
 	private final String importFilePath = "src/test/resources/importer/input.xml";
+	private final String malformedXmlFilePath = "src/test/resources/importer/malformed.xml";
 
 	@Before
 	public void setUp() {
@@ -57,6 +58,12 @@ public class ImporterTest {
 		assertEquals("This isn't the expected description", "third test formula", form3.getDescription());
 		final List<String> tagsForm3 = Arrays.asList(new String[]{"second"});
 		validateFormula(form3, "third test formula", "10g", tagsForm3, Collections.emptyMap());
+	}
+
+	@Test(expected=ImporterException.class)
+	public void testMalformedInput() throws ImporterException {
+		File importFile = new File(this.malformedXmlFilePath);
+		Importer.importFromFile(importFile);
 	}
 
 	@After
