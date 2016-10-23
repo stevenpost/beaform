@@ -17,6 +17,10 @@ public final class GraphDbHandler {
 	private static final Object INSTANCELOCK = new Object();
 	private final GraphDatabaseService graphDb;
 
+	public static GraphDatabaseService getDbService() {
+		return getInstance().getService();
+	}
+
 	private GraphDbHandler(final String dbPath) {
 		this.graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(new File(dbPath));
 		registerShutdownHook(this.graphDb);
