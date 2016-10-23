@@ -129,21 +129,30 @@ public final class FormulaDAO {
 	}
 
 	private static void addIngredientsToFormulaNode(final Node formula, final List<Ingredient> ingredients) {
-		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Adding " + ingredients.size() + " ingredient(s) to " + (String) formula.getProperty(NAME));
 		}
 
 		for (final Ingredient ingredient : ingredients) {
-			Node ingredientNode = graphDb.findNode(LABEL, NAME, ingredient.getFormula().getName());
-			Formula ingredientFormula = ingredient.getFormula();
-			if (ingredientNode == null) {
-				ingredientNode = addFormula(ingredientFormula);
-			}
-			Relationship relation = formula.createRelationshipTo(ingredientNode, RelTypes.HASINGREDIENT);
-			relation.setProperty(RELATION_AMOUNT, ingredient.getAmount());
+			addIngredientToFormulaNode(formula, ingredient);
 		}
+	}
+
+	private static void addIngredientToFormulaNode(final Node formula, final Ingredient ingredient) {
+		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
+
+		Node ingredientNode;
+		try {
+			ingredientNode = findFormulaNodeByName(ingredient.getFormula().getName(), graphDb);
+		}
+		catch (NoSuchFormulaException e) {
+			LOG.debug("Unable to find the ingredient in the DB, creating it: " + e.getMessage(), e);
+			Formula ingredientFormula = ingredient.getFormula();
+			ingredientNode = addFormula(ingredientFormula);
+		}
+		Relationship relation = formula.createRelationshipTo(ingredientNode, RelTypes.HASINGREDIENT);
+		relation.setProperty(RELATION_AMOUNT, ingredient.getAmount());
 	}
 
 	public static Node addFormula(final Formula formula) {
