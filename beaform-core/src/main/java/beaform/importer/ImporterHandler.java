@@ -123,10 +123,7 @@ public class ImporterHandler extends DefaultHandler {
 				LOG.debug("End formulas element");
 				break;
 			case "formula":
-				LOG.debug("End a formula");
-				FormulaDAO.addFormula(this.formula);
-				addPendingIngredients(this.formula.getName());
-				this.inFormula = false;
+				handleFormulaEnd();
 				break;
 			case "description":
 				this.inDescription = false;
@@ -135,12 +132,7 @@ public class ImporterHandler extends DefaultHandler {
 				this.inTotalAmount = false;
 				break;
 			case "tags":
-				if (this.inFormula) {
-					LOG.debug("End of tags in a formula");
-				}
-				else {
-					LOG.debug("End of tags tags outside a formula");
-				}
+				handleTagsEnd();
 				break;
 			case "tag":
 				this.inTag = false;
@@ -154,6 +146,22 @@ public class ImporterHandler extends DefaultHandler {
 				throw new SAXException("Found unknown element " + qName);
 		}
 
+	}
+
+	private void handleFormulaEnd() {
+		LOG.debug("End a formula");
+		FormulaDAO.addFormula(this.formula);
+		addPendingIngredients(this.formula.getName());
+		this.inFormula = false;
+	}
+
+	private void handleTagsEnd() {
+		if (this.inFormula) {
+			LOG.debug("End of tags in a formula");
+		}
+		else {
+			LOG.debug("End of tags tags outside a formula");
+		}
 	}
 
 	private void addPendingIngredients(String name) {
