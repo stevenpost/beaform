@@ -104,6 +104,19 @@ public class FormulaDAOTest {
 		}
 	}
 
+	@Test
+	public void testListAllFormulas() {
+		List<Formula> formulas = FormulaDAO.listAllFormulas();
+		assertEquals("This isn't the exted number of formulas in the DB", 0, formulas.size());
+	}
+
+	@Test
+	public void testListAllFormulasFilledDb() {
+		DebugUtils.fillDb();
+		List<Formula> formulas = FormulaDAO.listAllFormulas();
+		assertEquals("This isn't the exted number of formulas in the DB", 4, formulas.size());
+	}
+
 	@After
 	public void tearDown() {
 		DebugUtils.clearDb();

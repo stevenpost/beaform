@@ -3,6 +3,8 @@ package beaform.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -94,6 +96,19 @@ public class FormulaTagDAOTest {
 			FormulaTagDAO.nodeToTag(node);
 			tx.success();
 		}
+	}
+
+	@Test
+	public void testListAllTags() {
+		List<FormulaTag> tags = FormulaTagDAO.listAllTags();
+		assertEquals("This isn't the exted number of tags in the DB", 0, tags.size());
+	}
+
+	@Test
+	public void testListAllTagsFilledDb() {
+		DebugUtils.fillDb();
+		List<FormulaTag> tags = FormulaTagDAO.listAllTags();
+		assertEquals("This isn't the exted number of tags in the DB", 2, tags.size());
 	}
 
 	@After
