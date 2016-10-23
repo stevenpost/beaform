@@ -15,7 +15,7 @@ public class GraphDbHandlerTest {
 
 	@Test
 	public void testGetInstance() {
-		GraphDbHandler.initInstance("neo4j_test/db");
+		GraphDbHandler.initInstanceWithDbPath("neo4j_test/db");
 		final GraphDbHandler handler = GraphDbHandler.getInstance();
 
 		assertNotNull("The handler is null", handler);

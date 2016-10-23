@@ -17,15 +17,16 @@ public final class GraphDbHandler {
 	private static final Object INSTANCELOCK = new Object();
 	private final GraphDatabaseService graphDb;
 
+	private GraphDbHandler(final String dbPath) {
+		this.graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(new File(dbPath));
+		registerShutdownHook(this.graphDb);
+	}
+
 	public static GraphDatabaseService getDbService() {
 		return getInstance().getService();
 	}
 
-	/**
-	 * Initialize the handler.
-	 * @param dbPath the path to the DB (may be relative)
-	 */
-	public static void initInstance(final String dbPath) {
+	public static void initInstanceWithDbPath(final String dbPath) {
 		synchronized (INSTANCELOCK) {
 			if (instance == null) {
 				instance = new GraphDbHandler(dbPath);
@@ -33,9 +34,8 @@ public final class GraphDbHandler {
 		}
 	}
 
-	private GraphDbHandler(final String dbPath) {
-		this.graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(new File(dbPath));
-		registerShutdownHook(this.graphDb);
+	private GraphDatabaseService getService() {
+		return this.graphDb;
 	}
 
 	private static void registerShutdownHook( final GraphDatabaseService graphDb ) {
@@ -48,10 +48,6 @@ public final class GraphDbHandler {
 				graphDb.shutdown();
 			}
 		} );
-	}
-
-	private GraphDatabaseService getService() {
-		return this.graphDb;
 	}
 
 	public static GraphDbHandler getInstance() {

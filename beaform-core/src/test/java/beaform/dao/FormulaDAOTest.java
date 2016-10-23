@@ -34,7 +34,7 @@ public class FormulaDAOTest {
 
 	@Before
 	public void setUp() {
-		GraphDbHandler.initInstance("neo4j_test/db");
+		GraphDbHandler.initInstanceWithDbPath("neo4j_test/db");
 		DebugUtils.clearDb();
 	}
 
