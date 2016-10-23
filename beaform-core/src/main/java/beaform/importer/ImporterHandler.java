@@ -43,10 +43,7 @@ public class ImporterHandler extends DefaultHandler {
 				LOG.debug("Found formulas element");
 				break;
 			case "formula":
-				LOG.debug("Found a formula");
-				this.formula = new Formula();
-				this.formula.setName(attributes.getValue("name"));
-				this.inFormula = true;
+				handleFormulaStart(attributes);
 				break;
 			case "description":
 				this.inDescription = true;
@@ -55,12 +52,7 @@ public class ImporterHandler extends DefaultHandler {
 				this.inTotalAmount = true;
 				break;
 			case "tags":
-				if (this.inFormula) {
-					LOG.debug("Starting tags in a formula");
-				}
-				else {
-					LOG.debug("Starting tags outside a formula");
-				}
+				handleTagsStart();
 				break;
 			case "tag":
 				this.inTag = true;
@@ -75,6 +67,22 @@ public class ImporterHandler extends DefaultHandler {
 				throw new SAXException("Found unknown element " + qName);
 		}
 
+	}
+
+	private void handleFormulaStart(Attributes attributes) {
+		LOG.debug("Found a formula");
+		this.formula = new Formula();
+		this.formula.setName(attributes.getValue("name"));
+		this.inFormula = true;
+	}
+
+	private void handleTagsStart() {
+		if (this.inFormula) {
+			LOG.debug("Starting tags in a formula");
+		}
+		else {
+			LOG.debug("Starting tags outside a formula");
+		}
 	}
 
 	private void handleIngredientStart(Attributes attributes) {
