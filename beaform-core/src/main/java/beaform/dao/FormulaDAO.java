@@ -131,22 +131,18 @@ public final class FormulaDAO {
 	private static void addIngredientsToFormulaNode(final Node formula, final List<Ingredient> ingredients) {
 		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 
-		try ( Transaction tx = graphDb.beginTx() ) {
-			if (LOG.isDebugEnabled()) {
-				LOG.debug("Adding " + ingredients.size() + " ingredient(s) to " + (String) formula.getProperty(NAME));
-			}
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("Adding " + ingredients.size() + " ingredient(s) to " + (String) formula.getProperty(NAME));
+		}
 
-			for (final Ingredient ingredient : ingredients) {
-				Node ingredientNode = graphDb.findNode(LABEL, NAME, ingredient.getFormula().getName());
-				Formula ingredientFormula = ingredient.getFormula();
-				if (ingredientNode == null) {
-					ingredientNode = addFormula(ingredientFormula);
-				}
-				Relationship relation = formula.createRelationshipTo(ingredientNode, RelTypes.HASINGREDIENT);
-				relation.setProperty(RELATION_AMOUNT, ingredient.getAmount());
+		for (final Ingredient ingredient : ingredients) {
+			Node ingredientNode = graphDb.findNode(LABEL, NAME, ingredient.getFormula().getName());
+			Formula ingredientFormula = ingredient.getFormula();
+			if (ingredientNode == null) {
+				ingredientNode = addFormula(ingredientFormula);
 			}
-
-			tx.success();
+			Relationship relation = formula.createRelationshipTo(ingredientNode, RelTypes.HASINGREDIENT);
+			relation.setProperty(RELATION_AMOUNT, ingredient.getAmount());
 		}
 	}
 
