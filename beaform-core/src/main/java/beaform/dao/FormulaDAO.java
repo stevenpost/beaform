@@ -34,12 +34,12 @@ public final class FormulaDAO {
 	private static final Logger LOG = LoggerFactory.getLogger(FormulaDAO.class);
 
 	private static final Label LABEL = Label.label("Formula");
+
 	private static final String NAME = "name";
 	private static final String DESCRIPTION = "description";
 	private static final String TOTAL_AMOUNT = "totalAmount";
 	private static final String RELATION_AMOUNT = "amount";
 
-	/** Query to search for a formula by tag */
 	private static final String FORMULA_COLUMN = "f";
 	private static final String FORMULA_BY_TAG = "MATCH (t:FormulaTag { name:{" + FormulaTagDAO.NAME +
 					"} })<-[r]-(f:Formula) RETURN " + FORMULA_COLUMN;
