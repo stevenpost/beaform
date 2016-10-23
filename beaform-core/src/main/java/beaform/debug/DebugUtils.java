@@ -26,26 +26,17 @@ import beaform.entities.FormulaTag;
  */
 public final class DebugUtils {
 
-	/** a logger */
 	private static final Logger LOG = LoggerFactory.getLogger(DebugUtils.class);
 
-	/** The query to list all formulas */
-	private static final String ALL_FORMULAS = "match (n:Formula) return n";
-
-	private static final String ALL_TAGS = "match (n:FormulaTag) return n";
-
-	/** Query to clear everything */
-	private static final String DELETE_QUERY = "MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r";
-
+	private static final String LIST_ALL_FORMULAS_QRY = "match (n:Formula) return n";
+	private static final String LIST_ALL_TAGS_QRY = "match (n:FormulaTag) return n";
+	private static final String CLEAR_DB_QUERY = "MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r";
 	private static final String RELATION_AMOUNT = "amount";
 
 	private DebugUtils() {
 		// Utility class.
 	}
 
-	/**
-	 * List all formulas in the DB.
-	 */
 	public static void listAllFormulas() {
 
 		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
@@ -70,12 +61,9 @@ public final class DebugUtils {
 			tx.success();
 		}
 
-		LOG.debug(ALL_FORMULAS);
+		LOG.debug(LIST_ALL_FORMULAS_QRY);
 	}
 
-	/**
-	 * List all formulas in the DB.
-	 */
 	public static void listAllTags() {
 
 		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
@@ -100,17 +88,14 @@ public final class DebugUtils {
 			tx.success();
 		}
 
-		LOG.debug(ALL_TAGS);
+		LOG.debug(LIST_ALL_TAGS_QRY);
 	}
 
-	/**
-	 * Delete everything in the DB.
-	 */
 	public static void clearDb() {
 
 		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 		try ( Transaction tx = graphDb.beginTx() ) {
-			graphDb.execute(DELETE_QUERY);
+			graphDb.execute(CLEAR_DB_QUERY);
 			tx.success();
 		}
 
@@ -118,9 +103,6 @@ public final class DebugUtils {
 
 	}
 
-	/**
-	 * Fills the database with some test values.
-	 */
 	public static void fillDb() {
 		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 
