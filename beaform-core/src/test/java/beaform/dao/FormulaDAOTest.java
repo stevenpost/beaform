@@ -3,7 +3,6 @@ package beaform.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -69,7 +68,8 @@ public class FormulaDAOTest {
 	@Test
 	public void testUpdateExisting() throws Exception {
 		DebugUtils.fillDb();
-		FormulaDAO.updateExisting("Form1", "New description", "100g", Collections.emptyList(), Collections.emptyList());
+		final Formula formula = new Formula("Form1", "New description", "100g");
+		FormulaDAO.updateExistingInDb(formula);
 		final Callable<Formula> task = new SearchFormulaTask("Form1");
 		final Formula result = task.call();
 		assertEquals("This isn't the expected description", "New description", result.getDescription());
@@ -77,7 +77,8 @@ public class FormulaDAOTest {
 
 	@Test(expected=NoSuchFormulaException.class)
 	public void testUpdateExistingNotFound() throws Exception {
-		FormulaDAO.updateExisting("Form1", "New description", "100g", Collections.emptyList(), Collections.emptyList());
+		final Formula formula = new Formula("Form1", "New description", "100g");
+		FormulaDAO.updateExistingInDb(formula);
 		final Callable<Formula> task = new SearchFormulaTask("Form1");
 		final Formula result = task.call();
 		assertEquals("This isn't the expected description", "New description", result.getDescription());

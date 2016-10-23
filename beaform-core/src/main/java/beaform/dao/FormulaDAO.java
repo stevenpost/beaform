@@ -92,35 +92,39 @@ public final class FormulaDAO {
 		return new Ingredient(ingredientCore, amount);
 	}
 
-	public static void updateExisting(final String name,
-	                                  final String description,
-	                                  final String totalAmount,
-	                                  final List<Ingredient> ingredients,
-	                                  final List<FormulaTag> tags) throws NoSuchFormulaException {
+	public static void updateExistingInDb(final Formula formula) throws NoSuchFormulaException {
 
 		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 
 		try ( Transaction tx = graphDb.beginTx() ) {
 
-			Node formNode = graphDb.findNode(LABEL, NAME, name);
-			if (formNode == null) {
-				throw new NoSuchFormulaException("A Formula with the name '" + name + "' does not exist");
-			}
-			formNode.setProperty(DESCRIPTION, description);
-			formNode.setProperty(TOTAL_AMOUNT, totalAmount);
+			Node formNode = findFormulaNodeByName(formula.getName(), graphDb);
+			formNode.setProperty(DESCRIPTION, formula.getDescription());
+			formNode.setProperty(TOTAL_AMOUNT, formula.getTotalAmount());
 
-			Iterator<Relationship> itRel = formNode.getRelationships(Direction.OUTGOING, RelTypes.HASINGREDIENT).iterator();
-			while (itRel.hasNext()) {
-				Relationship relation = itRel.next();
-				relation.delete();
-			}
+			removeAllIngredientsFromFormulaInDb(formNode);
 
-			addTags(tags, formNode);
+			addTags(IteratorUtils.toList(formula.getTags()), formNode);
 
-			final Formula formula = new Formula(name, description, totalAmount);
-			addIngredientsToFormulaNode(formNode, ingredients);
-			addIngredientsToFormula(formula, ingredients);
+			addIngredientsToFormulaNode(formNode, formula.getIngredients());
 			tx.success();
+		}
+	}
+
+	private static Node findFormulaNodeByName(final String name,
+	                                          final GraphDatabaseService graphDb) throws NoSuchFormulaException {
+		Node formNode = graphDb.findNode(LABEL, NAME, name);
+		if (formNode == null) {
+			throw new NoSuchFormulaException("A Formula with the name '" + name + "' does not exist");
+		}
+		return formNode;
+	}
+
+	private static void removeAllIngredientsFromFormulaInDb(Node formNode) {
+		Iterator<Relationship> itRel = formNode.getRelationships(Direction.OUTGOING, RelTypes.HASINGREDIENT).iterator();
+		while (itRel.hasNext()) {
+			Relationship relation = itRel.next();
+			relation.delete();
 		}
 	}
 
@@ -143,13 +147,6 @@ public final class FormulaDAO {
 			}
 
 			tx.success();
-		}
-	}
-
-	private static void addIngredientsToFormula(final Formula formula, final List<Ingredient> ingredients) {
-		for (final Ingredient ingredient : ingredients) {
-			Formula ingredientFormula = ingredient.getFormula();
-			formula.addIngredient(ingredientFormula, ingredient.getAmount());
 		}
 	}
 

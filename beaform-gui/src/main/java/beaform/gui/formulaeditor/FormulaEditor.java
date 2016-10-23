@@ -75,8 +75,12 @@ public final class FormulaEditor extends Observable implements InterchangableWin
 		final String name = this.editorUI.getName();
 		final String description = this.editorUI.getDescription();
 		final String totalAmount = this.editorUI.getTotalAmount();
+		final Formula updatedFormula = new Formula(name, description, totalAmount);
+		updatedFormula.addAllIngredients(ingredients);
+		updatedFormula.addAllTags(tags);
+
 		try {
-			FormulaDAO.updateExisting(name, description, totalAmount, ingredients, tags);
+			FormulaDAO.updateExistingInDb(updatedFormula);
 		}
 		catch (NoSuchFormulaException e) {
 			LOG.error("Unable to update the formula, it doesn't appear to exist", e);

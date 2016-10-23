@@ -158,8 +158,13 @@ public class ImporterHandler extends DefaultHandler {
 				final List<Ingredient> ingredients = FormulaDAO.listIngredients(form);
 				ingredients.add(new Ingredient(newIngredient, pending.getAmount()));
 				final List<FormulaTag> tags = IteratorUtils.toList(form.getTags());
+
+				final Formula updatedFormula = new Formula(form.getName(), form.getDescription(), form.getTotalAmount());
+				updatedFormula.addAllIngredients(ingredients);
+				updatedFormula.addAllTags(tags);
+
 				try {
-					FormulaDAO.updateExisting(form.getName(), form.getDescription(), form.getTotalAmount(), ingredients, tags);
+					FormulaDAO.updateExistingInDb(updatedFormula);
 				}
 				catch (NoSuchFormulaException e) {
 					LOG.error("An unexpected error occured:", e);
