@@ -1,8 +1,12 @@
 package beaform.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.ResourceIterator;
 import org.neo4j.graphdb.Transaction;
 
 import beaform.entities.FormulaTag;
@@ -21,6 +25,24 @@ public final class FormulaTagDAO {
 
 	private FormulaTagDAO() {
 		// Utility classes should not have a public constructor.
+	}
+
+	public static List<FormulaTag> listAllTags() {
+		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
+		List<FormulaTag> tags = new ArrayList<>();
+
+		try ( Transaction tx = graphDb.beginTx() ) {
+			try ( ResourceIterator<Node> formulas = graphDb.findNodes(LABEL)) {
+				while ( formulas.hasNext()) {
+					final FormulaTag tag = nodeToTag(formulas.next());
+					tags.add(tag);
+
+				}
+			}
+			tx.success();
+		}
+
+		return tags;
 	}
 
 	public static Node findOrCreate(String tag) {

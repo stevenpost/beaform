@@ -53,6 +53,24 @@ public final class FormulaDAO {
 		// private constructor, because this is a utility class.
 	}
 
+	public static List<Formula> listAllFormulas() {
+		final List<Formula> formulas = new ArrayList<>();
+		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
+
+		try ( Transaction tx = graphDb.beginTx() ) {
+			try ( ResourceIterator<Node> formulaNodes = graphDb.findNodes(LABEL)) {
+				while ( formulaNodes.hasNext()) {
+					final Node formulaNode = formulaNodes.next();
+					final Formula formula = nodeToFormula(formulaNode);
+					formulas.add(formula);
+				}
+			}
+			tx.success();
+		}
+
+		return formulas;
+	}
+
 	public static List<Ingredient> listIngredients(final Formula formula) {
 		final List<Ingredient> retList;
 

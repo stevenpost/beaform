@@ -1,12 +1,10 @@
 package beaform.debug;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
-import org.neo4j.graphdb.ResourceIterator;
 import org.neo4j.graphdb.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,8 +26,6 @@ public final class DebugUtils {
 
 	private static final Logger LOG = LoggerFactory.getLogger(DebugUtils.class);
 
-	private static final String LIST_ALL_FORMULAS_QRY = "match (n:Formula) return n";
-	private static final String LIST_ALL_TAGS_QRY = "match (n:FormulaTag) return n";
 	private static final String CLEAR_DB_QUERY = "MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r";
 	private static final String RELATION_AMOUNT = "amount";
 
@@ -38,57 +34,25 @@ public final class DebugUtils {
 	}
 
 	public static void listAllFormulas() {
-
-		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
-
-		Label label = Label.label("Formula");
-		try ( Transaction tx = graphDb.beginTx() ) {
-			try ( ResourceIterator<Node> formulas = graphDb.findNodes(label)) {
-				ArrayList<Node> formulaNodes = new ArrayList<>();
-				while ( formulas.hasNext()) {
-					formulaNodes.add(formulas.next());
-				}
-
-				if (LOG.isDebugEnabled()) {
-					LOG.debug("Number of formulas: " + formulaNodes.size());
-				}
-
-				for (Node node : formulaNodes) {
-					Formula form = FormulaDAO.nodeToFormula(node);
-					LOG.info(form.toString());
-				}
-			}
-			tx.success();
+		List<Formula> formulas = FormulaDAO.listAllFormulas();
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("Number of formulas: " + formulas.size());
 		}
 
-		LOG.debug(LIST_ALL_FORMULAS_QRY);
+		for (Formula formula : formulas) {
+			LOG.info(formula.toString());
+		}
 	}
 
 	public static void listAllTags() {
 
-		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
-
-		Label label = Label.label("FormulaTag");
-		try ( Transaction tx = graphDb.beginTx() ) {
-			try ( ResourceIterator<Node> formulas = graphDb.findNodes(label)) {
-				ArrayList<Node> tagNodes = new ArrayList<>();
-				while ( formulas.hasNext()) {
-					tagNodes.add(formulas.next());
-				}
-
-				if (LOG.isDebugEnabled()) {
-					LOG.debug("Number of tags: " + tagNodes.size());
-				}
-
-				for (Node node : tagNodes) {
-					FormulaTag form = FormulaTagDAO.nodeToTag(node);
-					LOG.info(form.toString());
-				}
-			}
-			tx.success();
+		List<FormulaTag> tags = FormulaTagDAO.listAllTags();
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("Number of tags: " + tags.size());
 		}
-
-		LOG.debug(LIST_ALL_TAGS_QRY);
+		for (FormulaTag tag : tags) {
+			LOG.info(tag.toString());
+		}
 	}
 
 	public static void clearDb() {
