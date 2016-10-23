@@ -53,23 +53,25 @@ public final class FormulaTagDAO {
 		return tagNode;
 	}
 
-	public static FormulaTag nodeToTag(Node node) {
-		final Iterable<Label> labelIt = node.getLabels();
-		boolean hasCorrectLabel = false;
-		for (Label label : labelIt) {
-			if (label.name().equals(LABEL.name())) {
-				hasCorrectLabel = true;
-				break;
-			}
-		}
+	public static FormulaTag nodeToTag(Node tag) {
 
-		if (!hasCorrectLabel) {
+		if (!tagNodeHasCorrectLabel(tag)) {
 			throw new InvalidFormulaException();
 		}
 
-		String name = (String) node.getProperty(NAME);
+		String name = (String) tag.getProperty(NAME);
 
 		return new FormulaTag(name);
+	}
+
+	private static boolean tagNodeHasCorrectLabel(Node tagNode) {
+		final Iterable<Label> labelIt = tagNode.getLabels();
+		for (Label label : labelIt) {
+			if (label.name().equals(LABEL.name())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
