@@ -13,13 +13,8 @@ import org.neo4j.graphdb.factory.GraphDatabaseFactory;
  */
 public final class GraphDbHandler {
 
-	/** The instance of this singleton */
 	private static GraphDbHandler instance;
-
-	/** A lock for accessing the instance */
 	private static final Object INSTANCELOCK = new Object();
-
-	/** The DB service */
 	private final GraphDatabaseService graphDb;
 
 	private GraphDbHandler(final String dbPath) {
@@ -55,10 +50,6 @@ public final class GraphDbHandler {
 		}
 	}
 
-	/**
-	 * Get the instance of this handler.
-	 * @return the instance
-	 */
 	public static GraphDbHandler getInstance() {
 		synchronized (INSTANCELOCK) {
 			if (instance == null) {
