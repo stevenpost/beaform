@@ -227,12 +227,12 @@ public final class FormulaDAO {
 
 		try ( Transaction tx = graphDb.beginTx() ) {
 
-			Node node = graphDb.findNode(LABEL, NAME, name);
-			if (node == null) {
+			Node formulaNode = graphDb.findNode(LABEL, NAME, name);
+			if (formulaNode == null) {
 				return null;
 			}
-			formula = nodeToFormula(node);
-			fillTagsForFormula(formula, node);
+			formula = nodeToFormula(formulaNode);
+			fillTagsForFormula(formula, formulaNode);
 
 			tx.success();
 		}
