@@ -58,16 +58,19 @@ public final class FormulaDAO {
 
 		final GraphDatabaseService graphDb = GraphDbHandler.getInstance().getService();
 
-		Map<String, Object> parameters = new HashMap<>();
-		parameters.put(NAME, formula.getName());
+		Map<String, Object> parameters = buildQueryParametersFromFormulaName(formula);
 		try ( Transaction tx = graphDb.beginTx(); Result result = graphDb.execute(LIST_INGREDIENTS, parameters); ) {
-
 			retList = listIngredientsFromDbResult(result);
-
 			tx.success();
 		}
 
 		return retList;
+	}
+
+	private static Map<String, Object> buildQueryParametersFromFormulaName(Formula formula) {
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put(NAME, formula.getName());
+		return parameters;
 	}
 
 	private static List<Ingredient> listIngredientsFromDbResult(Result result) {
