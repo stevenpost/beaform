@@ -21,6 +21,18 @@ public final class GraphDbHandler {
 		return getInstance().getService();
 	}
 
+	/**
+	 * Initialize the handler.
+	 * @param dbPath the path to the DB (may be relative)
+	 */
+	public static void initInstance(final String dbPath) {
+		synchronized (INSTANCELOCK) {
+			if (instance == null) {
+				instance = new GraphDbHandler(dbPath);
+			}
+		}
+	}
+
 	private GraphDbHandler(final String dbPath) {
 		this.graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(new File(dbPath));
 		registerShutdownHook(this.graphDb);
@@ -40,18 +52,6 @@ public final class GraphDbHandler {
 
 	public GraphDatabaseService getService() {
 		return this.graphDb;
-	}
-
-	/**
-	 * Get the instance of this handler.
-	 * @param persistenceUnit the persistence unit to use
-	 */
-	public static void initInstance(final String persistenceUnit) {
-		synchronized (INSTANCELOCK) {
-			if (instance == null) {
-				instance = new GraphDbHandler(persistenceUnit);
-			}
-		}
 	}
 
 	public static GraphDbHandler getInstance() {
