@@ -6,7 +6,7 @@ import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 
 /**
- * A handler for the graph database using JTA.
+ * A handler for the graph database using the Neo4j Java Driver.
  *
  * @author Steven Post
  *
