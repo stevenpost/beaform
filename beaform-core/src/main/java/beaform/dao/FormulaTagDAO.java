@@ -29,17 +29,25 @@ public final class FormulaTagDAO {
 
 	public static List<FormulaTag> listAllTags() {
 		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
-		List<FormulaTag> tags = new ArrayList<>();
+		final List<FormulaTag> tags;
 
 		try ( Transaction tx = graphDb.beginTx() ) {
-			try ( ResourceIterator<Node> formulas = graphDb.findNodes(LABEL)) {
-				while ( formulas.hasNext()) {
-					final FormulaTag tag = nodeToTag(formulas.next());
-					tags.add(tag);
-
-				}
+			try ( ResourceIterator<Node> tagNodes = graphDb.findNodes(LABEL)) {
+				tags = listFromResourceIterator(tagNodes);
 			}
 			tx.success();
+		}
+
+		return tags;
+	}
+
+	private static List<FormulaTag> listFromResourceIterator(ResourceIterator<Node> tagNodes) {
+		final List<FormulaTag> tags = new ArrayList<>();
+
+		while ( tagNodes.hasNext()) {
+			final Node formulaNode = tagNodes.next();
+			final FormulaTag tag = nodeToTag(formulaNode);
+			tags.add(tag);
 		}
 
 		return tags;
