@@ -22,17 +22,17 @@ public final class FormulaTagDAO {
 	public static final String NAME = "name";
 
 	private static final Label LABEL = Label.label("FormulaTag");
+	private static final GraphDatabaseService GRAPHDB = GraphDbHandler.getDbService();
 
 	private FormulaTagDAO() {
 		// Utility classes should not have a public constructor.
 	}
 
 	public static List<FormulaTag> listAllTags() {
-		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 		final List<FormulaTag> tags;
 
-		try ( Transaction tx = graphDb.beginTx() ) {
-			try ( ResourceIterator<Node> tagNodes = graphDb.findNodes(LABEL)) {
+		try ( Transaction tx = GRAPHDB.beginTx() ) {
+			try ( ResourceIterator<Node> tagNodes = GRAPHDB.findNodes(LABEL)) {
 				tags = listFromResourceIterator(tagNodes);
 			}
 			tx.success();
@@ -54,14 +54,13 @@ public final class FormulaTagDAO {
 	}
 
 	public static Node findOrCreate(String tag) {
-		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 		Node tagNode;
-		try (Transaction tx = graphDb.beginTx()) {
+		try (Transaction tx = GRAPHDB.beginTx()) {
 
 			// See if the tag exist in the DB, if so, use it, otherwise create it
-			tagNode = graphDb.findNode(LABEL, NAME, tag);
+			tagNode = GRAPHDB.findNode(LABEL, NAME, tag);
 			if (tagNode == null) {
-				tagNode = graphDb.createNode(LABEL);
+				tagNode = GRAPHDB.createNode(LABEL);
 				tagNode.setProperty(NAME, tag);
 			}
 			tx.success();
@@ -74,10 +73,9 @@ public final class FormulaTagDAO {
 	}
 
 	public static Node findByName(String name) {
-		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 		Node tagNode;
-		try (Transaction tx = graphDb.beginTx()) {
-			tagNode = graphDb.findNode(LABEL, NAME, name);
+		try (Transaction tx = GRAPHDB.beginTx()) {
+			tagNode = GRAPHDB.findNode(LABEL, NAME, name);
 			tx.success();
 		}
 		return tagNode;
