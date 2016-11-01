@@ -35,21 +35,13 @@ public final class DebugUtils {
 
 	public static void listAllFormulas() {
 		List<Formula> formulas = FormulaDAO.listAllFormulas();
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("Number of formulas: " + formulas.size());
-		}
-
 		for (Formula formula : formulas) {
 			LOG.info(formula.toString());
 		}
 	}
 
 	public static void listAllTags() {
-
 		List<FormulaTag> tags = FormulaTagDAO.listAllTags();
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("Number of tags: " + tags.size());
-		}
 		for (FormulaTag tag : tags) {
 			LOG.info(tag.toString());
 		}
