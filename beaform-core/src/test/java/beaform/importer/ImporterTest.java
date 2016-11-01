@@ -34,6 +34,7 @@ public class ImporterTest {
 	private final String importFilePath = "src/test/resources/importer/input.xml";
 	private final String malformedXmlFilePath = "src/test/resources/importer/malformed.xml";
 	private final String unknownElementXmlFilePath = "src/test/resources/importer/unknownelement.xml";
+	private final String missingElementXmlFilePath = "src/test/resources/importer/missingelement.xml";
 
 	@Before
 	public void setUp() {
@@ -70,6 +71,12 @@ public class ImporterTest {
 	@Test(expected=ImporterException.class)
 	public void testWithUnknownElement() throws ImporterException {
 		File importFile = new File(this.unknownElementXmlFilePath);
+		Importer.importFromFile(importFile);
+	}
+
+	@Test(expected=ImporterException.class)
+	public void testWithMissinElement() throws ImporterException {
+		File importFile = new File(this.missingElementXmlFilePath);
 		Importer.importFromFile(importFile);
 	}
 

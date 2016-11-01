@@ -4,10 +4,8 @@
 		<formula name="testForm1">
 			<description>Some long description</description>
 			<totalAmount>200g</totalAmount>
-			<tags>
-				<tag>first</tag>
-				<tag>second</tag>
-			</tags>
+			<tag>first</tag>
+			<tag>second</tag>
 			<ingredients>
 				<ingredient name="testForm2" amount="50g" />
 				<ingredient name="testForm3" amount="150g" />

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beaform xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:noNamespaceSchemaLocation="file:///home/steven/development/beaform/beaform-core/xml-schemas/input.xsd">
+<beaform>
 	<formulas>
 		<formula name="testForm1">
 			<description>Some long description</description>
