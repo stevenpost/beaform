@@ -56,17 +56,25 @@ public final class FormulaDAO {
 	}
 
 	public static List<Formula> listAllFormulas() {
-		final List<Formula> formulas = new ArrayList<>();
+		final List<Formula> formulas;
 
 		try ( Transaction tx = GRAPHDB.beginTx() ) {
-			try ( ResourceIterator<Node> formulaNodes = graphDb.findNodes(LABEL)) {
-				while ( formulaNodes.hasNext()) {
-					final Node formulaNode = formulaNodes.next();
-					final Formula formula = nodeToFormula(formulaNode);
-					formulas.add(formula);
-				}
+			try ( ResourceIterator<Node> formulaNodes = GRAPHDB.findNodes(LABEL)) {
+				formulas = listFromResourceIterator(formulaNodes);
 			}
 			tx.success();
+		}
+
+		return formulas;
+	}
+
+	private static List<Formula> listFromResourceIterator(ResourceIterator<Node> formulaNodes) {
+		final List<Formula> formulas = new ArrayList<>();
+
+		while ( formulaNodes.hasNext()) {
+			final Node formulaNode = formulaNodes.next();
+			final Formula formula = nodeToFormula(formulaNode);
+			formulas.add(formula);
 		}
 
 		return formulas;
