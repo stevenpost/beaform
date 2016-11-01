@@ -49,15 +49,16 @@ public final class FormulaDAO {
 	private static final String LIST_INGREDIENTS = "MATCH (i:Formula)<-[r:" + RelTypes.HASINGREDIENT +
 					"]-(f:Formula { name:{name} }) RETURN " + INGREDIENTS_COLUMN + "," + INGREDIENT_RALATION;
 
+	private static final GraphDatabaseService GRAPHDB = GraphDbHandler.getDbService();
+
 	private FormulaDAO() {
 		// private constructor, because this is a utility class.
 	}
 
 	public static List<Formula> listAllFormulas() {
 		final List<Formula> formulas = new ArrayList<>();
-		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 
-		try ( Transaction tx = graphDb.beginTx() ) {
+		try ( Transaction tx = GRAPHDB.beginTx() ) {
 			try ( ResourceIterator<Node> formulaNodes = graphDb.findNodes(LABEL)) {
 				while ( formulaNodes.hasNext()) {
 					final Node formulaNode = formulaNodes.next();
@@ -74,10 +75,8 @@ public final class FormulaDAO {
 	public static List<Ingredient> listIngredients(final Formula formula) {
 		final List<Ingredient> retList;
 
-		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
-
 		Map<String, Object> parameters = buildQueryParametersFromFormulaName(formula);
-		try ( Transaction tx = graphDb.beginTx(); Result result = graphDb.execute(LIST_INGREDIENTS, parameters); ) {
+		try ( Transaction tx = GRAPHDB.beginTx(); Result result = GRAPHDB.execute(LIST_INGREDIENTS, parameters); ) {
 			retList = listIngredientsFromDbResult(result);
 			tx.success();
 		}
@@ -112,11 +111,9 @@ public final class FormulaDAO {
 
 	public static void updateExistingInDb(final Formula formula) throws NoSuchFormulaException {
 
-		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
+		try ( Transaction tx = GRAPHDB.beginTx() ) {
 
-		try ( Transaction tx = graphDb.beginTx() ) {
-
-			Node formNode = findFormulaNodeByName(formula.getName(), graphDb);
+			Node formNode = findFormulaNodeByName(formula.getName());
 			formNode.setProperty(DESCRIPTION, formula.getDescription());
 			formNode.setProperty(TOTAL_AMOUNT, formula.getTotalAmount());
 
@@ -129,9 +126,8 @@ public final class FormulaDAO {
 		}
 	}
 
-	private static Node findFormulaNodeByName(final String name,
-	                                          final GraphDatabaseService graphDb) throws NoSuchFormulaException {
-		Node formNode = graphDb.findNode(LABEL, NAME, name);
+	private static Node findFormulaNodeByName(final String name) throws NoSuchFormulaException {
+		Node formNode = GRAPHDB.findNode(LABEL, NAME, name);
 		if (formNode == null) {
 			throw new NoSuchFormulaException("A Formula with the name '" + name + "' does not exist");
 		}
@@ -158,11 +154,10 @@ public final class FormulaDAO {
 	}
 
 	private static void addIngredientToFormulaNode(final Node formula, final Ingredient ingredient) {
-		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 
 		Node ingredientNode;
 		try {
-			ingredientNode = findFormulaNodeByName(ingredient.getFormula().getName(), graphDb);
+			ingredientNode = findFormulaNodeByName(ingredient.getFormula().getName());
 		}
 		catch (NoSuchFormulaException e) {
 			LOG.debug("Unable to find the ingredient in the DB, creating it: " + e.getMessage(), e);
@@ -174,13 +169,11 @@ public final class FormulaDAO {
 	}
 
 	public static Node addFormula(final Formula formula) {
-
-		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 		final Node formNode;
 
-		try ( Transaction tx = graphDb.beginTx() ) {
+		try ( Transaction tx = GRAPHDB.beginTx() ) {
 
-			formNode = graphDb.createNode(LABEL);
+			formNode = GRAPHDB.createNode(LABEL);
 			formNode.setProperty(NAME, formula.getName());
 			formNode.setProperty(DESCRIPTION, formula.getDescription());
 			formNode.setProperty(TOTAL_AMOUNT, formula.getTotalAmount());
@@ -240,12 +233,11 @@ public final class FormulaDAO {
 	 */
 	public static Formula findFormulaByName(final String name) {
 
-		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 		Formula formula;
 
-		try ( Transaction tx = graphDb.beginTx() ) {
+		try ( Transaction tx = GRAPHDB.beginTx() ) {
 
-			Node formulaNode = graphDb.findNode(LABEL, NAME, name);
+			Node formulaNode = GRAPHDB.findNode(LABEL, NAME, name);
 			if (formulaNode == null) {
 				return null;
 			}
@@ -260,13 +252,12 @@ public final class FormulaDAO {
 
 	public static List<Formula> findFormulasByTag(final String tagName) {
 
-		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 		final List<Formula> formulas;
 
-		try ( Transaction tx = graphDb.beginTx() ) {
+		try ( Transaction tx = GRAPHDB.beginTx() ) {
 
 			Map<String, Object> parameters = buildQueryParametersFromTagName(tagName);
-			try (ResourceIterator<Node> resultIterator = graphDb.execute(FORMULA_BY_TAG, parameters).columnAs(FORMULA_COLUMN)) {
+			try (ResourceIterator<Node> resultIterator = GRAPHDB.execute(FORMULA_BY_TAG, parameters).columnAs(FORMULA_COLUMN)) {
 				formulas = listFormulasFromDbResult(resultIterator);
 			}
 
