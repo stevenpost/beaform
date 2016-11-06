@@ -52,7 +52,6 @@ public class ImporterHandler extends DefaultHandler {
 				this.inTotalAmount = true;
 				break;
 			case "tags":
-				handleTagsStart();
 				break;
 			case "tag":
 				this.inTag = true;
@@ -74,15 +73,6 @@ public class ImporterHandler extends DefaultHandler {
 		this.formula = new Formula();
 		this.formula.setName(attributes.getValue("name"));
 		this.inFormula = true;
-	}
-
-	private void handleTagsStart() {
-		if (this.inFormula) {
-			LOG.debug("Starting tags in a formula");
-		}
-		else {
-			LOG.debug("Starting tags outside a formula");
-		}
 	}
 
 	private void handleIngredientStart(Attributes attributes) {
