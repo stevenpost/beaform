@@ -1,7 +1,10 @@
 package beaform.importer;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
@@ -10,9 +13,12 @@ import javax.xml.parsers.SAXParserFactory;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
+import org.xml.sax.helpers.XMLReaderFactory;
 
 public final class Importer {
 
@@ -26,18 +32,19 @@ public final class Importer {
 
 		validateXmlFile(input);
 
-		final SAXParserFactory factory = SAXParserFactory.newInstance();
-		final SAXParser parser;
+		final XMLReader reader;
 		try {
-			parser = factory.newSAXParser();
+			reader = XMLReaderFactory.createXMLReader();
 		}
-		catch (ParserConfigurationException | SAXException e) {
+		catch (SAXException e) {
 			throw new ImporterException("There was a problem setting up the parser", e);
 		}
 
 		final ImporterHandler handler = new ImporterHandler();
-		try {
-			parser.parse(input, handler);
+		try (InputStream inputStream = new BufferedInputStream(new FileInputStream(input))) {
+			reader.setContentHandler(handler);
+			reader.parse(new InputSource(inputStream));
+
 		}
 		catch (SAXException | IOException e) {
 			throw new ImporterException("There was a problem parsing the input file", e);
