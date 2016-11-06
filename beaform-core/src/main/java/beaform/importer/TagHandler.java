@@ -29,12 +29,8 @@ public class TagHandler extends DefaultHandler {
 
 		LOG.debug("Start Element :" + qName);
 
-		switch (qName) {
-			case "tag":
-				this.isInTag = true;
-				break;
-			default:
-				break;
+		if ("tag".equals(qName)) {
+			this.isInTag = true;
 		}
 	}
 
