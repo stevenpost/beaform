@@ -44,4 +44,26 @@ public class TagHandlerTest {
 		handler.endElement("", "", "tag");
 	}
 
+	@Test
+	public void testWithForeignTag() throws SAXException {
+		final String firstTag = "firstTag";
+		final String secondTag = "secondTag";
+		final TagHandler handler = new TagHandler(new MockedSAXHandlerMaster());
+
+		parseTagElement(firstTag, handler);
+		parseTagElement(secondTag, handler);
+		parseUnknownElement("some stuff", handler);
+
+		List<FormulaTag> newTags = handler.getTags();
+		assertEquals("This isn't the expected number of tags", 2, newTags.size());
+		assertEquals("This isn't the expected tag", firstTag, newTags.get(0).getName());
+		assertEquals("This isn't the expected tag", secondTag, newTags.get(1).getName());
+	}
+
+	private void parseUnknownElement(final String text, final TagHandler handler) throws SAXException {
+		handler.startElement("", "", "unknown", null);
+		handler.characters(text.toCharArray(), 0, text.length());
+		handler.endElement("", "", "unknown");
+	}
+
 }
