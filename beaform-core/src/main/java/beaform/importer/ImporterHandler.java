@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
 import beaform.dao.FormulaDAO;
@@ -18,17 +19,22 @@ import beaform.entities.Formula;
 import beaform.entities.FormulaTag;
 import beaform.entities.Ingredient;
 
-public class ImporterHandler extends DefaultHandler {
+public class ImporterHandler extends DefaultHandler implements SAXHandlerMaster {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ImporterHandler.class);
 
 	private final Map<String, Map<String, PendingIngredient>> allPendingIngredients = new HashMap<>();
+	private final XMLReader reader;
 
 	private boolean inFormula;
 	private Formula formula;
 	private boolean inDescription;
 	private boolean inTotalAmount;
-	private boolean inTag;
+	private TagHandler currentTagHandler;
+
+	public ImporterHandler(XMLReader reader) {
+		this.reader = reader;
+	}
 
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
@@ -52,9 +58,7 @@ public class ImporterHandler extends DefaultHandler {
 				this.inTotalAmount = true;
 				break;
 			case "tags":
-				break;
-			case "tag":
-				this.inTag = true;
+				handleTagsStart();
 				break;
 			case "ingredients":
 				LOG.debug("Starting ingredients");
@@ -66,6 +70,11 @@ public class ImporterHandler extends DefaultHandler {
 				throw new SAXException("Found unknown element " + qName);
 		}
 
+	}
+
+	private void handleTagsStart() {
+		this.currentTagHandler = new TagHandler(this);
+		this.reader.setContentHandler(this.currentTagHandler);
 	}
 
 	private void handleFormulaStart(Attributes attributes) {
@@ -121,12 +130,6 @@ public class ImporterHandler extends DefaultHandler {
 			case "totalAmount":
 				this.inTotalAmount = false;
 				break;
-			case "tags":
-				handleTagsEnd();
-				break;
-			case "tag":
-				this.inTag = false;
-				break;
 			case "ingredients":
 				LOG.debug("Starting ingredients");
 				break;
@@ -143,15 +146,6 @@ public class ImporterHandler extends DefaultHandler {
 		FormulaDAO.addFormula(this.formula);
 		addPendingIngredients(this.formula.getName());
 		this.inFormula = false;
-	}
-
-	private void handleTagsEnd() {
-		if (this.inFormula) {
-			LOG.debug("End of tags in a formula");
-		}
-		else {
-			LOG.debug("End of tags tags outside a formula");
-		}
 	}
 
 	private void addPendingIngredients(String name) {
@@ -182,23 +176,25 @@ public class ImporterHandler extends DefaultHandler {
 
 	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException {
-
 		if (this.inDescription) {
 			this.formula.setDescription(new String(ch, start, length));
 		}
-
-		if (this.inTotalAmount) {
+		else if (this.inTotalAmount) {
 			this.formula.setTotalAmount(new String(ch, start, length));
 		}
-
-		if (this.inTag && this.inFormula) {
-			this.formula.addTag(new FormulaTag(new String(ch, start, length)));
-		}
-
 	}
 
 	public int getPendingIngredients() {
 		return this.allPendingIngredients.size();
+	}
+
+	@Override
+	public void gainControl() {
+		this.reader.setContentHandler(this);
+		if (this.inFormula) {
+			List<FormulaTag> tags = this.currentTagHandler.getTags();
+			this.formula.addAllTags(tags);
+		}
 	}
 
 }

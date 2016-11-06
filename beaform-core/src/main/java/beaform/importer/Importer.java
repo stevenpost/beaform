@@ -40,7 +40,7 @@ public final class Importer {
 			throw new ImporterException("There was a problem setting up the parser", e);
 		}
 
-		final ImporterHandler handler = new ImporterHandler();
+		final ImporterHandler handler = new ImporterHandler(reader);
 		try (InputStream inputStream = new BufferedInputStream(new FileInputStream(input))) {
 			reader.setContentHandler(handler);
 			reader.parse(new InputSource(inputStream));
