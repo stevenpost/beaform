@@ -117,7 +117,7 @@ public final class FormulaDAO {
 		return new Ingredient(ingredientCore, amount);
 	}
 
-	public static void updateExistingInDb(final Formula formula) throws NoSuchFormulaException {
+	public static void updateExistingInDb(final Formula formula) {
 
 		try ( Transaction tx = GRAPHDB.beginTx() ) {
 
@@ -134,7 +134,7 @@ public final class FormulaDAO {
 		}
 	}
 
-	private static Node findFormulaNodeByName(final String name) throws NoSuchFormulaException {
+	private static Node findFormulaNodeByName(final String name) {
 		Node formNode = GRAPHDB.findNode(LABEL, NAME, name);
 		if (formNode == null) {
 			throw new NoSuchFormulaException("A Formula with the name '" + name + "' does not exist");
