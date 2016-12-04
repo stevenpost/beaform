@@ -94,7 +94,7 @@ public class ImporterHandler extends DefaultHandler implements SAXHandlerMaster 
 		}
 		catch (NoSuchFormulaException nsfe) {
 			if (LOG.isDebugEnabled()) {
-				LOG.debug(nsfe.getMessage());
+				LOG.debug("The formula doesn't exit yet, so adding it to the pending list", nsfe);
 			}
 			final Map<String, PendingIngredient> currentPending = getPendingMap(ingredientName);
 			currentPending.put(this.formula.getName(), new PendingIngredient(ingredientName, ingredientAmount));
