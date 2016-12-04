@@ -237,7 +237,8 @@ public final class FormulaDAO {
 	 * This method finds a formula in the DB based on a name.
 	 *
 	 * @param name the name of the formula to look for
-	 * @return the found {@link Formula} or null if none was found.
+	 * @return the found {@link Formula}
+	 * @throws NoSuchFormulaException if no formula was found.
 	 */
 	public static Formula findFormulaByName(final String name) {
 
@@ -247,7 +248,7 @@ public final class FormulaDAO {
 
 			Node formulaNode = GRAPHDB.findNode(LABEL, NAME, name);
 			if (formulaNode == null) {
-				return null;
+				throw new NoSuchFormulaException("Formula '" + name + "' doesn't seem to exist");
 			}
 			formula = nodeToFormula(formulaNode);
 			fillTagsForFormulaFromDB(formula, formulaNode);
