@@ -198,13 +198,7 @@ public final class FormulaEditorUI {
 	}
 
 	public void setError(String message) {
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				FormulaEditorUI.this.txtErrors.setText(message);
-			}
-		});
+		SwingUtilities.invokeLater(() -> FormulaEditorUI.this.txtErrors.setText(message));
 	}
 
 }
