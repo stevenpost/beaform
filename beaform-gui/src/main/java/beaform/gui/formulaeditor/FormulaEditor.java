@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import beaform.dao.FormulaDAO;
-import beaform.dao.NoSuchFormulaException;
+import beaform.dao.InvalidFormulaException;
 import beaform.entities.Formula;
 import beaform.entities.FormulaTag;
 import beaform.entities.Ingredient;
@@ -82,18 +82,13 @@ public final class FormulaEditor extends Observable implements InterchangableWin
 
 		validateFormula(updatedFormula);
 
-		try {
-			FormulaDAO.updateExistingInDb(updatedFormula);
-		}
-		catch (NoSuchFormulaException e) {
-			LOG.error("Unable to update the formula, it doesn't appear to exist", e);
-		}
+		FormulaDAO.updateExistingInDb(updatedFormula);
 
 	}
 
 	private static void validateFormula(final Formula formula) {
 		if ("".equals(formula.getName())) {
-			throw new IllegalArgumentException("A formula cannot have an empty name");
+			throw new InvalidFormulaException("A formula cannot have an empty name");
 		}
 	}
 
@@ -101,6 +96,10 @@ public final class FormulaEditor extends Observable implements InterchangableWin
 	public void replace() {
 		this.setChanged();
 		this.notifyObservers(this.editorUI.getPanel());
+	}
+
+	public void showErrorMessage(final String error) {
+		this.editorUI.setError(error);
 	}
 
 }

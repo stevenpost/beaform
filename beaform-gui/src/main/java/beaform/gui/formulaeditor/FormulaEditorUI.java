@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import org.apache.commons.collections.IteratorUtils;
 
@@ -36,6 +37,7 @@ public final class FormulaEditorUI {
 	private final JButton btnSave = new JButton("Save");
 	private final TagPane tagPane = new TagPane();
 	private final IngredientPane ingredientPane = new IngredientPane();
+	private final JTextArea txtErrors = new JTextArea();
 
 	/**
 	 * Main constructor for this editor to add a new formula.
@@ -96,6 +98,9 @@ public final class FormulaEditorUI {
 		this.panel.add(this.ingredientPane);
 		this.panel.add(this.tagPane);
 		this.panel.add(this.btnSave);
+
+		this.txtErrors.setEditable(false);
+		this.panel.add(this.txtErrors);
 	}
 
 	private void addGeneralComponentsToPanel(final JPanel parent) {
@@ -190,6 +195,16 @@ public final class FormulaEditorUI {
 
 	public String getTotalAmount() {
 		return this.txtTotalAmount.getText();
+	}
+
+	public void setError(String message) {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				FormulaEditorUI.this.txtErrors.setText(message);
+			}
+		});
 	}
 
 }
