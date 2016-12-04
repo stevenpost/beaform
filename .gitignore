@@ -5,3 +5,4 @@
 neo4j_test/
 beaform-core/transaction.log
 beaform-gui/neo4j/db/
+beaform-gui/production_db/
