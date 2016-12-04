@@ -88,13 +88,13 @@ public class ImporterHandler extends DefaultHandler implements SAXHandlerMaster 
 		final String ingredientName = attributes.getValue("name");
 		final String ingredientAmount = attributes.getValue("amount");
 
-		final Formula ingredient = FormulaDAO.findFormulaByName(ingredientName);
-		if (ingredient == null) {
+		try {
+			final Formula ingredient = FormulaDAO.findFormulaByName(ingredientName);
+			this.formula.addIngredient(ingredient, ingredientAmount);
+		}
+		catch (NoSuchFormulaException nsfe) {
 			final Map<String, PendingIngredient> currentPending = getPendingMap(ingredientName);
 			currentPending.put(this.formula.getName(), new PendingIngredient(ingredientName, ingredientAmount));
-		}
-		else {
-			this.formula.addIngredient(ingredient, ingredientAmount);
 		}
 	}
 
