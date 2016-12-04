@@ -58,6 +58,7 @@ public final class FormulaEditor extends Observable implements InterchangableWin
 		Formula formula = new Formula(name, description, totalAmount);
 		formula.addAllIngredients(ingredients);
 		formula.addAllTags(tags);
+		validateFormula(formula);
 		FormulaDAO.addFormula(formula);
 
 	}
@@ -79,6 +80,8 @@ public final class FormulaEditor extends Observable implements InterchangableWin
 		updatedFormula.addAllIngredients(ingredients);
 		updatedFormula.addAllTags(tags);
 
+		validateFormula(updatedFormula);
+
 		try {
 			FormulaDAO.updateExistingInDb(updatedFormula);
 		}
@@ -86,6 +89,12 @@ public final class FormulaEditor extends Observable implements InterchangableWin
 			LOG.error("Unable to update the formula, it doesn't appear to exist", e);
 		}
 
+	}
+
+	private static void validateFormula(final Formula formula) {
+		if ("".equals(formula.getName())) {
+			throw new IllegalArgumentException("A formula cannot have an empty name");
+		}
 	}
 
 	@Override
