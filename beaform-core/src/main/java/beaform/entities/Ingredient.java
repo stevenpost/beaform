@@ -14,8 +14,19 @@ public class Ingredient {
 	private final String amount;
 
 	public Ingredient(final Formula formula, final String amount) {
+		validateConstructorArguments(formula, amount);
+
 		this.formula = formula;
 		this.amount = amount;
+	}
+
+	private static void validateConstructorArguments(final Formula formula, final String amount) {
+		if (formula == null) {
+			throw new NullPointerException("Formula cannot be null");
+		}
+		if (amount == null) {
+			throw new NullPointerException("Amount cannot be null");
+		}
 	}
 
 	public Formula getFormula() {
