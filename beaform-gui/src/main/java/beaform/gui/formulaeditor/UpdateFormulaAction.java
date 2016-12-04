@@ -3,11 +3,15 @@ package beaform.gui.formulaeditor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import beaform.dao.InvalidFormulaException;
 import beaform.dao.NoSuchFormulaException;
 
 public class UpdateFormulaAction implements ActionListener {
 
+	private static final Logger LOG = LoggerFactory.getLogger(UpdateFormulaAction.class);
 	private final FormulaEditor editor;
 
 	public UpdateFormulaAction(final FormulaEditor editor) {
@@ -20,6 +24,9 @@ public class UpdateFormulaAction implements ActionListener {
 			this.editor.updateFormula();
 		}
 		catch (NoSuchFormulaException | InvalidFormulaException ex) {
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("The formula is not valid or doesn't exist", ex);
+			}
 			this.editor.showErrorMessage(ex.getMessage());
 		}
 	}
