@@ -93,6 +93,9 @@ public class ImporterHandler extends DefaultHandler implements SAXHandlerMaster 
 			this.formula.addIngredient(ingredient, ingredientAmount);
 		}
 		catch (NoSuchFormulaException nsfe) {
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(nsfe.getMessage());
+			}
 			final Map<String, PendingIngredient> currentPending = getPendingMap(ingredientName);
 			currentPending.put(this.formula.getName(), new PendingIngredient(ingredientName, ingredientAmount));
 		}
