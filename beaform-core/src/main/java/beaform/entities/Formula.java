@@ -18,6 +18,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 public class Formula {
 
 	private String name = "";
+	private String notes = "";
+
 	private String description = "";
 	private String totalAmount = "";
 
@@ -33,6 +35,14 @@ public class Formula {
 		this.name = name;
 		this.description = description;
 		this.totalAmount = totalAmount;
+	}
+
+	public String getNotes() {
+		return this.notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
 	}
 
 	public String getName() {
@@ -143,7 +153,8 @@ public class Formula {
 	private boolean areSimpleMembersEqual(Formula testForm) {
 		return this.name.equals(testForm.name)
 						&& this.totalAmount.equals(testForm.totalAmount)
-						&& this.description.equals(testForm.description);
+						&& this.description.equals(testForm.description)
+						&& this.notes.equals(testForm.notes);
 	}
 
 	private boolean areTagsAndIngredientsEquals(Formula testForm) {
@@ -156,6 +167,7 @@ public class Formula {
 		return new HashCodeBuilder().
 						append(this.name).
 						append(this.description).
+						append(this.notes).
 						append(this.totalAmount).
 						append(this.tags).
 						append(this.ingredients).

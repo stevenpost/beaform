@@ -22,6 +22,7 @@ public class FormulaTest {
 	@Before
 	public void setUp() {
 		this.formula = new Formula("name", "Description is long", "100g");
+		this.formula.setNotes("Some long description");
 	}
 
 	@Test
@@ -32,6 +33,11 @@ public class FormulaTest {
 	@Test
 	public void testName() {
 		assertEquals("This isn't the expected name", "name", this.formula.getName());
+	}
+
+	@Test
+	public void testNotes() {
+		assertEquals("This isn't the expected description", "Some long description", this.formula.getNotes());
 	}
 
 	@Test
@@ -84,7 +90,9 @@ public class FormulaTest {
 	@Test
 	public void testEquals() {
 		final Formula form1 = new Formula("testform", "Desc", "100g");
+		form1.setNotes("some notes");
 		final Formula form2 = new Formula("testform", "Desc", "100g");
+		form2.setNotes("some notes");
 
 		assertEquals("Both formulas aren't equal", form1, form2);
 	}
@@ -93,6 +101,16 @@ public class FormulaTest {
 	public void testNotEquals() {
 		final Formula form1 = new Formula("testform", "Description", "100g");
 		final Formula form2 = new Formula("testform2", "Description", "100g");
+
+		assertFalse("Both formulas are equal", form1.equals(form2));
+	}
+
+	@Test
+	public void testNotEqualsOnNotes() {
+		final Formula form1 = new Formula("testform", "Desc", "100g");
+		form1.setNotes("some notes");
+		final Formula form2 = new Formula("testform", "Desc", "100g");
+		form2.setNotes("some other notes");
 
 		assertFalse("Both formulas are equal", form1.equals(form2));
 	}
