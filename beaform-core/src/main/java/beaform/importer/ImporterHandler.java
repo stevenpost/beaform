@@ -16,6 +16,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import beaform.dao.FormulaDAO;
 import beaform.dao.NoSuchFormulaException;
 import beaform.entities.Formula;
+import beaform.entities.FormulaIngredient;
 import beaform.entities.FormulaTag;
 import beaform.entities.Ingredient;
 
@@ -90,7 +91,8 @@ public class ImporterHandler extends DefaultHandler implements SAXHandlerMaster 
 
 		try {
 			final Formula ingredient = FormulaDAO.findFormulaByName(ingredientName);
-			this.formula.addIngredient(ingredient, ingredientAmount);
+			final Ingredient formIngr = new FormulaIngredient(ingredient, ingredientAmount);
+			this.formula.addIngredient(formIngr);
 		}
 		catch (NoSuchFormulaException nsfe) {
 			if (LOG.isDebugEnabled()) {
@@ -159,7 +161,7 @@ public class ImporterHandler extends DefaultHandler implements SAXHandlerMaster 
 				final PendingIngredient pending = entry.getValue();
 				final Formula newIngredient = FormulaDAO.findFormulaByName(pending.getName());
 				final List<Ingredient> ingredients = FormulaDAO.listIngredients(form);
-				ingredients.add(new Ingredient(newIngredient, pending.getAmount()));
+				ingredients.add(new FormulaIngredient(newIngredient, pending.getAmount()));
 				final List<FormulaTag> tags = IteratorUtils.toList(form.getTags());
 
 				final Formula updatedFormula = new Formula(form.getName(), form.getDescription(), form.getTotalAmount());

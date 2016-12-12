@@ -3,6 +3,7 @@ package beaform.gui.search.tree;
 import java.util.List;
 
 import beaform.entities.Formula;
+import beaform.entities.FormulaIngredient;
 import beaform.entities.Ingredient;
 
 /**
@@ -22,7 +23,13 @@ public class TreeViewFormula {
 	}
 
 	public TreeViewFormula(final Ingredient ingredient) {
-		this.formula = ingredient.getFormula();
+		if (ingredient instanceof FormulaIngredient) {
+			final FormulaIngredient formIngr = (FormulaIngredient) ingredient;
+			this.formula = formIngr.getFormula();
+		}
+		else {
+			throw new UnsupportedOperationException("Currently only ingredients based on formulas are supported");
+		}
 		this.amount = ingredient.getAmount();
 	}
 

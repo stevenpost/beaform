@@ -23,6 +23,7 @@ import beaform.dao.FormulaDAO;
 import beaform.dao.GraphDbHandler;
 import beaform.debug.DebugUtils;
 import beaform.entities.Formula;
+import beaform.entities.FormulaIngredient;
 import beaform.entities.Ingredient;
 
 @SuppressWarnings("static-method")
@@ -112,9 +113,15 @@ public class ImporterTest {
 
 		List<Ingredient> ingredientsFromForm = FormulaDAO.listIngredients(form);
 		for (Ingredient ingredient : ingredientsFromForm) {
-			final String ingredientName = ingredient.getFormula().getName();
-			assertTrue("The ingredient " + ingredientName + " couldn't be found", ingredients.containsKey(ingredientName));
-			assertEquals("The ingredient doesn't have the expected amount", ingredients.get(ingredientName), ingredient.getAmount());
+			if (ingredient instanceof FormulaIngredient) {
+				final FormulaIngredient formIngr = (FormulaIngredient) ingredient;
+				final String ingredientName = formIngr.getFormula().getName();
+				assertTrue("The ingredient " + ingredientName + " couldn't be found", ingredients.containsKey(ingredientName));
+				assertEquals("The ingredient doesn't have the expected amount", ingredients.get(ingredientName), ingredient.getAmount());
+			}
+			else {
+				throw new UnsupportedOperationException("We're not testing these yet");
+			}
 		}
 		assertEquals("This isn't the expected number of ingredients", ingredients.size(), ingredientsFromForm.size());
 	}

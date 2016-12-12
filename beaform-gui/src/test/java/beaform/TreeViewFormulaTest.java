@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import beaform.entities.Formula;
+import beaform.entities.FormulaIngredient;
 import beaform.entities.Ingredient;
 import beaform.gui.search.tree.TreeViewFormula;
 
@@ -36,7 +37,7 @@ public class TreeViewFormulaTest {
 
 	@Test
 	public void testWithIngredient() {
-		final Ingredient ingredient = new Ingredient(this.form, AMOUNT);
+		final Ingredient ingredient = new FormulaIngredient(this.form, AMOUNT);
 		final TreeViewFormula testObj = new TreeViewFormula(ingredient);
 
 		assertEquals("The ingredient amount is not as expected.", AMOUNT, testObj.getAmount());

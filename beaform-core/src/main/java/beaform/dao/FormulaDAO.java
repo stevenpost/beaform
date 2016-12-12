@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import beaform.entities.Formula;
+import beaform.entities.FormulaIngredient;
 import beaform.entities.FormulaTag;
 import beaform.entities.Ingredient;
 
@@ -115,7 +116,7 @@ public final class FormulaDAO {
 		final Formula ingredientCore = nodeToFormula((Node) row.get(INGREDIENTS_COLUMN));
 		final Relationship rel = (Relationship) row.get(INGREDIENT_RALATION);
 		final String amount = (String) rel.getProperty(RELATION_AMOUNT);
-		return new Ingredient(ingredientCore, amount);
+		return new FormulaIngredient(ingredientCore, amount);
 	}
 
 	public static void updateExistingInDb(final Formula formula) {
@@ -163,18 +164,23 @@ public final class FormulaDAO {
 	}
 
 	private static void addIngredientToFormulaNode(final Node formula, final Ingredient ingredient) {
-
-		Node ingredientNode;
-		try {
-			ingredientNode = findFormulaNodeByName(ingredient.getFormula().getName());
+		if (ingredient instanceof FormulaIngredient) {
+			final FormulaIngredient formIngr = (FormulaIngredient) ingredient;
+			Node ingredientNode;
+			try {
+				ingredientNode = findFormulaNodeByName(formIngr.getFormula().getName());
+			}
+			catch (NoSuchFormulaException e) {
+				LOG.debug("Unable to find the ingredient in the DB, creating it: " + e.getMessage(), e);
+				Formula ingredientFormula = formIngr.getFormula();
+				ingredientNode = addFormula(ingredientFormula);
+			}
+			Relationship relation = formula.createRelationshipTo(ingredientNode, RelTypes.HASINGREDIENT);
+			relation.setProperty(RELATION_AMOUNT, ingredient.getAmount());
 		}
-		catch (NoSuchFormulaException e) {
-			LOG.debug("Unable to find the ingredient in the DB, creating it: " + e.getMessage(), e);
-			Formula ingredientFormula = ingredient.getFormula();
-			ingredientNode = addFormula(ingredientFormula);
+		else {
+			throw new UnsupportedOperationException("Only formula ingredients can be persisted");
 		}
-		Relationship relation = formula.createRelationshipTo(ingredientNode, RelTypes.HASINGREDIENT);
-		relation.setProperty(RELATION_AMOUNT, ingredient.getAmount());
 	}
 
 	public static Node addFormula(final Formula formula) {

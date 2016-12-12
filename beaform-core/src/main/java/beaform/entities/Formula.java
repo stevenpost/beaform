@@ -3,9 +3,6 @@ package beaform.entities;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -23,7 +20,7 @@ public class Formula {
 	private String description = "";
 	private String totalAmount = "";
 
-	private final Map<Formula, String> ingredients = new ConcurrentHashMap<>();
+	private final List<Ingredient> ingredients = new ArrayList<>();
 
 	private final List<FormulaTag> tags = new ArrayList<>();
 
@@ -69,28 +66,19 @@ public class Formula {
 		this.totalAmount = totalAmount;
 	}
 
-	public void addIngredient(final Formula ingredient, final String amount) {
-		this.ingredients.put(ingredient, amount);
-	}
-
 	public void addIngredient(final Ingredient ingredient) {
-		this.addIngredient(ingredient.getFormula(), ingredient.getAmount());
+		this.ingredients.add(ingredient);
 	}
 
 	public void addAllIngredients(final List<Ingredient> ingredientsList) {
 		for (Ingredient ingredient : ingredientsList) {
-			this.addIngredient(ingredient.getFormula(), ingredient.getAmount());
+			this.addIngredient(ingredient);
 		}
 	}
 
 	public List<Ingredient> getIngredients() {
 		final ArrayList<Ingredient> returnIngredients = new ArrayList<>();
-
-		for (final Entry<Formula, String> entry : this.ingredients.entrySet()) {
-			final Ingredient ingredient = new Ingredient(entry.getKey(), entry.getValue());
-			returnIngredients.add(ingredient);
-		}
-
+		returnIngredients.addAll(this.ingredients);
 		return returnIngredients;
 	}
 

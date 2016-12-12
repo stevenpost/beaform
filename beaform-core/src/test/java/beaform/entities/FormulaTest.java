@@ -42,13 +42,15 @@ public class FormulaTest {
 
 	@Test
 	public void testAddIngredients() {
-		this.formula.addIngredient(new Formula(), "10%");
+		final Ingredient ingredient = new FormulaIngredient(new Formula(), "10%");
+		this.formula.addIngredient(ingredient);
 		assertFalse("The list of ingredients is empty", this.formula.getIngredients().isEmpty());
 	}
 
 	@Test
 	public void testAddIngredientObject() {
-		this.formula.addIngredient(new Ingredient(new Formula(), "10%"));
+		final Ingredient ingredient = new FormulaIngredient(new Formula(), "10%");
+		this.formula.addIngredient(ingredient);
 		assertFalse("The list of ingredients is empty", this.formula.getIngredients().isEmpty());
 	}
 

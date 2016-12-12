@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 
 import beaform.dao.FormulaDAO;
 import beaform.entities.Formula;
+import beaform.entities.FormulaIngredient;
 import beaform.entities.Ingredient;
 
 /**
@@ -160,7 +161,7 @@ public final class IngredientPane extends JPanel {
 		}
 
 		final Formula form = FormulaDAO.findFormulaByName(ingredient);
-		this.ingredients.addElement(new Ingredient(form, amount));
+		this.ingredients.addElement(new FormulaIngredient(form, amount));
 
 
 		this.txtName.setText("");
