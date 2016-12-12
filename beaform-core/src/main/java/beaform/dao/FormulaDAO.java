@@ -39,6 +39,7 @@ public final class FormulaDAO {
 	private static final String DESCRIPTION = "description";
 	private static final String TOTAL_AMOUNT = "totalAmount";
 	private static final String RELATION_AMOUNT = "amount";
+	private static final String NOTES = "notes";
 
 	private static final String FORMULA_COLUMN = "f";
 	private static final String FORMULA_BY_TAG = "MATCH (t:FormulaTag { name:{" + FormulaTagDAO.NAME +
@@ -185,6 +186,7 @@ public final class FormulaDAO {
 			formNode.setProperty(NAME, formula.getName());
 			formNode.setProperty(DESCRIPTION, formula.getDescription());
 			formNode.setProperty(TOTAL_AMOUNT, formula.getTotalAmount());
+			formNode.setProperty(NOTES, formula.getNotes());
 
 			addTags(IteratorUtils.toList(formula.getTags()), formNode);
 			addIngredientsToFormulaNode(formNode, formula.getIngredients());
@@ -311,8 +313,11 @@ public final class FormulaDAO {
 		String name = (String) formulaNode.getProperty(NAME);
 		String description = (String) formulaNode.getProperty(DESCRIPTION);
 		String totalAmount = (String) formulaNode.getProperty(TOTAL_AMOUNT);
+		String notes = (String) formulaNode.getProperty(NOTES);
 
-		return new Formula(name, description, totalAmount);
+		final Formula returnFormula = new Formula(name, description, totalAmount);
+		returnFormula.setNotes(notes);
+		return returnFormula;
 	}
 
 	private static boolean formulaNodeHasCorrectLabel(Node formulaNode) {

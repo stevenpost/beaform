@@ -51,6 +51,17 @@ public class FormulaDAOTest {
 	}
 
 	@Test
+	public void testPersistFullFormula() {
+		final Formula formulaToPersist = new Formula("testName", "testDesc", "100g");
+		formulaToPersist.setNotes("Testing notes");
+
+		FormulaDAO.addFormula(formulaToPersist);
+
+		final Formula resultingFormula = FormulaDAO.findFormulaByName("testName");
+		assertEquals("The 2 formulas are not the same", formulaToPersist, resultingFormula);
+	}
+
+	@Test
 	public void testFindFormulaByName() {
 		DebugUtils.fillDb();
 		final Formula formula = FormulaDAO.findFormulaByName("Form1");
