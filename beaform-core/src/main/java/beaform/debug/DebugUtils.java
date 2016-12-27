@@ -35,6 +35,7 @@ public final class DebugUtils {
 
 	public static void listAllFormulas() {
 		List<Formula> formulas = FormulaDAO.listAllFormulas();
+		LOG.info("Listing " + formulas.size() + " formulas");
 		for (Formula formula : formulas) {
 			LOG.info(formula.toString());
 		}
