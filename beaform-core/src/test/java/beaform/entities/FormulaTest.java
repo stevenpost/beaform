@@ -2,8 +2,10 @@ package beaform.entities;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.collections.IteratorUtils;
 import org.junit.Before;
@@ -69,15 +71,15 @@ public class FormulaTest {
 	@Test
 	public void testGetTagsAsStrings() {
 		this.formula.addTag(new FormulaTag("tagje2"));
-		final List<String> tags = this.formula.getTagsAsStrings();
-		assertEquals("This isn't the expected tag name.", "tagje2", tags.get(0));
+		final Set<String> tags = this.formula.getTagsAsStrings();
+		assertTrue("This isn't the expected tag name.", tags.contains("tagje2"));
 	}
 
 	@Test
 	public void testMultipleGetTagsAsStrings() {
 		this.formula.addTag(new FormulaTag("tagje"));
 		this.formula.addTag(new FormulaTag("more"));
-		final List<String> tags = this.formula.getTagsAsStrings();
+		final Set<String> tags = this.formula.getTagsAsStrings();
 		assertEquals("This isn't the expected amount of tags.", 2, tags.size());
 	}
 

@@ -1,5 +1,6 @@
 package beaform.gui.formulaeditor;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Observable;
 
@@ -52,8 +53,8 @@ public final class FormulaEditor extends Observable implements InterchangableWin
 			LOG.info("Add: " + name + " with description: " + description);
 		}
 
-		final List<Ingredient> ingredients = this.editorUI.getIngredientList();
-		final List<FormulaTag> tags = this.editorUI.getTagList();
+		final Collection<Ingredient> ingredients = this.editorUI.getIngredientList();
+		final Collection<FormulaTag> tags = this.editorUI.getTagList();
 
 		Formula formula = new Formula(name, description, totalAmount);
 		formula.addAllIngredients(ingredients);

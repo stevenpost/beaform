@@ -1,11 +1,13 @@
 package beaform.importer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
-import org.apache.commons.collections.IteratorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
@@ -160,9 +162,10 @@ public class ImporterHandler extends DefaultHandler implements SAXHandlerMaster 
 				final Formula form = FormulaDAO.findFormulaByName(entry.getKey());
 				final PendingIngredient pending = entry.getValue();
 				final Formula newIngredient = FormulaDAO.findFormulaByName(pending.getName());
-				final List<Ingredient> ingredients = FormulaDAO.listIngredients(form);
+				final Set<Ingredient> ingredients = FormulaDAO.listIngredients(form);
 				ingredients.add(new FormulaIngredient(newIngredient, pending.getAmount()));
-				final List<FormulaTag> tags = IteratorUtils.toList(form.getTags());
+
+				final List<FormulaTag> tags = iteratorToList(form.getTags());
 
 				final Formula updatedFormula = new Formula(form.getName(), form.getDescription(), form.getTotalAmount());
 				updatedFormula.addAllIngredients(ingredients);
@@ -177,6 +180,14 @@ public class ImporterHandler extends DefaultHandler implements SAXHandlerMaster 
 			}
 			this.allPendingIngredients.remove(name);
 		}
+	}
+
+	private static <T> List<T> iteratorToList(final Iterator<T> tagsIterator) {
+		final List<T> tags = new ArrayList<>();
+		while (tagsIterator.hasNext()) {
+			tags.add(tagsIterator.next());
+		}
+		return tags;
 	}
 
 	@Override

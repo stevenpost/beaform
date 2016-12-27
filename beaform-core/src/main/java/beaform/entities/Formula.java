@@ -1,8 +1,9 @@
 package beaform.entities;
 
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -20,9 +21,9 @@ public class Formula {
 	private String description = "";
 	private String totalAmount = "";
 
-	private final List<Ingredient> ingredients = new ArrayList<>();
+	private final Set<Ingredient> ingredients = new HashSet<>();
 
-	private final List<FormulaTag> tags = new ArrayList<>();
+	private final Set<FormulaTag> tags = new HashSet<>();
 
 	public Formula() {
 		// Default constructor for Hibernate.
@@ -70,14 +71,14 @@ public class Formula {
 		this.ingredients.add(ingredient);
 	}
 
-	public void addAllIngredients(final List<Ingredient> ingredientsList) {
+	public void addAllIngredients(final Collection<Ingredient> ingredientsList) {
 		for (Ingredient ingredient : ingredientsList) {
 			this.addIngredient(ingredient);
 		}
 	}
 
-	public List<Ingredient> getIngredients() {
-		final ArrayList<Ingredient> returnIngredients = new ArrayList<>();
+	public Set<Ingredient> getIngredients() {
+		final HashSet<Ingredient> returnIngredients = new HashSet<>();
 		returnIngredients.addAll(this.ingredients);
 		return returnIngredients;
 	}
@@ -90,7 +91,7 @@ public class Formula {
 		this.tags.add(tag);
 	}
 
-	public void addAllTags(final List<FormulaTag> tagList) {
+	public void addAllTags(final Iterable<FormulaTag> tagList) {
 		for (FormulaTag tag : tagList) {
 			this.tags.add(tag);
 		}
@@ -104,8 +105,8 @@ public class Formula {
 		this.tags.clear();
 	}
 
-	public List<String> getTagsAsStrings() {
-		final List<String> retval = new ArrayList<>(this.tags.size());
+	public Set<String> getTagsAsStrings() {
+		final Set<String> retval = new HashSet<>(this.tags.size());
 		for (final FormulaTag tag : this.tags) {
 			retval.add(tag.getName());
 		}
@@ -114,7 +115,7 @@ public class Formula {
 
 	@Override
 	public String toString() {
-		final List<String> tagList = getTagsAsStrings();
+		final Set<String> tagList = getTagsAsStrings();
 		final String joinedTags = String.join(",", tagList);
 		final StringBuilder builder = new StringBuilder();
 		builder.append(this.name).append(" | ").append(this.description).append(" | [").append(joinedTags).append(']');

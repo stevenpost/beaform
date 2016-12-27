@@ -3,6 +3,7 @@ package beaform.gui.search.tree;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.JEditorPane;
 import javax.swing.JPanel;
@@ -105,7 +106,7 @@ public class FormulaTreeUI {
 
 	private static void createNodes(final DefaultMutableTreeNode parent) {
 		final TreeViewFormula formula = (TreeViewFormula) parent.getUserObject();
-		final List<Ingredient> ingredients = FormulaDAO.listIngredients(formula.getFormula());
+		final Set<Ingredient> ingredients = FormulaDAO.listIngredients(formula.getFormula());
 		for (final Ingredient ingredient : ingredients) {
 			addIngredientNode(parent, ingredient);
 		}

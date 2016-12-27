@@ -1,6 +1,6 @@
 package beaform.gui.search.tree;
 
-import java.util.List;
+import java.util.Set;
 
 import beaform.entities.Formula;
 import beaform.entities.FormulaIngredient;
@@ -54,7 +54,7 @@ public class TreeViewFormula {
 		return this.amount;
 	}
 
-	public List<String> getTagsAsStrings() {
+	public Set<String> getTagsAsStrings() {
 		return this.formula.getTagsAsStrings();
 	}
 

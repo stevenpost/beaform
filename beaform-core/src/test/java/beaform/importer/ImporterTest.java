@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.After;
 import org.junit.Before;
@@ -104,14 +105,14 @@ public class ImporterTest {
 	private void validateFormula(final Formula form, final String description, final String totalAmount, final List<String> tags, final Map<String, String> ingredients) {
 		assertEquals("This isn't the expected description", description, form.getDescription());
 		assertEquals("This isn't the expected total amount for this formula", totalAmount, form.getTotalAmount());
-		List<String> tagsFromForm = form.getTagsAsStrings();
+		Set<String> tagsFromForm = form.getTagsAsStrings();
 
 		for (String tag : tags) {
 			assertTrue("The tag " + tag + " couldn't be found", tagsFromForm.contains(tag));
 		}
 		assertEquals("This isn't the expected number of tags", tags.size(), tagsFromForm.size());
 
-		List<Ingredient> ingredientsFromForm = FormulaDAO.listIngredients(form);
+		Set<Ingredient> ingredientsFromForm = FormulaDAO.listIngredients(form);
 		for (Ingredient ingredient : ingredientsFromForm) {
 			if (ingredient instanceof FormulaIngredient) {
 				final FormulaIngredient formIngr = (FormulaIngredient) ingredient;

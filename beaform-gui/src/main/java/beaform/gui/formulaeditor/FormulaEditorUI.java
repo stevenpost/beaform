@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -76,7 +77,7 @@ public final class FormulaEditorUI {
 		this.txtDescription.setText(newFormula.getDescription());
 		this.txtTotalAmount.setText(newFormula.getTotalAmount());
 
-		final List<Ingredient> ingredientList = FormulaDAO.listIngredients(newFormula);
+		final Set<Ingredient> ingredientList = FormulaDAO.listIngredients(newFormula);
 		this.ingredientPane.addIngredients(ingredientList);
 
 		// Add tags to the list

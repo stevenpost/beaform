@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Callable;
 
 import org.junit.After;
@@ -17,6 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import beaform.debug.DebugUtils;
+import beaform.entities.BaseCompound;
+import beaform.entities.BaseIngredient;
 import beaform.entities.Formula;
 import beaform.entities.Ingredient;
 import beaform.search.SearchFormulaTask;
@@ -43,11 +46,32 @@ public class FormulaDAOTest {
 		DebugUtils.fillDb();
 		final Callable<Formula> task = new SearchFormulaTask("Form1");
 		final Formula result = task.call();
-		final List<Ingredient> ingredients = FormulaDAO.listIngredients(result);
+		final Set<Ingredient> ingredients = FormulaDAO.listIngredients(result);
 		for (Ingredient ingredient : ingredients) {
 			LOG.debug("Ingredient: " + ingredient.toString());
 		}
 		assertEquals("The ingredient list isn't the expected size", 1, ingredients.size());
+	}
+
+	@Test
+	public void testPersistBaseIngredient() {
+		final String formName = "dark water";
+		final BaseCompound water = new BaseCompound("Water");
+		final BaseCompound colouring = new BaseCompound("Colouring");
+		final Formula formulaToPersist = new Formula(formName, "testDesc", "100g");
+		final Ingredient ingredient = new BaseIngredient(water, "95%");
+		final Ingredient darkIngredient = new BaseIngredient(colouring, "5%");
+		formulaToPersist.addIngredient(ingredient);
+		formulaToPersist.addIngredient(darkIngredient);
+
+		FormulaDAO.addFormula(formulaToPersist);
+
+		final Formula resultingFormula = FormulaDAO.findFormulaByName(formName);
+		Set<Ingredient> ingredients = FormulaDAO.listIngredients(resultingFormula);
+		resultingFormula.addAllIngredients(ingredients);
+
+		assertEquals("The 2 formulas are not the same", formulaToPersist, resultingFormula);
+
 	}
 
 	@Test
