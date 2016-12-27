@@ -17,7 +17,6 @@ import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.ResourceIterator;
 import org.neo4j.graphdb.Result;
 import org.neo4j.graphdb.Transaction;
-import org.omg.CORBA.SystemException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -258,18 +257,6 @@ public final class FormulaDAO {
 
 	}
 
-	/**
-	 * This method adds tags to a formula.
-	 * It assumes a running transaction.
-	 *
-	 * @param tags A list of tags
-	 * @param entityManager an open entity manager
-	 * @param formula the formula to add the tags to
-	 * @throws NotSupportedException If the calling thread is already
-	 *         associated with a transaction,
-	 *         and nested transactions are not supported.
-	 * @throws SystemException If the transaction service fails in an unexpected way.
-	 */
 	private static void addTags(final List<FormulaTag> tags, final Node formula) {
 		for (final FormulaTag tag : tags) {
 			addTagToFormula(formula, tag);
