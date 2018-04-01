@@ -21,7 +21,10 @@ public class SystemTime {
 	}
 
 	private static TimeSource getCurrentTimeSource() {
-		return (source == null) ? defaultSrc : source;
+		if (source != null) {
+			return source;
+		}
+		return defaultSrc;
 	}
 
 	public static void setTimeSource(TimeSource timeSource) {
