@@ -10,7 +10,7 @@ public class SystemTime {
 
 	};
 
-	private static TimeSource source;
+	private static volatile TimeSource source;
 
 	public static void reset() {
 		source = null;
