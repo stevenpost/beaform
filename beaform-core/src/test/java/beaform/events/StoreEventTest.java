@@ -25,10 +25,11 @@ public class StoreEventTest {
 		Event createEvent = new FormulaCreatedEvent(name);
 
 		SystemTime.setTimeSource(new TimeSource() {
+			private final long timeInMillis = System.currentTimeMillis();
 
 			@Override
 			public long getSystemTime() {
-				return new Date().getTime();
+				return this.timeInMillis;
 			}
 		});
 
