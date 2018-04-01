@@ -26,6 +26,9 @@ public class Formula {
 	private final Set<FormulaTag> tags = new HashSet<>();
 
 	public Formula(final String name, final String description, final String totalAmount) {
+		if (name == null || "".equals(name)) {
+			throw new NameNotValidException("A formula name cannot be blank");
+		}
 		this.name = name;
 		this.description = description;
 		this.totalAmount = totalAmount;

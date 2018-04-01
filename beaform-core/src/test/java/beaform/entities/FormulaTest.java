@@ -27,6 +27,12 @@ public class FormulaTest {
 		this.formula.setNotes("Some long description");
 	}
 
+	@SuppressWarnings("unused")
+	@Test(expected = NameNotValidException.class)
+	public void testValidName() {
+		new Formula(null, "Description", "20g");
+	}
+
 	@Test
 	public void testDescription() {
 		assertEquals("This isn't the expected description", "Description is long", this.formula.getDescription());
@@ -44,14 +50,14 @@ public class FormulaTest {
 
 	@Test
 	public void testAddIngredients() {
-		final Ingredient ingredient = new FormulaIngredient(new Formula(), "10%");
+		final Ingredient ingredient = new FormulaIngredient(new Formula("testIngredient", "ingredient 1 desc", "10g"), "10%");
 		this.formula.addIngredient(ingredient);
 		assertFalse("The list of ingredients is empty", this.formula.getIngredients().isEmpty());
 	}
 
 	@Test
 	public void testAddIngredientObject() {
-		final Ingredient ingredient = new FormulaIngredient(new Formula(), "10%");
+		final Ingredient ingredient = new FormulaIngredient(new Formula("testIngredient", "ingredient 1 desc", "10g"), "10%");
 		this.formula.addIngredient(ingredient);
 		assertFalse("The list of ingredients is empty", this.formula.getIngredients().isEmpty());
 	}
