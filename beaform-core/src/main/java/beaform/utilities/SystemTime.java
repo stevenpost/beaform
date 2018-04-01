@@ -1,7 +1,5 @@
 package beaform.utilities;
 
-import java.util.Date;
-
 public class SystemTime {
 
 	private static final TimeSource defaultSrc = new TimeSource(){
@@ -20,10 +18,6 @@ public class SystemTime {
 
 	public static long getAsLong() {
 		return getCurrentTimeSource().getSystemTime();
-	}
-
-	public static Date getAsDate() {
-		return new Date(getAsLong());
 	}
 
 	private static TimeSource getCurrentTimeSource() {
