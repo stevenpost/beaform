@@ -4,13 +4,7 @@ import java.util.Date;
 
 public class SystemTime {
 
-	private static final TimeSource defaultSrc = new TimeSource(){
-		@Override
-		public long getSystemTime() {
-			return System.currentTimeMillis();
-		}
-
-	};
+	private static final TimeSource defaultSrc = () ->  System.currentTimeMillis();
 
 	private static volatile TimeSource source;
 
