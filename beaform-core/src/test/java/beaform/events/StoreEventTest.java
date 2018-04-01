@@ -6,12 +6,25 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import beaform.utilities.SystemTime;
 import beaform.utilities.TimeSource;
 
 public class StoreEventTest {
+
+	@Before
+	public void setup() {
+		SystemTime.setTimeSource(new TimeSource() {
+			private final long timeInMillis = 0;
+
+			@Override
+			public long getSystemTime() {
+				return this.timeInMillis;
+			}
+		});
+	}
 
 	@After
 	public void destroy() {
@@ -23,15 +36,6 @@ public class StoreEventTest {
 		// Create a 'create' event for a new formula
 		String name = "TestFormula";
 		Event createEvent = new FormulaCreatedEvent(name);
-
-		SystemTime.setTimeSource(new TimeSource() {
-			private final long timeInMillis = System.currentTimeMillis();
-
-			@Override
-			public long getSystemTime() {
-				return this.timeInMillis;
-			}
-		});
 
 		Date timestamp = SystemTime.getAsDate();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
