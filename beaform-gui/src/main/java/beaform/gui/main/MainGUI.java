@@ -37,10 +37,7 @@ public final class MainGUI implements InterchangableWindowDisplayer {
 			configuration = new Config("beaform.conf");
 		}
 		catch (ConfigurationException e) {
-			LOG.warn("Unable to read config, using default config.");
-			if (LOG.isDebugEnabled()) {
-				LOG.debug("Unable to read config, using default config", e);
-			}
+			LOG.warn("Unable to read config, using default config.", e);
 			try {
 				configuration = new Config();
 			}
