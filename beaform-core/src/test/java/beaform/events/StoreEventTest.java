@@ -39,9 +39,11 @@ public class StoreEventTest {
 
 		Date timestamp = SystemTime.getAsDate();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		String expectedResult = "[" + df.format(timestamp) + "] FormulaCreated " + name;
 		// Check if the event converts to a string correctly
 		// [timestamp] action properties
-		assertEquals("[" + df.format(timestamp) + "] FormulaCreated " + name, createEvent.toEventString());
+		String assertMessageOnFail = "Event format doesn't match with the expected one";
+		assertEquals(assertMessageOnFail, expectedResult, createEvent.toEventString());
 	}
 
 }
