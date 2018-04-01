@@ -2,11 +2,15 @@ package beaform.utilities;
 
 import java.util.Date;
 
-public class SystemTime {
+public final class SystemTime {
 
 	private static final TimeSource defaultSrc = () ->  System.currentTimeMillis();
 
 	private static volatile TimeSource source;
+
+	private SystemTime() {
+		// Utility classes don't need public constructors.
+	}
 
 	public static void reset() {
 		source = null;
@@ -29,9 +33,5 @@ public class SystemTime {
 
 	public static void setTimeSource(TimeSource timeSource) {
 		source = timeSource;
-	}
-
-	private SystemTime() {
-		// Utility classes don't need public constructors.
 	}
 }
