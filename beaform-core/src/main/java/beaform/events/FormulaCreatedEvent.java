@@ -7,7 +7,7 @@ import beaform.utilities.SystemTime;
 
 public class FormulaCreatedEvent implements Event {
 	private static final String EVENT_TYPE = "FormulaCreated";
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SS");
+	private static final String TIMESTAMP_FORMAT = "yyyy-MM-dd HH:mm:ss.SS";
 	private final String name;
 	private final long timestamp;
 
@@ -18,6 +18,7 @@ public class FormulaCreatedEvent implements Event {
 
 	@Override
 	public String toEventString() {
+		final SimpleDateFormat dateFormat = new SimpleDateFormat(TIMESTAMP_FORMAT);
 		final String formattedTimeStamp = dateFormat.format(new Date(this.timestamp));
 		return "[" + formattedTimeStamp + "] " + EVENT_TYPE + " " + this.name;
 	}
