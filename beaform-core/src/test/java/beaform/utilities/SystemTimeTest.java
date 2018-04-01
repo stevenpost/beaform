@@ -12,10 +12,10 @@ public class SystemTimeTest {
 		final long tested = SystemTime.getAsLong();
 		final long end = System.currentTimeMillis();
 
-		assertBetween("The tested value is not between the given arguments", start, end, tested);
+		assertTrue("The tested value is not between the given arguments", isBetween(start, end, tested));
 	}
 
-	private void assertBetween(String message, long boundary1, long boundary2, long tested) {
+	private boolean isBetween(long boundary1, long boundary2, long tested) {
 		long upper, lower;
 
 		if (boundary1 <= boundary2) {
@@ -27,7 +27,7 @@ public class SystemTimeTest {
 			upper = boundary1;
 		}
 
-		assertTrue(message, (lower <= tested) && (tested <= upper));
+		return (lower <= tested) && (tested <= upper);
 	}
 
 }
