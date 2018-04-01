@@ -36,4 +36,8 @@ public class SystemTime {
 	public static void setTimeSource(TimeSource timeSource) {
 		source = timeSource;
 	}
+
+	private SystemTime() {
+		// Utility classes don't need public constructors.
+	}
 }
