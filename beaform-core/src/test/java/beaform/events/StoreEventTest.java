@@ -10,20 +10,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import beaform.utilities.SystemTime;
-import beaform.utilities.TimeSource;
 
 public class StoreEventTest {
 
 	@Before
 	public void setup() {
-		SystemTime.setTimeSource(new TimeSource() {
-			private final long timeInMillis = 0;
-
-			@Override
-			public long getSystemTime() {
-				return this.timeInMillis;
-			}
-		});
+		SystemTime.setTimeSource(() -> 0);
 	}
 
 	@After
