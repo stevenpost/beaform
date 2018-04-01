@@ -33,7 +33,7 @@ public class StoreEventTest {
 			}
 		});
 
-		Date timestamp = new Date();
+		Date timestamp = SystemTime.getAsDate();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		// Check if the event converts to a string correctly
 		// [timestamp] action properties
