@@ -7,6 +7,9 @@ import java.util.Observable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import beaform.commands.Command;
+import beaform.commands.CommandExecutor;
+import beaform.commands.CreateNewFormulaCommand;
 import beaform.dao.FormulaDAO;
 import beaform.dao.InvalidFormulaException;
 import beaform.entities.Formula;
@@ -56,11 +59,15 @@ public final class FormulaEditor extends Observable implements InterchangableWin
 		final Collection<Ingredient> ingredients = this.editorUI.getIngredientList();
 		final Collection<FormulaTag> tags = this.editorUI.getTagList();
 
+
 		Formula formula = new Formula(name, description, totalAmount);
 		formula.addAllIngredients(ingredients);
 		formula.addAllTags(tags);
 		validateFormula(formula);
-		FormulaDAO.addFormula(formula);
+
+		Command createCommand = new CreateNewFormulaCommand(formula);
+		CommandExecutor executor = CommandExecutor.getInstance();
+		executor.execute(createCommand);
 
 	}
 
