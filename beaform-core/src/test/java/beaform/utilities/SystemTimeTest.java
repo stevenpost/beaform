@@ -1,6 +1,9 @@
 package beaform.utilities;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import java.util.Date;
 
 import org.junit.After;
 import org.junit.Test;
@@ -10,6 +13,20 @@ public class SystemTimeTest {
 	@After
 	public void destroy() {
 		SystemTime.reset();
+	}
+
+	@Test
+	public void testWithEpoch() {
+		SystemTime.setTimeSource(() -> 0);
+		long systemTimeInMillis = SystemTime.getAsLong();
+		assertEquals("The expected time should be 0", 0, systemTimeInMillis);
+	}
+
+	@Test
+	public void testWithEpochAsDate() {
+		SystemTime.setTimeSource(() -> 0);
+		Date systemTime = SystemTime.getAsDate();
+		assertEquals("The expected time should be 0", 0, systemTime.getTime());
 	}
 
 	@Test
