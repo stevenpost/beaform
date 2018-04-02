@@ -41,19 +41,19 @@ public final class GraphDbHandler {
 		}
 	}
 
-	private void addUniqueContraintIfNotExists(Schema schema, Label formulaLabel, String property) {
+	private static void addUniqueContraintIfNotExists(Schema schema, Label formulaLabel, String property) {
 		if (!hasUniqueConstraint(schema, formulaLabel, property)) {
 			addUniqueConstraint(schema, formulaLabel, property);
 		}
 	}
 
-	private void addUniqueConstraint(Schema schema, Label formulaLabel, String property) {
+	private static void addUniqueConstraint(Schema schema, Label formulaLabel, String property) {
 		schema.constraintFor(formulaLabel)
 		.assertPropertyIsUnique(property)
 		.create();
 	}
 
-	private boolean hasUniqueConstraint(Schema schema, Label label, String property) {
+	private static boolean hasUniqueConstraint(Schema schema, Label label, String property) {
 		for (ConstraintDefinition cd : schema.getConstraints(label)) {
 			ConstraintType type = cd.getConstraintType();
 			if (type == ConstraintType.UNIQUENESS) {
@@ -65,7 +65,7 @@ public final class GraphDbHandler {
 		return false;
 	}
 
-	private boolean hasProperty(String property, ConstraintDefinition cd) {
+	private static boolean hasProperty(String property, ConstraintDefinition cd) {
 		for (String field : cd.getPropertyKeys()) {
 			if (property.equals(field)) {
 				return true;
