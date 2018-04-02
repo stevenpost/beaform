@@ -5,7 +5,6 @@ import java.lang.reflect.InvocationTargetException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import beaform.dao.GraphDbHandler;
 import beaform.gui.main.MainGUI;
 
 /**
@@ -33,11 +32,11 @@ public final class MainEntry {
 			LOG.error(e.getMessage(), e);
 		}
 
-		LOG.debug("Initializing DB...");
-		GraphDbHandler.initInstanceWithDbPath("production_db");
-		GraphDbHandler.getInstance();
-
-		LOG.debug("Done");
+		//		LOG.debug("Initializing DB...");
+		//		GraphDbHandler.initInstanceWithDbPath("production_db");
+		//		GraphDbHandler.getInstance();
+		//
+		//		LOG.debug("Done");
 
 	}
 
