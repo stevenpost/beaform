@@ -12,11 +12,13 @@ public class BasicFormulaTest {
 
 	private static final String FORMULA_NAME = "testformula";
 	private static final String FORMULA_DESCRIPTION = "Testing description";
+	private static final String FORMULA_NOTES = "Some notes about this\nwith a newline.";
 	private Formula testFormula;
 
 	@Before
 	public void setUp() {
 		this.testFormula = FormulaFactory.createFormula(FORMULA_NAME, FORMULA_DESCRIPTION);
+		this.testFormula.setNotes(FORMULA_NOTES);
 	}
 
 	@Test
@@ -37,6 +39,11 @@ public class BasicFormulaTest {
 	public void testIngredients() {
 		Set<Ingredient> ingredients = this.testFormula.getIngredients();
 		assertEquals("This isn't the number of ingredients I was expecting", 0, ingredients.size());
+	}
+
+	@Test
+	public void testNotes() {
+		assertEquals("This isn't the note I expected", FORMULA_NOTES, this.testFormula.getNotes());
 	}
 
 }

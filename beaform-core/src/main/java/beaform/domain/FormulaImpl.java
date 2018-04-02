@@ -9,6 +9,8 @@ public class FormulaImpl implements Formula {
 	private final String description;
 	private final Set<Ingredient> ingredients = new HashSet<>();
 
+	private String notes = "";
+
 	public FormulaImpl(String name, String description) {
 		this.name = name;
 		this.description = description;
@@ -33,6 +35,16 @@ public class FormulaImpl implements Formula {
 	public void addIngredient(Formula ingr1, String amount) {
 		Ingredient ingredient = Ingredient.newIngredient(ingr1, amount);
 		this.ingredients.add(ingredient);
+	}
+
+	@Override
+	public String getNotes() {
+		return this.notes;
+	}
+
+	@Override
+	public void setNotes(String formulaNotes) {
+		this.notes = formulaNotes;
 	}
 
 }
