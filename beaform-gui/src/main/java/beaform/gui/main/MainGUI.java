@@ -86,9 +86,6 @@ public final class MainGUI implements InterchangableWindowDisplayer {
 		SubMenu helpmenu = new HelpMenu();
 		helpmenu.attachToMenuBar(menu);
 
-		//		SubMenu debugMenu = new DebugMenu(this.contentPanel);
-		//		debugMenu.attachToMenuBar(menu);
-
 		return menu;
 	}
 

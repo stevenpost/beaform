@@ -24,10 +24,8 @@ class NewMenu implements SubMenu {
 
 	private void init() {
 		this.menu.add(this.search);
-		//this.search.addActionListener(new SearchGuiLaunchAction());
 
 		this.menu.add(this.add);
-		//this.add.addActionListener(new FormulaEditorLaunchAction());
 	}
 
 	@Override

@@ -32,12 +32,6 @@ public final class MainEntry {
 			LOG.error(e.getMessage(), e);
 		}
 
-		//		LOG.debug("Initializing DB...");
-		//		GraphDbHandler.initInstanceWithDbPath("production_db");
-		//		GraphDbHandler.getInstance();
-		//
-		//		LOG.debug("Done");
-
 	}
 
 }
