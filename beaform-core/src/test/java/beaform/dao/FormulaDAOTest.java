@@ -10,6 +10,7 @@ import java.util.concurrent.Callable;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.neo4j.graphdb.ConstraintViolationException;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
@@ -151,6 +152,15 @@ public class FormulaDAOTest {
 		DebugUtils.fillDb();
 		List<Formula> formulas = FormulaDAO.listAllFormulas();
 		assertEquals("This isn't the exted number of formulas in the DB", 4, formulas.size());
+	}
+
+	@Test(expected = ConstraintViolationException.class)
+	public void testDuplicateFormulas() {
+		final Formula formulaToPersist = new Formula("testName", "testDesc", "100g");
+		final Formula formulaToPersist2 = new Formula("testName", "", "");
+
+		FormulaDAO.addFormula(formulaToPersist);
+		FormulaDAO.addFormula(formulaToPersist2);
 	}
 
 	@After
