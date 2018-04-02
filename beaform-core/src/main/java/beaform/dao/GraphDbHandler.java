@@ -31,7 +31,7 @@ public final class GraphDbHandler {
 		enforceSchema(this.graphDb);
 	}
 
-	private void enforceSchema(GraphDatabaseService graphdb) {
+	private static void enforceSchema(GraphDatabaseService graphdb) {
 		try(Transaction tx = graphdb.beginTx()) {
 			Schema schema = graphdb.schema();
 			Label formulaLabel = Label.label("Formula");
