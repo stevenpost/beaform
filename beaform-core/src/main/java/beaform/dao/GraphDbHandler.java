@@ -37,13 +37,13 @@ public final class GraphDbHandler {
 			Label formulaLabel = Label.label("Formula");
 			addUniqueContraintIfNotExists(schema, formulaLabel, "name");
 			tx.success();
-			LOG.debug("Added contraint");
 		}
 	}
 
 	private static void addUniqueContraintIfNotExists(Schema schema, Label formulaLabel, String property) {
 		if (!hasUniqueConstraint(schema, formulaLabel, property)) {
 			addUniqueConstraint(schema, formulaLabel, property);
+			LOG.debug("Added contraint");
 		}
 	}
 
@@ -80,6 +80,9 @@ public final class GraphDbHandler {
 		synchronized (INSTANCELOCK) {
 			if (instance == null) {
 				instance = new GraphDbHandler(dbPath);
+			}
+			else {
+				enforceSchema(getDbService());
 			}
 		}
 	}

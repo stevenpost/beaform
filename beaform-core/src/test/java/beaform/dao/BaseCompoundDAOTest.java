@@ -17,7 +17,6 @@ public class BaseCompoundDAOTest {
 	@Before
 	public void setUp() {
 		GraphDbHandler.initInstanceWithDbPath("neo4j_test/db");
-		DebugUtils.clearDb();
 	}
 
 	@Test

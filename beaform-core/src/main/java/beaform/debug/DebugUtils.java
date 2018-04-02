@@ -6,6 +6,8 @@ import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.schema.ConstraintDefinition;
+import org.neo4j.graphdb.schema.Schema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,15 +51,28 @@ public final class DebugUtils {
 	}
 
 	public static void clearDb() {
+		deleteAllNodes();
+		clearConstraints();
+		LOG.info("DB cleared");
+	}
 
+	private static void deleteAllNodes() {
 		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
 		try ( Transaction tx = graphDb.beginTx() ) {
 			graphDb.execute(CLEAR_DB_QUERY);
 			tx.success();
 		}
+	}
 
-		LOG.info("DB cleared");
-
+	public static void clearConstraints() {
+		final GraphDatabaseService graphDb = GraphDbHandler.getDbService();
+		try ( Transaction tx = graphDb.beginTx() ) {
+			final Schema schema = graphDb.schema();
+			for (ConstraintDefinition cd : schema.getConstraints()) {
+				cd.drop();
+			}
+			tx.success();
+		}
 	}
 
 	public static void fillDb() {
