@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import beaform.commands.Command;
 import beaform.commands.CommandExecutor;
 import beaform.commands.CreateNewFormulaCommand;
-import beaform.dao.FormulaDAO;
+import beaform.commands.UpdateFormulaCommand;
 import beaform.entities.Formula;
 import beaform.entities.FormulaTag;
 import beaform.entities.Ingredient;
@@ -90,7 +90,9 @@ public final class FormulaEditor extends Observable implements InterchangableWin
 
 		validateFormula(updatedFormula);
 
-		FormulaDAO.updateExistingInDb(updatedFormula);
+		Command updateCommand = new UpdateFormulaCommand(updatedFormula);
+		CommandExecutor executor = CommandExecutor.getInstance();
+		executor.execute(updateCommand);
 
 	}
 
