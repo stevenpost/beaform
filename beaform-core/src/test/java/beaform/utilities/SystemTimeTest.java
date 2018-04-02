@@ -2,12 +2,19 @@ package beaform.utilities;
 
 import static org.junit.Assert.assertTrue;
 
+import org.junit.After;
 import org.junit.Test;
 
 public class SystemTimeTest {
 
+	@After
+	public void destroy() {
+		SystemTime.reset();
+	}
+
 	@Test
 	public void testDefaultTimeSource() {
+		SystemTime.reset();
 		final long start = System.currentTimeMillis();
 		final long tested = SystemTime.getAsLong();
 		final long end = System.currentTimeMillis();
