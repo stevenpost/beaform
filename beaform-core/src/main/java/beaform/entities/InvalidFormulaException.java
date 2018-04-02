@@ -1,4 +1,4 @@
-package beaform.dao;
+package beaform.entities;
 
 public class InvalidFormulaException extends RuntimeException {
 

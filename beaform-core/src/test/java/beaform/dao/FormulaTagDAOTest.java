@@ -15,6 +15,7 @@ import org.neo4j.graphdb.Transaction;
 
 import beaform.debug.DebugUtils;
 import beaform.entities.FormulaTag;
+import beaform.entities.InvalidFormulaException;
 
 /**
  * Test for the tag DAO.

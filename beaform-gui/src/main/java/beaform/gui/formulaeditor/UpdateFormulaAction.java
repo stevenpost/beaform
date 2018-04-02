@@ -6,8 +6,8 @@ import java.awt.event.ActionListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import beaform.dao.InvalidFormulaException;
 import beaform.dao.NoSuchFormulaException;
+import beaform.entities.InvalidFormulaException;
 
 public class UpdateFormulaAction implements ActionListener {
 

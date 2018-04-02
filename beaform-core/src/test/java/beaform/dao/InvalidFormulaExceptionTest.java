@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
+import beaform.entities.InvalidFormulaException;
+
 @SuppressWarnings("static-method")
 public class InvalidFormulaExceptionTest {
 

@@ -10,6 +10,7 @@ import org.neo4j.graphdb.ResourceIterator;
 import org.neo4j.graphdb.Transaction;
 
 import beaform.entities.FormulaTag;
+import beaform.entities.InvalidFormulaException;
 
 /**
  * This class handles all DB access for tags.

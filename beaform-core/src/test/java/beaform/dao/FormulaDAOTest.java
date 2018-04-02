@@ -22,6 +22,7 @@ import beaform.entities.BaseCompound;
 import beaform.entities.BaseIngredient;
 import beaform.entities.Formula;
 import beaform.entities.Ingredient;
+import beaform.entities.InvalidFormulaException;
 import beaform.search.SearchFormulaTask;
 
 /**

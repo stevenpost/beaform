@@ -26,6 +26,7 @@ import beaform.entities.Formula;
 import beaform.entities.FormulaIngredient;
 import beaform.entities.FormulaTag;
 import beaform.entities.Ingredient;
+import beaform.entities.InvalidFormulaException;
 
 /**
  * This class handles all DB access for formulas.

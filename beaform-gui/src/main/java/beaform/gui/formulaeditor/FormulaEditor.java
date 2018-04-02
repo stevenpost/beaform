@@ -11,10 +11,10 @@ import beaform.commands.Command;
 import beaform.commands.CommandExecutor;
 import beaform.commands.CreateNewFormulaCommand;
 import beaform.dao.FormulaDAO;
-import beaform.dao.InvalidFormulaException;
 import beaform.entities.Formula;
 import beaform.entities.FormulaTag;
 import beaform.entities.Ingredient;
+import beaform.entities.InvalidFormulaException;
 import beaform.gui.subwindows.InterchangableWindow;
 
 /**
