@@ -3,7 +3,7 @@ package beaform.domain;
 import org.junit.Test;
 
 @SuppressWarnings("static-method")
-public class BasicFormulaErrorHandling {
+public class BasicFormulaErrorHandlingTest {
 
 	private static final String FORMULA_DESCRIPTION = "Testing description";
 

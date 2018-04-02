@@ -8,7 +8,7 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-public class BasicFormulaTests {
+public class BasicFormulaTest {
 
 	private static final String FORMULA_NAME = "testformula";
 	private static final String FORMULA_DESCRIPTION = "Testing description";
