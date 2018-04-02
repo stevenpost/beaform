@@ -56,10 +56,8 @@ public final class GraphDbHandler {
 	private static boolean hasUniqueConstraint(Schema schema, Label label, String property) {
 		for (ConstraintDefinition cd : schema.getConstraints(label)) {
 			ConstraintType type = cd.getConstraintType();
-			if (type == ConstraintType.UNIQUENESS) {
-				if(hasProperty(property, cd)) {
-					return true;
-				}
+			if (type == ConstraintType.UNIQUENESS && hasProperty(property, cd)) {
+				return true;
 			}
 		}
 		return false;
