@@ -51,7 +51,7 @@ public class CommandsTest {
 		Command cmd2 = new CreateNewFormulaCommand(formulaToPersist2, this.errorDisplay);
 		cmd.execute();
 
-		String startOfErrorMessage = "A formula with the name testName already seems to exist: ";
+		String startOfErrorMessage = "A formula with the name testName already seems to exist:\n";
 		String assertFailedMessage = "I was expecting a different error message.";
 		assertTrue(assertFailedMessage, this.errorDisplay.getLastError().startsWith(startOfErrorMessage));
 	}
