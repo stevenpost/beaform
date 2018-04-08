@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.beaform</groupId>
 		<artifactId>beaform</artifactId>
-		<version>0.0.4</version>
+		<version>0.0.5-SNAPSHOT</version>
 	</parent>
 	<artifactId>beaform-core</artifactId>
 	<dependencies>
