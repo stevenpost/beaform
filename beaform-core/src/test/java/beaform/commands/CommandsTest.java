@@ -1,6 +1,7 @@
 package beaform.commands;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.util.concurrent.Callable;
 
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import beaform.dao.FormulaDAO;
 import beaform.dao.GraphDbHandler;
+import beaform.dao.NoSuchFormulaException;
 import beaform.debug.DebugUtils;
 import beaform.entities.Formula;
 import beaform.search.SearchFormulaTask;
@@ -19,7 +21,7 @@ import beaform.utilities.ErrorDisplay;
 
 public class CommandsTest {
 
-	private final ErrorDisplay errorDisplay = new LoggingErrorDisplay();
+	private final LoggingErrorDisplay errorDisplay = new LoggingErrorDisplay();
 
 	@Before
 	public void setUp() {
@@ -51,6 +53,20 @@ public class CommandsTest {
 		assertEquals("This isn't the expected description", "New description", result.getDescription());
 	}
 
+	@Test(expected=NoSuchFormulaException.class)
+	public void testUpdateNonExisting() throws Exception {
+		final Formula formula = new Formula("Form1", "New description", "100g");
+
+		Command cmd = new UpdateFormulaCommand(formula, this.errorDisplay);
+		cmd.execute();
+
+		assertEquals("I was expecting a different error message.", "A Formula with the name 'Form1' does not exist", this.errorDisplay.getLastError());
+
+		final Callable<Formula> task = new SearchFormulaTask("Form1");
+		final Formula result = task.call();
+		assertNotEquals("This isn't the expected description", "New description", result.getDescription());
+	}
+
 	@After
 	public void tearDown() {
 		DebugUtils.clearDb();
@@ -58,13 +74,19 @@ public class CommandsTest {
 
 	private static class LoggingErrorDisplay implements ErrorDisplay {
 		private static final Logger LOG = LoggerFactory.getLogger(LoggingErrorDisplay.class);
+		private String lastError;
 
 		public LoggingErrorDisplay() {
 			// TODO Auto-generated constructor stub
 		}
 
+		public Object getLastError() {
+			return this.lastError;
+		}
+
 		@Override
 		public void displayError(String error) {
+			this.lastError = error;
 			LOG.info(error);
 		}
 
