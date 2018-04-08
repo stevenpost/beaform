@@ -34,7 +34,7 @@ public class CreateNewFormulaCommand implements Command {
 
 	private void displayError(Exception e) {
 		String formulaName = this.formula.getName();
-		String errorMessageFormat = "A formula with the name %s already seems to exist: %s";
+		String errorMessageFormat = "A formula with the name %s already seems to exist:%n%s";
 		String errorMessage = String.format(errorMessageFormat, formulaName, e.getMessage());
 		this.errorDisplay.displayError(errorMessage);
 	}
