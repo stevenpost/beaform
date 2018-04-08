@@ -35,29 +35,29 @@ public class FormulaIngredientTest {
 
 	@Test
 	public void testNotEqual() {
-		final FormulaIngredient tag1 = new FormulaIngredient(new Formula("testFormula1"), "test1");
-		final FormulaIngredient tag2 = new FormulaIngredient(new Formula("testform", "long description", "100g"), "test1");
-		assertFalse("The ingredients are equal", tag1.equals(tag2));
+		final FormulaIngredient ingr1 = new FormulaIngredient(new Formula("testFormula1"), "test1");
+		final FormulaIngredient ingr2 = new FormulaIngredient(new Formula("testform", "long description", "100g"), "test1");
+		assertFalse("The ingredients are equal", ingr1.equals(ingr2));
 	}
 
 	@Test
 	public void testEqualsHash() {
-		final FormulaIngredient tag1 = new FormulaIngredient(new Formula("testFormula1"), "20%");
-		final FormulaIngredient tag2 = new FormulaIngredient(new Formula("testFormula1"), "20%");
-		assertEquals("The ingredients are not equal", tag1.hashCode(), tag2.hashCode());
+		final FormulaIngredient ingr1 = new FormulaIngredient(new Formula("testFormula1"), "20%");
+		final FormulaIngredient ingr2 = new FormulaIngredient(new Formula("testFormula1"), "20%");
+		assertEquals("The ingredients are not equal", ingr1.hashCode(), ingr2.hashCode());
 	}
 
 	@Test
 	public void testNotEqualsHash() {
-		final FormulaIngredient tag1 = new FormulaIngredient(new Formula("testFormula1"), "30%");
-		final FormulaIngredient tag2 = new FormulaIngredient(new Formula("testform", "long description", "100g"), "30%");
-		assertNotSame("The ingredients are equal", Integer.valueOf(tag1.hashCode()), Integer.valueOf(tag2.hashCode()));
+		final FormulaIngredient ingr1 = new FormulaIngredient(new Formula("testFormula1"), "30%");
+		final FormulaIngredient ingr2 = new FormulaIngredient(new Formula("testform", "long description", "100g"), "30%");
+		assertNotSame("The ingredients are equal", Integer.valueOf(ingr1.hashCode()), Integer.valueOf(ingr2.hashCode()));
 	}
 
 	@Test
 	public void testToString() {
-		final FormulaIngredient tag = new FormulaIngredient(new Formula("testform", "long description", "100g"), "30%");
-		assertEquals("Not the expected result for toString()", "testform [30%]", tag.toString());
+		final FormulaIngredient ingr = new FormulaIngredient(new Formula("testform", "long description", "100g"), "30%");
+		assertEquals("Not the expected result for toString()", "testform [30%]", ingr.toString());
 	}
 
 }
