@@ -1,11 +1,11 @@
 package beaform.commands;
 
+import org.neo4j.graphdb.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import beaform.dao.FormulaDAO;
 import beaform.entities.Formula;
-import beaform.entities.InvalidFormulaException;
 import beaform.utilities.ErrorDisplay;
 
 public class CreateNewFormulaCommand implements Command {
@@ -24,11 +24,11 @@ public class CreateNewFormulaCommand implements Command {
 		try {
 			FormulaDAO.addFormula(this.formula);
 		}
-		catch (InvalidFormulaException ife) {
+		catch (ConstraintViolationException cve) {
 			if (LOG.isDebugEnabled()) {
-				LOG.debug("The formula is not valid", ife);
+				LOG.debug("The formula is not valid", cve);
 			}
-			this.errorDisplay.displayError(ife.getMessage());
+			this.errorDisplay.displayError(cve.getMessage());
 		}
 	}
 
