@@ -15,8 +15,8 @@ import beaform.entities.Formula;
 import beaform.entities.FormulaTag;
 import beaform.entities.Ingredient;
 import beaform.entities.InvalidFormulaException;
-import beaform.gui.main.ErrorDisplay;
 import beaform.gui.subwindows.InterchangableWindow;
+import beaform.utilities.ErrorDisplay;
 
 /**
  * This class represents a GUI for editing formulas.
@@ -66,7 +66,7 @@ public final class FormulaEditor extends Observable implements InterchangableWin
 		formula.addAllTags(tags);
 		validateFormula(formula);
 
-		Command createCommand = new CreateNewFormulaCommand(formula);
+		Command createCommand = new CreateNewFormulaCommand(formula, this);
 		CommandExecutor executor = CommandExecutor.getInstance();
 		executor.execute(createCommand);
 
@@ -91,7 +91,7 @@ public final class FormulaEditor extends Observable implements InterchangableWin
 
 		validateFormula(updatedFormula);
 
-		Command updateCommand = new UpdateFormulaCommand(updatedFormula);
+		Command updateCommand = new UpdateFormulaCommand(updatedFormula, this);
 		CommandExecutor executor = CommandExecutor.getInstance();
 		executor.execute(updateCommand);
 

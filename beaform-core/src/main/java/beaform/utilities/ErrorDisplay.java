@@ -1,4 +1,4 @@
-package beaform.gui.main;
+package beaform.utilities;
 
 public interface ErrorDisplay {
 
