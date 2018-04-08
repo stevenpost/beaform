@@ -15,6 +15,7 @@ import beaform.entities.Formula;
 import beaform.entities.FormulaTag;
 import beaform.entities.Ingredient;
 import beaform.entities.InvalidFormulaException;
+import beaform.gui.main.ErrorDisplay;
 import beaform.gui.subwindows.InterchangableWindow;
 
 /**
@@ -23,7 +24,7 @@ import beaform.gui.subwindows.InterchangableWindow;
  * @author Steven Post
  *
  */
-public final class FormulaEditor extends Observable implements InterchangableWindow {
+public final class FormulaEditor extends Observable implements InterchangableWindow, ErrorDisplay {
 
 	private static final Logger LOG = LoggerFactory.getLogger(FormulaEditor.class);
 
@@ -108,7 +109,8 @@ public final class FormulaEditor extends Observable implements InterchangableWin
 		this.notifyObservers(this.editorUI.getPanel());
 	}
 
-	public void showErrorMessage(final String error) {
+	@Override
+	public void displayError(String error) {
 		this.editorUI.setError(error);
 	}
 

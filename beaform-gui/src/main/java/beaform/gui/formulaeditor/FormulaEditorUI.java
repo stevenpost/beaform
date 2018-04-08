@@ -50,7 +50,7 @@ public final class FormulaEditorUI {
 		this.editor = editor;
 		init();
 
-		this.btnSave.addActionListener(new AddNewFormulaAction(editor));
+		this.btnSave.addActionListener(new AddNewFormulaAction(editor, editor));
 	}
 
 	/**
@@ -69,7 +69,7 @@ public final class FormulaEditorUI {
 
 		fillEditorFromFormula(formula);
 
-		this.btnSave.addActionListener(new UpdateFormulaAction(this.editor));
+		this.btnSave.addActionListener(new UpdateFormulaAction(this.editor, this.editor));
 	}
 
 	private void fillEditorFromFormula(final Formula newFormula) {

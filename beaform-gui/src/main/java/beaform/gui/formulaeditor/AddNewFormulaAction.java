@@ -7,14 +7,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import beaform.entities.InvalidFormulaException;
+import beaform.gui.main.ErrorDisplay;
 
 public class AddNewFormulaAction implements ActionListener {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AddNewFormulaAction.class);
 	private final FormulaEditor editor;
+	private final ErrorDisplay errorDisplay;
 
-	public AddNewFormulaAction(final FormulaEditor editor) {
+	public AddNewFormulaAction(final FormulaEditor editor, ErrorDisplay errorDisplay) {
 		this.editor = editor;
+		this.errorDisplay = errorDisplay;
 	}
 
 	@Override
@@ -26,7 +29,7 @@ public class AddNewFormulaAction implements ActionListener {
 			if (LOG.isDebugEnabled()) {
 				LOG.debug("The formula is not valid", ife);
 			}
-			this.editor.showErrorMessage(ife.getMessage());
+			this.errorDisplay.displayError(ife.getMessage());
 		}
 	}
 

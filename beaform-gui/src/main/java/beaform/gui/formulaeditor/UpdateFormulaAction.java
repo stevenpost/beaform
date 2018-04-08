@@ -8,14 +8,17 @@ import org.slf4j.LoggerFactory;
 
 import beaform.dao.NoSuchFormulaException;
 import beaform.entities.InvalidFormulaException;
+import beaform.gui.main.ErrorDisplay;
 
 public class UpdateFormulaAction implements ActionListener {
 
 	private static final Logger LOG = LoggerFactory.getLogger(UpdateFormulaAction.class);
 	private final FormulaEditor editor;
+	private final ErrorDisplay errorDisplay;
 
-	public UpdateFormulaAction(final FormulaEditor editor) {
+	public UpdateFormulaAction(final FormulaEditor editor, final ErrorDisplay errorDisplay) {
 		this.editor = editor;
+		this.errorDisplay = errorDisplay;
 	}
 
 	@Override
@@ -27,7 +30,7 @@ public class UpdateFormulaAction implements ActionListener {
 			if (LOG.isDebugEnabled()) {
 				LOG.debug("The formula is not valid or doesn't exist", ex);
 			}
-			this.editor.showErrorMessage(ex.getMessage());
+			this.errorDisplay.displayError(ex.getMessage());
 		}
 	}
 
