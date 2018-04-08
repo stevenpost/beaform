@@ -25,8 +25,8 @@ public class Formula {
 
 	private final Set<FormulaTag> tags = new HashSet<>();
 
-	public Formula() {
-		// Default constructor for Hibernate.
+	public Formula(String name) {
+		this(name, "", "");
 	}
 
 	public Formula(final String name, final String description, final String totalAmount) {

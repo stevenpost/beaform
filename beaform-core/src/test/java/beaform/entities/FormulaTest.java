@@ -54,14 +54,14 @@ public class FormulaTest {
 
 	@Test
 	public void testAddIngredients() {
-		final Ingredient ingredient = new FormulaIngredient(new Formula(), "10%");
+		final Ingredient ingredient = new FormulaIngredient(new Formula("testFormula"), "10%");
 		this.formula.addIngredient(ingredient);
 		assertFalse("The list of ingredients is empty", this.formula.getIngredients().isEmpty());
 	}
 
 	@Test
 	public void testAddIngredientObject() {
-		final Ingredient ingredient = new FormulaIngredient(new Formula(), "10%");
+		final Ingredient ingredient = new FormulaIngredient(new Formula("testFormula"), "10%");
 		this.formula.addIngredient(ingredient);
 		assertFalse("The list of ingredients is empty", this.formula.getIngredients().isEmpty());
 	}

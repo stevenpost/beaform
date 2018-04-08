@@ -82,8 +82,7 @@ public class ImporterHandler extends DefaultHandler implements SAXHandlerMaster 
 
 	private void handleFormulaStart(Attributes attributes) {
 		LOG.debug("Found a formula");
-		this.formula = new Formula();
-		this.formula.setName(attributes.getValue("name"));
+		this.formula = new Formula(attributes.getValue("name"));
 		this.inFormula = true;
 	}
 
