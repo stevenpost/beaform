@@ -52,6 +52,11 @@ public final class FormulaEditor extends Observable implements InterchangableWin
 		final String description = this.editorUI.getDescription();
 		final String totalAmount = this.editorUI.getTotalAmount();
 
+		if ("".equals(name)) {
+			displayError("The name of a formula can not be empty");
+			return;
+		}
+
 		if (LOG.isInfoEnabled()) {
 			LOG.info("Add: " + name + " with description: " + description);
 		}
@@ -83,6 +88,12 @@ public final class FormulaEditor extends Observable implements InterchangableWin
 		final String name = this.editorUI.getName();
 		final String description = this.editorUI.getDescription();
 		final String totalAmount = this.editorUI.getTotalAmount();
+
+		if ("".equals(name)) {
+			displayError("The name of a formula can not be empty");
+			return;
+		}
+
 		final Formula updatedFormula = new Formula(name, description, totalAmount);
 		updatedFormula.addAllIngredients(ingredients);
 		updatedFormula.addAllTags(tags);
