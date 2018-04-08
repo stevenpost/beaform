@@ -42,14 +42,11 @@ public final class FormulaEditor extends Observable implements InterchangableWin
 	}
 
 	public void addNewFormula() {
-		Formula formula;
-		try {
-			formula = buildFormulaFromUI();
-		}
-		catch (IllegalFormulaName e) {
-			displayError(e.getMessage());
+		if (!isUiFormulaValid()) {
+			displayError("The name of a formula can not be empty");
 			return;
 		}
+		Formula formula = buildFormulaFromUI();
 
 		Command createCommand = new CreateNewFormulaCommand(formula, this);
 		CommandExecutor executor = CommandExecutor.getInstance();
@@ -57,26 +54,26 @@ public final class FormulaEditor extends Observable implements InterchangableWin
 	}
 
 	public void updateFormula() {
-		Formula updatedFormula;
-		try {
-			updatedFormula = buildFormulaFromUI();
-		}
-		catch (IllegalFormulaName e) {
-			displayError(e.getMessage());
+		if (!isUiFormulaValid()) {
+			displayError("The name of a formula can not be empty");
 			return;
 		}
+		Formula updatedFormula = buildFormulaFromUI();
 
 		Command updateCommand = new UpdateFormulaCommand(updatedFormula, this);
 		CommandExecutor executor = CommandExecutor.getInstance();
 		executor.execute(updateCommand);
 	}
 
-	private Formula buildFormulaFromUI() throws IllegalFormulaName {
-		final String name = this.editorUI.getName();
-		if ("".equals(name)) {
-			throw new IllegalFormulaName("The name of a formula can not be empty");
+	private boolean isUiFormulaValid() {
+		if ("".equals(this.editorUI.getName())) {
+			return false;
 		}
+		return true;
+	}
 
+	private Formula buildFormulaFromUI() {
+		final String name = this.editorUI.getName();
 		final String description = this.editorUI.getDescription();
 		final String totalAmount = this.editorUI.getTotalAmount();
 		Formula formula = new Formula(name, description, totalAmount);
