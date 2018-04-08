@@ -28,8 +28,15 @@ public class CreateNewFormulaCommand implements Command {
 			if (LOG.isDebugEnabled()) {
 				LOG.debug("The formula already exists", cve);
 			}
-			this.errorDisplay.displayError("A formula with the name " + this.formula.getName() + " already seems to exist: " + cve.getMessage());
+			displayError(cve);
 		}
+	}
+
+	private void displayError(Exception e) {
+		String formulaName = this.formula.getName();
+		String errorMessageFormat = "A formula with the name %s already seems to exist: %s";
+		String errorMessage = String.format(errorMessageFormat, formulaName, e.getMessage());
+		this.errorDisplay.displayError(errorMessage);
 	}
 
 }
