@@ -2,6 +2,7 @@ package beaform.commands;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.concurrent.Callable;
 
@@ -38,6 +39,19 @@ public class CommandsTest {
 
 		final Formula resultingFormula = FormulaDAO.findFormulaByName("testName");
 		assertEquals("The 2 formulas are not the same", formulaToPersist, resultingFormula);
+	}
+
+	@Test
+	public void testDuplicateFormulas() {
+		final Formula formulaToPersist = new Formula("testName", "testDesc", "100g");
+		final Formula formulaToPersist2 = new Formula("testName", "", "");
+
+		Command cmd = new CreateNewFormulaCommand(formulaToPersist, this.errorDisplay);
+		cmd.execute();
+		Command cmd2 = new CreateNewFormulaCommand(formulaToPersist2, this.errorDisplay);
+		cmd.execute();
+
+		assertTrue("I was expecting a different error message.", this.errorDisplay.getLastError().startsWith("A formula with the name testName already seems to exist: "));
 	}
 
 	@Test
@@ -80,7 +94,7 @@ public class CommandsTest {
 			// TODO Auto-generated constructor stub
 		}
 
-		public Object getLastError() {
+		public String getLastError() {
 			return this.lastError;
 		}
 

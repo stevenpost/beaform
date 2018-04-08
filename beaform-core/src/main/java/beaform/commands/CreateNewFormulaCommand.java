@@ -26,9 +26,9 @@ public class CreateNewFormulaCommand implements Command {
 		}
 		catch (ConstraintViolationException cve) {
 			if (LOG.isDebugEnabled()) {
-				LOG.debug("The formula is not valid", cve);
+				LOG.debug("The formula already exists", cve);
 			}
-			this.errorDisplay.displayError(cve.getMessage());
+			this.errorDisplay.displayError("A formula with the name " + this.formula.getName() + " already seems to exist: " + cve.getMessage());
 		}
 	}
 
