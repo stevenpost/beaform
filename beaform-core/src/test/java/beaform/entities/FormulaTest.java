@@ -27,6 +27,16 @@ public class FormulaTest {
 		this.formula.setNotes("Some long description");
 	}
 
+	@Test(expected=InvalidFormulaException.class)
+	public void testEmptyName() {
+		new Formula("", "Description", "100g");
+	}
+
+	@Test(expected=InvalidFormulaException.class)
+	public void testNullName() {
+		new Formula(null, "Description", "100g");
+	}
+
 	@Test
 	public void testDescription() {
 		assertEquals("This isn't the expected description", "Description is long", this.formula.getDescription());

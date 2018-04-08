@@ -30,6 +30,9 @@ public class Formula {
 	}
 
 	public Formula(final String name, final String description, final String totalAmount) {
+		if (name == null || "".equals(name)) {
+			throw new InvalidFormulaException("The name of a formula cannot be empty");
+		}
 		this.name = name;
 		this.description = description;
 		this.totalAmount = totalAmount;
