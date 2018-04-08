@@ -14,7 +14,6 @@ import beaform.commands.UpdateFormulaCommand;
 import beaform.entities.Formula;
 import beaform.entities.FormulaTag;
 import beaform.entities.Ingredient;
-import beaform.entities.InvalidFormulaException;
 import beaform.gui.subwindows.InterchangableWindow;
 import beaform.utilities.ErrorDisplay;
 
@@ -64,7 +63,6 @@ public final class FormulaEditor extends Observable implements InterchangableWin
 		Formula formula = new Formula(name, description, totalAmount);
 		formula.addAllIngredients(ingredients);
 		formula.addAllTags(tags);
-		validateFormula(formula);
 
 		Command createCommand = new CreateNewFormulaCommand(formula, this);
 		CommandExecutor executor = CommandExecutor.getInstance();
@@ -89,18 +87,10 @@ public final class FormulaEditor extends Observable implements InterchangableWin
 		updatedFormula.addAllIngredients(ingredients);
 		updatedFormula.addAllTags(tags);
 
-		validateFormula(updatedFormula);
-
 		Command updateCommand = new UpdateFormulaCommand(updatedFormula, this);
 		CommandExecutor executor = CommandExecutor.getInstance();
 		executor.execute(updateCommand);
 
-	}
-
-	private static void validateFormula(final Formula formula) {
-		if ("".equals(formula.getName())) {
-			throw new InvalidFormulaException("A formula cannot have an empty name");
-		}
 	}
 
 	@Override
